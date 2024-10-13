@@ -1,0 +1,28 @@
+body {
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.table {
+    background-color: #ffffff; /* White background for table */
+}
+
+.table th {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text for table header */
+}
+
+.table td {
+    vertical-align: middle; /* Center table cell contents */
+}
+
+h2 {
+    color: #333; /* Darker text color for headings */
+}
+
+.alert {
+    margin-bottom: 20px; /* Space below alert messages */
+}
+
+.btn {
+    margin-right: 10px; /* Space between buttons */
+}

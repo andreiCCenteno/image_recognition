@@ -1,0 +1,24 @@
+/* Navigation Styles */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.nav-link {
+    margin-right: 15px; /* Space between links */
+}
+
+.nav-link:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #f4f7fa; /* Light background for footer */
+    padding: 20px 0; /* Vertical padding */
+    position: relative; /* Position relative for potential adjustments */
+}
+
+footer p {
+    margin: 0; /* Remove default margin */
+    color: #555; /* Darker text color */
+}
