@@ -18,7 +18,7 @@
             text-align: center;
             background: linear-gradient(135deg, #ff0066, #ff9933, #ffff00, #33cc33, #0066ff, #9933ff);
             background-size: 400% 400%;
-            animation: gradientAnimation 5s ease infinite; 
+            animation: gradientAnimation 5s ease infinite;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -82,7 +82,17 @@
             gap: 10px;
         }
 
-        .difficulty-button:hover {
+        .difficulty-button:disabled {
+            color: #888;
+            border-color: #888;
+            cursor: not-allowed;
+        }
+
+        .difficulty-button i {
+            font-size: 1.2em;
+        }
+
+        .difficulty-button:hover:enabled {
             background: linear-gradient(135deg, #333 25%, #1a1a1a 100%);
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
             transform: scale(1.05);
@@ -110,301 +120,73 @@
             background-color: #00d1b2;
             transform: scale(1.1);
         }
-
-        /* Modal Container */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7); 
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Modal Content */
-        .modal-content {
-            background-color: rgba(0, 0, 0, 0.9); 
-            color: #00ffcc;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.7);
-            z-index: 1001; 
-        }
-
-        .modal-button {
-            background-color: #00ffcc;
-            color: #000;
-            border: 2px solid #00ffcc;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-top: 10px;
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.7);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .modal-button:hover {
-            background-color: #00d1b2;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
-            transform: scale(1.05);
-        }
-
-        .close {
-            color: #00ffcc;
-            float: right;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close:hover {
-            color: red;
-        }
-
-        /* Carousel Styles */
-        .carousel {
-            display: flex;
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: auto;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            transition: transform 0.5s ease;
-        }
-
-        .carousel-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .carousel-button {
-            background-color: #00ffcc;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-
-        .carousel-button:hover {
-            background-color: #00d1b2;
-        }
-
-        /* Footer Styling */
-        .footer {
-            text-align: center;
-            width: 100%;
-            font-size: 0.8em;
-            color: #00ffcc;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px 0;
-            position: relative;
-            z-index: 2;
-            border-top: 2px solid #00ffcc;
-            animation: slideInUp 1s ease-out;
-        }
-
-        .footer a {
-            color: #00ffcc;
-            text-decoration: none;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #00d1b2;
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em; /* Smaller font size for smaller screens */
-            }
-
-            .difficulty-button {
-                width: 80%; /* Full width on smaller screens */
-                font-size: 1.2em; /* Smaller font size for buttons */
-                padding: 15px; /* Adjust padding */
-            }
-
-            .back-button {
-                width: 40px; /* Smaller back button */
-                height: 40px; /* Smaller back button */
-                font-size: 1.2em; /* Smaller font size */
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2em; /* Even smaller font size for very small screens */
-            }
-
-            .difficulty-button {
-                font-size: 1em; /* Further reduce button font size */
-                padding: 10px; /* Further adjust padding */
-            }
-
-            .modal-button {
-                font-size: 1em; /* Adjust modal button size */
-            }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7); 
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Modal Content */
-        .modal-content {
-            background-color: rgba(0, 0, 0, 0.9); 
-            color: #00ffcc;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.7);
-            z-index: 1001; 
-        }
-
-        .modal-button {
-            background-color: #00ffcc;
-            color: #000;
-            border: 2px solid #00ffcc;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-top: 10px;
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.7);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .modal-button:hover {
-            background-color: #00d1b2;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
-            transform: scale(1.05);
-        }
-
-        .close {
-            color: #00ffcc;
-            float: right;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close:hover {
-            color: red;
-        }
     </style>
 </head>
 <body>
+<audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
+<a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
 
     <div class="difficulty-container">
         <h1>Select Difficulty</h1>
+
+        <!-- Easy Button (always enabled) -->
         <button class="difficulty-button" onclick="startGame('easy')">Easy</button>
-        <button class="difficulty-button" onclick="startGame('medium')">Medium</button>
-        <button class="difficulty-button" onclick="startGame('hard')">Hard</button>
-    </div>
-    <div id="tutorialModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTutorial()">&times;</span>
-            <h2>Tutorial</h2>
-            <p>Welcome to the Image Comparison Game!</p>
-            <p>Select your difficulty level to start:</p>
-            <p><strong>Easy:</strong> Choose this if you're new to the game. You'll have plenty of time and chances to win!</p>
-            <p><strong>Medium:</strong> A balanced challenge for players who have some experience.</p>
-            <p><strong>Hard:</strong> For the experts! This level is challenging with less time and fewer attempts.</p>
-            <button class="modal-button" onclick="startTutorial()">Start Tutorial!</button>
-            <button class="modal-button" onclick="closeTutorial()">Let's Play!</button>
-        </div>
+
+        <!-- Medium Button (disabled by default, enabled after easy_finish) -->
+        <button class="difficulty-button" id="mediumButton" @if(!$easy_finish) disabled @endif>
+            @if(!$easy_finish)
+                <i class="fas fa-lock"></i> Medium
+            @else
+                Medium
+            @endif
+        </button>
+
+        <!-- Hard Button (disabled by default, enabled after medium_finish) -->
+        <button class="difficulty-button" id="hardButton" @if(!$medium_finish) disabled @endif>
+            @if(!$medium_finish)
+                <i class="fas fa-lock"></i> Hard
+            @else
+                Hard
+            @endif
+        </button>
     </div>
 
     <script>
-        function startTutorial() {
-    fetch("{{ url('tutorial') }}", {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ is_tutorial: 1 }) // Send a request to update the database
-    }).then(response => {
-        if (response.ok) {
-            window.location.href = "{{ url('tutorial') }}"; // Redirect to the tutorial page
-        } else {
-            alert("Error starting tutorial. Please try again.");
+        // Play click sound on all buttons and anchor tags
+        function playClickSound() {
+            var clickSound = document.getElementById('clickSound');
+            clickSound.play();
         }
-    }).catch(error => {
-        console.error("Error:", error);
-    });
-}
+
+        // Attach click sound function to all buttons and links
+        document.querySelectorAll('button, a').forEach(item => {
+            item.addEventListener('click', playClickSound);
+        });
 
         function startGame(difficulty) {
-
-            // localStorage.setItem('difficulty', difficulty); // Store difficulty level in localStorage
-            if(difficulty === 'easy'){
-                window.location.href = "{{ url('easy') }}";
-            }else if(difficulty === 'medium'){
-                window.location.href = "{{ url('medium') }}";
-            }else if(difficulty === 'hard'){
-                window.location.href = "{{ url('hard') }}";
+            console.log('Starting ' + difficulty + ' game');
+            // If the player completes the 'easy' game, unlock medium and hard
+            if (difficulty === 'easy') {
+                completeEasyGame();
             }
-             // Update the URL for Laravel
-        }
-        function showTutorial() {
-            document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
-        }
-        function closeTutorial() {
-            document.getElementById('tutorialModal').style.display = 'none'; // Close the tutorial modal
         }
 
-        // Show the tutorial when the document is fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-        // Check if the tutorial should be shown
-        @if($tutorialShown)
-            showTutorial();
-        @endif
-    });
+        function completeEasyGame() {
+            unlockDifficultyLevels();
+        }
+
+        function unlockDifficultyLevels() {
+            // Enable Medium and Hard buttons after Easy game completion
+            document.getElementById('mediumButton').disabled = false;
+            document.getElementById('hardButton').disabled = false;
+
+            // Update button text by removing lock icon
+            document.getElementById('mediumButton').innerHTML = 'Medium';
+            document.getElementById('hardButton').innerHTML = 'Hard';
+        }
     </script>
+
+    <!-- Add FontAwesome CDN for lock icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

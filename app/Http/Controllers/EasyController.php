@@ -37,7 +37,7 @@ class EasyController extends Controller
     
     if ($user) {
         // Update the user's score
-        $user->score = $request->score; // You may want to add to the score instead
+        $user->score += $request->score; // You may want to add to the score instead
         $user->save();
 
         return response()->json(['message' => 'Score updated successfully']);

@@ -59,10 +59,13 @@ Route::get('/tutorial', [tutorialController::class, 'tutorial'])->name('tutorial
 
 
 Route::get('/easy', [EasyController::class, 'easy'])->name('easy');
-Route::post('/update-score/{userId}', [EasyController::class, 'updateScore']);
+Route::post('/easy-update-score/{userId}', [EasyController::class, 'updateScore']);
 
 Route::get('/medium', [MediumController::class, 'medium'])->name('medium');
+Route::post('/medium-update-score/{userId}', [MediumController::class, 'updateScore']);
+
 Route::get('/hard', [HardController::class, 'hard'])->name('hard');
+Route::post('/hard-update-score/{userId}', [HardController::class, 'updateScore']);
 
 // In routes/web.php
 Route::post('/save/score', [EasyController::class, 'saveScore'])->name('save.score');

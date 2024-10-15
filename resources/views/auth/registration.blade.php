@@ -199,6 +199,8 @@ p {
     </style>
 </head>
 <body>
+<audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
+<audio id="background-music" src="{{ asset('music/background-music.mp3') }}" preload="auto" loop></audio>
     <div class="registration-form">
         <h2>Account Registration</h2>
         <form method="POST" action="{{ route('register') }}" id="registrationForm">
@@ -226,6 +228,34 @@ p {
 
     <p class="copyright">@ All Rights Reserved</p>
     <script>
+
+let isPageFullyLoaded = false;
+
+// Function to play background music
+function playBackgroundMusic() {
+    const bgMusic = document.getElementById('bgMusic');
+    if (isPageFullyLoaded && bgMusic) {
+        bgMusic.play().catch(function(error) {
+            console.error("Music play failed:", error);
+        });
+    }
+}
+
+// Mark the page as fully loaded and attempt to play music
+window.onload = function() {
+    isPageFullyLoaded = true; // Set the boolean flag to true
+    playBackgroundMusic(); // Attempt to play music
+};
+        // Function to play the click sound
+function playClickSound() {
+    var clickSound = document.getElementById('clickSound');
+    clickSound.play();
+}
+
+// Attach the playClickSound function to all buttons and anchor tags on the page
+document.querySelectorAll('button, a').forEach(function(element) {
+    element.addEventListener('click', playClickSound);
+});
         // Show error modal
         function showError(message) {
             document.getElementById('errorMessage').textContent = message;

@@ -179,8 +179,8 @@ h1 {
 </head>
 <body>
 
-<audio id="background-music" src="{{ asset('music/background-music.mp3') }}" preload="auto" loop></audio>
-<audio id="click-sound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
+<audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" preload="auto" loop></audio>
+<audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 
 <!-- Modal for logout confirmation -->
 <div id="logout-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.7); z-index:10; justify-content:center; align-items:center;">
@@ -197,7 +197,7 @@ h1 {
     <div class="buttons">
         <a href="{{ route('play') }}" class="menu-button" onclick="playSound()"><i class="fas fa-gamepad"></i> PLAY</a>
         <a href="{{ route('leaderboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-trophy"></i> LEADERBOARD</a>
-        <a href="{{ route('login') }}" class="menu-button" onclick="playSound()"><i class="fas fa-cog"></i> SETTINGS</a>
+        <a href="{{ route('settings') }}" class="menu-button" onclick="playSound()"><i class="fas fa-cog"></i> SETTINGS</a>
         <button class="menu-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
 
         <!-- Admin Panel Link -->
@@ -217,6 +217,34 @@ h1 {
 </div>
 
     <script>
+let isPageFullyLoaded = false;
+
+// Function to play background music
+function playBackgroundMusic() {
+    const bgMusic = document.getElementById('bgMusic');
+    if (isPageFullyLoaded && bgMusic) {
+        bgMusic.play().catch(function(error) {
+            console.error("Music play failed:", error);
+        });
+    }
+}
+
+// Mark the page as fully loaded and attempt to play music
+window.onload = function() {
+    isPageFullyLoaded = true; // Set the boolean flag to true
+    playBackgroundMusic(); // Attempt to play music
+};
+        // Function to play the click sound
+function playClickSound() {
+    var clickSound = document.getElementById('clickSound');
+    clickSound.play();
+}
+
+// Attach the playClickSound function to all buttons and anchor tags on the page
+document.querySelectorAll('button, a').forEach(function(element) {
+    element.addEventListener('click', playClickSound);
+});
+
         document.addEventListener('DOMContentLoaded', function() {
         // Retrieve user ID from localStorage
         @if(session('user_id'))

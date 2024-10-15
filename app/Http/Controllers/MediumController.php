@@ -11,16 +11,22 @@ class MediumController extends Controller
         return view('medium'); // Ensure you have a play.blade.php file in resources/views
     }
 
-    public function submitScore(Request $request)
-    {
-        $userId = $request->input('user_id');
-        $score = $request->input('score');
+    public function updateScore(Request $request, $userId)
+{
+    $request->validate([
+        'score' => 'required|integer',
+    ]);
 
-        // Update the score in the database for the current user
-        DB::table('users')
-            ->where('id', $userId)
-            ->update(['score' => $score]);
+    $user = User::find($userId);
+    
+    if ($user) {
+        // Update the user's score
+        $user->score += $request->score; // You may want to add to the score instead
+        $user->save();
 
-        return response()->json(['success' => true]);
+        return response()->json(['message' => 'Score updated successfully']);
     }
+
+    return response()->json(['message' => 'User not found'], 404);
+}
 }
