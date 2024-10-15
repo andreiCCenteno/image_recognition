@@ -1014,25 +1014,7 @@ input[type="range"]::-moz-range-thumb {
         </div>
     </div>
 
-    <div class="modal-overlay" id="levelCompleteModal">
-        <div class="modal">
-            <h2>Level 1 Complete!</h2>
-            <p>Congratulations! You've mastered the outline matching challenge.</p>
-            <p>Get ready for Level 2: Image Recognition Challenge!</p>
-            <button onclick="startLevel2()">Start Level 2</button>
-        </div>
-    </div>
-
     <div id="celebration"></div>
-
-    <div class="modal-overlay" id="level2CompleteModal">
-        <div class="modal">
-            <h2>Level 2 Complete!</h2>
-            <p>Excellent work! You've mastered the image recognition challenge.</p>
-            <p>Get ready for Level 3: Feature Extraction Challenge!</p>
-            <button onclick="startLevel3()">Start Level 3</button>
-        </div>
-    </div>
 
     <div id="level3Content">
         <div class="level3-instructions">
@@ -1101,8 +1083,8 @@ input[type="range"]::-moz-range-thumb {
         <div class="modal">
             <h2>Level 4 Complete!</h2>
             <p>Excellent work! You've mastered the image recognition challenge.</p>
-            <p>Get ready for Level 5: Feature Extraction Challenge!</p>
-            <button onclick="startLevel5()">Start Level 5</button>
+            <p>Get ready for Quiz: Feature Extraction Challenge!</p>
+            <button onclick="takeposttest()">Take Quiz</button>
         </div>
     </div>
         
@@ -1127,15 +1109,7 @@ input[type="range"]::-moz-range-thumb {
 
     <div id="detectedObjectsList"></div>    
     
-    </div>
-        
-        <div class="modal-overlay" id="level5CompleteModal" style="display: none;">
-            <div class="modal">
-                <h2>Level 5 Complete!</h2>
-                <p>You've completed the object detection level.</p>
-                <button onclick="takeposttest()">Take Post-Test</button>
-            </div>
-        </div>        
+    </div>     
 
         <div id="postTestWrapper">
         <div id="postTestContainer" style="display: none;">
@@ -1318,7 +1292,7 @@ function showGameOverModal() {
 
     // Set up button event listeners
     document.getElementById('playAgainButton').addEventListener('click', function() {
-        window.location.href = "{{ url('hard') }}"; // Reset the game state (you'll need to implement this)
+        window.location.href = "{{ url('medium') }}"; // Reset the game state (you'll need to implement this)
         modal.style.display = 'none'; // Hide modal
     });
 
@@ -1513,7 +1487,7 @@ function startNewLevel(level) {
 
 
 function takeposttest() {
-    const modal = document.getElementById('level5CompleteModal');
+    const modal = document.getElementById('level4CompleteModal');
     modal.style.display = 'none';
     document.getElementById('gameContainer').style.display = 'none';
     document.getElementById('postTestContainer').style.display = 'block';
@@ -1574,6 +1548,7 @@ function createCard(index, isCorrect, outlineSrc) {
 
 function initializeGame() {
     // Hide all content first
+    gameState.level = 3;
     level1Content.style.display = 'none';
     level2Content.style.display = 'none';
     level3Content.style.display = 'none';
@@ -1599,31 +1574,6 @@ function initializeGame() {
     }
 }
 
-
-gameState.level3 = {
-    features: [
-        {
-            id: 'feature1',
-            type: 'edge',
-            image: '/api/placeholder/180/100',
-            correctZone: { x: 50, y: 50, width: 100, height: 100 }
-        },
-        {
-            id: 'feature2',
-            type: 'texture',
-            image: '/api/placeholder/180/100',
-            correctZone: { x: 200, y: 150, width: 100, height: 100 }
-        },
-        {
-            id: 'feature3',
-            type: 'color',
-            image: '/api/placeholder/180/100',
-            correctZone: { x: 100, y: 250, width: 100, height: 100 }
-        }
-    ],
-    matchedFeatures: new Set(),
-    mainImage: '/api/placeholder/400/400'
-};
 
 function createConfetti() {
     const celebration = document.getElementById('celebration');
@@ -1875,8 +1825,35 @@ submitGuess.addEventListener('click', () => {
     guessInput.value = ''; // Clear input field after submission
 });
 
+gameState.level3 = {
+    features: [
+        {
+            id: 'feature1',
+            type: 'edge',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 50, y: 50, width: 100, height: 100 }
+        },
+        {
+            id: 'feature2',
+            type: 'texture',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 200, y: 150, width: 100, height: 100 }
+        },
+        {
+            id: 'feature3',
+            type: 'color',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 100, y: 250, width: 100, height: 100 }
+        }
+    ],
+    matchedFeatures: new Set(),
+    mainImage: '/api/placeholder/400/400'
+};
+
 function initializeLevel3() {
     const level3Content = document.getElementById('level3Content');
+    const level1Content = document.getElementById('level1Content');
+    const level2Content = document.getElementById('level2Content');
     level1Content.style.display = 'none';
     level2Content.style.display = 'none';
     level3Content.style.display = 'block';
@@ -1885,21 +1862,18 @@ function initializeLevel3() {
     mainImage.src = gameState.level3.mainImage;
 
     // Clear any existing dropzones and draggable features
-    const mainImageContainer = document.querySelector('.main-image-container');
-    mainImageContainer.innerHTML = ''; // Clear previous dropzones if any
-    const featuresList = document.getElementById('featuresList');
-    featuresList.innerHTML = ''; // Clear previous feature elements if any
+    resetLevel3(); // Resetting the level
 
     // Create dropzones for the main image
     gameState.level3.features.forEach(feature => {
         const dropzone = createDropzone(feature);
-        mainImageContainer.appendChild(dropzone);
+        document.querySelector('.main-image-container').appendChild(dropzone);
     });
 
     // Create draggable features
     gameState.level3.features.forEach(feature => {
         const featureElement = createFeatureElement(feature);
-        featuresList.appendChild(featureElement);
+        document.getElementById('featuresList').appendChild(featureElement);
     });
 
     // Update the progress bar or any level-specific info
@@ -1907,6 +1881,71 @@ function initializeLevel3() {
 
     // Start the timer for Level 3
     startNewLevel(3); // This function handles starting the countdown timer for the level
+}
+
+function resetLevel3() {
+    const mainImageContainer = document.querySelector('.main-image-container');
+    const featuresList = document.getElementById('featuresList');
+
+    // Clear previous dropzones and draggable features
+    mainImageContainer.innerHTML = '';
+    featuresList.innerHTML = '';
+
+    // Reset matched features
+    gameState.level3.matchedFeatures.clear(); // Reset matched features
+
+    // Generate a new set of features
+    generateNewFeatures();
+
+    // Create dropzones for the new features
+    gameState.level3.features.forEach(feature => {
+        const dropzone = createDropzone(feature);
+        mainImageContainer.appendChild(dropzone); // Append new dropzones
+    });
+
+    // Create draggable features for the new features
+    gameState.level3.features.forEach(feature => {
+        const featureElement = createFeatureElement(feature);
+        featuresList.appendChild(featureElement); // Append new feature elements
+    });
+
+    // Reset progress
+    updateLevel3Progress(); // Reset the progress bar to 0%
+}
+
+function generateNewFeatures() {
+    // Generate a new set of features (this can be randomized or fixed)
+    gameState.level3.features = [
+        {
+            id: 'feature1',
+            type: 'edge',
+            image: '/api/placeholder/180/100', // Change image sources as needed
+            correctZone: { x: 50, y: 50, width: 100, height: 100 }
+        },
+        {
+            id: 'feature2',
+            type: 'texture',
+            image: '/api/placeholder/180/100', // Change image sources as needed
+            correctZone: { x: 200, y: 150, width: 100, height: 100 }
+        },
+        {
+            id: 'feature3',
+            type: 'color',
+            image: '/api/placeholder/180/100', // Change image sources as needed
+            correctZone: { x: 100, y: 250, width: 100, height: 100 }
+        }
+    ];
+}
+
+function updateLevel3Progress() {
+    // Set progress to 0% on reset
+    if (gameState.level3.matchedFeatures.size === 0) {
+        document.querySelector('.progress-fill').style.width = '0%';
+    } else {
+        // Update progress based on matched features
+        const progress = (gameState.level3.matchedFeatures.size / gameState.level3.features.length) * 100;
+        document.querySelector('.progress-fill').style.width = `${progress}%`;
+    }
 }
 
 function handleDrop(e) {
@@ -1931,9 +1970,21 @@ function handleDrop(e) {
         if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
             // Level complete
             setTimeout(() => {
+                if (gameState.monsterHp > 0) {
+                    attackMonster(25);
+                    // Delay and reset level for the next attempt until the monster is defeated
+                    setTimeout(() => {
+                        resetLevel3(); // Reset the level for another attempt
+                        initializeLevel3(); // Reinitialize the level
+                    }, 500);
+
+                    if (gameState.monsterHp <= 0) {  
                 showLevel3CompleteModal();
-                gameState.level++;
-                attackMonster(); // Assuming this triggers the next stage of the game
+                gameState.level++; 
+                    }
+                } else {
+                    takeDamage();
+                }
             }, 500);
         }
     } else {
@@ -1964,8 +2015,6 @@ function handleDragEnter(e) {
 function handleDragLeave(e) {
     e.target.classList.remove('dropzone-highlight');
 }
-
-
 
 function createDropzone(feature) {
     const dropzone = document.createElement('div');
@@ -2002,25 +2051,16 @@ function createFeatureElement(feature) {
 }
 
 
-function nextRound() {
-    initializeGame();
-    setTimeout(() => {
-        flipAllCards(true);
-        setTimeout(shuffle, 1000);
-    }, 1000);
-}
-
-function updateLevel3Progress() {
-    const progress = (gameState.level3.matchedFeatures.size / gameState.level3.features.length) * 100;
-    document.querySelector('.progress-fill').style.width = `${progress}%`;
-}
-
 function initializeLevel4() {
     const level4Content = document.getElementById('level4Content');
     level1Content.style.display = 'none';
     level2Content.style.display = 'none';
     level3Content.style.display = 'none';
     level4Content.style.display = 'block';
+
+    // Reset the monster's HP to 100 at the start of Level 4
+    gameState.monsterHp = 100;
+    updateStats();
 
     // Start the timer for Level 4
     startNewLevel(4);
@@ -2081,17 +2121,20 @@ function initializeLevel4() {
 
         // If the guess is either the automatic pass or within tolerance
         if (isAutoCorrect || isCorrect) {
+            attackMonster(25); // Reduce monster's HP by 25 on a correct guess
+            updateScore(15); // Add points for a correct match
             document.getElementById('message').textContent = "Correct! You've matched the color!";
-            
-            // Update score if needed
-            updateScore(15); // Example: 20 points for correct color match
-            
-            showLevel4CompleteModal(); // Show completion modal
-            gameState.level++; // Progress to the next level
-            attackMonster(); // Move to the next stage or action
+
+            // Check if monster's HP reaches 0 to complete the level
+            if (gameState.monsterHp <= 0) {
+                document.getElementById('message').textContent = "You've defeated the monster! Level Complete!";
+                // Progress to the next level or show level complete modal
+                showLevel4CompleteModal();
+                gameState.level++; // Progress to the next level
+            }
         } else {
-            document.getElementById('message').textContent = `Incorrect color! Try again!`;
-            takeDamage(); // Handle incorrect color guess
+            document.getElementById('message').textContent = "Incorrect color! Try again!";
+            takeDamage(); // Handle incorrect color guess (player damage or penalty)
         }
     });
 }
@@ -2173,154 +2216,116 @@ function initializePostTest() {
     // Add event listener to the submit button
 }
 
-// function initializePostTest() {
-
-// endLevel();
-// // Hide all levels content
-// level1Content.style.display = 'none';
-// level2Content.style.display = 'none';
-// level3Content.style.display = 'none';
-// level4Content.style.display = 'none';
-// level5Content.style.display = 'none';
-
-// // Show the post-test content
-// postTestContainer.style.display = 'block';
-
-// // Display the accumulated total score from all levels
-
-// // Add event listener to the submit button
-// }
-
-function submitPostTest() {
-    pauseTimer();
-const totalScore = gameState.totalScore || 0;
-
-// Get the answers from the post-test
-const answer1 = document.querySelector('input[name="q1"]:checked');
-const answer2 = document.querySelector('input[name="q2"]:checked');
-const answer3 = document.querySelector('input[name="q3"]:checked');
-const answer4 = document.querySelector('input[name="q4"]:checked');
-const answer5 = document.querySelector('input[name="q5"]:checked');
-const answer6 = document.querySelector('input[name="q6"]:checked');
-const answer7 = document.querySelector('input[name="q7"]:checked');
-const answer8 = document.querySelector('input[name="q8"]:checked');
-const answer9 = document.querySelector('input[name="q9"]:checked');
-const answer10 = document.querySelector('input[name="q10"]:checked');
-const answer11 = document.querySelector('input[name="q11"]:checked');
-const answer12 = document.querySelector('input[name="q12"]:checked');
-const answer13 = document.querySelector('input[name="q13"]:checked');
-const answer14 = document.querySelector('input[name="q14"]:checked');
-const answer15 = document.querySelector('input[name="q15"]:checked');
-
-// Calculate the post-test score
-let postTestScore = 0;
 
 // Correct answers:
-const correctAnswers = {
-    q1: 'c', // C. To recognize features within an image
-    q2: 'c', // C. By using an RGB slider to find the dominant color
-    q3: 'b', // B. It allows for the identification of specific patterns in images
-    q4: 'b', // B. To identify outlines of objects
-    q5: 'a', // A. It helps in distinguishing between objects
-    q6: 'd', // D. A pixel grid
-    q7: 'c', // C. It reduces the ability to identify features
-    q8: 'a', // A. It enhances the detection of edges
-    q9: 'd', // D. By recognizing key features within images
-    q10: 'c', // C. To provide a better understanding of color theory
-    q11: 'a', // A. By analyzing pixel distributions
-    q12: 'a', // A. A bounding box
-    q13: 'a', // A. It enhances visibility and helps distinguish between objects
-    q14: 'b', // B. Noise addition
-    q15: 'a'  // A. It allows for precise color matching by adjusting Red, Green, and Blue levels
-};
+function submitPostTest() {
+    pauseTimer();
+    const totalScore = gameState.totalScore || 0;
 
-// Score calculation based on user selection
-if (answer1 && answer1.value === correctAnswers.q1) {
-    postTestScore++;
-}
-if (answer2 && answer2.value === correctAnswers.q2) {
-    postTestScore++;
-}
-if (answer3 && answer3.value === correctAnswers.q3) {
-    postTestScore++;
-}
-if (answer4 && answer4.value === correctAnswers.q4) {
-    postTestScore++;
-}
-if (answer5 && answer5.value === correctAnswers.q5) {
-    postTestScore++;
-}
-if (answer6 && answer6.value === correctAnswers.q6) {
-    postTestScore++;
-}
-if (answer7 && answer7.value === correctAnswers.q7) {
-    postTestScore++;
-}
-if (answer8 && answer8.value === correctAnswers.q8) {
-    postTestScore++;
-}
-if (answer9 && answer9.value === correctAnswers.q9) {
-    postTestScore++;
-}
-if (answer10 && answer10.value === correctAnswers.q10) {
-    postTestScore++;
-}
-if (answer11 && answer11.value === correctAnswers.q11) {
-    postTestScore++;
-}
-if (answer12 && answer12.value === correctAnswers.q12) {
-    postTestScore++;
-}
-if (answer13 && answer13.value === correctAnswers.q13) {
-    postTestScore++;
-}
-if (answer14 && answer14.value === correctAnswers.q14) {
-    postTestScore++;
-}
-if (answer15 && answer15.value === correctAnswers.q15) {
-    postTestScore++;
-}
+    // Get the answers from the post-test
+    const answer1 = document.querySelector('input[name="q1"]:checked');
+    const answer2 = document.querySelector('input[name="q2"]:checked');
+    const answer3 = document.querySelector('input[name="q3"]:checked');
+    const answer4 = document.querySelector('input[name="q4"]:checked');
+    const answer5 = document.querySelector('input[name="q5"]:checked');
+    const answer6 = document.querySelector('input[name="q6"]:checked');
+    const answer7 = document.querySelector('input[name="q7"]:checked');
+    const answer8 = document.querySelector('input[name="q8"]:checked');
+    const answer9 = document.querySelector('input[name="q9"]:checked');
+    const answer10 = document.querySelector('input[name="q10"]:checked');
+    const answer11 = document.querySelector('input[name="q11"]:checked');
+    const answer12 = document.querySelector('input[name="q12"]:checked');
+    const answer13 = document.querySelector('input[name="q13"]:checked');
+    const answer14 = document.querySelector('input[name="q14"]:checked');
+    const answer15 = document.querySelector('input[name="q15"]:checked');
 
-// Update the total score by adding the post-test score
-const updatedTotalScore = totalScore + postTestScore;
+    // Calculate the post-test score
+    let postTestScore = 0;
 
-// Update the game state with the new total score
-gameState.totalScore = updatedTotalScore;
+    // Correct answers
+    const correctAnswers = {
+        q1: 'c', q2: 'c', q3: 'b', q4: 'b', q5: 'a',
+        q6: 'd', q7: 'c', q8: 'a', q9: 'd', q10: 'c',
+        q11: 'a', q12: 'a', q13: 'a', q14: 'b', q15: 'a'
+    };
 
-// Display the total score including the post-test score
-showModal(updatedTotalScore);
-document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-console.log(updatedTotalScore);
-
-// Save the score to the database
-const baseUrl = window.location.origin;
-const userId = localStorage.getItem('user_id');
-console.log('User ID:', userId); // Get user ID from local storage
-
-fetch(`${baseUrl}/medium-update-score/${userId}`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-    },
-    body: JSON.stringify({ score: updatedTotalScore })
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+    // Score calculation based on user selection
+    for (let i = 1; i <= 15; i++) {
+        const answer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (answer && answer.value === correctAnswers[`q${i}`]) {
+            postTestScore++;
+        }
     }
-    return response.json();
-})
-.then(data => {
-    console.log('Score updated successfully:', data);
-})
-.catch(error => {
-    console.error('Error updating score:', error);
-});
+
+    // Update the total score by adding the post-test score
+    const updatedTotalScore = totalScore + postTestScore;
+    gameState.totalScore = updatedTotalScore;
+
+    // Display the total score including the post-test score
+    showModal(updatedTotalScore);
+    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+    console.log(updatedTotalScore);
+
+    // Save the score to the database
+    const baseUrl = window.location.origin;
+    const userId = localStorage.getItem('user_id');
+    console.log('User ID:', userId); // Get user ID from local storage
+
+    if (!userId) {
+        console.error("User ID not found in local storage.");
+        return;
+    }
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // First, update the user's medium_finish status
+    fetch(`${baseUrl}/update-medium-finish/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({ medium_finish: 1 })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok when updating medium_finish');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('medium_finish updated successfully:', data);
+
+        // After updating medium_finish, now save the score
+        return fetch(`${baseUrl}/medium-update-score/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ score: updatedTotalScore })
+        });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok when updating score');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Score updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating score or medium_finish:', error);
+    });
+
+    // Hide the post-test container
+    document.getElementById('postTestContainer').style.display = 'none';
+}
+
 
 // Hide the post-test container
-document.getElementById('postTestContainer').style.display = 'none';
-}
+
 
 
 function showModal(score) {
@@ -2334,7 +2339,7 @@ function closeModal() {
 }
 
 function playAgain() {
-    window.location.href = "{{ route('easy') }}"; // Redirect to easy.blade.php
+    window.location.href = "{{ route('medium') }}"; // Redirect to medium.blade.php
 }
 
 
@@ -2344,18 +2349,18 @@ function attackMonster() {
     pauseTimer();
     gameState.isAttacking = true;
     gameState.attackFrame = 0;
-    gameState.monsterHp = Math.max(0, gameState.monsterHp - 10);
+    gameState.monsterHp = Math.max(0, gameState.monsterHp - 25);
 
-    if (gameState.monsterHp < 100) {
+    if (gameState.monsterHp == 100) {
         if (gameState.level === 1) {
             showLevel1CompleteModal();
         } else if (gameState.level === 2) {
             showLevel2CompleteModal();
         } else if (gameState.level === 3) {
             showLevel3CompleteModal();
-        }else if (gameState.level === 5) {
+        }else if (gameState.level === 4) {
             showLevel4CompleteModal();
-        }else if (gameState.level === 6) {
+        }else if (gameState.level === 5) {
             showLevel5CompleteModal();
             alert("Congratulations! You've completed all levels!");
             resetGame();
@@ -2403,18 +2408,18 @@ document.querySelector(".close").onclick = function() {
 document.getElementById("start-level-btn").onclick = function() {
     resumeTimer();
     document.getElementById("learning-modal").style.display = "none";
-    startLevel(currentLevel); // Call your existing level start function here
-    if(currentLevel === 1){
-        startTimer();
-        draw();
-        setTimeout(() => {
-            flipAllCards(true);
-            setTimeout(shuffle, 1000);
-        }, 1000);
-    }else if(currentLevel === 2){
-        isStartLevel = true;
-        switchToLevel2();
-    }
+    // startLevel(currentLevel); // Call your existing level start function here
+    // if(currentLevel === 1){
+    //     startTimer();
+    //     draw();
+    //     setTimeout(() => {
+    //         flipAllCards(true);
+    //         setTimeout(shuffle, 1000);
+    //     }, 1000);
+    // }else if(currentLevel === 2){
+    //     isStartLevel = true;
+    //     switchToLevel2();
+    // }
     
 };
 
