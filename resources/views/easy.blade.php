@@ -1439,7 +1439,13 @@ document.querySelectorAll('button, a').forEach(function(element) {
             image: 'images/easy/box.jpg',
             answer: 'box'
         }
-    ]
+    ],
+    playerX: 100,
+            playerY: 150,
+            monsterX: 600,
+            monsterY: 150,
+            playerHurt: false,
+            monsterHurt: false
 
 };
 
@@ -1852,6 +1858,7 @@ function handleCardClick(cardData) {
         }, 500);
 
         setTimeout(() => {
+            monsterAttack();
             takeDamage();
         }, 1000);
 
@@ -1929,6 +1936,7 @@ submitGuess.addEventListener('click', () => {
         // showLevel2CompleteModal(); // Show level 2 completion modal
     } else {
         document.getElementById('message').textContent = "Wrong guess! Try again!";
+        monsterAttack();
         takeDamage(); // Handle player damage on wrong guess
     }
     if(gameState.monsterHp > 0){
@@ -2001,6 +2009,7 @@ function handleDrop(e) {
     } else {
         // Wrong match
         document.getElementById('message').textContent = "Wrong match! Try again.";
+        monsterAttack();
         takeDamage(); // Deduct HP or handle damage
     }
 }
@@ -2153,6 +2162,7 @@ function initializeLevel4() {
             attackMonster(); // Move to the next stage or action
         } else {
             document.getElementById('message').textContent = `Incorrect color! Try again!`;
+            monsterAttack();
             takeDamage(); // Handle incorrect color guess
         }
     });
@@ -2207,6 +2217,7 @@ function initializeLevel5() {
             showLevel5CompleteModal(); // Trigger the completion modal for Level 5
             gameState.level++; // Move to the next level
         } else {
+            monsterAttack();
             takeDamage();
         }
     });
@@ -2370,7 +2381,6 @@ function attackMonster(damage) {
 function takeDamage() {
     gameState.playerHp = Math.max(0, gameState.playerHp - 10);
     updateStats();
-    drawEnemyAttackEffect();    
     if (gameState.playerHp <= 0) {
         setTimeout(() => {
             showGameOverModal();
@@ -2378,6 +2388,23 @@ function takeDamage() {
         }, 500);
     }
 }
+
+function monsterAttack() {
+            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
+                gameState.isMonsterAttacking = true;
+                gameState.attackFrame = 0;
+                animateAttack('monster');
+            }
+        }
+
+        function attackMonster() {
+            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
+                gameState.isPlayerAttacking = true;
+                gameState.attackFrame = 0;
+                animateAttack('player');
+            }
+        }
+
 
 const learningMaterials = {
     1: "Outlines are essential in image recognition, defining object shapes and distinguishing them from the background. They simplify object recognition, aiding tasks like shape recognition and segmentation. Used in fields like handwriting recognition and medical imaging, outline exercises improve shape recognition skills and prepare users for advanced image analysis.",
@@ -2478,72 +2505,97 @@ let currentMonsterImage = new Image();
 currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
 function draw() {
-    // ctx.clearRect(0, 0, gameScene.width, gameScene.height);
-    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+            // Clear the game scene
+ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-    // Draw player
-    ctx.drawImage(playerImage, 100, 150, 120, 120); // Adjust width and height as needed
+// Draw background image
+ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
 
-    // Draw monster image
-    ctx.drawImage(currentMonsterImage, 550, 120, 170, 170);
+// Draw player
+const playerColor = gameState.playerHurt ? '#FF9999' : '#4CAF50';
+ctx.fillStyle = playerColor; // Set fill color based on state
 
-    if (gameState.isAttacking) {
-        // Draw attack animation
-        drawAttackEffect();
-        
-        gameState.attackFrame++;
-        if (gameState.attackFrame > 10) {
-            gameState.isAttacking = false;
-            gameState.attackFrame = 0; // Reset attack frame
+// Draw player image
+ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+
+// Draw monster
+const monsterColor = gameState.monsterHurt ? '#FF0000' : '#F44336';
+ctx.fillStyle = monsterColor; // Set fill color based on state
+
+// Draw monster image
+ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
+
+            if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
+                // Draw attack line
+                ctx.beginPath();
+                ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
+                ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(draw);
         }
-    }
 
-    requestAnimationFrame(draw);
-}
+function animateAttack(attacker) {
+            const attackDuration = 30; // Number of frames for the attack animation
+            const moveDistance = 400; // Distance to move
+            const frameRate = 60; // Assuming 60 FPS
 
-function drawAttackEffect() {
-    // Calculate the attack's position based on the frame count
-    const attackX = 100 + (gameState.attackFrame * 5); // Adjust movement speed
-    const attackYStart = 190;
-    const attackYEnd = 200;
+            function animate() {
+                gameState.attackFrame++;
 
-    ctx.beginPath();
-    ctx.moveTo(attackX, attackYStart);
-    ctx.lineTo(600, attackYEnd);
+                if (gameState.attackFrame <= attackDuration / 2) {
+                    // Move towards the target
+                    if (attacker === 'player') {
+                        gameState.playerX += moveDistance / (attackDuration / 2);
+                    } else {
+                        gameState.monsterX -= moveDistance / (attackDuration / 2);
+                    }
+                } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
+                    // Hit the target
+                    if (attacker === 'player') {
+                        gameState.monsterHurt = true;
+                        gameState.monsterHp = Math.max(0, gameState.monsterHp - 25);
+                    } else {
+                        gameState.playerHurt = true;
+                        gameState.playerHp = Math.max(0, gameState.playerHp - 15);
+                    }
+                    updateStats();
+                } else if (gameState.attackFrame <= attackDuration) {
+                    // Move back to original position
+                    if (attacker === 'player') {
+                        gameState.playerX -= moveDistance / (attackDuration / 2);
+                    } else {
+                        gameState.monsterX += moveDistance / (attackDuration / 2);
+                    }
+                } else {
+                    // Animation complete
+                    if (attacker === 'player') {
+                        gameState.isPlayerAttacking = false;
+                        gameState.monsterHurt = false;
+                        gameState.playerX = 100; // Reset to initial position
+                    } else {
+                        gameState.isMonsterAttacking = false;
+                        gameState.playerHurt = false;
+                        gameState.monsterX = 600; // Reset to initial position
+                    }
 
-    // Add a glowing effect during the attack
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)'; // Gold color with transparency
-    ctx.lineWidth = 6 + Math.sin(gameState.attackFrame / 10) * 2; // Pulse effect for the line width
-    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)'; // Gold glow
-    ctx.shadowBlur = 15; // Blur effect for the glow
-    ctx.stroke();
-    ctx.closePath();
+                    if (gameState.monsterHp <= 0) {
+                        handleLevelComplete();
+                    } else if (gameState.playerHp <= 0) {
+                        handleGameOver();
+                    }
+                    return;
+                }
 
-    // Reset shadow properties for future draws
-    ctx.shadowColor = 'transparent'; // Remove glow effect
-}
+                // Continue the animation
+                requestAnimationFrame(animate);
+            }
 
-function drawEnemyAttackEffect() {
-    // Calculate the attack's position based on the frame count
-    const attackX = 100 + (gameState.attackFrame * 5); // Adjust movement speed
-    const attackYStart = 190;
-    const attackYEnd = 200;
-
-    ctx.beginPath();
-    ctx.moveTo(attackX, attackYStart);
-    ctx.lineTo(600, attackYEnd);
-
-    // Add a glowing effect during the attack
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)'; // Gold color with transparency
-    ctx.lineWidth = 6 + Math.sin(gameState.attackFrame / 10) * 2; // Pulse effect for the line width
-    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)'; // Gold glow
-    ctx.shadowBlur = 15; // Blur effect for the glow
-    ctx.stroke();
-    ctx.closePath();
-
-    // Reset shadow properties for future draws
-    ctx.shadowColor = 'transparent'; // Remove glow effect
-}
+            animate();
+        }
 
 // Call this function to trigger the attack
 function triggerAttack() {

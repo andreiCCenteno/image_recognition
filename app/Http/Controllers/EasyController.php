@@ -58,4 +58,25 @@ class EasyController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function updateEasyFinish(Request $request, $userId)
+{
+    $request->validate([
+        'easy_finish' => 'required|boolean',
+    ]);
+
+    $user = User::find($userId);
+    
+    if ($user) {
+        // Update the user's easy_finish status
+        $user->easy_finish = $request->easy_finish; // Make sure this column exists in the users table
+        $user->save();
+
+        return response()->json(['message' => 'easy_finish updated successfully']);
+    }
+
+    return response()->json(['message' => 'User not found'], 404);
 }
+}
+
+

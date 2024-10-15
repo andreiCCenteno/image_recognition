@@ -59,6 +59,7 @@ Route::get('/tutorial', [tutorialController::class, 'tutorial'])->name('tutorial
 
 
 Route::get('/easy', [EasyController::class, 'easy'])->name('easy');
+Route::post('/update-easy-finish/{userId}', [EasyController::class, 'updateEasyFinish'])->name('update.easy.finish');
 Route::post('/easy-update-score/{userId}', [EasyController::class, 'updateScore']);
 
 Route::get('/medium', [MediumController::class, 'medium'])->name('medium');
