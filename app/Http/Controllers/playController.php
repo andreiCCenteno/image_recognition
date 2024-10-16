@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PlayController extends Controller
+class playController extends Controller
 {
     public function showPlayPage(Request $request)
     {
@@ -47,4 +47,30 @@ class PlayController extends Controller
         // Logic for starting the game can go here
         return view('game'); // Assuming you have a game view
     }
+
+    public function completeEasyGame(Request $request)
+    {
+        $user = Auth::user();
+    
+        // Unlock difficulty levels and set notifications
+        $user->easy_finish = true;
+        $user->medium_notif = 0; // Initially set to 0 for Medium
+        $user->hard_notif = 0;   // Initially set to 0 for Hard
+        $user->save();
+    
+        return response()->json(['success' => true]);
+    }
+
+public function unlockDifficultyLevels(Request $request)
+{
+    $user = Auth::user();
+
+    // Enable Medium and Hard buttons
+    $user->medium_notif = true; // Show notification for Medium
+    $user->hard_notif = true; // Show notification for Hard
+    $user->save();
+
+    return response()->json(['medium_notif' => $user->medium_notif, 'hard_notif' => $user->hard_notif]);
+}
+
 }

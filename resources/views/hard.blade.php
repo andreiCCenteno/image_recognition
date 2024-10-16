@@ -866,6 +866,24 @@ input[type="range"]::-moz-range-thumb {
         }
     }
 
+    #scoreModal {
+            display: none;
+            /* Hide the modal by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Black background with transparency */
+            justify-content: center;
+            /* Center modal content horizontally */
+            align-items: center;
+            /* Center modal content vertically */
+        }
+
     .settings-modal-overlay {
     position: fixed;
     top: 0;
@@ -1110,25 +1128,25 @@ input[type="range"]::-moz-range-thumb {
         <h2>Level 5: Object Detection</h2>
         <div id="targetZoneMessage" style="margin-bottom: 10px;"></div>
         <div class="object-detection-container" style="position: relative;">
-        <img id="objectImage" src="{{ asset('images/hard/hard.jpg') }}" style="max-width: 100%; height: auto; cursor: pointer;">
+        <img id="objectImage" src="{{ asset('images/hard/hard.jpg') }}" style="max-width: 2000%; height: auto; cursor: pointer;">
     
             <!-- Large Detection Zones -->
-            <div id="farthestpost" class="detection-zone" style="left: 438px; top: 130px; width: 20px; height: 200px;"></div>
-            <div id="middlepost" class="detection-zone" style="left: 115px; top: 130px; width: 20px; height: 200px;"></div>
-            <div id="manwithphone" class="detection-zone" style="left: 210px; top: 300px; width: 40px; height: 100px;"></div>
-            <div id="ladyintheblackholdingplastic" class="detection-zone" style="left: 50px; top: 300px; width: 40px; height: 120px;"></div>
-            <div id="manpink" class="detection-zone" style="left: 265px; top: 300px; width: 40px; height: 100px;"></div>
-            <div id="mangreen" class="detection-zone" style="left: 645px; top: 300px; width: 40px; height: 80px;"></div>
-            <div id="ladyblackandwhitejeans" class="detection-zone" style="left: 380px; top: 310px; width: 40px; height: 100px;"></div>
-            <div id="ladygreenwithredbabg" class="detection-zone" style="left: 320px; top: 310px; width: 40px; height: 100px;"></div>
-            <div id="closepost" class="detection-zone" style="left: 770px; top: 10px; width: 25px; height: 370px;"></div>
-            <div id="train" class="detection-zone" style="left: 370px; top: 270px; width: 30px; height: 30px;"></div>
-            <div id="firehydrant" class="detection-zone" style="left: 630px; top: 400px; width: 60px; height: 110px;"></div>
-            <div id="trashcan" class="detection-zone" style="left: 580px; top: 370px; width: 60px; height: 120px;"></div>
-            <div id="poster" class="detection-zone" style="left: 480px; top: 0px; width: 70px; height: 100px;"></div>
-            <div id="u-turnsign" class="detection-zone" style="left: 580px; top: 100px; width: 70px; height: 70px;"></div>
-            <div id="trafficlight" class="detection-zone" style="left: 700px; top: 150px; width: 70px; height: 70px;"></div>
-            <div id="blackcar" class="detection-zone" style="left: 0px; top: 310px; width: 130px; height: 70px;"></div>
+            <div id="farthestpost" class="detection-zone" style="left: 510px; top: 180px; width: 20px; height: 200px;"></div>
+            <div id="middlepost" class="detection-zone" style="left: 140px; top: 200px; width: 20px; height: 200px;"></div>
+            <div id="manwithphone" class="detection-zone" style="left: 260px; top: 360px; width: 40px; height: 100px;"></div>
+            <div id="ladyintheblackholdingplastic" class="detection-zone" style="left: 70px; top: 350px; width: 40px; height: 120px;"></div>
+            <div id="manpink" class="detection-zone" style="left: 310px; top: 370px; width: 40px; height: 100px;"></div>
+            <div id="mangreen" class="detection-zone" style="left: 745px; top: 370px; width: 40px; height: 80px;"></div>
+            <div id="ladyblackandwhitejeans" class="detection-zone" style="left: 450px; top: 370px; width: 40px; height: 100px;"></div>
+            <div id="ladygreenwithredbabg" class="detection-zone" style="left: 390px; top: 350px; width: 40px; height: 100px;"></div>
+            <div id="closepost" class="detection-zone" style="left: 900px; top: 10px; width: 25px; height: 420px;"></div>
+            <div id="train" class="detection-zone" style="left: 435px; top: 320px; width: 30px; height: 30px;"></div>
+            <div id="firehydrant" class="detection-zone" style="left: 735px; top: 470px; width: 60px; height: 110px;"></div>
+            <div id="trashcan" class="detection-zone" style="left: 680px; top: 430px; width: 60px; height: 120px;"></div>
+            <div id="poster" class="detection-zone" style="left: 560px; top: 0px; width: 70px; height: 140px;"></div>
+            <div id="u-turnsign" class="detection-zone" style="left: 680px; top: 130px; width: 70px; height: 70px;"></div>
+            <div id="trafficlight" class="detection-zone" style="left: 830px; top: 200px; width: 70px; height: 70px;"></div>
+            <div id="blackcar" class="detection-zone" style="left: 0px; top: 370px; width: 150px; height: 70px;"></div>
             
         </div>
     </div>
@@ -1145,167 +1163,20 @@ input[type="range"]::-moz-range-thumb {
                 <button onclick="takeposttest()">Take Post-Test</button>
             </div>
         </div>        
-
         <div id="postTestWrapper">
         <div id="postTestContainer" style="display: none;">
-            <h2>Post-Test</h2>
-<div id="questionsContainer">
-    <div class="question" id="question1">
-        <p>1. Why are outlines essential in image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q1" value="a"> A. They help distinguish objects from the background by defining their shape</label>
-            <label class="option"><input type="radio" name="q1" value="b"> B. They add color to images for better recognition</label>
-            <label class="option"><input type="radio" name="q1" value="c"> C. They highlight intricate details of objects</label>
-            <label class="option"><input type="radio" name="q1" value="d"> D. They remove textures from the objects</label>
-        </div>
-    </div>
-
-    <div class="question" id="question2">
-        <p>2. What role do edge detection algorithms play in outline recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q2" value="a"> A. They enhance image resolution</label>
-            <label class="option"><input type="radio" name="q2" value="b"> B. They detect and highlight the outlines of objects in images</label>
-            <label class="option"><input type="radio" name="q2" value="c"> C. They convert images into abstract shapes</label>
-            <label class="option"><input type="radio" name="q2" value="d"> D. They remove color from the image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question3">
-        <p>3. What is pixelation in image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q3" value="a"> A. The process of enhancing details of an image</label>
-            <label class="option"><input type="radio" name="q3" value="b"> B. Transforming an image into grid-like blocks, obscuring finer details</label>
-            <label class="option"><input type="radio" name="q3" value="c"> C. Increasing the size of the objects in the image</label>
-            <label class="option"><input type="radio" name="q3" value="d"> D. Improving color accuracy in an image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question4">
-        <p>4. Why is pixelation important in image recognition learning?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q4" value="a"> A. It allows learners to focus on overall shapes without being distracted by details</label>
-            <label class="option"><input type="radio" name="q4" value="b"> B. It enhances the color accuracy of images</label>
-            <label class="option"><input type="radio" name="q4" value="c"> C. It increases the resolution of the image</label>
-            <label class="option"><input type="radio" name="q4" value="d"> D. It highlights the textures of the objects</label>
-        </div>
-    </div>
-
-    <div class="question" id="question5">
-        <p>5. How can adjusting pixelation levels help in image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q5" value="a"> A. By revealing hidden details gradually</label>
-            <label class="option"><input type="radio" name="q5" value="b"> B. By reducing the complexity of shapes</label>
-            <label class="option"><input type="radio" name="q5" value="c"> C. By changing the colors of the objects</label>
-            <label class="option"><input type="radio" name="q5" value="d"> D. By increasing the number of objects in the image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question6">
-        <p>6. What is feature extraction in image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q6" value="a"> A. Identifying specific characteristics of an image, such as edges and textures</label>
-            <label class="option"><input type="radio" name="q6" value="b"> B. Adding color to objects in the image</label>
-            <label class="option"><input type="radio" name="q6" value="c"> C. Changing the shapes of the objects</label>
-            <label class="option"><input type="radio" name="q6" value="d"> D. Decreasing the resolution of the image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question7">
-        <p>7. Why is feature extraction important in object detection?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q7" value="a"> A. It allows for precise identification of objects by focusing on key characteristics</label>
-            <label class="option"><input type="radio" name="q7" value="b"> B. It enhances the overall shape of the objects</label>
-            <label class="option"><input type="radio" name="q7" value="c"> C. It increases the brightness of the image</label>
-            <label class="option"><input type="radio" name="q7" value="d"> D. It modifies the contrast of the image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question8">
-        <p>8. Which algorithms are commonly used in feature extraction for image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q8" value="a"> A. Edge detection and SIFT</label>
-            <label class="option"><input type="radio" name="q8" value="b"> B. Color correction and brightness control</label>
-            <label class="option"><input type="radio" name="q8" value="c"> C. Pixelation and resolution enhancement</label>
-            <label class="option"><input type="radio" name="q8" value="d"> D. Noise reduction and sharpening</label>
-        </div>
-    </div>
-
-    <div class="question" id="question9">
-        <p>9. How does color identification contribute to image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q9" value="a"> A. By helping to differentiate objects based on their color properties</label>
-            <label class="option"><input type="radio" name="q9" value="b"> B. By blurring the objects to make recognition harder</label>
-            <label class="option"><input type="radio" name="q9" value="c"> C. By enhancing the texture of the objects</label>
-            <label class="option"><input type="radio" name="q9" value="d"> D. By focusing only on the shapes of the objects</label>
-        </div>
-    </div>
-
-    <div class="question" id="question10">
-        <p>10. What techniques are used in color identification for image analysis?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q10" value="a"> A. Color histograms and RGB analysis</label>
-            <label class="option"><input type="radio" name="q10" value="b"> B. Brightness control and pixelation</label>
-            <label class="option"><input type="radio" name="q10" value="c"> C. Contrast adjustment and shadow detection</label>
-            <label class="option"><input type="radio" name="q10" value="d"> D. Noise reduction and sharpening</label>
-        </div>
-    </div>
-
-    <div class="question" id="question11">
-        <p>11. What is the primary challenge of object detection?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q11" value="a"> A. Locating and classifying objects in varying conditions</label>
-            <label class="option"><input type="radio" name="q11" value="b"> B. Reducing the size of the images</label>
-            <label class="option"><input type="radio" name="q11" value="c"> C. Changing the brightness of the objects</label>
-            <label class="option"><input type="radio" name="q11" value="d"> D. Extracting key features such as color and texture</label>
-        </div>
-    </div>
-
-    <div class="question" id="question12">
-        <p>12. In object detection, what is typically used to represent the location of an object?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q12" value="a"> A. A bounding box</label>
-            <label class="option"><input type="radio" name="q12" value="b"> B. A shadow</label>
-            <label class="option"><input type="radio" name="q12" value="c"> C. A pixel grid</label>
-            <label class="option"><input type="radio" name="q12" value="d"> D. A histogram</label>
-        </div>
-    </div>
-
-    <div class="question" id="question13">
-        <p>13. How does brightness and contrast adjustment impact image recognition?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q13" value="a"> A. It enhances visibility and helps distinguish between objects</label>
-            <label class="option"><input type="radio" name="q13" value="b"> B. It reduces noise and blurs the objects</label>
-            <label class="option"><input type="radio" name="q13" value="c"> C. It changes the shape of the objects</label>
-            <label class="option"><input type="radio" name="q13" value="d"> D. It removes color from the image</label>
-        </div>
-    </div>
-
-    <div class="question" id="question14">
-        <p>14. Which of the following is NOT commonly used in image recognition techniques?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q14" value="a"> A. Shape analysis</label>
-            <label class="option"><input type="radio" name="q14" value="b"> B. Noise addition</label>
-            <label class="option"><input type="radio" name="q14" value="c"> C. Edge detection</label>
-            <label class="option"><input type="radio" name="q14" value="d"> D. Feature extraction</label>
-        </div>
-    </div>
-
-    <div class="question" id="question15">
-        <p>15. What is the main advantage of using RGB sliders in color identification?</p>
-        <div class="options">
-            <label class="option"><input type="radio" name="q15" value="a"> A. It allows for precise color matching by adjusting Red, Green, and Blue levels</label>
-            <label class="option"><input type="radio" name="q15" value="b"> B. It reduces the resolution of the image</label>
-            <label class="option"><input type="radio" name="q15" value="c"> C. It enhances the size of objects</label>
-            <label class="option"><input type="radio" name="q15" value="d"> D. It changes the overall shape of objects</label>
-        </div>
-    </div>
-</div>
-    
-                <button id="submitTest">Submit Test</button>
+            <h2>Quiz Game</h2>
+            <p id="questionText"></p>
+            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <div id="scoreModal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Your Score</h2>
+                    <p id="finalScoreText"></p>
+                </div>
             </div>
+        </div>
     </div>
-</div>
-</div>
 
         <div class="modal-overlay-result" id="resultsModal" style="display: none;">
     <div class="modal-result">
@@ -1326,7 +1197,7 @@ function showGameOverModal() {
 
     // Set up button event listeners
     document.getElementById('playAgainButton').addEventListener('click', function() {
-        window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
+        window.location.href = "{{ url('hard') }}"; // Reset the game state (you'll need to implement this)
         modal.style.display = 'none'; // Hide modal
     });
 
@@ -2170,190 +2041,460 @@ function initializeLevel5() {
 }
 
 
+
 function initializePostTest() {
 
-    pauseTimer();
-    // Hide all levels content
-    level1Content.style.display = 'none';
-    level2Content.style.display = 'none';
-    level3Content.style.display = 'none';
-    level4Content.style.display = 'none';
-    level5Content.style.display = 'none';
-
-    // Show the post-test content
-    postTestContainer.style.display = 'block';
-
-    // Display the accumulated total score from all levels
-    
-    // Add event listener to the submit button
-}
-
-// function initializePostTest() {
-
-//     pauseTimer();
-// // Hide all levels content
-// level1Content.style.display = 'none';
-// level2Content.style.display = 'none';
-// level3Content.style.display = 'none';
-// level4Content.style.display = 'none';
-// level5Content.style.display = 'none';
-
-// // Show the post-test content
-// postTestContainer.style.display = 'block';
-
-// // Display the accumulated total score from all levels
-
-// // Add event listener to the submit button
-// }
-
-function submitPostTest() {
-    pauseTimer();
+pauseTimer();
 const totalScore = gameState.totalScore || 0;
+level1Content.style.display = 'none';
+level2Content.style.display = 'none';
+level3Content.style.display = 'none';
+level4Content.style.display = 'none';
+level5Content.style.display = 'none';
 
-// Get the answers from the post-test
-const answer1 = document.querySelector('input[name="q1"]:checked');
-const answer2 = document.querySelector('input[name="q2"]:checked');
-const answer3 = document.querySelector('input[name="q3"]:checked');
-const answer4 = document.querySelector('input[name="q4"]:checked');
-const answer5 = document.querySelector('input[name="q5"]:checked');
-const answer6 = document.querySelector('input[name="q6"]:checked');
-const answer7 = document.querySelector('input[name="q7"]:checked');
-const answer8 = document.querySelector('input[name="q8"]:checked');
-const answer9 = document.querySelector('input[name="q9"]:checked');
-const answer10 = document.querySelector('input[name="q10"]:checked');
-const answer11 = document.querySelector('input[name="q11"]:checked');
-const answer12 = document.querySelector('input[name="q12"]:checked');
-const answer13 = document.querySelector('input[name="q13"]:checked');
-const answer14 = document.querySelector('input[name="q14"]:checked');
-const answer15 = document.querySelector('input[name="q15"]:checked');
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
-// Calculate the post-test score
-let postTestScore = 0;
+const questions = [
+    {
+    question: "What is outline classification in image recognition?",
+    answers: [
+        "Identifying edges",
+        "Color detection",
+        "Pixel classification",
+        "Object tracking"
+    ],
+    correct: 0,
+    topic: "Outline"
+},
+{
+    question: "What does pixelation in images do?",
+    answers: [
+        "Increases clarity",
+        "Reduces detail",
+        "Enhances color",
+        "Adds noise"
+    ],
+    correct: 1,
+    topic: "Pixelation"
+},
+{
+    question: "Which method is commonly used for object detection?",
+    answers: [
+        "Convolutional Neural Networks",
+        "Decision Trees",
+        "Linear Regression",
+        "K-Means Clustering"
+    ],
+    correct: 0,
+    topic: "ObjectDetection"
+},
+{
+    question: "What is color identification in image processing?",
+    answers: [
+        "Identifying shapes",
+        "Determining the predominant color",
+        "Detecting edges",
+        "Segmenting images"
+    ],
+    correct: 1,
+    topic: "ColorIdentification"
+},
+{
+    question: "What is feature extraction in image recognition?",
+    answers: [
+        "Simplifying the image",
+        "Identifying key attributes",
+        "Enhancing colors",
+        "Reducing noise"
+    ],
+    correct: 1,
+    topic: "FeatureExtraction"
+},
+{
+    question: "What is the primary goal of image segmentation?",
+    answers: [
+        "To isolate regions of interest",
+        "To increase image size",
+        "To enhance brightness",
+        "To compress images"
+    ],
+    correct: 0,
+    topic: "Pixelation"
+},
+{
+    question: "Which algorithm is used for outline classification?",
+    answers: [
+        "Hough Transform",
+        "K-Means Clustering",
+        "Principal Component Analysis",
+        "Support Vector Machine"
+    ],
+    correct: 0,
+    topic: "Outline"
+},
+{
+    question: "What is a common technique used in object detection?",
+    answers: [
+        "Histogram Equalization",
+        "Sliding Window",
+        "Color Thresholding",
+        "Image Blurring"
+    ],
+    correct: 1,
+    topic: "Object Detection"
+},
+{
+    question: "In color identification, which color model is often used?",
+    answers: [
+        "CMYK",
+        "HSV",
+        "XYZ",
+        "LAB"
+    ],
+    correct: 1,
+    topic: "Color Identification"
+},
+{
+    question: "Which method is essential for feature extraction?",
+    answers: [
+        "Normalization",
+        "Data Augmentation",
+        "Dimensionality Reduction",
+        "Color Correction"
+    ],
+    correct: 2,
+    topic: "FeatureExtraction"
+},
+{
+    question: "What is a common technique for identifying edges in images?",
+    answers: [
+        "Gaussian Blur",
+        "Sobel Filter",
+        "Mean Shift",
+        "Median Filter"
+    ],
+    correct: 1,
+    topic: "Outline"
+},
+{
+    question: "What does image segmentation help with?",
+    answers: [
+        "Improving image resolution",
+        "Separating distinct objects",
+        "Enhancing colors",
+        "Changing brightness"
+    ],
+    correct: 1,
+    topic: "Pixelation"
+},
+{
+    question: "What is the purpose of object detection?",
+    answers: [
+        "Finding edges",
+        "Recognizing patterns",
+        "Locating objects within an image",
+        "Changing colors"
+    ],
+    correct: 2,
+    topic: "ObjectDetection"
+},
+{
+    question: "Which algorithm is used for color detection?",
+    answers: [
+        "K-Means Clustering",
+        "Random Forest",
+        "Decision Tree",
+        "PCA"
+    ],
+    correct: 0,
+    topic: "ColorIdentification"
+},
+{
+    question: "What is an important aspect of feature extraction?",
+    answers: [
+        "Image size",
+        "Color depth",
+        "Shape representation",
+        "Resolution"
+    ],
+    correct: 2,
+    topic: "FeatureExtraction"
+},
+{
+    question: "What is the process of simplifying an image while preserving important information?",
+    answers: [
+        "Compression",
+        "Segmentation",
+        "Normalization",
+        "Smoothing"
+    ],
+    correct: 0,
+    topic: "Pixelation"
+},
+{
+    question: "What do we analyze in outline classification?",
+    answers: [
+        "Shapes and edges",
+        "Colors",
+        "Brightness",
+        "Textures"
+    ],
+    correct: 0,
+    topic: "Outline"
+},
+{
+    question: "What technique is used to detect multiple objects in an image?",
+    answers: [
+        "YOLO",
+        "Convolutional Filtering",
+        "Edge Detection",
+        "Histogram Equalization"
+    ],
+    correct: 0,
+    topic: "ObjectDetection"
+},
+{
+    question: "What is the significance of the HSV color model?",
+    answers: [
+        "It separates color information from intensity",
+        "It's faster than RGB",
+        "It's easier to visualize",
+        "It's more accurate"
+    ],
+    correct: 0,
+    topic: "ColorIdentification"
+},
+{
+    question: "Which of the following is a method for image feature extraction?",
+    answers: [
+        "Scale-Invariant Feature Transform",
+        "Color Balancing",
+        "Image Denoising",
+        "Color Correction"
+    ],
+    correct: 0,
+    topic: "FeatureExtraction"
+}
+];
 
-// Correct answers:
-const correctAnswers = {
-    q1: 'c', // C. To recognize features within an image
-    q2: 'c', // C. By using an RGB slider to find the dominant color
-    q3: 'b', // B. It allows for the identification of specific patterns in images
-    q4: 'b', // B. To identify outlines of objects
-    q5: 'a', // A. It helps in distinguishing between objects
-    q6: 'd', // D. A pixel grid
-    q7: 'c', // C. It reduces the ability to identify features
-    q8: 'a', // A. It enhances the detection of edges
-    q9: 'd', // D. By recognizing key features within images
-    q10: 'c', // C. To provide a better understanding of color theory
-    q11: 'a', // A. By analyzing pixel distributions
-    q12: 'a', // A. A bounding box
-    q13: 'a', // A. It enhances visibility and helps distinguish between objects
-    q14: 'b', // B. Noise addition
-    q15: 'a'  // A. It allows for precise color matching by adjusting Red, Green, and Blue levels
-};
+let currentQuestion = 0;
+let score = 0; // Variable to keep track of the score
+let totalQuestions = questions.length; // Total number of questions
+let gameActive = true; // Variable to track if the game is ongoing
 
-// Score calculation based on user selection
-if (answer1 && answer1.value === correctAnswers.q1) {
-    postTestScore++;
-}
-if (answer2 && answer2.value === correctAnswers.q2) {
-    postTestScore++;
-}
-if (answer3 && answer3.value === correctAnswers.q3) {
-    postTestScore++;
-}
-if (answer4 && answer4.value === correctAnswers.q4) {
-    postTestScore++;
-}
-if (answer5 && answer5.value === correctAnswers.q5) {
-    postTestScore++;
-}
-if (answer6 && answer6.value === correctAnswers.q6) {
-    postTestScore++;
-}
-if (answer7 && answer7.value === correctAnswers.q7) {
-    postTestScore++;
-}
-if (answer8 && answer8.value === correctAnswers.q8) {
-    postTestScore++;
-}
-if (answer9 && answer9.value === correctAnswers.q9) {
-    postTestScore++;
-}
-if (answer10 && answer10.value === correctAnswers.q10) {
-    postTestScore++;
-}
-if (answer11 && answer11.value === correctAnswers.q11) {
-    postTestScore++;
-}
-if (answer12 && answer12.value === correctAnswers.q12) {
-    postTestScore++;
-}
-if (answer13 && answer13.value === correctAnswers.q13) {
-    postTestScore++;
-}
-if (answer14 && answer14.value === correctAnswers.q14) {
-    postTestScore++;
-}
-if (answer15 && answer15.value === correctAnswers.q15) {
-    postTestScore++;
-}
+const targetSize = 100; // Size of the asteroid shape
+const targets = [
+    { x: 100, y: 300, dx: 2, dy: 2, shape: 'A' }, // Position and shape for answer A
+    { x: 300, y: 300, dx: -2, dy: 2, shape: 'B' }, // Position and shape for answer B
+    { x: 500, y: 300, dx: 2, dy: -2, shape: 'C' }, // Position and shape for answer C
+    { x: 700, y: 300, dx: -2, dy: -2, shape: 'D' }  // Position and shape for answer D
+];
 
-// Update the total score by adding the post-test score
-const updatedTotalScore = totalScore + postTestScore;
+let crosshairX = 50, crosshairY = 50;
 
-// Update the game state with the new total score
-gameState.totalScore = updatedTotalScore;
+// Function to draw the game
+function drawGame() {
+    if (!gameActive) return; // Stop drawing if the game is inactive
 
-// Display the total score including the post-test score
-showModal(updatedTotalScore);
-document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-console.log(updatedTotalScore);
+    // Check if currentQuestion is within the valid range
+    if (currentQuestion < totalQuestions) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Save the score to the database
-const baseUrl = window.location.origin;
-const userId = localStorage.getItem('user_id');
-console.log('User ID:', userId); // Get user ID from local storage
+        // Draw question
+        document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-fetch(`${baseUrl}/hard-update-score/${userId}`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-    },
-    body: JSON.stringify({ score: updatedTotalScore })
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+        // Draw and update moving targets
+        questions[currentQuestion].answers.forEach((answer, i) => {
+            // Move targets
+            targets[i].x += targets[i].dx;
+            targets[i].y += targets[i].dy;
+
+            // Reverse direction if hitting canvas edges
+            if (targets[i].x + targetSize > canvas.width || targets[i].x < 0) {
+                targets[i].dx = -targets[i].dx;
+            }
+            if (targets[i].y + targetSize > canvas.height || targets[i].y < 0) {
+                targets[i].dy = -targets[i].dy;
+            }
+
+            // Draw target (as an asteroid shape)
+            drawAsteroid(targets[i].x, targets[i].y, targets[i].shape);
+            ctx.fillStyle = "white"; // Set text color to white
+            ctx.fillText(answer, targets[i].x - 50, targets[i].y + 10); // Adjusted text position for larger asteroids
+        });
+
+        // Draw crosshair
+        drawCrosshair(crosshairX, crosshairY);
     }
-    return response.json();
-})
-.then(data => {
-    console.log('Score updated successfully:', data);
-})
-.catch(error => {
-    console.error('Error updating score:', error);
+}
+
+// Function to draw different asteroid shapes based on the shape identifier
+function drawAsteroid(x, y, shape) {
+    const gradient = ctx.createRadialGradient(x + 30, y + 30, 10, x + 30, y + 30, 80);
+    gradient.addColorStop(0, 'gray');
+    gradient.addColorStop(1, 'darkslategray');
+
+    ctx.fillStyle = gradient; // Use gradient as fill color
+    ctx.beginPath();
+
+    switch (shape) {
+        case 'A':
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x + 30, y - 40, x + 90, y - 40, x + 80, y);
+            ctx.bezierCurveTo(x + 110, y + 30, x + 60, y + 60, x, y + 40);
+            ctx.bezierCurveTo(x - 30, y + 10, x - 40, y - 30, x, y);
+            break;
+        case 'B':
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x + 20, y - 60, x + 90, y - 30, x + 70, y + 30);
+            ctx.bezierCurveTo(x + 50, y + 60, x + 30, y + 40, x, y + 20);
+            ctx.bezierCurveTo(x - 40, y - 10, x - 20, y - 50, x, y);
+            break;
+        case 'C':
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x + 20, y - 20, x + 80, y - 60, x + 50, y);
+            ctx.bezierCurveTo(x + 90, y + 10, x + 40, y + 50, x, y + 20);
+            ctx.bezierCurveTo(x - 30, y + 10, x - 20, y - 30, x, y);
+            break;
+        case 'D':
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x + 10, y - 30, x + 70, y - 20, x + 50, y);
+            ctx.bezierCurveTo(x + 80, y + 10, x + 30, y + 30, x, y + 10);
+            ctx.bezierCurveTo(x - 20, y + 20, x - 30, y - 20, x, y);
+            break;
+    }
+
+    ctx.closePath();
+    ctx.fill();
+}
+
+// Function to draw crosshair
+function drawCrosshair(x, y) {
+    ctx.strokeStyle = "white"; // Set crosshair color to white
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y);
+    ctx.lineTo(x + 10, y);
+    ctx.moveTo(x, y - 10);
+    ctx.lineTo(x, y + 10);
+    ctx.stroke();
+}
+
+// Mouse move event to update crosshair position
+canvas.addEventListener('mousemove', function (event) {
+    const rect = canvas.getBoundingClientRect();
+    crosshairX = event.clientX - rect.left;
+    crosshairY = event.clientY - rect.top;
 });
 
-// Hide the post-test container
-document.getElementById('postTestContainer').style.display = 'none';
+// Click event to handle answer selection
+canvas.addEventListener('click', function () {
+    const targetIndex = targets.findIndex(target =>
+        crosshairX > target.x && crosshairX < target.x + targetSize &&
+        crosshairY > target.y && crosshairY < target.y + targetSize
+    );
+
+    if (targetIndex !== -1 && gameActive) {
+        // Update score for correct answer
+        if (targetIndex === questions[currentQuestion].correct) {
+            score++; // Increase score for correct answer
+        }
+        currentQuestion++;
+
+        // Check if there are more questions left
+        if (currentQuestion < totalQuestions) {
+            drawGame();
+        } else {
+            // Display end of game modal
+
+            const percentageScore = (score / totalQuestions) * 100;
+            document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+            document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+
+            // Check if the user passed or failed
+            if (percentageScore >= 80) {
+                document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
+                const updatedTotalScore = totalScore + score;
+
+                // Update the game state with the new total score
+                gameState.totalScore = updatedTotalScore;
+
+                // Display the total score including the post-test score
+                console.log(updatedTotalScore);
+                showModal(updatedTotalScore);
+                document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+
+
+                // Save the score to the database
+                const baseUrl = window.location.origin;
+                const userId = localStorage.getItem('user_id');
+                console.log('User ID:', userId); // Get user ID from local storage
+
+                // First, update the user's hard_finish status
+                fetch(`${baseUrl}/update-hard-finish/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                    },
+                    body: JSON.stringify({ hard_finish: 1 }) // Set hard_finish to true
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('hard_finish updated successfully:', data);
+
+                        // After updating hard_finish, now save the score
+                        return fetch(`${baseUrl}/hard-update-score/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                            },
+                            body: JSON.stringify({ score: updatedTotalScore })
+                        });
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Score updated successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error updating score or hard_finish:', error);
+                    });
+                document.getElementById('postTestContainer').style.display = 'none';
+            } else {
+                document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+            }
+
+            // Stop the game
+            gameActive = false; // Set the game to inactive
+
+                setTimeout(() => {
+                currentQuestion = 0; // Reset to the first question
+                score = 0; // Reset score
+                gameActive = true; // Reactivate the game
+                window.location.href = "{{ route('hard') }}"; // Restart the game
+            }, 1000);
+        }
+    }
+});
+
+// Initial game draw and interval setup
+drawGame(); // Initial game draw
+setInterval(drawGame, 100); // Continuously update the game
+// Continuously update the game
+
 }
 
-
-function showModal(score) {
-    document.getElementById('score').textContent = "Your total score: " + score; // Set the score
-    document.getElementById('resultsModal').style.display = 'flex'; // Show modal
-}
-
-function closeModal() {
-    document.getElementById('resultsModal').style.display = 'none';
-    window.location.href = "{{ route('play') }}"; // Hide modal
-}
-
-function playAgain() {
-    window.location.href = "{{ route('easy') }}"; // Redirect to easy.blade.php
-}
-
-
-    document.getElementById('submitTest').addEventListener('click', submitPostTest);
 
 function attackMonster() {
     pauseTimer();
@@ -2361,7 +2502,7 @@ function attackMonster() {
     gameState.attackFrame = 0;
     gameState.monsterHp = Math.max(0, gameState.monsterHp - 10);
 
-    if (gameState.monsterHp < 100) {
+    if (gameState.monsterHp < 0) {
         if (gameState.level === 1) {
             showLevel1CompleteModal();
         } else if (gameState.level === 2) {
@@ -2405,6 +2546,7 @@ const learningMaterials = {
  // Set the current level
 
 function showLearningMaterial(level) {
+    endLevel();
     const learningText = learningMaterials[level];
     document.getElementById("learning-text").innerText = learningText;
     document.getElementById("learning-modal").style.display = "block";

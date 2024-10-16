@@ -49,6 +49,24 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/play', [PlayController::class, 'showPlayPage'])->name('play');
 Route::post('/play/start', [PlayController::class, 'play'])->name('play.start');
 Route::post('/tutorial', [PlayController::class, 'startTutorial']);
+Route::post('/unlock-difficulty-levels', [PlayController::class, 'unlockDifficultyLevels']);
+
+Route::post('/update-medium-notif', function () {
+    $user = Auth::user();
+    $user->medium_notif = 1; // Set medium notification to true
+    $user->save();
+
+    return response()->json(['success' => true]);
+});
+
+Route::post('/update-hard-notif', function () {
+    $user = Auth::user();
+    $user->hard_notif = 1; // Set hard notification to true
+    $user->save();
+
+    return response()->json(['success' => true]);
+});
+
 
 Route::get('/leaderboard', [leaderboardController::class, 'index'])->name('leaderboard');
 
