@@ -390,6 +390,7 @@
     </style>
 </head>
 <body>
+<audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" autoplay loop></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 <a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
 
@@ -432,10 +433,63 @@
             <button class="modal-button" onclick="startTutorial()">Start Tutorial!</button>
         </div>
     </div>
+
+    <div id="mediumNotificationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeMediumNotification()">&times;</span>
+        <h2>Medium Unlocked!</h2>
+        <p>Congratulations! You have unlocked the Medium difficulty level.</p>
+        <button class="modal-button" onclick="closeMediumNotification()">Okay</button>
+    </div>
+</div>
+
+<!-- Hard Notification Modal -->
+<div id="hardNotificationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHardNotification()">&times;</span>
+        <h2>Hard Unlocked!</h2>
+        <p>Congratulations! You have unlocked the Hard difficulty level.</p>
+        <button class="modal-button" onclick="closeHardNotification()">Okay</button>
+    </div>
+</div>
 <script>
-    // Play click sound on all buttons and anchor tags
-    function playClickSound() {
+    let isPageFullyLoaded = false;
+
+// Function to play background music
+function playBackgroundMusic() {
+    const bgMusic = document.getElementById('bgMusic');
+    if (isPageFullyLoaded && bgMusic) {
+        // Retrieve volume from local storage or set default value
+        const savedVolume = localStorage.getItem('musicVolume');
+        bgMusic.volume = savedVolume ? parseFloat(savedVolume) : 0.5; // Default volume is 0.5
+        bgMusic.play().catch(function(error) {
+            console.error("Music play failed:", error);
+        });
+    }
+}
+
+// Mark the page as fully loaded and attempt to play music
+window.onload = function() {
+    isPageFullyLoaded = true; // Set the boolean flag to true
+    playBackgroundMusic(); // Attempt to play music
+
+    // Existing user ID logic
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+        console.log("User ID:", userId);
+        // Use the user ID for your game logic
+    } else {
+        console.warn("User ID not found in local storage.");
+    }
+
+    // Check if easy_finish is 1 and show Medium notification if so
+};
+
+// Function to play the click sound
+function playClickSound() {
     var clickSound = document.getElementById('clickSound');
+    const savedVolume = localStorage.getItem('sfxVolume');
+    clickSound.volume = savedVolume ? parseFloat(savedVolume) : 0.5;
     clickSound.play();
 }
 
@@ -444,17 +498,64 @@ document.querySelectorAll('button, a').forEach(function(element) {
     element.addEventListener('click', playClickSound);
 });
 
-window.onload = function() {
-            const userId = localStorage.getItem('user_id');
-            if (userId) {
-                console.log("User ID:", userId);
-                // Use the user ID for your game logic
-            } else {
-                console.warn("User ID not found in local storage.");
-            }
-        };
+// Rest of your existing code
+function unlockMediumNotification() {
+    document.getElementById('mediumNotificationModal').style.display = 'flex'; // Show the Medium notification modal
+    document.getElementById('mediumButton').disabled = false; // Enable the Medium button
+    document.getElementById('mediumButton').innerHTML = 'Medium'; // Update button text
+    updateMediumNotification(); // Call function to update medium_notif in the database
+}
 
-        function startTutorial() {
+function closeMediumNotification() {
+    document.getElementById('mediumNotificationModal').style.display = 'none'; // Hide the Medium notification modal
+}
+
+function unlockHardNotification() {
+    document.getElementById('hardNotificationModal').style.display = 'flex'; // Show the Hard notification modal
+    document.getElementById('hardButton').disabled = false; // Enable the Hard button
+    document.getElementById('hardButton').innerHTML = 'Hard'; // Update button text
+    updateHardNotification(); // Call function to update hard_notif in the database
+}
+
+function closeHardNotification() {
+    document.getElementById('hardNotificationModal').style.display = 'none'; // Hide the Hard notification modal
+}
+
+function updateMediumNotification() {
+    fetch("{{ url('update-medium-notif') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ medium_notif: 1 }) // Send a request to update medium_notif in the database
+    }).then(response => {
+        if (!response.ok) {
+            console.error("Error updating medium_notif:", response.statusText);
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+    });
+}
+
+function updateHardNotification() {
+    fetch("{{ url('update-hard-notif') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ hard_notif: 1 }) // Send a request to update hard_notif in the database
+    }).then(response => {
+        if (!response.ok) {
+            console.error("Error updating hard_notif:", response.statusText);
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+    });
+}
+
+function startTutorial() {
     fetch("{{ url('tutorial') }}", {
         method: "POST",
         headers: {
@@ -473,36 +574,41 @@ window.onload = function() {
     });
 }
 
-        function startGame(difficulty) {
-        console.log('Starting ' + difficulty + ' game');
-        // Redirect to the play page with the selected difficulty
-        window.location.href = "{{ route('play', ['difficulty' => '']) }}" + difficulty; // Update this route accordingly
-    }
+function completeEasyGame() {
+    unlockDifficultyLevels();
+}
 
-    function completeEasyGame() {
-        unlockDifficultyLevels();
-    }
+function unlockDifficultyLevels() {
+    // Enable Medium and Hard buttons after Easy game completion
+    document.getElementById('mediumButton').disabled = false;
+    document.getElementById('hardButton').disabled = false;
 
-    function unlockDifficultyLevels() {
-        // Enable Medium and Hard buttons after Easy game completion
-        document.getElementById('mediumButton').disabled = false;
-        document.getElementById('hardButton').disabled = false;
+    // Update button text by removing lock icon
+    document.getElementById('mediumButton').innerHTML = 'Medium';
+    document.getElementById('hardButton').innerHTML = 'Hard';
+}
 
-        // Update button text by removing lock icon
-        document.getElementById('mediumButton').innerHTML = 'Medium';
-        document.getElementById('hardButton').innerHTML = 'Hard';
-    }
-        function showTutorial() {
-            document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
-        }
+function showTutorial() {
+    document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
+}
 
-        // Show the tutorial when the document is fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-        // Check if the tutorial should be shown
-        @if($tutorialShown)
-            showTutorial();
-        @endif
-    });
+// Show the tutorial when the document is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if the tutorial should be shown
+    @if($tutorialShown)
+        showTutorial();
+    @endif
+
+    // Check if easy_finish is 1 and medium_notif is 0
+    @if($easy_finish && $medium_notif == 0)
+        unlockMediumNotification();
+    @endif
+
+    // Check if medium_finish is 1 and hard_notif is 0
+    @if($medium_finish && $hard_notif == 0)
+        unlockHardNotification();
+    @endif
+});
 </script>
 
 <!-- Add FontAwesome CDN for lock icons -->

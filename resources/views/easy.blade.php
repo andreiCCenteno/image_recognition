@@ -9,30 +9,24 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-        body,
-        html {
+        body,html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             font-family: 'Roboto Mono', monospace;
-            /* Retained your font */
             color: #00ffcc;
-            /* Bright, neon-like text color */
             text-align: center;
             background: linear-gradient(135deg, #141e30, #243b55, #4b79a1, #00c853, #ff007f, #ff4081);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
-            /* Dynamic background animation */
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
             box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
-            /* Subtle depth effect */
         }
 
-        /* Keyframes for gradient animation */
         @keyframes gradientShift {
             0% {
                 background-position: 0% 50%;
@@ -47,26 +41,19 @@
             }
         }
 
-        /* Optional: Glow effect for text */
-        h1,
-        h2,
-        h3,
-        p {
+        h1,h2,h3,p {
             text-shadow: 0 0 20px rgba(0, 255, 204, 0.6), 0 0 30px rgba(0, 255, 204, 0.6);
-            /* Neon glow */
         }
 
         #gameContainer {
             width: 1800px;
+            height: auto;
             margin: 20px auto;
-            /* Centered horizontally */
             display: flex;
             flex-direction: column;
             gap: 20px;
             background: rgba(255, 255, 255, 0.1);
-            /* Light translucent background */
             border-radius: 15px;
-            /* Rounded corners */
             padding: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
@@ -91,7 +78,6 @@
         #gameScene {
             border: 2px solid #333;
             background: rgba(255, 255, 255, 0.2);
-            /* Semi-transparent background */
             border-radius: 10px;
             backdrop-filter: blur(15px);
         }
@@ -127,7 +113,6 @@
             border-radius: 10px;
             border: 2px solid #333;
             background: rgba(255, 255, 255, 0.1);
-            /* Light translucent */
             backdrop-filter: blur(5px);
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
@@ -209,7 +194,6 @@
             padding: 10px 20px;
             font-size: 16px;
             background: linear-gradient(145deg, #4CAF50, #45a049);
-            /* Gradient button */
             color: white;
             border: none;
             border-radius: 5px;
@@ -273,7 +257,6 @@
             background: #45a049;
         }
 
-        /* Add this to your existing styles */
         .celebration {
             position: fixed;
             pointer-events: none;
@@ -292,208 +275,172 @@
             animation: confetti-fall 3s linear forwards;
         }
 
-        /* Level 3 specific styles */
         #level3Content {
-            display: none;
-            max-width: 100%;
-            /* Ensures it doesn't exceed the screen width */
-            width: 90%;
-            /* Keeps it at a responsive size within the screen */
-            margin: 0 auto;
-            /* Centers the content */
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            /* Adds a semi-transparent background */
-            border-radius: 10px;
-            /* Adds rounded corners */
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-            /* Creates a shadow for depth */
-            color: white;
-            word-wrap: break-word;
-            /* Prevents content from overflowing */
-        }
+    display: none;
+    max-width: 600px; /* Reduced max width */
+    width: 80%; /* Reduced width for smaller screens */
+    margin: 0 auto;
+    padding: 15px; /* Reduced padding for better fit */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    color: white;
+    word-wrap: break-word;
+}
 
-        /* Media queries for responsive design */
-        @media (max-width: 1024px) {
-            #level3Content {
-                width: 95%;
-                /* Slightly reduces the width for smaller screens */
-                padding: 15px;
-            }
-        }
+@media (max-width: 1024px) {
+    #level3Content {
+        width: 85%;
+        padding: 15px;
+    }
+}
 
-        @media (max-width: 768px) {
-            #level3Content {
-                width: 100%;
-                /* Takes up more space on smaller screens */
-                padding: 10px;
-                margin: 10px;
-                /* Adds a margin for better layout */
-            }
-        }
+@media (max-width: 768px) {
+    #level3Content {
+        width: 90%;
+        padding: 10px;
+        margin: 10px;
+    }
+}
 
-        @media (max-width: 480px) {
-            #level3Content {
-                width: 100%;
-                padding: 8px;
-                margin: 5px;
-                /* Adds a smaller margin for better fit on small devices */
-                font-size: 14px;
-                /* Reduces text size for smaller screens */
-            }
-        }
+@media (max-width: 480px) {
+    #level3Content {
+        width: 95%;
+        padding: 8px;
+        margin: 5px;
+        font-size: 14px;
+    }
+}
 
-        .feature-matching-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            /* Allows wrapping on smaller screens */
-        }
+.feature-matching-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
 
-        .main-image-container {
-            width: 100%;
-            /* Makes it responsive, can adjust for larger screens */
-            max-width: 400px;
-            /* Limits the size */
-            height: auto;
-            /* Maintains aspect ratio */
-            position: relative;
-            border: 2px solid #333;
-            margin-right: 20px;
-            margin-bottom: 20px;
-            /* Space between images on smaller screens */
-        }
+.main-image-container {
+    width: 100%;
+    max-width: 350px; /* Reduced max width for the main image */
+    height: auto;
+    position: relative;
+    border: 2px solid #333;
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
 
-        /* Ensures responsiveness on smaller screens */
-        @media (max-width: 768px) {
-            .main-image-container {
-                width: 100%;
-                /* Full width on smaller devices */
-                max-width: none;
-                /* Remove the fixed width for better flexibility */
-                height: auto;
-            }
+@media (max-width: 768px) {
+    .main-image-container {
+        width: 100%;
+        max-width: none;
+        height: auto;
+    }
 
-            .feature-matching-container {
-                flex-direction: column;
-                /* Stacks images vertically */
-                align-items: center;
-                /* Centers the content */
-            }
-        }
+    .feature-matching-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
 
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
-        .feature-dropzone {
-            position: absolute;
-            border: 2px dashed #4CAF50;
-            background: rgba(76, 175, 80, 0.1);
-            cursor: pointer;
-        }
+.feature-dropzone {
+    position: absolute;
+    border: 2px dashed #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+    cursor: pointer;
+}
 
-        .features-panel {
-            width: 200px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+.features-panel {
+    width: 180px; /* Slightly reduced width */
+    padding: 8px; /* Reduced padding */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .feature-item {
-            width: 180px;
-            height: 100px;
-            margin: 10px 0;
-            border: 2px solid #333;
-            cursor: grab;
-            position: relative;
-            overflow: hidden;
-        }
+.feature-item {
+    width: 160px; /* Slightly reduced width */
+    height: 90px; /* Slightly reduced height */
+    margin: 10px 0;
+    border: 2px solid #333;
+    cursor: grab;
+    position: relative;
+    overflow: hidden;
+}
 
-        .feature-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+.feature-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        .feature-item.dragging {
-            opacity: 0.5;
-            cursor: grabbing;
-        }
+.feature-item.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
 
-        .feature-matched {
-            border-color: #4CAF50;
-            opacity: 0.7;
-            pointer-events: none;
-        }
+.feature-matched {
+    border-color: #4CAF50;
+    opacity: 0.7;
+    pointer-events: none;
+}
 
-        .dropzone-highlight {
-            background: rgba(76, 175, 80, 0.3);
-        }
+.dropzone-highlight {
+    background: rgba(76, 175, 80, 0.3);
+}
 
-        .level3-instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.level3-instructions {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        /* Progress indicator */
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            /* Slightly increased height for better visibility */
-            background: linear-gradient(145deg, #222, #555);
-            /* Gradient background for a sleek look */
-            border-radius: 15px;
-            /* Increased roundness for a smoother feel */
-            margin: 15px 0;
-            /* Increased margin for better spacing */
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            /* Adds shadow for depth */
-            border: 1px solid #4CAF50;
-            /* Neon-like border effect */
-        }
+.progress-bar {
+    width: 100%;
+    height: 20px; /* Reduced height */
+    background: linear-gradient(145deg, #222, #555);
+    border-radius: 10px; /* Reduced border radius */
+    margin: 15px 0;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid #4CAF50;
+}
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
-            /* Neon green gradient */
-            width: 0%;
-            transition: width 0.3s ease, background 0.6s ease;
-            /* Smooth transition for both width and color */
-            box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8);
-            /* Glowing effect */
-            border-radius: 15px;
-            /* Matches the outer container’s roundness */
-        }
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
+    width: 0%;
+    transition: width 0.3s ease, background 0.6s ease;
+    box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8);
+    border-radius: 10px; /* Reduced border radius */
+}
 
-        /* Optional animation for progress fill to pulse */
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-            }
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
+    }
 
-            50% {
-                box-shadow: 0 0 20px rgba(0, 255, 127, 1);
-            }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 127, 1);
+    }
 
-            100% {
-                box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-            }
-        }
+    100% {
+        box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
+    }
+}
 
-        /* Apply the pulse effect when the progress bar is filling */
-        .progress-fill.active {
-            animation: pulse 1s infinite ease-in-out;
-        }
+.progress-fill.active {
+    animation: pulse 1s infinite ease-in-out;
+}
+
 
         #level2CompleteModal {
             display: none;
@@ -534,33 +481,20 @@
             pointer-events: none;
         }
 
-
         #learning-modal {
             display: none;
-            /* Initially hidden */
             position: fixed;
-            /* Fixed position */
             z-index: 1;
-            /* Ensure modal is on top */
             left: 0;
-            /* Align to the left */
             top: 0;
-            /* Align to the top */
             width: 100%;
-            /* Full width */
             height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scrolling if necessary */
+            overflow: hidden;
             background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(30, 30, 30, 0.9));
-            /* Dark gradient for a futuristic look */
             backdrop-filter: blur(15px);
-            /* Blur effect for background */
             animation: fadeIn 0.5s;
-            /* Fade-in animation */
         }
 
-        /* Animation keyframes for fade-in effect */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -573,50 +507,30 @@
 
         .modal-content {
             background: rgba(20, 20, 20, 0.95);
-            /* Darker, semi-transparent background without white */
             padding: 30px;
-            /* Increased padding for better spacing */
             border: none;
-            /* Remove default border */
             width: 90%;
-            /* Slightly less than full width */
             position: fixed;
-            /* Fixed position */
             left: 50%;
-            /* Center horizontally */
             transform: translateX(-50%);
-            /* Adjust for centering */
             bottom: 5%;
-            /* Align to the bottom with some margin */
             border-radius: 15px;
-            /* Rounded corners for a modern look */
             box-shadow: 0 8px 30px rgba(0, 255, 204, 0.5);
-            /* Subtle glowing shadow for depth */
             color: #00ffcc;
-            /* Futuristic text color */
             display: flex;
-            /* Flexbox for alignment */
             flex-direction: column;
-            /* Column layout */
             align-items: center;
-            /* Center items */
             font-size: 1.2em;
-            /* Font size */
             text-align: justify;
-            /* Justified text alignment */
             overflow-wrap: break-word;
-            /* Prevent overflow */
             word-wrap: break-word;
-            /* For compatibility */
         }
 
 
 
         .character {
             width: 100px;
-            /* Adjust character size */
             margin-right: 20px;
-            /* Space between character and text */
         }
 
         .close {
@@ -644,28 +558,20 @@
 
         #game-area {
             display: none;
-            /* Initially hide game area */
         }
 
         #colorContainer {
             display: flex;
-            /* Enables flexbox layout */
             justify-content: center;
-            /* Centers content horizontally */
             align-items: center;
-            /* Centers content vertically */
             height: 300px;
-            /* Set the height of the container */
         }
 
         #colorImage,
         #selectedColorImage {
             width: 300px;
-            /* Width of the color display */
             height: 300px;
-            /* Height of the color display */
             background-color: rgb(0, 0, 0);
-            /* Default background color */
         }
 
         .modal-overlay-result {
@@ -679,7 +585,6 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            /* Ensure the modal is above other content */
         }
 
         .modal {
@@ -694,7 +599,6 @@
 
         button {
             background-color: #0f3460;
-            /* Button color */
             color: white;
             border: none;
             border-radius: 5px;
@@ -705,10 +609,8 @@
 
         button:hover {
             background-color: #1a1a2e;
-            /* Change color on hover */
         }
 
-        /* Animation for modal appearance */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -728,7 +630,6 @@
             color: #fff;
         }
 
-        /* Color Container */
         #colorContainer {
             display: flex;
             justify-content: center;
@@ -741,12 +642,9 @@
             width: 300px;
             height: 300px;
             background-color: rgb(0, 0, 0);
-            /* Default black */
             border: 2px solid #4CAF50;
-            /* Neon green border */
             margin-right: 20px;
             box-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
-            /* Glowing effect */
         }
 
         #selectedColorImage {
@@ -754,10 +652,8 @@
             height: 200px;
             border: 2px solid #4CAF50;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            /* Subtle glow */
         }
 
-        /* Color Sliders */
         .color-sliders {
             display: flex;
             flex-direction: column;
@@ -800,7 +696,6 @@
             cursor: pointer;
         }
 
-        /* Enhanced Submit Button */
         .btn-submit {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -818,7 +713,6 @@
             box-shadow: 0 0 10px rgba(0, 255, 127, 0.7);
         }
 
-        /* Level 5 Content Styling */
         #level5Content {
             text-align: center;
             padding: 20px;
@@ -830,7 +724,6 @@
             color: #ff9800;
         }
 
-        /* Object Detection Container */
         .object-detection-container {
             position: relative;
             display: inline-block;
@@ -847,7 +740,6 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
         }
 
-        /* Detection Zones */
         .detection-zone {
             position: absolute;
             cursor: pointer;
@@ -860,7 +752,6 @@
         }
 
 
-        /* Detected Objects List */
         .detected-objects {
             margin-top: 20px;
             padding: 15px;
@@ -890,15 +781,12 @@
             border-bottom: none;
         }
 
-        /* General Test Container Styling */
         #postTestWrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.05);
-            /* Light overlay for effect */
-            /* Light overlay for effect */
         }
 
         #postTestContainer {
@@ -949,7 +837,6 @@
             background-color: #45a049;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             #postTestContainer {
                 width: 90%;
@@ -994,93 +881,60 @@
             top: 20px;
             right: 20px;
             font-size: 2rem;
-            /* Make the icon bigger */
             z-index: 1000;
-            /* Ensure it stays on top of other elements */
             padding: 10px;
         }
 
-        /* Optional hover effect */
         #settingsIcon:hover {
             transform: scale(1.1);
         }
 
         .gameover-modal {
             display: none;
-            /* Hidden by default */
             position: fixed;
-            /* Stay in place */
             z-index: 1000;
-            /* Sit on top */
             left: 0;
             top: 0;
             width: 100%;
-            /* Full width */
             height: 100%;
-            /* Full height */
             overflow: auto;
-            /* Enable scroll if needed */
             background-color: rgba(0, 0, 0, 0.8);
-            /* Dark background with more opacity */
             justify-content: center;
-            /* Center modal content */
             align-items: center;
-            /* Center modal content */
         }
 
         .gameover-modal-content {
             background: linear-gradient(135deg, rgba(0, 0, 50, 0.8), rgba(0, 0, 100, 0.6));
-            /* Futuristic gradient */
             margin: 15% auto;
-            /* 15% from the top and centered */
             padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            /* Light border with transparency */
             border-radius: 15px;
-            /* Rounded corners */
             width: 300px;
-            /* Could be more or less, depending on screen size */
             text-align: center;
-            /* Center text */
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-            /* Center text */
         }
 
         .modal-background {
             position: absolute;
-            /* Allows positioning relative to modal */
             top: 0;
-            /* Align to the top of the modal */
             left: 0;
-            /* Align to the left of the modal */
             right: 0;
-            /* Stretch to the right */
             bottom: 0;
-            /* Stretch to the bottom */
             z-index: -1;
-            /* Send the background image behind the modal content */
         }
 
         .modal-image {
             width: 70%;
-            /* Set the width to 70% of the modal */
             height: auto;
-            /* Maintain aspect ratio */
-            /* opacity: 0.1; Make the image semi-transparent         */
             position: absolute;
             transform: translateY(-50%) scaleX(-1);
-            /* Center and flip */
             position: absolute;
-            /* Position it absolutely within the modal background */
             top: 70%;
-            /* Adjusted to lower the image */
             right: 0%;
-            /* Align to the right */
         }
 
         #scoreModal {
             display: none;
-            /* Hide the modal by default */
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -1089,11 +943,8 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.7);
-            /* Black background with transparency */
             justify-content: center;
-            /* Center modal content horizontally */
             align-items: center;
-            /* Center modal content vertically */
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
@@ -1101,6 +952,13 @@
 </head>
 
 <body>
+    <!-- Add these audio elements to your HTML -->
+    <audio id="playerAttackSound" src="{{ asset('audio/player-attack.mp3') }}" preload="auto"></audio>
+    <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
+    <audio id="backgroundMusic" src="{{ asset('audio/background-music.mp3') }}" loop preload="auto"></audio>
+<audio id="intenseFightMusic" src="{{ asset('audio/intense-fight-music.mp3') }}" loop preload="auto"></audio>
+
+
 
     <div id="gameOverModal" class="gameover-modal">
         <div class="gameover-modal-content">
@@ -1335,6 +1193,7 @@
             // Show settings modal when settings icon is clicked
             $('#settingsIcon').click(function () {
                 $('#settingsModal').show();
+                pauseTimer();
             });
 
             // Close settings modal
@@ -1346,6 +1205,7 @@
             $('#resumeButton').click(function () {
                 closeSettingsModal(); // Close the modal
                 // Additional logic to resume the game can go here
+                resumeTimer();
             });
 
             // Quit game button functionality
@@ -1445,7 +1305,7 @@
             playerX: 100,
             playerY: 150,
             monsterX: 600,
-            monsterY: 150,
+            monsterY: 100,
             playerHurt: false,
             monsterHurt: false
 
@@ -1457,6 +1317,8 @@
         const targetImage = document.getElementById('targetImage');
         let level1Content = document.getElementById('level1Content');
         let level2Content = document.getElementById('level2Content');
+        let intenseFightMusic = document.getElementById("intenseFightMusic");
+        intenseFightMusic.volume = 0.2;
         const level4Content = document.getElementById('level4Content');
         const blurredImage = document.getElementById('blurredImage');
         const guessContainer = document.getElementById('guessContainer');
@@ -1489,6 +1351,7 @@
         }
 
         function startTimer() {
+            intenseFightMusic.play();
             const timerDuration = 60;
             timeLeft = timerDuration; // Reset time left to initial duration
             document.getElementById('countdownTimer').textContent = timeLeft;
@@ -1508,6 +1371,7 @@
         }
 
         function pauseTimer() {
+            intenseFightMusic.pause();
             isPaused = false; // Set the paused flag to true
         }
 
@@ -1620,7 +1484,7 @@
                 switchToLevel2();
             }
 
-
+            draw();
             console.log(gameState.level);
             console.log(currentLevel);
         }
@@ -1674,7 +1538,7 @@
         function startLevel2() {
             const modal = document.getElementById('levelCompleteModal');
             modal.style.display = 'none';
-            showLearningMaterial(2);
+            showMonologuesInSequence(2);
             monsterHp = 100;
             // initializeGame();
             // currentLevel++;
@@ -2227,20 +2091,21 @@
         }
 
         function initializePostTest() {
-
-            pauseTimer();
+            pauseTimer(); // Pause any timers if applicable
             const totalScore = gameState.totalScore || 0;
-            level1Content.style.display = 'none';
-            level2Content.style.display = 'none';
-            level3Content.style.display = 'none';
-            level4Content.style.display = 'none';
-            level5Content.style.display = 'none';
+
+            // Hide level content
+            document.getElementById('level1Content').style.display = 'none';
+            document.getElementById('level2Content').style.display = 'none';
+            document.getElementById('level3Content').style.display = 'none';
+            document.getElementById('level4Content').style.display = 'none';
+            document.getElementById('level5Content').style.display = 'none';
 
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
 
             const questions = [
-                {
+              {
                     question: "1. Why are outlines essential in image recognition?",
                     answers: ["A. Define shape", "B. Add color", "C. Highlight details", "D. Remove textures"],
                     correct: 0
@@ -2279,23 +2144,17 @@
                     question: "8. What happens to pixelated images when you zoom in?",
                     answers: ["A. They become clearer", "B. They show blocks of color", "C. They lose detail", "D. They remain unchanged"],
                     correct: 1
-                }
+                },
+              
             ];
 
             let currentQuestion = 0;
             let score = 0; // Variable to keep track of the score
-            let totalQuestions = questions.length; // Total number of questions
+            const totalQuestions = questions.length; // Total number of questions
             let gameActive = true; // Variable to track if the game is ongoing
 
-            const targetSize = 100; // Size of the asteroid shape
-            const targets = [
-                { x: 100, y: 300, dx: 2, dy: 2, shape: 'A' }, // Position and shape for answer A
-                { x: 300, y: 300, dx: -2, dy: 2, shape: 'B' }, // Position and shape for answer B
-                { x: 500, y: 300, dx: 2, dy: -2, shape: 'C' }, // Position and shape for answer C
-                { x: 700, y: 300, dx: -2, dy: -2, shape: 'D' }  // Position and shape for answer D
-            ];
-
-            let crosshairX = 50, crosshairY = 50;
+            let crosshairX = 400; // Initial crosshair position
+            let crosshairY = 300; // Initial crosshair position
 
             // Function to draw the game
             function drawGame() {
@@ -2308,74 +2167,48 @@
                     // Draw question
                     document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-                    // Draw and update moving targets
+                    // Draw stationary targets
                     questions[currentQuestion].answers.forEach((answer, i) => {
-                        // Move targets
-                        targets[i].x += targets[i].dx;
-                        targets[i].y += targets[i].dy;
-
-                        // Reverse direction if hitting canvas edges
-                        if (targets[i].x + targetSize > canvas.width || targets[i].x < 0) {
-                            targets[i].dx = -targets[i].dx;
-                        }
-                        if (targets[i].y + targetSize > canvas.height || targets[i].y < 0) {
-                            targets[i].dy = -targets[i].dy;
-                        }
-
-                        // Draw target (as an asteroid shape)
-                        drawAsteroid(targets[i].x, targets[i].y, targets[i].shape);
-                        ctx.fillStyle = "white"; // Set text color to white
-                        ctx.fillText(answer, targets[i].x - 50, targets[i].y + 10); // Adjusted text position for larger asteroids
+                        const xPos = 100 + (i * 200); // Calculate X position for each target
+                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
                     });
 
                     // Draw crosshair
-                    drawCrosshair(crosshairX, crosshairY);
+                    drawCrosshair(crosshairX, crosshairY); 
                 }
             }
 
-            // Function to draw different asteroid shapes based on the shape identifier
-            function drawAsteroid(x, y, shape) {
-                const gradient = ctx.createRadialGradient(x + 30, y + 30, 10, x + 30, y + 30, 80);
-                gradient.addColorStop(0, 'gray');
-                gradient.addColorStop(1, 'darkslategray');
+            // Function to draw targets with answers inside
+            function drawTarget(x, y, answer) {
+    const targetSize = 80; // Size of the target shape
+    const innerCircleSize = 70; // Size of the inner circle
 
-                ctx.fillStyle = gradient; // Use gradient as fill color
-                ctx.beginPath();
+    // Draw outer target (white circle)
+    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.beginPath();
+    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
+    ctx.fill();
+    ctx.closePath();
 
-                switch (shape) {
-                    case 'A':
-                        ctx.moveTo(x, y);
-                        ctx.bezierCurveTo(x + 30, y - 40, x + 90, y - 40, x + 80, y);
-                        ctx.bezierCurveTo(x + 110, y + 30, x + 60, y + 60, x, y + 40);
-                        ctx.bezierCurveTo(x - 30, y + 10, x - 40, y - 30, x, y);
-                        break;
-                    case 'B':
-                        ctx.moveTo(x, y);
-                        ctx.bezierCurveTo(x + 20, y - 60, x + 90, y - 30, x + 70, y + 30);
-                        ctx.bezierCurveTo(x + 50, y + 60, x + 30, y + 40, x, y + 20);
-                        ctx.bezierCurveTo(x - 40, y - 10, x - 20, y - 50, x, y);
-                        break;
-                    case 'C':
-                        ctx.moveTo(x, y);
-                        ctx.bezierCurveTo(x + 20, y - 20, x + 80, y - 60, x + 50, y);
-                        ctx.bezierCurveTo(x + 90, y + 10, x + 40, y + 50, x, y + 20);
-                        ctx.bezierCurveTo(x - 30, y + 10, x - 20, y - 30, x, y);
-                        break;
-                    case 'D':
-                        ctx.moveTo(x, y);
-                        ctx.bezierCurveTo(x + 10, y - 30, x + 70, y - 20, x + 50, y);
-                        ctx.bezierCurveTo(x + 80, y + 10, x + 30, y + 30, x, y + 10);
-                        ctx.bezierCurveTo(x - 20, y + 20, x - 30, y - 20, x, y);
-                        break;
-                }
+    // Draw inner target (red circle outline)
+    ctx.strokeStyle = "red"; // Outline color for the inner circle
+    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.beginPath();
+    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
+    ctx.stroke();
+    ctx.closePath();
 
-                ctx.closePath();
-                ctx.fill();
-            }
+    // Draw the answer inside the target
+    ctx.fillStyle = "black"; // Text color
+    ctx.font = "16px Arial"; // Font style
+    ctx.textAlign = "center"; // Center text alignment
+    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+}
 
             // Function to draw crosshair
             function drawCrosshair(x, y) {
-                ctx.strokeStyle = "white"; // Set crosshair color to white
+                ctx.strokeStyle = "red"; // Crosshair color
+                ctx.lineWidth = 2; // Crosshair line width
                 ctx.beginPath();
                 ctx.moveTo(x - 10, y);
                 ctx.lineTo(x + 10, y);
@@ -2384,119 +2217,121 @@
                 ctx.stroke();
             }
 
-            // Mouse move event to update crosshair position
             canvas.addEventListener('mousemove', function (event) {
                 const rect = canvas.getBoundingClientRect();
-                crosshairX = event.clientX - rect.left;
-                crosshairY = event.clientY - rect.top;
+                crosshairX = event.clientX - rect.left; // Update crosshair X position
+                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
+                drawGame(); // Redraw the game to update the crosshair position
             });
 
             // Click event to handle answer selection
             canvas.addEventListener('click', function () {
-                const targetIndex = targets.findIndex(target =>
-                    crosshairX > target.x && crosshairX < target.x + targetSize &&
-                    crosshairY > target.y && crosshairY < target.y + targetSize
-                );
+                const targetSize = 80; // Size of the target shape
 
-                if (targetIndex !== -1 && gameActive) {
-                    // Update score for correct answer
-                    if (targetIndex === questions[currentQuestion].correct) {
-                        score++; // Increase score for correct answer
-                    }
-                    currentQuestion++;
+                // Check if a target was clicked
+                questions[currentQuestion].answers.forEach((answer, i) => {
+                    const xPos = 100 + (i * 200); // Calculate X position for the target
 
-                    // Check if there are more questions left
-                    if (currentQuestion < totalQuestions) {
-                        drawGame();
-                    } else {
-                        // Display end of game modal
+                    if (
+                        crosshairX > xPos - targetSize &&
+                        crosshairX < xPos + targetSize &&
+                        crosshairY > 300 - targetSize &&
+                        crosshairY < 300 + targetSize
+                    ) {
+                        if (i === questions[currentQuestion].correct) {
+                score++; // Increase score for correct answer
+            }
+            currentQuestion++;
 
-                        const percentageScore = (score / totalQuestions) * 100;
-                        document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-                        document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+            // Check if there are more questions left
+            if (currentQuestion < totalQuestions) {
+                drawGame();
+            } else {
+                // Display end of game modal
+                const percentageScore = (score / totalQuestions) * 100;
+                document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+                document.getElementById('scoreModal').style.display = 'flex'; // Show modal
 
-                        // Check if the user passed or failed
-                        if (percentageScore >= 80) {
-                            document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                            const updatedTotalScore = totalScore + score;
+                // Check if the user passed or failed
+                if (percentageScore >= 80) {
+                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
+                    const updatedTotalScore = gameState.totalScore + score;
 
-                            // Update the game state with the new total score
-                            gameState.totalScore = updatedTotalScore;
+                    // Update the game state with the new total score
+                    gameState.totalScore = updatedTotalScore;
+                    showModal(updateScore);
+                    // Display the total score including the post-test score
+                    console.log(updatedTotalScore);
+                    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
 
-                            // Display the total score including the post-test score
-                            console.log(updatedTotalScore);
-                            showModal(updatedTotalScore);
-                            document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+                    // Save the score to the database
+                    const baseUrl = window.location.origin;
+                    const userId = localStorage.getItem('user_id');
+                    console.log('User ID:', userId); // Get user ID from local storage
 
+                    // First, update the user's easy_finish status
+                    fetch(`${baseUrl}/update-easy-finish/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                        },
+                        body: JSON.stringify({ easy_finish: 1 }) // Set easy_finish to true
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('easy_finish updated successfully:', data);
 
-                            // Save the score to the database
-                            const baseUrl = window.location.origin;
-                            const userId = localStorage.getItem('user_id');
-                            console.log('User ID:', userId); // Get user ID from local storage
-
-                            // First, update the user's easy_finish status
-                            fetch(`${baseUrl}/update-easy-finish/${userId}`, {
+                            // After updating easy_finish, now save the score
+                            return fetch(`${baseUrl}/easy-update-score/${userId}`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
                                 },
-                                body: JSON.stringify({ easy_finish: 1 }) // Set easy_finish to true
-                            })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error('Network response was not ok');
-                                    }
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    console.log('easy_finish updated successfully:', data);
-
-                                    // After updating easy_finish, now save the score
-                                    return fetch(`${baseUrl}/easy-update-score/${userId}`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                                        },
-                                        body: JSON.stringify({ score: updatedTotalScore })
-                                    });
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error('Network response was not ok');
-                                    }
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    console.log('Score updated successfully:', data);
-                                })
-                                .catch(error => {
-                                    console.error('Error updating score or easy_finish:', error);
-                                });
-                            document.getElementById('postTestContainer').style.display = 'none';
-                        } else {
-                            document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
-                            setTimeout(() => {
-                            currentQuestion = 0; // Reset to the first question
-                            score = 0; // Reset score
-                            gameActive = true; // Reactivate the game
-                            window.location.href = "{{ route('easy') }}"; // Restart the game
-                        }, 1000);
-                        }
-
-                        // Stop the game
-                        gameActive = false; // Set the game to inactive
-                    }
+                                body: JSON.stringify({ score: updatedTotalScore })
+                            });
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Score updated successfully:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error updating score or easy_finish:', error);
+                        });
+                    document.getElementById('postTestContainer').style.display = 'none';
+                } else {
+                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+                    setTimeout(() => {
+                        currentQuestion = 0; // Reset to the first question
+                        score = 0; // Reset score
+                        gameActive = true; // Reactivate the game
+                        window.location.href = "{{ route('easy') }}"; // Restart the game
+                    }, 1000);
                 }
-            });
 
-            // Initial game draw and interval setup
-            drawGame(); // Initial game draw
-            setInterval(drawGame, 100); // Continuously update the game
-            // Continuously update the game
-
+                // Stop the game
+                gameActive = false;
+            }
         }
+    });
+});
+            // Start the drawing loop
+            drawGame();
+            setInterval(drawGame, 100);
+            document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
+        }
+
 
         function showModal(score) {
             document.getElementById('score').textContent = "Your total score: " + score; // Set the score
@@ -2561,64 +2396,138 @@
         //         animateAttack('player');
         //     }
         // }
-
-
         const learningMaterials = {
-            1: "Outlines are essential in image recognition, defining object shapes and distinguishing them from the background. They simplify object recognition, aiding tasks like shape recognition and segmentation. Used in fields like handwriting recognition and medical imaging, outline exercises improve shape recognition skills and prepare users for advanced image analysis.",
+    1: [
+        "Outlines define object shapes and distinguish them from the background. This helps simplify object recognition.",
+        "Using outlines helps with tasks like shape recognition and segmentation. They are used in handwriting recognition.",
+        "Outlines help prepare users for advanced image analysis by improving shape recognition skills."
+    ],
+    2: [
+        "Pixelation simplifies images by reducing detail but keeping shape and color intact.",
+        "Different pixelation levels help improve object recognition skills by focusing on broader features.",
+        "Practicing with pixelation aids in training machine learning models to recognize objects with varying detail."
+    ],
+    3: [
+        "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
+        "Techniques like SIFT and SURF focus on relevant image details for tasks like object detection.",
+        "Mastering feature extraction strengthens skills in object detection and computer vision."
+    ],
+    4: [
+        "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
+        "RGB analysis reveals color distributions and helps improve image analysis abilities.",
+        "Practicing color identification is vital for fields like image editing and medical imaging."
+    ],
+    5: [
+        "Object detection focuses on identifying and locating objects within images, marked by bounding boxes.",
+        "It's used in autonomous vehicles, surveillance, and augmented reality applications.",
+        "Object variations and occlusions are challenges that can be addressed with techniques like data augmentation."
+    ]
+};
 
-            2: "Pixelation simplifies images into square blocks, reducing detail but keeping shape and color. It's useful for privacy, digital art, and image recognition by helping users focus on broader features. Though challenging, practicing with different pixelation levels improves object recognition skills. Applications include security and training machine learning models to recognize objects with varying detail.",
+let currentMonologueIndex = 0;
+let monologueInterval;
+let availableVoices = [];
 
-            3: "Feature extraction is a key step in image recognition, identifying important characteristics like edges, corners, and textures to help classify objects. Techniques like SIFT and SURF aid in this process, focusing on relevant image details. Mastering feature extraction is crucial for tasks like object detection and computer vision, and interactive practice can strengthen these skills.",
+// Function to display monologues one by one for a given level
+function showMonologuesInSequence(level, delay = 10000) {
+    endLevel();
+    const monologues = learningMaterials[level];
+    const monologueElement = document.getElementById("learning-text");
+    const startButton = document.getElementById("start-level-btn");
 
-            4: "Color identification is crucial in image recognition, helping users distinguish objects by their color properties. Techniques like color histograms and RGB analysis reveal color distributions within images. This skill is essential in fields like image editing, product categorization, and medical imaging. Practicing color identification enhances visual perception and strengthens image analysis abilities.",
+    // Reset the index and initial monologue
+    currentMonologueIndex = 0;
+    monologueElement.innerText = monologues[currentMonologueIndex];
+    document.getElementById("learning-modal").style.display = "block"; // Show modal
+    startButton.style.display = "none"; // Hide start button initially
 
-            5: "Object detection is key in image recognition, focusing on identifying and locating objects within images, often marked by bounding boxes. It's used in areas like autonomous vehicles, surveillance, and augmented reality. Challenges include object variations, occlusions, lighting changes, and detecting small or cluttered objects. Techniques like data augmentation, transfer learning, and multi-scale detection help improve accuracy."
-        };
-        // Set the current level
+    // Speak the first monologue with a slight delay
+    setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
 
-        function showLearningMaterial(level) {
-            endLevel();
-            const learningText = learningMaterials[level];
-            document.getElementById("learning-text").innerText = learningText;
-            document.getElementById("learning-modal").style.display = "block";
+    // Display each monologue with a delay
+    monologueInterval = setInterval(() => {
+        currentMonologueIndex++;
+        if (currentMonologueIndex < monologues.length) {
+            monologueElement.innerText = monologues[currentMonologueIndex];
+            speakText(monologues[currentMonologueIndex]); // Speak each new monologue
+        } else {
+            clearInterval(monologueInterval); // Stop interval when done
+            startButton.style.display = "block"; // Show the start button
         }
+    }, delay);
+}
 
-        // Close modal function
-        document.querySelector(".close").onclick = function () {
-            document.getElementById("learning-modal").style.display = "none";
-        };
+// Text-to-Speech function with voice selection by index or name
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
 
-        document.getElementById("start-level-btn").onclick = function () {
-            resumeTimer();
-            document.getElementById("learning-modal").style.display = "none";
-            startLevel(currentLevel); // Call your existing level start function here
-            gameState.monsterHp = 100;
-            startTimer();
-            updateStats();
-            if (currentLevel === 1) {
-                // initializeLevel1();
-                draw();
-                setTimeout(() => {
-                    flipAllCards(true);
-                    setTimeout(shuffle, 1000);
-                }, 1000);
-                currentLevel++;
-            } else if (currentLevel === 2) {
-                draw();
-                isStartLevel = true;
-                switchToLevel2();
-                currentLevel--;
-            }
-        };
+    // Fetch available voices
+    availableVoices = window.speechSynthesis.getVoices();
 
-        function startLevel(level) {
-            // Logic to start the level goes here
-            console.log("Starting level:", level);
-            // Example: Load level-specific content or set up the game for the current level
+    // Select a specific voice by index or name
+    const selectedVoiceName = "Google UK English Male";
+    const selectedVoice = availableVoices.find(voice => voice.name === selectedVoiceName);
+
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    } else if (availableVoices.length > 0) {
+        utterance.voice = availableVoices[0]; // Default to first available voice
+    }
+
+    utterance.rate = 1; // Adjust the speech rate if necessary
+    window.speechSynthesis.speak(utterance);
+}
+
+// Ensure the game doesn't start before learning materials are shown
+window.onload = function () {
+    // Load available voices asynchronously
+    window.speechSynthesis.onvoiceschanged = function() {
+        availableVoices = window.speechSynthesis.getVoices();
+        if (availableVoices.length === 0) {
+            console.error("No voices found. Speech synthesis may not work.");
+        } else {
+            console.log("Voices loaded successfully.");
         }
+        showMonologuesInSequence(1); // Automatically start the monologues for level 1
+    };
+};
 
-        // Example of how to call the showLearningMaterial function
-        showLearningMaterial(currentLevel);
+// Function to start the game when the button is clicked
+document.getElementById("start-level-btn").onclick = function () {
+    clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+
+    // Play background music
+    
+
+    // If the level starts, play the background music
+    if (currentLevel === 1) {
+        draw();
+        intenseFightMusic.play(); // Start playing the calm background music
+        setTimeout(() => {
+            flipAllCards(true); // Flip all cards face up
+            setTimeout(shuffle, 1000); // Shuffle after a delay
+        }, 1000);
+        currentLevel++;
+    } else if (currentLevel === 2) {
+        draw();
+        isStartLevel = true;
+        switchToLevel2();
+        currentLevel++;
+    }
+};
+
+
+
+function startLevel(level) {
+    console.log("Starting level:", level);
+}
 
         function resetGame() {
             gameState.level = 1;
@@ -2663,95 +2572,191 @@
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
         function draw() {
-            // Clear the game scene
-            ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+    // Clear the game scene
+    ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-            // Draw background image
-            ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+    // Draw background image
+    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
 
-            // Draw player
-            const playerColor = gameState.playerHurt ? '#FF9999' : '#4CAF50';
-            ctx.fillStyle = playerColor; // Set fill color based on state
+    // Draw player image
+    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
 
-            // Draw player image
-            ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+    // If the player is hurt, overlay a red tint
+    if (gameState.playerHurt) {
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+    }
 
-            // Draw monster
-            const monsterColor = gameState.monsterHurt ? '#FF0000' : '#F44336';
-            ctx.fillStyle = monsterColor; // Set fill color based on state
+    // Draw monster image
+    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
-            // Draw monster image
-            ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
+    // If the monster is hurt, overlay a red tint
+    if (gameState.monsterHurt) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+    }
 
-            if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
-                // Draw attack line
+    // Check for player or monster attack
+    if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
+
+        // Play sound effects when attacking
+        if (gameState.isPlayerAttacking) {
+            let playerAttackSound = document.getElementById("playerAttackSound");
+            if (playerAttackSound.paused) {
+                playerAttackSound.play(); // Play sound if not already playing
+            }
+        }
+
+        if (gameState.isMonsterAttacking) {
+            let monsterAttackSound = document.getElementById("monsterAttackSound");
+            if (monsterAttackSound.paused) {
+                monsterAttackSound.play(); // Play sound if not already playing
+            }
+        }
+
+        // Draw attack line
+        ctx.beginPath();
+        ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
+        ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
+
+        // Draw blood splash
+        if (gameState.bloodSplash) {
+            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            for (let i = 0; i < numberOfDroplets; i++) {
+                const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
+                const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
+                const dropletRadius = Math.random() * 10 + 5;
+
+                const gradient = ctx.createRadialGradient(dropletX, dropletY, dropletRadius / 4, dropletX, dropletY, dropletRadius);
+                gradient.addColorStop(0, 'rgba(255, 0, 0, 0.9)');
+                gradient.addColorStop(1, 'rgba(139, 0, 0, 0.6)');
+
+                ctx.globalAlpha = gameState.bloodSplash.opacity;
+                ctx.fillStyle = gradient;
                 ctx.beginPath();
-                ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
-                ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
-                ctx.strokeStyle = '#FFD700';
-                ctx.lineWidth = 3;
-                ctx.stroke();
+                ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
+                ctx.fill();
             }
-
-            requestAnimationFrame(draw);
+            ctx.globalAlpha = 1; // Reset opacity
         }
 
-        function animateAttack(attacker) {
-            const attackDuration = 30; // Number of frames for the attack animation
-            const moveDistance = 400; // Distance to move
-            const frameRate = 60; // Assuming 60 FPS
-
-            function animate() {
-                gameState.attackFrame++;
-
-                if (gameState.attackFrame <= attackDuration / 2) {
-                    // Move towards the target
-                    if (attacker === 'player') {
-                        gameState.playerX += moveDistance / (attackDuration / 2);
-                    } else {
-                        gameState.monsterX -= moveDistance / (attackDuration / 2);
-                    }
-                } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
-                    // Hit the target
-                    if (attacker === 'player') {
-                        gameState.monsterHurt = true;
-                    } else {
-                        gameState.playerHurt = true;
-                    }
-                    updateStats();
-                } else if (gameState.attackFrame <= attackDuration) {
-                    // Move back to original position
-                    if (attacker === 'player') {
-                        gameState.playerX -= moveDistance / (attackDuration / 2);
-                    } else {
-                        gameState.monsterX += moveDistance / (attackDuration / 2);
-                    }
-                } else {
-                    // Animation complete
-                    if (attacker === 'player') {
-                        gameState.isPlayerAttacking = false;
-                        gameState.monsterHurt = false;
-                        gameState.playerX = 100; // Reset to initial position
-                    } else {
-                        gameState.isMonsterAttacking = false;
-                        gameState.playerHurt = false;
-                        gameState.monsterX = 600; // Reset to initial position
-                    }
-
-                    // if (gameState.monsterHp <= 0) {
-                    //     // attackMonster();
-                    // } else if (gameState.playerHp <= 0) {
-                    //     handleGameOver();
-                    // }
-                    return;
-                }
-
-                // Continue the animation
-                requestAnimationFrame(animate);
-            }
-
-            animate();
+        // Draw damage text
+        if (gameState.damageText) {
+            ctx.globalAlpha = gameState.damageText.opacity;
+            ctx.fillStyle = '#FF0000';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.globalAlpha = 1;
         }
+    }
+
+    requestAnimationFrame(draw);
+}
+
+
+
+        function animateAttack(attacker, damage) {
+    const attackDuration = 30; // Number of frames for the attack animation
+    const moveDistance = 400; // Distance to move
+    const frameRate = 60; // Assuming 60 FPS
+    const bloodSplashDuration = 10; // Frames for blood splash
+    const damageTextDuration = 60; // Frames for damage text to fade out
+
+    // Variables to track blood splash and damage text animation
+    let bloodSplashOpacity = 1;
+    let damageTextOpacity = 1;
+    let damageTextY = 0;
+
+    function animate() {
+        gameState.attackFrame++;
+
+    if (gameState.attackFrame <= attackDuration / 2) {
+        // Move towards the target
+        if (attacker === 'player') {
+            gameState.playerX += moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX -= moveDistance / (attackDuration / 2);
+        }
+    } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
+        // Hit the target and trigger blood splash and damage text
+        if (attacker === 'player') {
+            gameState.monsterHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.monsterX + 50, // Adjust this position to ensure it aligns with the monster's body
+                y: gameState.monsterY + 30, // Adjust Y as needed
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.monsterX + 50, // Ensure the text is positioned centrally
+                y: gameState.monsterY - 50,
+                opacity: 1
+            };
+        } else {
+            gameState.playerHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.playerX + 50, // Adjust this position to align with the player's body
+                y: gameState.playerY + 30,
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.playerX + 50,
+                y: gameState.playerY - 50,
+                opacity: 1
+            };
+        }
+        updateStats();
+    } else if (gameState.attackFrame <= attackDuration) {
+        // Move back to original position
+        if (attacker === 'player') {
+            gameState.playerX -= moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX += moveDistance / (attackDuration / 2);
+        }
+    }
+
+    // Animate blood splash (fade out)
+    if (gameState.attackFrame > Math.floor(attackDuration / 2)) {
+        if (gameState.bloodSplash) {
+            gameState.bloodSplash.opacity -= 1 / bloodSplashDuration;
+            if (gameState.bloodSplash.opacity <= 0) {
+                gameState.bloodSplash = null; // Remove blood splash
+            }
+        }
+
+        // Animate floating damage text (move up and fade out)
+        if (gameState.damageText) {
+            gameState.damageText.opacity -= 1 / damageTextDuration;
+            gameState.damageText.y -= 2; // Move damage text upwards
+            if (gameState.damageText.opacity <= 0) {
+                gameState.damageText = null; // Remove damage text
+            }
+        }
+    }
+
+    // End of animation
+    if (gameState.attackFrame >= attackDuration) {
+        if (attacker === 'player') {
+            gameState.isPlayerAttacking = false;
+            gameState.monsterHurt = false;
+            gameState.playerX = 100; // Reset to initial position
+        } else {
+            gameState.isMonsterAttacking = false;
+            gameState.playerHurt = false;
+            gameState.monsterX = 600; // Reset to initial position
+        }
+        return;
+    }
+
+    // Continue the animation
+    requestAnimationFrame(animate);
+}
+
+// Call the animation to start it
+animate();
+}
+
 
         function handleLevelComplete() {
             if (gameState.level === 1) {

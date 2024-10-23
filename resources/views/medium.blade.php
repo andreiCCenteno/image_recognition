@@ -57,7 +57,7 @@
         }
 
         #gameContainer {
-            width: 1800px;
+            width: 1200px;
             margin: 20px auto;
             /* Centered horizontally */
             display: flex;
@@ -297,7 +297,7 @@
             display: none;
             max-width: 100%;
             /* Ensures it doesn't exceed the screen width */
-            width: 90%;
+            width: 60%;
             /* Keeps it at a responsive size within the screen */
             margin: 0 auto;
             /* Centers the content */
@@ -314,7 +314,7 @@
         }
 
         /* Media queries for responsive design */
-        @media (max-width: 1024px) {
+        @media (max-width: 899px) {
             #level3Content {
                 width: 95%;
                 /* Slightly reduces the width for smaller screens */
@@ -550,7 +550,7 @@
             /* Full width */
             height: 100%;
             /* Full height */
-            overflow: auto;
+            overflow: hidden;
             /* Enable scrolling if necessary */
             background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(30, 30, 30, 0.9));
             /* Dark gradient for a futuristic look */
@@ -1318,6 +1318,7 @@
             // Show settings modal when settings icon is clicked
             $('#settingsIcon').click(function () {
                 $('#settingsModal').show();
+                pauseTimer();
             });
 
             // Close settings modal
@@ -1327,6 +1328,7 @@
 
             // Resume button functionality
             $('#resumeButton').click(function () {
+                resumeTimer();
                 closeSettingsModal(); // Close the modal
                 // Additional logic to resume the game can go here
             });
@@ -1420,7 +1422,7 @@
             playerX: 100,
             playerY: 150,
             monsterX: 600,
-            monsterY: 150,
+            monsterY: 100,
             playerHurt: false,
             monsterHurt: false
 
@@ -1474,7 +1476,7 @@
                         endLevel(); // Call a function to end the level
                     }
                 }
-            }, 1000); // Update every second
+            }, 1500); // Update every second
         }
 
         function pauseTimer() {
@@ -1525,7 +1527,7 @@
             const modal = document.getElementById('level3CompleteModal');
             modal.style.display = 'none';
             gameState.level = 4;
-            showLearningMaterial(4);
+            showMonologuesInSequence(4);
             updateStats();
             initializeLevel4();
         }
@@ -1635,12 +1637,14 @@
         }
 
         function showLevel3CompleteModal() {
+            pauseTimer();
             const modal = document.getElementById('level3CompleteModal');
             modal.style.display = 'flex';
             createConfetti();
         }
 
         function showLevel4CompleteModal() {
+            pauseTimer();
             const modal = document.getElementById('level4CompleteModal');
             modal.style.display = 'flex';
             createConfetti();
@@ -1988,27 +1992,26 @@
                 if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
                     // Level complete
                     setTimeout(() => {
-                        if (gameState.monsterHp > 0) {
+
                             attackMonster(25);
-                            animateAttack();
                             // Delay and reset level for the next attempt until the monster is defeated
-                            setTimeout(() => {
+                            if(gameState.monsterHp > 0){
+                                setTimeout(() => {
                                 resetLevel3(); // Reset the level for another attempt
                                 initializeLevel3(); // Reinitialize the level
                             }, 500);
-
+                            }
+                            
                             if (gameState.monsterHp <= 0) {
                                 showLevel3CompleteModal();
                                 gameState.level++;
                             }
-                        } else {
-                            takeDamage();
-                        }
                     }, 500);
                 }
             } else {
                 // Wrong match
                 document.getElementById('message').textContent = "Wrong match! Try again.";
+                monsterAttack();
                 takeDamage(); // Deduct HP or handle damage
             }
         }
@@ -2218,21 +2221,22 @@
 
 
         function initializePostTest() {
+            pauseTimer(); // Pause any timers if applicable
+            const totalScore = gameState.totalScore || 0;
 
-pauseTimer();
-const totalScore = gameState.totalScore || 0;
-level1Content.style.display = 'none';
-level2Content.style.display = 'none';
-level3Content.style.display = 'none';
-level4Content.style.display = 'none';
-level5Content.style.display = 'none';
+            // Hide level content
+            document.getElementById('level1Content').style.display = 'none';
+            document.getElementById('level2Content').style.display = 'none';
+            document.getElementById('level3Content').style.display = 'none';
+            document.getElementById('level4Content').style.display = 'none';
+            document.getElementById('level5Content').style.display = 'none';
 
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
 
-const questions = [
-    {
-    question: "1.What is the primary purpose of feature extraction in image recognition?",
+            const questions = [
+                {
+    question: "1. What is the primary purpose of feature extraction in image recognition?",
     answers: [
         "A. To increase image resolution",
         "B. To identify and isolate specific characteristics of an image",
@@ -2242,7 +2246,7 @@ const questions = [
     correct: 1
 },
 {
-    question: "2.What does feature extraction enable users to focus on in an image?",
+    question: "2. What does feature extraction enable users to focus on in an image?",
     answers: [
         "A. Color properties",
         "B. Background elements",
@@ -2252,7 +2256,7 @@ const questions = [
     correct: 2
 },
 {
-    question: "3.Which application is enhanced by mastering feature extraction?",
+    question: "3. Which application is enhanced by mastering feature extraction?",
     answers: [
         "A. Web development",
         "B. Object detection and computer vision",
@@ -2262,7 +2266,7 @@ const questions = [
     correct: 1
 },
 {
-    question: "4.Which technique helps users understand color distributions in images?",
+    question: "4. Which technique helps users understand color distributions in images?",
     answers: [
         "A. Edge detection",
         "B. Color histograms",
@@ -2272,7 +2276,7 @@ const questions = [
     correct: 1
 },
 {
-    question: "5.Why is color identification important in various fields?",
+    question: "5. Why is color identification important in various fields?",
     answers: [
         "A. It improves image quality.",
         "B. It enhances visual perception and classification of objects.",
@@ -2282,7 +2286,7 @@ const questions = [
     correct: 1
 },
 {
-    question: "6.What is a common method used in color identification to analyze color properties?",
+    question: "6. What is a common method used in color identification to analyze color properties?",
     answers: [
         "A. Pixelation",
         "B. RGB analysis",
@@ -2292,7 +2296,7 @@ const questions = [
     correct: 1
 },
 {
-    question: "7.Engaging in color identification exercises helps foster a deeper appreciation of what?",
+    question: "7. Engaging in color identification exercises helps foster a deeper appreciation of what?",
     answers: [
         "A. Color theory",
         "B. Graphic design",
@@ -2302,7 +2306,7 @@ const questions = [
     correct: 0
 },
 {
-    question: "8.How does feature extraction improve object recognition capabilities?",
+    question: "8. How does feature extraction improve object recognition capabilities?",
     answers: [
         "A. By simplifying images",
         "B. By identifying irrelevant data",
@@ -2311,225 +2315,193 @@ const questions = [
     ],
     correct: 2
 }
-];
 
-let currentQuestion = 0;
-let score = 0; // Variable to keep track of the score
-let totalQuestions = questions.length; // Total number of questions
-let gameActive = true; // Variable to track if the game is ongoing
+              
+            ];
 
-const targetSize = 100; // Size of the asteroid shape
-const targets = [
-    { x: 100, y: 300, dx: 2, dy: 2, shape: 'A' }, // Position and shape for answer A
-    { x: 300, y: 300, dx: -2, dy: 2, shape: 'B' }, // Position and shape for answer B
-    { x: 500, y: 300, dx: 2, dy: -2, shape: 'C' }, // Position and shape for answer C
-    { x: 700, y: 300, dx: -2, dy: -2, shape: 'D' }  // Position and shape for answer D
-];
+            let currentQuestion = 0;
+            let score = 0; // Variable to keep track of the score
+            const totalQuestions = questions.length; // Total number of questions
+            let gameActive = true; // Variable to track if the game is ongoing
 
-let crosshairX = 50, crosshairY = 50;
+            let crosshairX = 400; // Initial crosshair position
+            let crosshairY = 300; // Initial crosshair position
 
-// Function to draw the game
-function drawGame() {
-    if (!gameActive) return; // Stop drawing if the game is inactive
+            // Function to draw the game
+            function drawGame() {
+                if (!gameActive) return; // Stop drawing if the game is inactive
 
-    // Check if currentQuestion is within the valid range
-    if (currentQuestion < totalQuestions) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Check if currentQuestion is within the valid range
+                if (currentQuestion < totalQuestions) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw question
-        document.getElementById('questionText').innerText = questions[currentQuestion].question;
+                    // Draw question
+                    document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-        // Draw and update moving targets
-        questions[currentQuestion].answers.forEach((answer, i) => {
-            // Move targets
-            targets[i].x += targets[i].dx;
-            targets[i].y += targets[i].dy;
-
-            // Reverse direction if hitting canvas edges
-            if (targets[i].x + targetSize > canvas.width || targets[i].x < 0) {
-                targets[i].dx = -targets[i].dx;
-            }
-            if (targets[i].y + targetSize > canvas.height || targets[i].y < 0) {
-                targets[i].dy = -targets[i].dy;
-            }
-
-            // Draw target (as an asteroid shape)
-            drawAsteroid(targets[i].x, targets[i].y, targets[i].shape);
-            ctx.fillStyle = "white"; // Set text color to white
-            ctx.fillText(answer, targets[i].x - 50, targets[i].y + 10); // Adjusted text position for larger asteroids
-        });
-
-        // Draw crosshair
-        drawCrosshair(crosshairX, crosshairY);
-    }
-}
-
-// Function to draw different asteroid shapes based on the shape identifier
-function drawAsteroid(x, y, shape) {
-    const gradient = ctx.createRadialGradient(x + 30, y + 30, 10, x + 30, y + 30, 80);
-    gradient.addColorStop(0, 'gray');
-    gradient.addColorStop(1, 'darkslategray');
-
-    ctx.fillStyle = gradient; // Use gradient as fill color
-    ctx.beginPath();
-
-    switch (shape) {
-        case 'A':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 30, y - 40, x + 90, y - 40, x + 80, y);
-            ctx.bezierCurveTo(x + 110, y + 30, x + 60, y + 60, x, y + 40);
-            ctx.bezierCurveTo(x - 30, y + 10, x - 40, y - 30, x, y);
-            break;
-        case 'B':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 20, y - 60, x + 90, y - 30, x + 70, y + 30);
-            ctx.bezierCurveTo(x + 50, y + 60, x + 30, y + 40, x, y + 20);
-            ctx.bezierCurveTo(x - 40, y - 10, x - 20, y - 50, x, y);
-            break;
-        case 'C':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 20, y - 20, x + 80, y - 60, x + 50, y);
-            ctx.bezierCurveTo(x + 90, y + 10, x + 40, y + 50, x, y + 20);
-            ctx.bezierCurveTo(x - 30, y + 10, x - 20, y - 30, x, y);
-            break;
-        case 'D':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 10, y - 30, x + 70, y - 20, x + 50, y);
-            ctx.bezierCurveTo(x + 80, y + 10, x + 30, y + 30, x, y + 10);
-            ctx.bezierCurveTo(x - 20, y + 20, x - 30, y - 20, x, y);
-            break;
-    }
-
-    ctx.closePath();
-    ctx.fill();
-}
-
-// Function to draw crosshair
-function drawCrosshair(x, y) {
-    ctx.strokeStyle = "white"; // Set crosshair color to white
-    ctx.beginPath();
-    ctx.moveTo(x - 10, y);
-    ctx.lineTo(x + 10, y);
-    ctx.moveTo(x, y - 10);
-    ctx.lineTo(x, y + 10);
-    ctx.stroke();
-}
-
-// Mouse move event to update crosshair position
-canvas.addEventListener('mousemove', function (event) {
-    const rect = canvas.getBoundingClientRect();
-    crosshairX = event.clientX - rect.left;
-    crosshairY = event.clientY - rect.top;
-});
-
-// Click event to handle answer selection
-canvas.addEventListener('click', function () {
-    const targetIndex = targets.findIndex(target =>
-        crosshairX > target.x && crosshairX < target.x + targetSize &&
-        crosshairY > target.y && crosshairY < target.y + targetSize
-    );
-
-    if (targetIndex !== -1 && gameActive) {
-        // Update score for correct answer
-        if (targetIndex === questions[currentQuestion].correct) {
-            score++; // Increase score for correct answer
-        }
-        currentQuestion++;
-
-        // Check if there are more questions left
-        if (currentQuestion < totalQuestions) {
-            drawGame();
-        } else {
-            // Display end of game modal
-
-            const percentageScore = (score / totalQuestions) * 100;
-            document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-            document.getElementById('scoreModal').style.display = 'flex'; // Show modal
-
-            // Check if the user passed or failed
-            if (percentageScore >= 80) {
-                document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                const updatedTotalScore = totalScore + score;
-
-                // Update the game state with the new total score
-                gameState.totalScore = updatedTotalScore;
-
-                // Display the total score including the post-test score
-                console.log(updatedTotalScore);
-                showModal(updatedTotalScore);
-                document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-
-
-                // Save the score to the database
-                const baseUrl = window.location.origin;
-                const userId = localStorage.getItem('user_id');
-                console.log('User ID:', userId); // Get user ID from local storage
-
-                // First, update the user's medium_finish status
-                fetch(`${baseUrl}/update-medium-finish/${userId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                    },
-                    body: JSON.stringify({ medium_finish: 1 }) // Set medium_finish to true
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('medium_finish updated successfully:', data);
-
-                        // After updating medium_finish, now save the score
-                        return fetch(`${baseUrl}/medium-update-score/${userId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                            },
-                            body: JSON.stringify({ score: updatedTotalScore })
-                        });
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Score updated successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error updating score or medium_finish:', error);
+                    // Draw stationary targets
+                    questions[currentQuestion].answers.forEach((answer, i) => {
+                        const xPos = 100 + (i * 200); // Calculate X position for each target
+                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
                     });
-                document.getElementById('postTestContainer').style.display = 'none';
-            } else {
-                document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+
+                    // Draw crosshair
+                    drawCrosshair(crosshairX, crosshairY); 
+                }
             }
 
-            // Stop the game
-            gameActive = false; // Set the game to inactive
+            // Function to draw targets with answers inside
+            function drawTarget(x, y, answer) {
+    const targetSize = 80; // Size of the target shape
+    const innerCircleSize = 70; // Size of the inner circle
 
-                setTimeout(() => {
-                currentQuestion = 0; // Reset to the first question
-                score = 0; // Reset score
-                gameActive = true; // Reactivate the game
-                window.location.href = "{{ route('medium') }}"; // Restart the game
-            }, 1000);
+    // Draw outer target (white circle)
+    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.beginPath();
+    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
+    ctx.fill();
+    ctx.closePath();
+
+    // Draw inner target (red circle outline)
+    ctx.strokeStyle = "red"; // Outline color for the inner circle
+    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.beginPath();
+    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
+    ctx.stroke();
+    ctx.closePath();
+
+    // Draw the answer inside the target
+    ctx.fillStyle = "black"; // Text color
+    ctx.font = "16px Arial"; // Font style
+    ctx.textAlign = "center"; // Center text alignment
+    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+}
+
+            // Function to draw crosshair
+            function drawCrosshair(x, y) {
+                ctx.strokeStyle = "red"; // Crosshair color
+                ctx.lineWidth = 2; // Crosshair line width
+                ctx.beginPath();
+                ctx.moveTo(x - 10, y);
+                ctx.lineTo(x + 10, y);
+                ctx.moveTo(x, y - 10);
+                ctx.lineTo(x, y + 10);
+                ctx.stroke();
+            }
+
+            canvas.addEventListener('mousemove', function (event) {
+                const rect = canvas.getBoundingClientRect();
+                crosshairX = event.clientX - rect.left; // Update crosshair X position
+                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
+                drawGame(); // Redraw the game to update the crosshair position
+            });
+
+            // Click event to handle answer selection
+            canvas.addEventListener('click', function () {
+                const targetSize = 80; // Size of the target shape
+
+                // Check if a target was clicked
+                questions[currentQuestion].answers.forEach((answer, i) => {
+                    const xPos = 100 + (i * 200); // Calculate X position for the target
+
+                    if (
+                        crosshairX > xPos - targetSize &&
+                        crosshairX < xPos + targetSize &&
+                        crosshairY > 300 - targetSize &&
+                        crosshairY < 300 + targetSize
+                    ) {
+                        if (i === questions[currentQuestion].correct) {
+                score++; // Increase score for correct answer
+            }
+            currentQuestion++;
+
+            // Check if there are more questions left
+            if (currentQuestion < totalQuestions) {
+                drawGame();
+            } else {
+                // Display end of game modal
+                const percentageScore = (score / totalQuestions) * 100;
+                document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+                document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+
+                // Check if the user passed or failed
+                if (percentageScore >= 80) {
+                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
+                    const updatedTotalScore = gameState.totalScore + score;
+
+                    // Update the game state with the new total score
+                    gameState.totalScore = updatedTotalScore;
+
+                    // Display the total score including the post-test score
+                    console.log(updatedTotalScore);
+                    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+
+                    // Save the score to the database
+                    const baseUrl = window.location.origin;
+                    const userId = localStorage.getItem('user_id');
+                    console.log('User ID:', userId); // Get user ID from local storage
+
+                    // First, update the user's medium_finish status
+                    fetch(`${baseUrl}/update-medium-finish/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                        },
+                        body: JSON.stringify({ medium_finish: 1 }) // Set medium_finish to true
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('medium_finish updated successfully:', data);
+
+                            // After updating medium_finish, now save the score
+                            return fetch(`${baseUrl}/medium-update-score/${userId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                                },
+                                body: JSON.stringify({ score: updatedTotalScore })
+                            });
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Score updated successfully:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error updating score or medium_finish:', error);
+                        });
+                    document.getElementById('postTestContainer').style.display = 'none';
+                } else {
+                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+                    setTimeout(() => {
+                        currentQuestion = 0; // Reset to the first question
+                        score = 0; // Reset score
+                        gameActive = true; // Reactivate the game
+                        window.location.href = "{{ route('medium') }}"; // Restart the game
+                    }, 1000);
+                }
+
+                // Stop the game
+                gameActive = false;
+            }
         }
-    }
+    });
 });
-
-// Initial game draw and interval setup
-drawGame(); // Initial game draw
-setInterval(drawGame, 100); // Continuously update the game
-// Continuously update the game
-
+            // Start the drawing loop
+            drawGame();
+            setInterval(drawGame, 100);
+            document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
         }
-
 
 
         function showModal(score) {
@@ -2547,7 +2519,6 @@ setInterval(drawGame, 100); // Continuously update the game
         }
 
         function attackMonster(damage) {
-            pauseTimer();
             gameState.isAttacking = true;
             gameState.attackFrame = 0;
             gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
@@ -2567,6 +2538,11 @@ setInterval(drawGame, 100); // Continuously update the game
                     resetGame();
                 }
             }
+            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
+                gameState.isPlayerAttacking = true;
+                gameState.attackFrame = 0;
+                animateAttack('player');
+            }
             updateStats();
         }
 
@@ -2583,55 +2559,129 @@ setInterval(drawGame, 100); // Continuously update the game
         }
 
         const learningMaterials = {
-            1: "Outlines are essential in image recognition, defining object shapes and distinguishing them from the background. They simplify object recognition, aiding tasks like shape recognition and segmentation. Used in fields like handwriting recognition and medical imaging, outline exercises improve shape recognition skills and prepare users for advanced image analysis.",
+    1: [
+        "Outlines define object shapes and distinguish them from the background. This helps simplify object recognition.",
+        "Using outlines helps with tasks like shape recognition and segmentation. They are used in handwriting recognition.",
+        "Outlines help prepare users for advanced image analysis by improving shape recognition skills."
+    ],
+    2: [
+        "Pixelation simplifies images by reducing detail but keeping shape and color intact.",
+        "Different pixelation levels help improve object recognition skills by focusing on broader features.",
+        "Practicing with pixelation aids in training machine learning models to recognize objects with varying detail."
+    ],
+    3: [
+        "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
+        "Techniques like SIFT and SURF focus on relevant image details for tasks like object detection.",
+        "Mastering feature extraction strengthens skills in object detection and computer vision."
+    ],
+    4: [
+        "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
+        "RGB analysis reveals color distributions and helps improve image analysis abilities.",
+        "Practicing color identification is vital for fields like image editing and medical imaging."
+    ],
+    5: [
+        "Object detection focuses on identifying and locating objects within images, marked by bounding boxes.",
+        "It's used in autonomous vehicles, surveillance, and augmented reality applications.",
+        "Object variations and occlusions are challenges that can be addressed with techniques like data augmentation."
+    ]
+};
 
-            2: "Pixelation simplifies images into square blocks, reducing detail but keeping shape and color. It's useful for privacy, digital art, and image recognition by helping users focus on broader features. Though challenging, practicing with different pixelation levels improves object recognition skills. Applications include security and training machine learning models to recognize objects with varying detail.",
+let currentMonologueIndex = 0;
+let monologueInterval;
+let availableVoices = [];
 
-            3: "Feature extraction is a key step in image recognition, identifying important characteristics like edges, corners, and textures to help classify objects. Techniques like SIFT and SURF aid in this process, focusing on relevant image details. Mastering feature extraction is crucial for tasks like object detection and computer vision, and interactive practice can strengthen these skills.",
+// Function to display monologues one by one for a given level
+function showMonologuesInSequence(level, delay = 10000) {
+    const monologues = learningMaterials[level];
+    const monologueElement = document.getElementById("learning-text");
+    const startButton = document.getElementById("start-level-btn");
 
-            4: "Color identification is crucial in image recognition, helping users distinguish objects by their color properties. Techniques like color histograms and RGB analysis reveal color distributions within images. This skill is essential in fields like image editing, product categorization, and medical imaging. Practicing color identification enhances visual perception and strengthens image analysis abilities.",
+    // Reset the index and initial monologue
+    currentMonologueIndex = 0;
+    monologueElement.innerText = monologues[currentMonologueIndex];
+    document.getElementById("learning-modal").style.display = "block"; // Show modal
+    startButton.style.display = "none"; // Hide start button initially
 
-            5: "Object detection is key in image recognition, focusing on identifying and locating objects within images, often marked by bounding boxes. It's used in areas like autonomous vehicles, surveillance, and augmented reality. Challenges include object variations, occlusions, lighting changes, and detecting small or cluttered objects. Techniques like data augmentation, transfer learning, and multi-scale detection help improve accuracy."
-        };
-        // Set the current level
+    // Speak the first monologue with a slight delay
+    setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
 
-        function showLearningMaterial(level) {
-            const learningText = learningMaterials[level];
-            document.getElementById("learning-text").innerText = learningText;
-            document.getElementById("learning-modal").style.display = "block";
+    // Display each monologue with a delay
+    monologueInterval = setInterval(() => {
+        currentMonologueIndex++;
+        if (currentMonologueIndex < monologues.length) {
+            monologueElement.innerText = monologues[currentMonologueIndex];
+            speakText(monologues[currentMonologueIndex]); // Speak each new monologue
+        } else {
+            clearInterval(monologueInterval); // Stop interval when done
+            startButton.style.display = "block"; // Show the start button
         }
+    }, delay);
+}
 
-        // Close modal function
-        document.querySelector(".close").onclick = function () {
-            document.getElementById("learning-modal").style.display = "none";
-        };
+// Text-to-Speech function with voice selection by index or name
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
 
-        document.getElementById("start-level-btn").onclick = function () {
-            resumeTimer();
-            document.getElementById("learning-modal").style.display = "none";
-            // startLevel(currentLevel); // Call your existing level start function here
-            // if(currentLevel === 1){
-            //     startTimer();
-            //     draw();
-            //     setTimeout(() => {
-            //         flipAllCards(true);
-            //         setTimeout(shuffle, 1000);
-            //     }, 1000);
-            // }else if(currentLevel === 2){
-            //     isStartLevel = true;
-            //     switchToLevel2();
-            // }
+    // Fetch available voices
+    availableVoices = window.speechSynthesis.getVoices();
 
-        };
+    // Select a specific voice by index or name
+    const selectedVoiceName = "Google UK English Female";
+    const selectedVoice = availableVoices.find(voice => voice.name === selectedVoiceName);
 
-        function startLevel(level) {
-            // Logic to start the level goes here
-            console.log("Starting level:", level);
-            // Example: Load level-specific content or set up the game for the current level
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    } else if (availableVoices.length > 0) {
+        utterance.voice = availableVoices[0]; // Default to first available voice
+    }
+
+    utterance.rate = 1; // Adjust the speech rate if necessary
+    window.speechSynthesis.speak(utterance);
+}
+
+// Ensure the game doesn't start before learning materials are shown
+window.onload = function () {
+    // Load available voices asynchronously
+    window.speechSynthesis.onvoiceschanged = function() {
+        availableVoices = window.speechSynthesis.getVoices();
+        if (availableVoices.length === 0) {
+            console.error("No voices found. Speech synthesis may not work.");
+        } else {
+            console.log("Voices loaded successfully.");
         }
+        showMonologuesInSequence(3); // Automatically start the monologues for level 1
+    };
+};
 
-        // Example of how to call the showLearningMaterial function
-        showLearningMaterial(currentLevel);
+// Function to start the game when the button is clicked
+document.getElementById("start-level-btn").onclick = function () {
+    clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+
+    // if (currentLevel === 1) {
+    //     draw();
+    //     setTimeout(() => {
+    //         flipAllCards(true); // Flip all cards face up
+    //         setTimeout(shuffle, 1000); // Shuffle after a delay
+    //     }, 1000);
+    //     currentLevel++;
+    // } else if (currentLevel === 2) {
+    //     draw();
+    //     isStartLevel = true;
+    //     switchToLevel2();
+    //     currentLevel++;
+    // }
+};
+
+function startLevel(level) {
+    console.log("Starting level:", level);
+}
 
         function resetGame() {
             gameState.level = 1;
@@ -2676,113 +2726,173 @@ setInterval(drawGame, 100); // Continuously update the game
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
         function draw() {
-            // ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+            // Clear the game scene
+            ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+
+            // Draw background image
             ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
 
             // Draw player
-            ctx.drawImage(playerImage, 100, 150, 120, 120); // Adjust width and height as needed
+            const playerColor = gameState.playerHurt ? '#FF9999' : '#4CAF50';
+            ctx.fillStyle = playerColor; // Set fill color based on state
+
+            // Draw player image
+            ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+
+            // Draw monster
+            const monsterColor = gameState.monsterHurt ? '#FF0000' : '#F44336';
+            ctx.fillStyle = monsterColor; // Set fill color based on state
 
             // Draw monster image
-            ctx.drawImage(currentMonsterImage, 550, 120, 170, 170);
+            ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
-            if (gameState.isAttacking) {
-                // Draw attack animation
-                drawAttackEffect();
-                animateAttack();
+            if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
+                // Draw attack line
+                ctx.beginPath();
+                ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
+                ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
+                // ctx.strokeStyle = '#FFD700';
+                // ctx.lineWidth = 3;
+                // ctx.stroke();
 
-                gameState.attackFrame++;
-                if (gameState.attackFrame > 10) {
-                    gameState.isAttacking = false;
-                    gameState.attackFrame = 0; // Reset attack frame
-                }
+                // Draw blood splash
+                if (gameState.bloodSplash) {
+    // Draw multiple blood droplets for a more realistic effect
+    const numberOfDroplets = 10; // Adjust to control how many droplets there are
+    for (let i = 0; i < numberOfDroplets; i++) {
+        const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60; // Randomize X position slightly
+        const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60; // Randomize Y position slightly
+        const dropletRadius = Math.random() * 10 + 5; // Randomize size of each droplet
+
+        // Create a radial gradient for each blood droplet to add depth
+        const gradient = ctx.createRadialGradient(dropletX, dropletY, dropletRadius / 4, dropletX, dropletY, dropletRadius);
+        gradient.addColorStop(0, 'rgba(255, 0, 0, 0.9)'); // Darker red at the center
+        gradient.addColorStop(1, 'rgba(139, 0, 0, 0.6)'); // Darker, more transparent at the edges
+
+        // Set gradient fill and draw droplet
+        ctx.globalAlpha = gameState.bloodSplash.opacity; // Set the opacity of the blood splash
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    ctx.globalAlpha = 1; // Reset opacity
+}
+
+// Draw damage text
+if (gameState.damageText) {
+    ctx.globalAlpha = gameState.damageText.opacity; // Set opacity of the damage text
+    ctx.fillStyle = '#FF0000'; // Red color for damage text
+    ctx.font = 'bold 24px Arial'; // Adjust font size and style
+    ctx.fillText(gameState.damageText.text, gameState.damageText.x, gameState.damageText.y); // Position the text
+    ctx.globalAlpha = 1; // Reset opacity
+}
             }
 
             requestAnimationFrame(draw);
         }
 
-        function drawAttackEffect() {
-            // Calculate the attack's position based on the frame count
-            const attackX = 100 + (gameState.attackFrame * 5); // Adjust movement speed
-            const attackYStart = 190;
-            const attackYEnd = 200;
+        function animateAttack(attacker, damage) {
+    const attackDuration = 30; // Number of frames for the attack animation
+    const moveDistance = 400; // Distance to move
+    const frameRate = 60; // Assuming 60 FPS
+    const bloodSplashDuration = 10; // Frames for blood splash
+    const damageTextDuration = 60; // Frames for damage text to fade out
 
-            ctx.beginPath();
-            ctx.moveTo(attackX, attackYStart);
-            ctx.lineTo(600, attackYEnd);
+    // Variables to track blood splash and damage text animation
+    let bloodSplashOpacity = 1;
+    let damageTextOpacity = 1;
+    let damageTextY = 0;
 
-            // Add a glowing effect during the attack
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)'; // Gold color with transparency
-            ctx.lineWidth = 6 + Math.sin(gameState.attackFrame / 10) * 2; // Pulse effect for the line width
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.6)'; // Gold glow
-            ctx.shadowBlur = 15; // Blur effect for the glow
-            ctx.stroke();
-            ctx.closePath();
+    function animate() {
+        gameState.attackFrame++;
 
-            // Reset shadow properties for future draws
-            ctx.shadowColor = 'transparent'; // Remove glow effect
+    if (gameState.attackFrame <= attackDuration / 2) {
+        // Move towards the target
+        if (attacker === 'player') {
+            gameState.playerX += moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX -= moveDistance / (attackDuration / 2);
         }
-
-        // Call this function to trigger the attack
-        function triggerAttack() {
-            gameState.isAttacking = true;
+    } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
+        // Hit the target and trigger blood splash and damage text
+        if (attacker === 'player') {
+            gameState.monsterHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.monsterX + 50, // Adjust this position to ensure it aligns with the monster's body
+                y: gameState.monsterY + 30, // Adjust Y as needed
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.monsterX + 50, // Ensure the text is positioned centrally
+                y: gameState.monsterY - 50,
+                opacity: 1
+            };
+        } else {
+            gameState.playerHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.playerX + 50, // Adjust this position to align with the player's body
+                y: gameState.playerY + 30,
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.playerX + 50,
+                y: gameState.playerY - 50,
+                opacity: 1
+            };
         }
+        updateStats();
+    } else if (gameState.attackFrame <= attackDuration) {
+        // Move back to original position
+        if (attacker === 'player') {
+            gameState.playerX -= moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX += moveDistance / (attackDuration / 2);
+        }
+    }
 
-        function animateAttack(attacker) {
-            const attackDuration = 30; // Number of frames for the attack animation
-            const moveDistance = 400; // Distance to move
-            const frameRate = 60; // Assuming 60 FPS
-
-            function animate() {
-                gameState.attackFrame++;
-
-                if (gameState.attackFrame <= attackDuration / 2) {
-                    // Move towards the target
-                    if (attacker === 'player') {
-                        gameState.playerX += moveDistance / (attackDuration / 2);
-                    } else {
-                        gameState.monsterX -= moveDistance / (attackDuration / 2);
-                    }
-                } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
-                    // Hit the target
-                    if (attacker === 'player') {
-                        gameState.monsterHurt = true;
-                    } else {
-                        gameState.playerHurt = true;
-                    }
-                    updateStats();
-                } else if (gameState.attackFrame <= attackDuration) {
-                    // Move back to original position
-                    if (attacker === 'player') {
-                        gameState.playerX -= moveDistance / (attackDuration / 2);
-                    } else {
-                        gameState.monsterX += moveDistance / (attackDuration / 2);
-                    }
-                } else {
-                    // Animation complete
-                    if (attacker === 'player') {
-                        gameState.isPlayerAttacking = false;
-                        gameState.monsterHurt = false;
-                        gameState.playerX = 100; // Reset to initial position
-                    } else {
-                        gameState.isMonsterAttacking = false;
-                        gameState.playerHurt = false;
-                        gameState.monsterX = 600; // Reset to initial position
-                    }
-
-                    // if (gameState.monsterHp <= 0) {
-                    //     // attackMonster();
-                    // } else if (gameState.playerHp <= 0) {
-                    //     handleGameOver();
-                    // }
-                    return;
-                }
-
-                // Continue the animation
-                requestAnimationFrame(animate);
+    // Animate blood splash (fade out)
+    if (gameState.attackFrame > Math.floor(attackDuration / 2)) {
+        if (gameState.bloodSplash) {
+            gameState.bloodSplash.opacity -= 1 / bloodSplashDuration;
+            if (gameState.bloodSplash.opacity <= 0) {
+                gameState.bloodSplash = null; // Remove blood splash
             }
-
-            animate();
         }
+
+        // Animate floating damage text (move up and fade out)
+        if (gameState.damageText) {
+            gameState.damageText.opacity -= 1 / damageTextDuration;
+            gameState.damageText.y -= 2; // Move damage text upwards
+            if (gameState.damageText.opacity <= 0) {
+                gameState.damageText = null; // Remove damage text
+            }
+        }
+    }
+
+    // End of animation
+    if (gameState.attackFrame >= attackDuration) {
+        if (attacker === 'player') {
+            gameState.isPlayerAttacking = false;
+            gameState.monsterHurt = false;
+            gameState.playerX = 100; // Reset to initial position
+        } else {
+            gameState.isMonsterAttacking = false;
+            gameState.playerHurt = false;
+            gameState.monsterX = 600; // Reset to initial position
+        }
+        return;
+    }
+
+    // Continue the animation
+    requestAnimationFrame(animate);
+}
+
+// Call the animation to start it
+animate();
+}
 
         function monsterAttack() {
             if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Add this line
 
-class MainMenuController extends Controller // Updated to PascalCase
+class mainmenuController extends Controller // Updated to PascalCase
 {
     public function mainmenu()
     {

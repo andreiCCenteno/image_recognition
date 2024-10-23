@@ -179,7 +179,7 @@ h1 {
 </head>
 <body>
 
-<audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" preload="auto" loop></audio>
+<audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" autoplay loop></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 
 <!-- Modal for logout confirmation -->
@@ -223,6 +223,9 @@ let isPageFullyLoaded = false;
 function playBackgroundMusic() {
     const bgMusic = document.getElementById('bgMusic');
     if (isPageFullyLoaded && bgMusic) {
+        // Retrieve volume from local storage or set default value
+        const savedVolume = localStorage.getItem('musicVolume');
+        bgMusic.volume = savedVolume ? parseFloat(savedVolume) : 0.5; // Default volume is 0.5
         bgMusic.play().catch(function(error) {
             console.error("Music play failed:", error);
         });
@@ -234,9 +237,12 @@ window.onload = function() {
     isPageFullyLoaded = true; // Set the boolean flag to true
     playBackgroundMusic(); // Attempt to play music
 };
-        // Function to play the click sound
+
+// Function to play the click sound
 function playClickSound() {
     var clickSound = document.getElementById('clickSound');
+    const savedVolume = localStorage.getItem('sfxVolume');
+    clickSound.volume = savedVolume ? parseFloat(savedVolume) : 0.5;
     clickSound.play();
 }
 

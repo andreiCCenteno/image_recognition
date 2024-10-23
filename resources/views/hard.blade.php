@@ -8,100 +8,102 @@
     <title>Image Processing Card Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-        body, html {
+
+body,html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: 'Roboto Mono', monospace; /* Retained your font */
-    color: #00ffcc; /* Bright, neon-like text color */
+    font-family: 'Roboto Mono', monospace;
+    color: #00ffcc;
     text-align: center;
     background: linear-gradient(135deg, #141e30, #243b55, #4b79a1, #00c853, #ff007f, #ff4081);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite; /* Dynamic background animation */
+    animation: gradientShift 15s ease infinite;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1); /* Subtle depth effect */
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
 }
 
-/* Keyframes for gradient animation */
 @keyframes gradientShift {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
 }
 
-/* Optional: Glow effect for text */
-h1, h2, h3, p {
-    text-shadow: 0 0 20px rgba(0, 255, 204, 0.6), 0 0 30px rgba(0, 255, 204, 0.6); /* Neon glow */
+h1,h2,h3,p {
+    text-shadow: 0 0 20px rgba(0, 255, 204, 0.6), 0 0 30px rgba(0, 255, 204, 0.6);
 }
 
 #gameContainer {
     width: 1800px;
-    margin: 20px auto; /* Centered horizontally */
+    height: auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Light translucent background */
-    border-radius: 15px; /* Rounded corners */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
-        #imageDisplay {
-            width: 100%;
-            height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+#imageDisplay {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        #targetImage {
-            max-width: 180px;
+#targetImage {
+    max-width: 180px;
     max-height: 180px;
     object-fit: contain;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
+}
 
-        #gameScene {
-            border: 2px solid #333;
-    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+#gameScene {
+    border: 2px solid #333;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     backdrop-filter: blur(15px);
-        }
+}
 
-        #cardsContainer {
-            position: relative;
-            height: 200px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
+#cardsContainer {
+    position: relative;
+    height: 200px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 
-        .card {
-            width: 150px;
-            height: 200px;
-            position: absolute;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.6s, left 0.5s ease;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+.card {
+    width: 150px;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s, left 0.5s ease;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .card-face {
-            position: absolute;
+.card-face {
+    position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
@@ -110,109 +112,109 @@ h1, h2, h3, p {
     justify-content: center;
     border-radius: 10px;
     border: 2px solid #333;
-    background: rgba(255, 255, 255, 0.1); /* Light translucent */
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
+}
 
-        .card-front img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: 5px;
-        }
+.card-front img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 5px;
+}
 
-        .card-back {
-            background: #4CAF50;
-            transform: rotateY(180deg);
-        }
+.card-back {
+    background: #4CAF50;
+    transform: rotateY(180deg);
+}
 
-        .card-back::after {
-            content: "?";
-            font-size: 48px;
-            color: white;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-        }
+.card-back::after {
+    content: "?";
+    font-size: 48px;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
 
-        .flipped {
-            transform: rotateY(180deg);
-        }
+.flipped {
+    transform: rotateY(180deg);
+}
 
-        .wrong {
-            transform: scale(0.95);
-            box-shadow: 0 0 20px #ff0000;
-        }
+.wrong {
+    transform: scale(0.95);
+    box-shadow: 0 0 20px #ff0000;
+}
 
-        .correct-reveal {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px #00ff00;
-            z-index: 99;
-        }
+.correct-reveal {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00ff00;
+    z-index: 99;
+}
 
-        .victory {
-            transform: scale(1.2) translateY(-30px);
-            box-shadow: 0 0 30px #FFD700;
-            z-index: 100;
-        }
+.victory {
+    transform: scale(1.2) translateY(-30px);
+    box-shadow: 0 0 30px #FFD700;
+    z-index: 100;
+}
 
-        #stats {
-            display: flex;
+#stats {
+    display: flex;
     justify-content: space-between;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-weight: bold;
-        }
+}
 
-        #message {
-            text-align: center;
+#message {
+    text-align: center;
     font-size: 1.2em;
     margin: 10px 0;
     min-height: 30px;
     color: #fff;
-        }
+}
 
-        #guessContainer {
-            display: none;
+#guessContainer {
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-        }
+}
 
-        #guessInput {
-            padding: 10px;
+#guessInput {
+    padding: 10px;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #333;
     background: rgba(255, 255, 255, 0.2);
-    color: #fff; 
-        }
+    color: #fff;
+}
 
-        #submitGuess {
-            padding: 10px 20px;
+#submitGuess {
+    padding: 10px 20px;
     font-size: 16px;
-    background: linear-gradient(145deg, #4CAF50, #45a049); /* Gradient button */
+    background: linear-gradient(145deg, #4CAF50, #45a049);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-        }
+}
 
-        #submitGuess:hover {
-            background: linear-gradient(145deg, #45a049, #4CAF50);
+#submitGuess:hover {
+    background: linear-gradient(145deg, #45a049, #4CAF50);
     transform: translateY(-2px);
-        }
+}
 
-        #blurredImage {
-            max-width: 300px;
+#blurredImage {
+    max-width: 300px;
     max-height: 300px;
     filter: blur(20px);
     transition: filter 10s linear;
-        }
+}
 
-        .modal-overlay {
-            display: none;
+.modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -222,25 +224,25 @@ h1, h2, h3, p {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-        }
+}
 
-        .modal {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+.modal {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 10px;
     padding: 20px;
     text-align: center;
     color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.5s;
-        }
+}
 
-        .modal h2 {
-            color: #4CAF50;
+.modal h2 {
+    color: #4CAF50;
     margin-top: 0;
-        }
+}
 
-        .modal button {
-            padding: 10px 20px;
+.modal button {
+    padding: 10px 20px;
     font-size: 16px;
     background: #4CAF50;
     color: white;
@@ -249,331 +251,327 @@ h1, h2, h3, p {
     cursor: pointer;
     margin-top: 15px;
     transition: background 0.3s;
-        }
+}
 
-        .modal button:hover {
-            background: #45a049;
-        }
+.modal button:hover {
+    background: #45a049;
+}
 
-        /* Add this to your existing styles */
-        .celebration {
-            position: fixed;
+.celebration {
+    position: fixed;
     pointer-events: none;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     z-index: 999;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #f00;
-            animation: confetti-fall 3s linear forwards;
-        }
-
-                /* Level 3 specific styles */
-                #level3Content {
-    display: none;
-    max-width: 100%; /* Ensures it doesn't exceed the screen width */
-    width: 90%; /* Keeps it at a responsive size within the screen */
-    margin: 0 auto; /* Centers the content */
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.8); /* Adds a semi-transparent background */
-    border-radius: 10px; /* Adds rounded corners */
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); /* Creates a shadow for depth */
-    color: white;
-    word-wrap: break-word; /* Prevents content from overflowing */
 }
 
-/* Media queries for responsive design */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #f00;
+    animation: confetti-fall 3s linear forwards;
+}
+
+#level3Content {
+display: none;
+max-width: 600px; /* Reduced max width */
+width: 80%; /* Reduced width for smaller screens */
+margin: 0 auto;
+padding: 15px; /* Reduced padding for better fit */
+background: rgba(0, 0, 0, 0.8);
+border-radius: 10px;
+box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+color: white;
+word-wrap: break-word;
+}
+
 @media (max-width: 1024px) {
-    #level3Content {
-        width: 95%; /* Slightly reduces the width for smaller screens */
-        padding: 15px;
-    }
+#level3Content {
+width: 85%;
+padding: 15px;
+}
 }
 
 @media (max-width: 768px) {
-    #level3Content {
-        width: 100%; /* Takes up more space on smaller screens */
-        padding: 10px;
-        margin: 10px; /* Adds a margin for better layout */
-    }
+#level3Content {
+width: 90%;
+padding: 10px;
+margin: 10px;
+}
 }
 
 @media (max-width: 480px) {
-    #level3Content {
-        width: 100%;
-        padding: 8px;
-        margin: 5px; /* Adds a smaller margin for better fit on small devices */
-        font-size: 14px; /* Reduces text size for smaller screens */
-    }
+#level3Content {
+width: 95%;
+padding: 8px;
+margin: 5px;
+font-size: 14px;
+}
 }
 
-        .feature-matching-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+.feature-matching-container {
+display: flex;
+justify-content: space-between;
+margin-top: 20px;
+flex-wrap: wrap;
 }
 
 .main-image-container {
-    width: 100%; /* Makes it responsive, can adjust for larger screens */
-    max-width: 400px; /* Limits the size */
-    height: auto; /* Maintains aspect ratio */
-    position: relative;
-    border: 2px solid #333;
-    margin-right: 20px;
-    margin-bottom: 20px; /* Space between images on smaller screens */
+width: 100%;
+max-width: 350px; /* Reduced max width for the main image */
+height: auto;
+position: relative;
+border: 2px solid #333;
+margin-right: 15px;
+margin-bottom: 20px;
 }
 
-/* Ensures responsiveness on smaller screens */
 @media (max-width: 768px) {
-    .main-image-container {
-        width: 100%; /* Full width on smaller devices */
-        max-width: none; /* Remove the fixed width for better flexibility */
-        height: auto;
-    }
-
-    .feature-matching-container {
-        flex-direction: column; /* Stacks images vertically */
-        align-items: center; /* Centers the content */
-    }
+.main-image-container {
+width: 100%;
+max-width: none;
+height: auto;
 }
 
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.feature-matching-container {
+flex-direction: column;
+align-items: center;
+}
+}
 
-        .feature-dropzone {
-            position: absolute;
-    border: 2px dashed #4CAF50;
-    background: rgba(76, 175, 80, 0.1);
-    cursor: pointer;
-        }
+.main-image {
+width: 100%;
+height: 100%;
+object-fit: contain;
+}
 
-        .features-panel {
-            width: 200px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+.feature-dropzone {
+position: absolute;
+border: 2px dashed #4CAF50;
+background: rgba(76, 175, 80, 0.1);
+cursor: pointer;
+}
 
-        .feature-item {
-            width: 180px;
-            height: 100px;
-            margin: 10px 0;
-            border: 2px solid #333;
-            cursor: grab;
-            position: relative;
-            overflow: hidden;
-        }
+.features-panel {
+width: 180px; /* Slightly reduced width */
+padding: 8px; /* Reduced padding */
+background: rgba(0, 0, 0, 0.8);
+border-radius: 8px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-        .feature-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+.feature-item {
+width: 160px; /* Slightly reduced width */
+height: 90px; /* Slightly reduced height */
+margin: 10px 0;
+border: 2px solid #333;
+cursor: grab;
+position: relative;
+overflow: hidden;
+}
 
-        .feature-item.dragging {
-            opacity: 0.5;
-            cursor: grabbing;
-        }
+.feature-item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
 
-        .feature-matched {
-            border-color: #4CAF50;
-            opacity: 0.7;
-            pointer-events: none;
-        }
+.feature-item.dragging {
+opacity: 0.5;
+cursor: grabbing;
+}
 
-        .dropzone-highlight {
-            background: rgba(76, 175, 80, 0.3);
-        }
+.feature-matched {
+border-color: #4CAF50;
+opacity: 0.7;
+pointer-events: none;
+}
 
-        .level3-instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+.dropzone-highlight {
+background: rgba(76, 175, 80, 0.3);
+}
 
-        /* Progress indicator */
-        .progress-bar {
-    width: 100%;
-    height: 25px; /* Slightly increased height for better visibility */
-    background: linear-gradient(145deg, #222, #555); /* Gradient background for a sleek look */
-    border-radius: 15px; /* Increased roundness for a smoother feel */
-    margin: 15px 0; /* Increased margin for better spacing */
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Adds shadow for depth */
-    border: 1px solid #4CAF50; /* Neon-like border effect */
+.level3-instructions {
+text-align: center;
+margin-bottom: 20px;
+padding: 10px;
+background: rgba(0, 0, 0, 0.8);
+border-radius: 8px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+width: 100%;
+height: 20px; /* Reduced height */
+background: linear-gradient(145deg, #222, #555);
+border-radius: 10px; /* Reduced border radius */
+margin: 15px 0;
+overflow: hidden;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+border: 1px solid #4CAF50;
 }
 
 .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22); /* Neon green gradient */
-    width: 0%;
-    transition: width 0.3s ease, background 0.6s ease; /* Smooth transition for both width and color */
-    box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8); /* Glowing effect */
-    border-radius: 15px; /* Matches the outer container’s roundness */
+height: 100%;
+background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
+width: 0%;
+transition: width 0.3s ease, background 0.6s ease;
+box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8);
+border-radius: 10px; /* Reduced border radius */
 }
 
-/* Optional animation for progress fill to pulse */
 @keyframes pulse {
-    0% {
-        box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(0, 255, 127, 1);
-    }
-    100% {
-        box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-    }
+0% {
+box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
 }
 
-/* Apply the pulse effect when the progress bar is filling */
+50% {
+box-shadow: 0 0 20px rgba(0, 255, 127, 1);
+}
+
+100% {
+box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
+}
+}
+
 .progress-fill.active {
-    animation: pulse 1s infinite ease-in-out;
+animation: pulse 1s infinite ease-in-out;
 }
 
-        #level2CompleteModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
 
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(-100%) rotate(0deg);
-                opacity: 1;
-            }
+#level2CompleteModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-            100% {
-                transform: translateY(100vh) rotate(720deg);
-                opacity: 0;
-            }
-        }
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 1;
+    }
 
-        #postTestContainer {
-            width: 600px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
 
-        .detection-zone {
+#postTestContainer {
+    width: 600px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.detection-zone {
     position: absolute;
     background-color: transparent;
-    pointer-events: none; 
+    pointer-events: none;
 }
-
 
 #learning-modal {
-    display: none; /* Initially hidden */
-    position: fixed; /* Fixed position */
-    z-index: 1; /* Ensure modal is on top */
-    left: 0; /* Align to the left */
-    top: 0; /* Align to the top */
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scrolling if necessary */
-    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(30, 30, 30, 0.9)); /* Dark gradient for a futuristic look */
-    backdrop-filter: blur(15px); /* Blur effect for background */
-    animation: fadeIn 0.5s; /* Fade-in animation */
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(30, 30, 30, 0.9));
+    backdrop-filter: blur(15px);
+    animation: fadeIn 0.5s;
 }
 
-/* Animation keyframes for fade-in effect */
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
 }
 
 .modal-content {
-    background: rgba(20, 20, 20, 0.95); /* Darker, semi-transparent background without white */
-    padding: 30px; /* Increased padding for better spacing */
-    border: none; /* Remove default border */
-    width: 90%; /* Slightly less than full width */
-    position: fixed; /* Fixed position */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for centering */
-    bottom: 5%; /* Align to the bottom with some margin */
-    border-radius: 15px; /* Rounded corners for a modern look */
-    box-shadow: 0 8px 30px rgba(0, 255, 204, 0.5); /* Subtle glowing shadow for depth */
-    color: #00ffcc; /* Futuristic text color */
-    display: flex; /* Flexbox for alignment */
-    flex-direction: column; /* Column layout */
-    align-items: center; /* Center items */
-    font-size: 1.2em; /* Font size */
-    text-align: justify; /* Justified text alignment */
-    overflow-wrap: break-word; /* Prevent overflow */
-    word-wrap: break-word; /* For compatibility */
+    background: rgba(20, 20, 20, 0.95);
+    padding: 30px;
+    border: none;
+    width: 90%;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5%;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 255, 204, 0.5);
+    color: #00ffcc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2em;
+    text-align: justify;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 
 
-        .character {
-            width: 100px; /* Adjust character size */
-            margin-right: 20px; /* Space between character and text */
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #start-level-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        #start-level-btn:hover {
-            background-color: #45a049;
-        }
-
-        #game-area {
-            display: none; /* Initially hide game area */
-        }
-
-        #colorContainer {
-    display: flex;              /* Enables flexbox layout */
-    justify-content: center;    /* Centers content horizontally */
-    align-items: center;        /* Centers content vertically */
-    height: 300px;             /* Set the height of the container */
+.character {
+    width: 100px;
+    margin-right: 20px;
 }
 
-#colorImage, #selectedColorImage {
-    width: 300px;              /* Width of the color display */
-    height: 300px;             /* Height of the color display */
-    background-color: rgb(0, 0, 0); /* Default background color */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#start-level-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#start-level-btn:hover {
+    background-color: #45a049;
+}
+
+#game-area {
+    display: none;
+}
+
+#colorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+#colorImage,
+#selectedColorImage {
+    width: 300px;
+    height: 300px;
+    background-color: rgb(0, 0, 0);
 }
 
 .modal-overlay-result {
@@ -586,7 +584,7 @@ h1, h2, h3, p {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure the modal is above other content */
+    z-index: 1000;
 }
 
 .modal {
@@ -600,7 +598,7 @@ h1, h2, h3, p {
 }
 
 button {
-    background-color: #0f3460; /* Button color */
+    background-color: #0f3460;
     color: white;
     border: none;
     border-radius: 5px;
@@ -610,15 +608,15 @@ button {
 }
 
 button:hover {
-    background-color: #1a1a2e; /* Change color on hover */
+    background-color: #1a1a2e;
 }
 
-/* Animation for modal appearance */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -632,7 +630,6 @@ button:hover {
     color: #fff;
 }
 
-/* Color Container */
 #colorContainer {
     display: flex;
     justify-content: center;
@@ -644,20 +641,19 @@ button:hover {
 #colorImage {
     width: 300px;
     height: 300px;
-    background-color: rgb(0, 0, 0); /* Default black */
-    border: 2px solid #4CAF50; /* Neon green border */
+    background-color: rgb(0, 0, 0);
+    border: 2px solid #4CAF50;
     margin-right: 20px;
-    box-shadow: 0 0 15px rgba(0, 255, 127, 0.7); /* Glowing effect */
+    box-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
 }
 
 #selectedColorImage {
     width: 200px;
     height: 200px;
     border: 2px solid #4CAF50;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Subtle glow */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
 }
 
-/* Color Sliders */
 .color-sliders {
     display: flex;
     flex-direction: column;
@@ -700,7 +696,6 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
-/* Enhanced Submit Button */
 .btn-submit {
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -717,7 +712,7 @@ input[type="range"]::-moz-range-thumb {
     background-color: #45a049;
     box-shadow: 0 0 10px rgba(0, 255, 127, 0.7);
 }
-/* Level 5 Content Styling */
+
 #level5Content {
     text-align: center;
     padding: 20px;
@@ -729,7 +724,6 @@ input[type="range"]::-moz-range-thumb {
     color: #ff9800;
 }
 
-/* Object Detection Container */
 .object-detection-container {
     position: relative;
     display: inline-block;
@@ -746,7 +740,6 @@ input[type="range"]::-moz-range-thumb {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
 }
 
-/* Detection Zones */
 .detection-zone {
     position: absolute;
     cursor: pointer;
@@ -759,7 +752,6 @@ input[type="range"]::-moz-range-thumb {
 }
 
 
-/* Detected Objects List */
 .detected-objects {
     margin-top: 20px;
     padding: 15px;
@@ -789,102 +781,82 @@ input[type="range"]::-moz-range-thumb {
     border-bottom: none;
 }
 
-/* General Test Container Styling */
 #postTestWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.05); /* Light overlay for effect */
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.05);
+}
 
+#postTestContainer {
+    max-height: 80vh;
+    width: 80%;
+    overflow-y: auto;
+    padding: 20px;
+    background: rgba(20, 20, 20, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 255, 204, 0.5);
+}
+
+.test-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question {
+    background: rgba(20, 20, 20, 0.85);
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.question p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.options label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+#submitTest {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#submitTest:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
     #postTestContainer {
-        max-height: 80vh;
-        width: 80%;
-        overflow-y: auto;
-        padding: 20px;
-        background: rgba(20, 20, 20, 0.85);
-        border-radius: 10px;
-        box-shadow: 0 4px 30px rgba(0, 255, 204, 0.5);
-    }
-
-    .test-form-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .question {
-        background: rgba(20, 20, 20, 0.85);
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        width: 90%;
     }
 
     .question p {
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-size: 16px;
     }
 
     .options label {
-        display: block;
-        font-size: 16px;
-        margin-bottom: 5px;
+        font-size: 14px;
     }
 
     #submitTest {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
+        font-size: 16px;
+        padding: 8px;
     }
+}
 
-    #submitTest:hover {
-        background-color: #45a049;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        #postTestContainer {
-            width: 90%;
-        }
-
-        .question p {
-            font-size: 16px;
-        }
-
-        .options label {
-            font-size: 14px;
-        }
-
-        #submitTest {
-            font-size: 16px;
-            padding: 8px;
-        }
-    }
-
-    #scoreModal {
-            display: none;
-            /* Hide the modal by default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            /* Black background with transparency */
-            justify-content: center;
-            /* Center modal content horizontally */
-            align-items: center;
-            /* Center modal content vertically */
-        }
-
-    .settings-modal-overlay {
+.settings-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -905,62 +877,85 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #settingsIcon {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem; /* Make the icon bigger */
-            z-index: 1000; /* Ensure it stays on top of other elements */
-            padding: 10px;
-        }
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    z-index: 1000;
+    padding: 10px;
+}
 
-        /* Optional hover effect */
-        #settingsIcon:hover {
-            transform: scale(1.1);
-        }
-        .gameover-modal {
-            display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+#settingsIcon:hover {
+    transform: scale(1.1);
+}
+
+.gameover-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.8); /* Dark background with more opacity */
-    justify-content: center; /* Center modal content */
-    align-items: center; /* Center modal content */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
 }
 
 .gameover-modal-content {
-    background: linear-gradient(135deg, rgba(0, 0, 50, 0.8), rgba(0, 0, 100, 0.6)); /* Futuristic gradient */
-    margin: 15% auto; /* 15% from the top and centered */
+    background: linear-gradient(135deg, rgba(0, 0, 50, 0.8), rgba(0, 0, 100, 0.6));
+    margin: 15% auto;
     padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.5); /* Light border with transparency */
-    border-radius: 15px; /* Rounded corners */
-    width: 300px; /* Could be more or less, depending on screen size */
-    text-align: center; /* Center text */
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); /* Center text */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 .modal-background {
-    position: absolute; /* Allows positioning relative to modal */
-    top: 0; /* Align to the top of the modal */
-    left: 0; /* Align to the left of the modal */
-    right: 0; /* Stretch to the right */
-    bottom: 0; /* Stretch to the bottom */
-    z-index: -1; /* Send the background image behind the modal content */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
 
 .modal-image {
-    width: 70%; /* Set the width to 70% of the modal */
-    height: auto; /* Maintain aspect ratio */
-    /* opacity: 0.1; Make the image semi-transparent         */
-    position: absolute; 
-    transform: translateY(-50%) scaleX(-1); /* Center and flip */
-    position: absolute; /* Position it absolutely within the modal background */
-    top: 70%; /* Adjusted to lower the image */
-    right: 0%;/* Align to the right */
+    width: 70%;
+    height: auto;
+    position: absolute;
+    transform: translateY(-50%) scaleX(-1);
+    position: absolute;
+    top: 70%;
+    right: 0%;
 }
+
+#scoreModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+.certificate {
+            padding: 20px;
+            text-align: center;
+            background-color: #f3f3f3;
+            border: 2px solid #ccc;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+
     </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
@@ -985,7 +980,8 @@ input[type="range"]::-moz-range-thumb {
     </div>
 </div>
 
-
+<audio id="playerAttackSound" src="{{ asset('audio/player-attack.mp3') }}" preload="auto"></audio>
+    <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 <div id="learning-modal">
     <div class="modal-background">
@@ -1178,6 +1174,8 @@ input[type="range"]::-moz-range-thumb {
         </div>
     </div>
 
+
+
         <div class="modal-overlay-result" id="resultsModal" style="display: none;">
     <div class="modal-result">
         <h1>Congratulations! You have completed the Game!</h1>
@@ -1186,9 +1184,24 @@ input[type="range"]::-moz-range-thumb {
         <button onclick="playAgain()">Play Again</button>
     </div>
 </div>
+
+<div id="certificateModal" class="certificate-modal" style="display: none;">
+    <div class="certificate">
+        <h1>Certificate of Achievement</h1>
+        <p>This certificate is awarded to:</p>
+        <h2 id="userName">John Doe</h2>
+        <p>For achieving a score of</p>
+        <h2 id="userScore">80%</h2>
+        <p>Date: <span id="date"></span></p>
+        <button onclick="downloadCertificate()">Download Certificate</button>
+    </div>
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script>
 
 function showGameOverModal() {
@@ -1211,6 +1224,7 @@ function showGameOverModal() {
     // Show settings modal when settings icon is clicked
     $('#settingsIcon').click(function() {
         $('#settingsModal').show();
+        pauseTimer();
     });
 
     // Close settings modal
@@ -1222,6 +1236,7 @@ function showGameOverModal() {
     $('#resumeButton').click(function() {
         closeSettingsModal(); // Close the modal
         // Additional logic to resume the game can go here
+        resumeTimer();
     });
 
     // Quit game button functionality
@@ -1237,82 +1252,95 @@ function showGameOverModal() {
 document.querySelectorAll('button, a').forEach(function(element) {
     element.addEventListener('click', playClickSound);
 });
-        const gameState = {
-    level: 1,
-    playerHp: 100,
-    monsterHp: 100,
-    isAttacking: false,
-    attackFrame: 0,
-    shuffling: false,
-    canClick: false,
-    images: [
+let gameState = {
+            level: 1,
+            playerHp: 100,
+            monsterHp: 100,
+            isAttacking: false,
+            attackFrame: 0,
+            shuffling: false,
+            canClick: false,
+            images: [
 
-{
-        original: 'images/medium/bicycle.webp',
-        outlines: [
-            'images/medium/bicycle_outline.webp',
-            'images/medium/house_outline.jpg',
-            'images/medium/coffeemug_outline.webp'
-        ]
-    },
+                {
+                    original: 'images/easy/ball.png',
+                    outlines: [
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/apple_outline.jpg',
+                        'images/easy/vase_outline.jpg'
+                    ]
+                },
 
-    {
-        original: 'images/medium/coffeemug.webp',
-        outlines: [
-            'images/medium/coffeemug_outline.webp',
-            'images/medium/house_outline.jpg',
-            'images/medium/bicycle_outline.webp'
-        ]
-    },
+                {
+                    original: 'images/easy/triangle.webp',
+                    outlines: [
+                        'images/easy/triangle_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg'
+                    ]
+                },
 
-    {
-        original: 'images/medium/house.webp',
-        outlines: [
-            'images/medium/house_outline.jpg',
-            'images/medium/coffeemug_outline.webp',
-            'images/medium/laptop_outline.jpg'
-        ]
-    },
+                {
+                    original: 'images/easy/box.jpg',
+                    outlines: [
+                        'images/easy/box_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg'
+                    ]
+                },
 
-    {
-        original: 'images/medium/laptop.jpg',
-        outlines: [
-            'images/medium/laptop_outline.jpg',
-            'images/medium/coffeemug_outline.webp',
-            'images/medium/house_outline.jpg'
-        ]
-    }
-],
+                {
+                    original: 'images/easy/vase.jpg',
+                    outlines: [
+                        'images/easy/vase_outline.jpg',
+                        'images/easy/apple_outline.jpg',
+                        'images/easy/triangle_outline.jpg'
+                    ]
+                },
+                {
+                    original: 'images/easy/balloon.jpg',
+                    outlines: [
+                        'images/easy/balloon_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/apple_outline.jpg'
+                    ]
+                }
+            ],
 
-level2Images: [
-    {
-        image: 'images/medium/laptop.jpg',
-        answer: 'laptop'
-    },
-    
-    {
-        image: 'images/medium/house.webp',
-        answer: 'house'
-    },
+            level2Images: [
+                {
+                    image: 'images/easy/balloon.jpg',
+                    answer: 'balloon'
+                },
 
-    {
-        image: 'images/medium/coffeemug.webp',
-        answer: 'coffee mug'
-    },
+                {
+                    image: 'images/easy/vase.jpg',
+                    answer: 'vase'
+                },
 
-    {
-        image: 'images/medium/bicycle.webp',
-        answer: 'bicycle'
-    },
+                {
+                    image: 'images/easy/ball.png',
+                    answer: 'ball'
+                },
 
-    {
-        image: 'images/medium/cat.jpg',
-        answer: 'cat'
-    }
-]
+                {
+                    image: 'images/easy/apple.jpg',
+                    answer: 'apple'
+                },
 
+                {
+                    image: 'images/easy/box.jpg',
+                    answer: 'box'
+                }
+            ],
+            playerX: 100,
+            playerY: 150,
+            monsterX: 600,
+            monsterY: 100,
+            playerHurt: false,
+            monsterHurt: false
 
-};
+        };
 
 const gameScene = document.getElementById('gameScene');
 const ctx = gameScene.getContext('2d');
@@ -1334,7 +1362,7 @@ const startX = (590 - totalWidth) / 2;
 let cards = [];
 let currentBlurLevel = 20;
 
-let timerDuration = 30; // Set duration for the timer (in seconds)
+ // Set duration for the timer (in seconds)
 let timerId;
 let timeLeft; // Variable to hold the remaining time
 let isPaused = false; // Flag to track if the timer is paused
@@ -1348,21 +1376,23 @@ function updateScore(points) {
 }
 
 function startTimer() {
-    timeLeft = timerDuration; // Reset time left to initial duration
-    document.getElementById('countdownTimer').textContent = timeLeft;
-
-    timerId = setInterval(() => {
-        if (isPaused) { // Check if the timer is not paused
-            timeLeft--;
+            const timerDuration = 30;
+            timeLeft = timerDuration; // Reset time left to initial duration
             document.getElementById('countdownTimer').textContent = timeLeft;
 
-            if (timeLeft <= 0) {
-                alert("Time's up!"); // Notify player when time runs out
-                endLevel(); // Call a function to end the level
-            }
+            timerId = setInterval(() => {
+                if (isPaused) { // Check if the timer is not paused
+                    timeLeft--;
+                    document.getElementById('countdownTimer').textContent = timeLeft;
+
+                    if (timeLeft <= 0) {
+                        showGameOverModal();
+                        pauseTimer();// Notify player when time runs out
+                        endLevel(); // Call a function to end the level
+                    }
+                }
+            }, 1000); // Update every second
         }
-    }, 1000); // Update every second
-}
 
 function pauseTimer() {
     isPaused = false; // Set the paused flag to true
@@ -1374,8 +1404,8 @@ function resumeTimer() {
 
 function endLevel() {
     clearInterval(timerId);
-    timeLeft = timerDuration;
-    document.getElementById('countdownTimer').textContent = timeLeft;
+    // timeLeft = timerDuration;
+    // document.getElementById('countdownTimer').textContent = timeLeft;
      // Stop the timer
     // Add your logic to transition to the next level or handle level completion here
 }
@@ -1403,7 +1433,7 @@ function startLevel5() {
     const modal = document.getElementById('level4CompleteModal');
     modal.style.display = 'none';
     gameState.level = 5;
-    showLearningMaterial(5); 
+    showMonologuesInSequence(5);; 
     updateStats(); 
     initializeLevel5(); 
 }
@@ -1412,7 +1442,7 @@ function startLevel4() {
     const modal = document.getElementById('level3CompleteModal');
     modal.style.display = 'none';
     gameState.level = 4;
-    showLearningMaterial(4);
+    showMonologuesInSequence(4);;
     updateStats(); 
     initializeLevel4(); 
 }
@@ -1422,7 +1452,7 @@ function startLevel3() {
     const modal = document.getElementById('level2CompleteModal');
     modal.style.display = 'none';
     gameState.level = 3;
-    showLearningMaterial(3);
+    showMonologuesInSequence(3);;
     updateStats();
     initializeLevel3();
 }
@@ -1466,16 +1496,22 @@ function initializeGame() {
     } else if (gameState.level === 2) {
         level2Content.style.display = 'block';
         switchToLevel2();
+        gameState.monsterHp = 100;
     } else if (gameState.level === 3) {
         level3Content.style.display = 'block';
         initializeLevel3();
+        gameState.monsterHp = 100;
     } else if (gameState.level === 4) {
         level4Content.style.display = 'block';
         initializeLevel4();
+        gameState.monsterHp = 100;
     } else if (gameState.level == 5) {
         level5Content.style.display = 'block';
         initializeLevel5();
+        gameState.monsterHp = 100;
     }
+    console.log(gameState.level);
+            console.log(currentLevel);
 }
 
 
@@ -1527,9 +1563,8 @@ function createConfetti() {
 function startLevel2() {
     const modal = document.getElementById('levelCompleteModal');
     modal.style.display = 'none';
-    showLearningMaterial(2);
+    showMonologuesInSequence(2);
     switchToLevel2();
-    currentLevel++;
     console.log(currentLevel);
 }
 
@@ -1541,6 +1576,8 @@ function showLevel1CompleteModal() {
 
 function showLevel2CompleteModal() {
     const modal = document.getElementById('level2CompleteModal');
+    console.log(gameState.level);
+    level2Content.style.display = 'none';
     modal.style.display = 'flex';
     createConfetti();
 }
@@ -1663,7 +1700,7 @@ function handleCardClick(cardData) {
         updateScore(15); // Award 10 points for correct guess
 
         setTimeout(() => {
-            attackMonster();
+            attackMonster(100);
         }, 1500);
 
         setTimeout(() => {
@@ -1682,6 +1719,7 @@ function handleCardClick(cardData) {
         }, 500);
 
         setTimeout(() => {
+            monsterAttack();
             takeDamage();
         }, 1000);
 
@@ -1696,63 +1734,73 @@ function handleCardClick(cardData) {
 }
 
 function switchToLevel2() {
-    // endLevel(); // Ensure to clear the timer from Level 1 before switching
+            // Ensure that the timer and level 1 state are cleared
+            level1Content.style.display = 'none'; // Hide Level 1 content
+            level2Content.style.display = 'block'; // Show Level 2 content
+            guessContainer.style.display = 'flex'; // Display guess container for level 2
+            console.log(isStartLevel);
+            // Randomly select an image from the level2Images array
+            const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
+            const selectedImage = gameState.level2Images[randomImageIndex];
 
-    level1Content.style.display = 'none';
-    level2Content.style.display = 'block';
-    guessContainer.style.display = 'flex';
+            // Set up level 2 with the randomly selected image
+            blurredImage.src = selectedImage.image;
 
-    // Randomly select an image from the level2Images array
-    const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
-    const selectedImage = gameState.level2Images[randomImageIndex];
+            // **Reset the blur to 100px at the start to ensure consistent animation**
+            blurredImage.style.transition = 'none'; // Remove any existing transition
+            blurredImage.style.filter = 'blur(100px)'; // Reset the blur to 100px
 
-    // Set up level 2 with the randomly selected image
-    blurredImage.src = selectedImage.image;
-    blurredImage.style.filter = 'blur(50px)';
+            // Delay the blur reduction to create the animation effect
+            setTimeout(() => {
+                if (isStartLevel) {
+                    
 
-    // Start reducing blur after a brief delay
+                    blurredImage.style.transition = 'filter 6s ease'; // Ensure smooth transition
+                    blurredImage.style.filter = 'blur(0px)';
 
-    if (isStartLevel) {
-    setTimeout(() => {
-        blurredImage.style.filter = 'blur(0px)'; // Remove blur effect completely
-    }, 150); // Reduce the timeout duration for faster removal
-    
-    // Start the timer for Level 2
-    startNewLevel(2);
+                }// Reduce the blur to 0px
+            }, 10);
 
-    // Store the selected image in the game state to use it later during the guess check
-    gameState.currentLevel2Image = selectedImage;
-    } 
-    blurredImage.addEventListener('transitionend', () => {
-        endLevel();
-        pauseTimer();
-        alert("Game Over!");
-        // Add any additional logic here, such as navigating to another screen or resetting the game
-    }, { once: true });
-}
+            // Start the timer for Level 2
+            startNewLevel(2);
+
+            // Store the selected image in the game state for later use
+            gameState.currentLevel2Image = selectedImage;
+
+            // Event listener for when the blur animation ends
+            blurredImage.addEventListener('transitionend', () => {
+                // Handle when blur finishes
+                endLevel();
+                pauseTimer();
+                showGameOverModal();
+            }, { once: true }); // Ensure the event only fires once per call
+        }
 
 // Event listener for submitting a guess
 submitGuess.addEventListener('click', () => {
-    const guess = guessInput.value.toLowerCase().trim();
-    const currentImage = gameState.currentLevel2Image;
-    
-    if (guess === currentImage.answer) {
-        document.getElementById('message').textContent = "Correct! You identified the image!";
-        currentLevel++;
-        level2Content.style.display = 'none';
-        gameState.level++;
-        attackMonster(); // Force monster defeat to trigger level completion
-        
-        // Update score for correct answer
-        updateScore(15); // Award 20 points for correct guess
-        // showLevel2CompleteModal(); // Show level 2 completion modal
-    } else {
-        document.getElementById('message').textContent = "Wrong guess! Try again!";
-        takeDamage(); // Handle player damage on wrong guess
-    }
-    
-    guessInput.value = ''; // Clear input field after submission
-});
+            const guess = guessInput.value.toLowerCase().trim();
+            const currentImage = gameState.currentLevel2Image;
+
+            if (guess === currentImage.answer) {
+                document.getElementById('message').textContent = "Correct! You identified the image!";
+                gameState.level++;
+                level2Content.style.display = 'none';
+                attackMonster(100);
+                // Force monster defeat to trigger level completion
+                isStartLevel = false;
+                // Update score for correct answer
+                updateScore(10); // Award 20 points for correct guess
+                // showLevel2CompleteModal(); // Show level 2 completion modal
+            } else {
+                document.getElementById('message').textContent = "Wrong guess! Try again!";
+                monsterAttack();
+                takeDamage(); // Handle player damage on wrong guess
+            }
+            if (gameState.monsterHp > 0) {
+                switchToLevel2();
+            }
+            guessInput.value = ''; // Clear input field after submission
+        });
 
 function initializeLevel3() {
     const level3Content = document.getElementById('level3Content');
@@ -1812,7 +1860,7 @@ function handleDrop(e) {
             setTimeout(() => {
                 showLevel3CompleteModal();
                 gameState.level++;
-                attackMonster(); // Assuming this triggers the next stage of the game
+                attackMonster(100); // Assuming this triggers the next stage of the game
             }, 500);
         }
     } else {
@@ -1967,7 +2015,7 @@ function initializeLevel4() {
             
             showLevel4CompleteModal(); // Show completion modal
             gameState.level++; // Progress to the next level
-            attackMonster(); // Move to the next stage or action
+            attackMonster(100); // Move to the next stage or action
         } else {
             document.getElementById('message').textContent = `Incorrect color! Try again!`;
             takeDamage(); // Handle incorrect color guess
@@ -2043,20 +2091,21 @@ function initializeLevel5() {
 
 
 function initializePostTest() {
+            pauseTimer(); // Pause any timers if applicable
+            const totalScore = gameState.totalScore || 0;
 
-pauseTimer();
-const totalScore = gameState.totalScore || 0;
-level1Content.style.display = 'none';
-level2Content.style.display = 'none';
-level3Content.style.display = 'none';
-level4Content.style.display = 'none';
-level5Content.style.display = 'none';
+            // Hide level content
+            document.getElementById('level1Content').style.display = 'none';
+            document.getElementById('level2Content').style.display = 'none';
+            document.getElementById('level3Content').style.display = 'none';
+            document.getElementById('level4Content').style.display = 'none';
+            document.getElementById('level5Content').style.display = 'none';
 
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
 
-const questions = [
-    {
+            const questions = [
+                {
     question: "What is outline classification in image recognition?",
     answers: [
         "Identifying edges",
@@ -2276,233 +2325,240 @@ const questions = [
     correct: 0,
     topic: "FeatureExtraction"
 }
-];
+              
+            ];
 
-let currentQuestion = 0;
-let score = 0; // Variable to keep track of the score
-let totalQuestions = questions.length; // Total number of questions
-let gameActive = true; // Variable to track if the game is ongoing
+            let currentQuestion = 0;
+            let score = 0; // Variable to keep track of the score
+            const totalQuestions = questions.length; // Total number of questions
+            let gameActive = true; // Variable to track if the game is ongoing
 
-const targetSize = 100; // Size of the asteroid shape
-const targets = [
-    { x: 100, y: 300, dx: 2, dy: 2, shape: 'A' }, // Position and shape for answer A
-    { x: 300, y: 300, dx: -2, dy: 2, shape: 'B' }, // Position and shape for answer B
-    { x: 500, y: 300, dx: 2, dy: -2, shape: 'C' }, // Position and shape for answer C
-    { x: 700, y: 300, dx: -2, dy: -2, shape: 'D' }  // Position and shape for answer D
-];
+            let crosshairX = 400; // Initial crosshair position
+            let crosshairY = 300; // Initial crosshair position
 
-let crosshairX = 50, crosshairY = 50;
+            // Function to draw the game
+            function drawGame() {
+                if (!gameActive) return; // Stop drawing if the game is inactive
 
-// Function to draw the game
-function drawGame() {
-    if (!gameActive) return; // Stop drawing if the game is inactive
+                // Check if currentQuestion is within the valid range
+                if (currentQuestion < totalQuestions) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Check if currentQuestion is within the valid range
-    if (currentQuestion < totalQuestions) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // Draw question
+                    document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-        // Draw question
-        document.getElementById('questionText').innerText = questions[currentQuestion].question;
-
-        // Draw and update moving targets
-        questions[currentQuestion].answers.forEach((answer, i) => {
-            // Move targets
-            targets[i].x += targets[i].dx;
-            targets[i].y += targets[i].dy;
-
-            // Reverse direction if hitting canvas edges
-            if (targets[i].x + targetSize > canvas.width || targets[i].x < 0) {
-                targets[i].dx = -targets[i].dx;
-            }
-            if (targets[i].y + targetSize > canvas.height || targets[i].y < 0) {
-                targets[i].dy = -targets[i].dy;
-            }
-
-            // Draw target (as an asteroid shape)
-            drawAsteroid(targets[i].x, targets[i].y, targets[i].shape);
-            ctx.fillStyle = "white"; // Set text color to white
-            ctx.fillText(answer, targets[i].x - 50, targets[i].y + 10); // Adjusted text position for larger asteroids
-        });
-
-        // Draw crosshair
-        drawCrosshair(crosshairX, crosshairY);
-    }
-}
-
-// Function to draw different asteroid shapes based on the shape identifier
-function drawAsteroid(x, y, shape) {
-    const gradient = ctx.createRadialGradient(x + 30, y + 30, 10, x + 30, y + 30, 80);
-    gradient.addColorStop(0, 'gray');
-    gradient.addColorStop(1, 'darkslategray');
-
-    ctx.fillStyle = gradient; // Use gradient as fill color
-    ctx.beginPath();
-
-    switch (shape) {
-        case 'A':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 30, y - 40, x + 90, y - 40, x + 80, y);
-            ctx.bezierCurveTo(x + 110, y + 30, x + 60, y + 60, x, y + 40);
-            ctx.bezierCurveTo(x - 30, y + 10, x - 40, y - 30, x, y);
-            break;
-        case 'B':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 20, y - 60, x + 90, y - 30, x + 70, y + 30);
-            ctx.bezierCurveTo(x + 50, y + 60, x + 30, y + 40, x, y + 20);
-            ctx.bezierCurveTo(x - 40, y - 10, x - 20, y - 50, x, y);
-            break;
-        case 'C':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 20, y - 20, x + 80, y - 60, x + 50, y);
-            ctx.bezierCurveTo(x + 90, y + 10, x + 40, y + 50, x, y + 20);
-            ctx.bezierCurveTo(x - 30, y + 10, x - 20, y - 30, x, y);
-            break;
-        case 'D':
-            ctx.moveTo(x, y);
-            ctx.bezierCurveTo(x + 10, y - 30, x + 70, y - 20, x + 50, y);
-            ctx.bezierCurveTo(x + 80, y + 10, x + 30, y + 30, x, y + 10);
-            ctx.bezierCurveTo(x - 20, y + 20, x - 30, y - 20, x, y);
-            break;
-    }
-
-    ctx.closePath();
-    ctx.fill();
-}
-
-// Function to draw crosshair
-function drawCrosshair(x, y) {
-    ctx.strokeStyle = "white"; // Set crosshair color to white
-    ctx.beginPath();
-    ctx.moveTo(x - 10, y);
-    ctx.lineTo(x + 10, y);
-    ctx.moveTo(x, y - 10);
-    ctx.lineTo(x, y + 10);
-    ctx.stroke();
-}
-
-// Mouse move event to update crosshair position
-canvas.addEventListener('mousemove', function (event) {
-    const rect = canvas.getBoundingClientRect();
-    crosshairX = event.clientX - rect.left;
-    crosshairY = event.clientY - rect.top;
-});
-
-// Click event to handle answer selection
-canvas.addEventListener('click', function () {
-    const targetIndex = targets.findIndex(target =>
-        crosshairX > target.x && crosshairX < target.x + targetSize &&
-        crosshairY > target.y && crosshairY < target.y + targetSize
-    );
-
-    if (targetIndex !== -1 && gameActive) {
-        // Update score for correct answer
-        if (targetIndex === questions[currentQuestion].correct) {
-            score++; // Increase score for correct answer
-        }
-        currentQuestion++;
-
-        // Check if there are more questions left
-        if (currentQuestion < totalQuestions) {
-            drawGame();
-        } else {
-            // Display end of game modal
-
-            const percentageScore = (score / totalQuestions) * 100;
-            document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-            document.getElementById('scoreModal').style.display = 'flex'; // Show modal
-
-            // Check if the user passed or failed
-            if (percentageScore >= 80) {
-                document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                const updatedTotalScore = totalScore + score;
-
-                // Update the game state with the new total score
-                gameState.totalScore = updatedTotalScore;
-
-                // Display the total score including the post-test score
-                console.log(updatedTotalScore);
-                showModal(updatedTotalScore);
-                document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-
-
-                // Save the score to the database
-                const baseUrl = window.location.origin;
-                const userId = localStorage.getItem('user_id');
-                console.log('User ID:', userId); // Get user ID from local storage
-
-                // First, update the user's hard_finish status
-                fetch(`${baseUrl}/update-hard-finish/${userId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                    },
-                    body: JSON.stringify({ hard_finish: 1 }) // Set hard_finish to true
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('hard_finish updated successfully:', data);
-
-                        // After updating hard_finish, now save the score
-                        return fetch(`${baseUrl}/hard-update-score/${userId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                            },
-                            body: JSON.stringify({ score: updatedTotalScore })
-                        });
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Score updated successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error updating score or hard_finish:', error);
+                    // Draw stationary targets
+                    questions[currentQuestion].answers.forEach((answer, i) => {
+                        const xPos = 100 + (i * 200); // Calculate X position for each target
+                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
                     });
-                document.getElementById('postTestContainer').style.display = 'none';
-            } else {
-                document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+
+                    // Draw crosshair
+                    drawCrosshair(crosshairX, crosshairY); 
+                }
             }
 
-            // Stop the game
-            gameActive = false; // Set the game to inactive
+            // Function to draw targets with answers inside
+            function drawTarget(x, y, answer) {
+    const targetSize = 80; // Size of the target shape
+    const innerCircleSize = 70; // Size of the inner circle
 
-                setTimeout(() => {
-                currentQuestion = 0; // Reset to the first question
-                score = 0; // Reset score
-                gameActive = true; // Reactivate the game
-                window.location.href = "{{ route('hard') }}"; // Restart the game
-            }, 1000);
-        }
-    }
-});
+    // Draw outer target (white circle)
+    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.beginPath();
+    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
+    ctx.fill();
+    ctx.closePath();
 
-// Initial game draw and interval setup
-drawGame(); // Initial game draw
-setInterval(drawGame, 100); // Continuously update the game
-// Continuously update the game
+    // Draw inner target (red circle outline)
+    ctx.strokeStyle = "red"; // Outline color for the inner circle
+    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.beginPath();
+    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
+    ctx.stroke();
+    ctx.closePath();
 
+    // Draw the answer inside the target
+    ctx.fillStyle = "black"; // Text color
+    ctx.font = "16px Arial"; // Font style
+    ctx.textAlign = "center"; // Center text alignment
+    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+}
+
+            // Function to draw crosshair
+            function drawCrosshair(x, y) {
+                ctx.strokeStyle = "red"; // Crosshair color
+                ctx.lineWidth = 2; // Crosshair line width
+                ctx.beginPath();
+                ctx.moveTo(x - 10, y);
+                ctx.lineTo(x + 10, y);
+                ctx.moveTo(x, y - 10);
+                ctx.lineTo(x, y + 10);
+                ctx.stroke();
+            }
+
+            canvas.addEventListener('mousemove', function (event) {
+                const rect = canvas.getBoundingClientRect();
+                crosshairX = event.clientX - rect.left; // Update crosshair X position
+                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
+                drawGame(); // Redraw the game to update the crosshair position
+            });
+
+            // Click event to handle answer selection
+            canvas.addEventListener('click', function () {
+                const targetSize = 80; // Size of the target shape
+
+                // Check if a target was clicked
+                questions[currentQuestion].answers.forEach((answer, i) => {
+                    const xPos = 100 + (i * 200); // Calculate X position for the target
+
+                    if (
+                        crosshairX > xPos - targetSize &&
+                        crosshairX < xPos + targetSize &&
+                        crosshairY > 300 - targetSize &&
+                        crosshairY < 300 + targetSize
+                    ) {
+                        if (i === questions[currentQuestion].correct) {
+                score++; // Increase score for correct answer
+            }
+            currentQuestion++;
+
+            // Check if there are more questions left
+            if (currentQuestion < totalQuestions) {
+                drawGame();
+            } else {
+                // Display end of game modal
+                const percentageScore = (score / totalQuestions) * 100;
+                document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+                document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+
+                function displayCertificate(score) {
+    // Fetch user data from the backend
+    fetch('/certificate-data') // Replace with your correct route
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('userName').innerText = data.name; // Set the name on the certificate
+            document.getElementById('userScore').innerText = `${score}%`; // Set the score on the certificate
+            document.getElementById('date').innerText = data.date; // Set the current date
+
+            // Display the certificate modal
+            document.getElementById('certificateModal').style.display = 'block';
+        });
 }
 
 
-function attackMonster() {
-    pauseTimer();
+// Function to download the certificate as an image
+function downloadCertificate() {
+    const certificate = document.querySelector('.certificate');
+    
+    html2canvas(certificate).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'certificate.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+                // Check if the user passed or failed
+                if (percentageScore >= 80) {
+                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
+                    const updatedTotalScore = gameState.totalScore + score;
+                    displayCertificate(percentageScore);
+
+                    // Update the game state with the new total score
+                    gameState.totalScore = updatedTotalScore;
+
+                    // Display the total score including the post-test score
+                    console.log(updatedTotalScore);
+                    showModal(updateScore);
+                    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+
+                    // Save the score to the database
+                    const baseUrl = window.location.origin;
+                    const userId = localStorage.getItem('user_id');
+                    console.log('User ID:', userId); // Get user ID from local storage
+
+                    // First, update the user's hard_finish status
+                    fetch(`${baseUrl}/update-hard-finish/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                        },
+                        body: JSON.stringify({ hard_finish: 1 }) // Set hard_finish to true
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('hard_finish updated successfully:', data);
+
+                            // After updating hard_finish, now save the score
+                            return fetch(`${baseUrl}/hard-update-score/${userId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                                },
+                                body: JSON.stringify({ score: updatedTotalScore })
+                            });
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Score updated successfully:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error updating score or hard_finish:', error);
+                        });
+                    document.getElementById('postTestContainer').style.display = 'none';
+                } else {
+                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+                    setTimeout(() => {
+                        currentQuestion = 0; // Reset to the first question
+                        score = 0; // Reset score
+                        gameActive = true; // Reactivate the game
+                        window.location.href = "{{ route('hard') }}"; // Restart the game
+                    }, 1000);
+                }
+                gameActive = false;
+            }
+        }
+    });
+});
+            drawGame();
+            setInterval(drawGame, 100);
+            document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
+        }
+
+        function showModal(score) {
+            document.getElementById('score').textContent = "Your total score: " + score; // Set the score
+            document.getElementById('resultsModal').style.display = 'flex'; // Show modal
+        }
+
+        function closeModal() {
+            document.getElementById('resultsModal').style.display = 'none';
+            window.location.href = "{{ route('play') }}"; // Hide modal
+        }
+
+        function playAgain() {
+            window.location.href = "{{ route('hard') }}"; // Redirect to hard.blade.php
+        }
+
+
+function attackMonster(damage) {
     gameState.isAttacking = true;
     gameState.attackFrame = 0;
-    gameState.monsterHp = Math.max(0, gameState.monsterHp - 10);
+    gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
 
-    if (gameState.monsterHp < 0) {
+    if (gameState.monsterHp === 0) {
+        pauseTimer();
         if (gameState.level === 1) {
             showLevel1CompleteModal();
         } else if (gameState.level === 2) {
@@ -2516,7 +2572,14 @@ function attackMonster() {
             alert("Congratulations! You've completed all levels!");
             resetGame();
         }
+        
     }
+
+    if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
+                gameState.isPlayerAttacking = true;
+                gameState.attackFrame = 0;
+                animateAttack('player');
+            }
     updateStats();
 }
 
@@ -2532,57 +2595,143 @@ function takeDamage() {
     }
 }
 
+function monsterAttack() {
+            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
+                gameState.isMonsterAttacking = true;
+                gameState.attackFrame = 0;
+                animateAttack('monster');
+            }
+        }
+
 const learningMaterials = {
-    1: "Outlines are essential in image recognition, defining object shapes and distinguishing them from the background. They simplify object recognition, aiding tasks like shape recognition and segmentation. Used in fields like handwriting recognition and medical imaging, outline exercises improve shape recognition skills and prepare users for advanced image analysis.",
-    
-    2: "Pixelation simplifies images into square blocks, reducing detail but keeping shape and color. It's useful for privacy, digital art, and image recognition by helping users focus on broader features. Though challenging, practicing with different pixelation levels improves object recognition skills. Applications include security and training machine learning models to recognize objects with varying detail.",
-    
-    3: "Feature extraction is a key step in image recognition, identifying important characteristics like edges, corners, and textures to help classify objects. Techniques like SIFT and SURF aid in this process, focusing on relevant image details. Mastering feature extraction is crucial for tasks like object detection and computer vision, and interactive practice can strengthen these skills.",
-    
-    4: "Color identification is crucial in image recognition, helping users distinguish objects by their color properties. Techniques like color histograms and RGB analysis reveal color distributions within images. This skill is essential in fields like image editing, product categorization, and medical imaging. Practicing color identification enhances visual perception and strengthens image analysis abilities.",
-
-    5: "Object detection is key in image recognition, focusing on identifying and locating objects within images, often marked by bounding boxes. It's used in areas like autonomous vehicles, surveillance, and augmented reality. Challenges include object variations, occlusions, lighting changes, and detecting small or cluttered objects. Techniques like data augmentation, transfer learning, and multi-scale detection help improve accuracy."
+    1: [
+        "Outlines define object shapes and distinguish them from the background. This helps simplify object recognition.",
+        "Using outlines helps with tasks like shape recognition and segmentation. They are used in handwriting recognition.",
+        "Outlines help prepare users for advanced image analysis by improving shape recognition skills."
+    ],
+    2: [
+        "Pixelation simplifies images by reducing detail but keeping shape and color intact.",
+        "Different pixelation levels help improve object recognition skills by focusing on broader features.",
+        "Practicing with pixelation aids in training machine learning models to recognize objects with varying detail."
+    ],
+    3: [
+        "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
+        "Techniques like SIFT and SURF focus on relevant image details for tasks like object detection.",
+        "Mastering feature extraction strengthens skills in object detection and computer vision."
+    ],
+    4: [
+        "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
+        "RGB analysis reveals color distributions and helps improve image analysis abilities.",
+        "Practicing color identification is vital for fields like image editing and medical imaging."
+    ],
+    5: [
+        "Object detection focuses on identifying and locating objects within images, marked by bounding boxes.",
+        "It's used in autonomous vehicles, surveillance, and augmented reality applications.",
+        "Object variations and occlusions are challenges that can be addressed with techniques like data augmentation."
+    ]
 };
- // Set the current level
 
-function showLearningMaterial(level) {
+let currentMonologueIndex = 0;
+let monologueInterval;
+let availableVoices = [];
+
+// Function to display monologues one by one for a given level
+function showMonologuesInSequence(level, delay = 10000) {
     endLevel();
-    const learningText = learningMaterials[level];
-    document.getElementById("learning-text").innerText = learningText;
-    document.getElementById("learning-modal").style.display = "block";
+    const monologues = learningMaterials[level];
+    const monologueElement = document.getElementById("learning-text");
+    const startButton = document.getElementById("start-level-btn");
+
+    // Reset the index and initial monologue
+    currentMonologueIndex = 0;
+    monologueElement.innerText = monologues[currentMonologueIndex];
+    document.getElementById("learning-modal").style.display = "block"; // Show modal
+    startButton.style.display = "none"; // Hide start button initially
+
+    // Speak the first monologue with a slight delay
+    setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
+
+    // Display each monologue with a delay
+    monologueInterval = setInterval(() => {
+        currentMonologueIndex++;
+        if (currentMonologueIndex < monologues.length) {
+            monologueElement.innerText = monologues[currentMonologueIndex];
+            speakText(monologues[currentMonologueIndex]); // Speak each new monologue
+        } else {
+            clearInterval(monologueInterval); // Stop interval when done
+            startButton.style.display = "block"; // Show the start button
+        }
+    }, delay);
 }
 
-// Close modal function
-document.querySelector(".close").onclick = function() {
-    document.getElementById("learning-modal").style.display = "none";
+// Text-to-Speech function with voice selection by index or name
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    // Fetch available voices
+    availableVoices = window.speechSynthesis.getVoices();
+
+    // Select a specific voice by index or name
+    const selectedVoiceName = "Google UK English Female";
+    const selectedVoice = availableVoices.find(voice => voice.name === selectedVoiceName);
+
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    } else if (availableVoices.length > 0) {
+        utterance.voice = availableVoices[0]; // Default to first available voice
+    }
+
+    utterance.rate = 1; // Adjust the speech rate if necessary
+    window.speechSynthesis.speak(utterance);
+}
+
+// Ensure the game doesn't start before learning materials are shown
+window.onload = function () {
+    // Load available voices asynchronously
+    window.speechSynthesis.onvoiceschanged = function() {
+        availableVoices = window.speechSynthesis.getVoices();
+        if (availableVoices.length === 0) {
+            console.error("No voices found. Speech synthesis may not work.");
+        } else {
+            console.log("Voices loaded successfully.");
+        }
+        showMonologuesInSequence(1); // Automatically start the monologues for level 1
+    };
 };
 
-document.getElementById("start-level-btn").onclick = function() {
-    resumeTimer();
-    document.getElementById("learning-modal").style.display = "none";
-    startLevel(currentLevel); // Call your existing level start function here
-    if(currentLevel === 1){
-        startTimer();
+// Function to start the game when the button is clicked
+document.getElementById("start-level-btn").onclick = function () {
+    clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+
+    // Play background music
+    
+
+    // If the level starts, play the background music
+    if (currentLevel === 1) {
         draw();
         setTimeout(() => {
-            flipAllCards(true);
-            setTimeout(shuffle, 1000);
+            flipAllCards(true); // Flip all cards face up
+            setTimeout(shuffle, 1000); // Shuffle after a delay
         }, 1000);
-    }else if(currentLevel === 2){
+        currentLevel++;
+    } else if (currentLevel === 2) {
+        draw();
         isStartLevel = true;
         switchToLevel2();
+        currentLevel++;
     }
-    
 };
 
 function startLevel(level) {
-    // Logic to start the level goes here
     console.log("Starting level:", level);
-    // Example: Load level-specific content or set up the game for the current level
 }
-
-// Example of how to call the showLearningMaterial function
-showLearningMaterial(currentLevel);
 
 function resetGame() {
     gameState.level = 1;
@@ -2612,73 +2761,221 @@ function updateStats() {
 }
 
 const playerImage = new Image();
-playerImage.src = 'images/characters/player.png'; // Replace with the correct path
+        playerImage.src = 'images/characters/player.png'; // Replace with the correct path
 
-const monsterImages = [
-    'images/characters/monster1.png', // Replace with correct paths
-    'images/characters/monster2.png',
-    'images/characters/monster3.png'
-];
+        const monsterImages = [
+            'images/characters/monster1.png', // Replace with correct paths
+            'images/characters/monster2.png',
+            'images/characters/monster3.png'
+        ];
 
-const backgroundImage = new Image();
-backgroundImage.src = 'images/background.jpg';
+        const backgroundImage = new Image();
+        backgroundImage.src = 'images/background.jpg';
 
-let currentMonsterImage = new Image();
-currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+        let currentMonsterImage = new Image();
+        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-function draw() {
-    // ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+        function draw() {
+    // Clear the game scene
+    ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+
+    // Draw background image
     ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
 
-    // Draw player
-    ctx.drawImage(playerImage, 100, 150, 120, 120); // Adjust width and height as needed
+    // Draw player image
+    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+
+    // If the player is hurt, overlay a red tint
+    if (gameState.playerHurt) {
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+    }
 
     // Draw monster image
-    ctx.drawImage(currentMonsterImage, 550, 120, 170, 170);
+    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
-    if (gameState.isAttacking) {
-        // Draw attack animation
-        drawAttackEffect();
-        
-        gameState.attackFrame++;
-        if (gameState.attackFrame > 10) {
-            gameState.isAttacking = false;
-            gameState.attackFrame = 0; // Reset attack frame
+    // If the monster is hurt, overlay a red tint
+    if (gameState.monsterHurt) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+    }
+
+    // Check for player or monster attack
+    if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
+
+        // Play sound effects when attacking
+        if (gameState.isPlayerAttacking) {
+            let playerAttackSound = document.getElementById("playerAttackSound");
+            if (playerAttackSound.paused) {
+                playerAttackSound.play(); // Play sound if not already playing
+            }
+        }
+
+        if (gameState.isMonsterAttacking) {
+            let monsterAttackSound = document.getElementById("monsterAttackSound");
+            if (monsterAttackSound.paused) {
+                monsterAttackSound.play(); // Play sound if not already playing
+            }
+        }
+
+        // Draw attack line
+        ctx.beginPath();
+        ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
+        ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
+
+        // Draw blood splash
+        if (gameState.bloodSplash) {
+            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            for (let i = 0; i < numberOfDroplets; i++) {
+                const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
+                const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
+                const dropletRadius = Math.random() * 10 + 5;
+
+                const gradient = ctx.createRadialGradient(dropletX, dropletY, dropletRadius / 4, dropletX, dropletY, dropletRadius);
+                gradient.addColorStop(0, 'rgba(255, 0, 0, 0.9)');
+                gradient.addColorStop(1, 'rgba(139, 0, 0, 0.6)');
+
+                ctx.globalAlpha = gameState.bloodSplash.opacity;
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1; // Reset opacity
+        }
+
+        // Draw damage text
+        if (gameState.damageText) {
+            ctx.globalAlpha = gameState.damageText.opacity;
+            ctx.fillStyle = '#FF0000';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText("50", gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.globalAlpha = 1;
         }
     }
 
     requestAnimationFrame(draw);
 }
+function animateAttack(attacker, damage) {
+    const attackDuration = 30; // Number of frames for the attack animation
+    const moveDistance = 400; // Distance to move
+    const frameRate = 60; // Assuming 60 FPS
+    const bloodSplashDuration = 10; // Frames for blood splash
+    const damageTextDuration = 60; // Frames for damage text to fade out
 
-function drawAttackEffect() {
-    // Calculate the attack's position based on the frame count
-    const attackX = 100 + (gameState.attackFrame * 5); // Adjust movement speed
-    const attackYStart = 190;
-    const attackYEnd = 200;
+    // Variables to track blood splash and damage text animation
+    let bloodSplashOpacity = 1;
+    let damageTextOpacity = 1;
+    let damageTextY = 0;
 
-    ctx.beginPath();
-    ctx.moveTo(attackX, attackYStart);
-    ctx.lineTo(600, attackYEnd);
+    function animate() {
+        gameState.attackFrame++;
 
-    // Add a glowing effect during the attack
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)'; // Gold color with transparency
-    ctx.lineWidth = 6 + Math.sin(gameState.attackFrame / 10) * 2; // Pulse effect for the line width
-    ctx.shadowColor = 'rgba(255, 215, 0, 0.6)'; // Gold glow
-    ctx.shadowBlur = 15; // Blur effect for the glow
-    ctx.stroke();
-    ctx.closePath();
+    if (gameState.attackFrame <= attackDuration / 2) {
+        // Move towards the target
+        if (attacker === 'player') {
+            gameState.playerX += moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX -= moveDistance / (attackDuration / 2);
+        }
+    } else if (gameState.attackFrame === Math.floor(attackDuration / 2) + 1) {
+        // Hit the target and trigger blood splash and damage text
+        if (attacker === 'player') {
+            gameState.monsterHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.monsterX + 50, // Adjust this position to ensure it aligns with the monster's body
+                y: gameState.monsterY + 30, // Adjust Y as needed
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.monsterX + 50, // Ensure the text is positioned centrally
+                y: gameState.monsterY - 50,
+                opacity: 1
+            };
+        } else {
+            gameState.playerHurt = true;
+            gameState.bloodSplash = {
+                x: gameState.playerX + 50, // Adjust this position to align with the player's body
+                y: gameState.playerY + 30,
+                opacity: 1
+            };
+            gameState.damageText = {
+                text: `-${damage}`,
+                x: gameState.playerX + 50,
+                y: gameState.playerY - 50,
+                opacity: 1
+            };
+        }
+        updateStats();
+    } else if (gameState.attackFrame <= attackDuration) {
+        // Move back to original position
+        if (attacker === 'player') {
+            gameState.playerX -= moveDistance / (attackDuration / 2);
+        } else {
+            gameState.monsterX += moveDistance / (attackDuration / 2);
+        }
+    }
 
-    // Reset shadow properties for future draws
-    ctx.shadowColor = 'transparent'; // Remove glow effect
+    // Animate blood splash (fade out)
+    if (gameState.attackFrame > Math.floor(attackDuration / 2)) {
+        if (gameState.bloodSplash) {
+            gameState.bloodSplash.opacity -= 1 / bloodSplashDuration;
+            if (gameState.bloodSplash.opacity <= 0) {
+                gameState.bloodSplash = null; // Remove blood splash
+            }
+        }
+
+        // Animate floating damage text (move up and fade out)
+        if (gameState.damageText) {
+            gameState.damageText.opacity -= 1 / damageTextDuration;
+            gameState.damageText.y -= 2; // Move damage text upwards
+            if (gameState.damageText.opacity <= 0) {
+                gameState.damageText = null; // Remove damage text
+            }
+        }
+    }
+
+    // End of animation
+    if (gameState.attackFrame >= attackDuration) {
+        if (attacker === 'player') {
+            gameState.isPlayerAttacking = false;
+            gameState.monsterHurt = false;
+            gameState.playerX = 100; // Reset to initial position
+        } else {
+            gameState.isMonsterAttacking = false;
+            gameState.playerHurt = false;
+            gameState.monsterX = 600; // Reset to initial position
+        }
+        return;
+    }
+
+    // Continue the animation
+    requestAnimationFrame(animate);
+}
+
+// Call the animation to start it
+animate();
 }
 
 // Call this function to trigger the attack
-function triggerAttack() {
-    gameState.isAttacking = true;
-}
+function handleLevelComplete() {
+            if (gameState.level === 1) {
+                showLevel1CompleteModal();
+            } else if (gameState.level === 2) {
+                showLevel2CompleteModal();
+            } else if (gameState.level === 3) {
+                alert("Congratulations! You've completed all levels!");
+                resetGame();
+            }
+        }
+
+        // Call this function to trigger the attack
+        function triggerAttack() {
+            gameState.isAttacking = true;
+        }
 // Start the game
 initializeGame();
-
     </script>
 </body>
 

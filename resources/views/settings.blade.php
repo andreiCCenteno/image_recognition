@@ -45,7 +45,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex: 1; /* This makes sure the content takes up remaining space */
+            flex: 1;
         }
 
         .settings-container {
@@ -62,7 +62,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px; /* Margin for spacing from the top */
+            margin-top: 20px;
         }
 
         h2 {
@@ -173,7 +173,7 @@
             padding: 10px 0;
             border-top: 2px solid #00ffcc;
             animation: slideInUp 1s ease-out;
-            margin-top: auto; /* This pushes the footer to the bottom of the page */
+            margin-top: auto;
         }
 
         .footer a {
@@ -201,43 +201,47 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             h2 {
-                font-size: 2em; /* Smaller font size for smaller screens */
+                font-size: 2em;
             }
 
             .settings-button {
-                width: 100%; /* Full width buttons on smaller screens */
-                margin: 5px 0; /* Margin for spacing */
+                width: 100%;
+                margin: 5px 0;
             }
 
             .slider {
-                height: 10px; /* Smaller slider height */
+                height: 10px;
             }
 
             .slider::-webkit-slider-thumb,
             .slider::-moz-range-thumb {
-                width: 20px; /* Smaller thumb size */
-                height: 20px; /* Smaller thumb size */
+                width: 20px;
+                height: 20px;
             }
         }
 
         @media (max-width: 480px) {
             h2 {
-                font-size: 1.5em; /* Even smaller font size for very small screens */
+                font-size: 1.5em;
             }
 
             .settings-button {
-                font-size: 1em; /* Further reduce button font size */
+                font-size: 1em;
             }
 
             .setting-label {
-                font-size: 1em; /* Adjust label size */
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
+
+<audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" loop preload="auto"></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
+
 <a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
+
     <div class="main-content">
         <div class="settings-container">
             <h2>Settings</h2>
@@ -255,20 +259,67 @@
             </div>
         </div>
     </div>
+
     <div class="footer">
         <p>@All Rights Reserved</p>
     </div>
 
     <script>
-         function playClickSound() {
-    var clickSound = document.getElementById('clickSound');
-    clickSound.play();
-}
+        // Load background music
+        var bgMusic = document.getElementById('bgMusic');
+        var clickSound = document.getElementById('clickSound');
 
-// Attach the playClickSound function to all buttons and anchor tags on the page
-document.querySelectorAll('button, a').forEach(function(element) {
-    element.addEventListener('click', playClickSound);
-});
+        // Function to load saved volume levels from localStorage
+        function loadSavedVolume() {
+            var savedMusicVolume = localStorage.getItem('musicVolume');
+            var savedSfxVolume = localStorage.getItem('sfxVolume');
+
+            if (savedMusicVolume !== null) {
+                bgMusic.volume = savedMusicVolume;
+                document.getElementById('music-volume').value = savedMusicVolume * 100;
+            } else {
+                bgMusic.volume = 0.5; // Default to 50% if not set
+            }
+
+            if (savedSfxVolume !== null) {
+                clickSound.volume = savedSfxVolume;
+                document.getElementById('sfx-volume').value = savedSfxVolume * 100;
+            } else {
+                clickSound.volume = 0.5; // Default to 50% if not set
+            }
+        }
+
+        // Function to save volume levels to localStorage
+        function saveVolumeToLocalStorage() {
+            var musicVolume = document.getElementById('music-volume').value / 100;
+            var sfxVolume = document.getElementById('sfx-volume').value / 100;
+
+            localStorage.setItem('musicVolume', musicVolume);
+            localStorage.setItem('sfxVolume', sfxVolume);
+        }
+
+        // Attach event listeners to save volume when slider changes
+        document.getElementById('music-volume').addEventListener('input', function() {
+            bgMusic.volume = this.value / 100;
+            saveVolumeToLocalStorage();
+        });
+
+        document.getElementById('sfx-volume').addEventListener('input', function() {
+            clickSound.volume = this.value / 100;
+            saveVolumeToLocalStorage();
+        });
+
+        // Play click sound effect on buttons and links
+        function playClickSound() {
+            clickSound.play();
+        }
+
+        document.querySelectorAll('button, a').forEach(function(element) {
+            element.addEventListener('click', playClickSound);
+        });
+
+        // Load saved volume levels when the page loads
+        window.addEventListener('load', loadSavedVolume);
     </script>
 </body>
 </html>

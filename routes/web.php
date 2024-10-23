@@ -49,28 +49,16 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/play', [PlayController::class, 'showPlayPage'])->name('play');
 Route::post('/play/start', [PlayController::class, 'play'])->name('play.start');
 Route::post('/tutorial', [PlayController::class, 'startTutorial']);
-Route::post('/unlock-difficulty-levels', [PlayController::class, 'unlockDifficultyLevels']);
-
-Route::post('/update-medium-notif', function () {
-    $user = Auth::user();
-    $user->medium_notif = 1; // Set medium notification to true
-    $user->save();
-
-    return response()->json(['success' => true]);
-});
-
-Route::post('/update-hard-notif', function () {
-    $user = Auth::user();
-    $user->hard_notif = 1; // Set hard notification to true
-    $user->save();
-
-    return response()->json(['success' => true]);
-});
+Route::post('/update-medium-notif', [PlayController::class, 'updateMediumNotif']);
+Route::post('/update-hard-notif', [PlayController::class, 'updateHardNotif']);
 
 
 Route::get('/leaderboard', [leaderboardController::class, 'index'])->name('leaderboard');
 
 Route::get('/settings', [settingsController::class, 'settings'])->name('settings');
+// routes/web.php
+Route::post('/toggle-sound', [settingsController::class, 'toggleSound'])->name('toggle-sound');
+
 
 
 Route::get('/tutorial', [tutorialController::class, 'tutorial'])->name('tutorial'); // for displaying the tutorial page
@@ -86,6 +74,8 @@ Route::post('/medium-update-score/{userId}', [MediumController::class, 'updateSc
 
 Route::get('/hard', [HardController::class, 'hard'])->name('hard');
 Route::post('/hard-update-score/{userId}', [HardController::class, 'updateScore']);
+Route::post('/update-hard-finish/{userId}', [HardController::class, 'updateHardFinish'])->name('update.hard.finish');
+Route::get('/certificate-data', [HardController::class, 'displayCertificate']);
 
 // In routes/web.php
 Route::post('/save/score', [EasyController::class, 'saveScore'])->name('save.score');

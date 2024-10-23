@@ -206,6 +206,15 @@ p {
         <form method="POST" action="{{ route('register') }}" id="registrationForm">
             @csrf <!-- CSRF token for security -->
 
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" required>
+
+            <label for="middlename">Middle Name:</label>
+            <input type="text" id="middlename" name="middlename">
+
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" required>
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
@@ -229,33 +238,35 @@ p {
     <p class="copyright">@ All Rights Reserved</p>
     <script>
 
-let isPageFullyLoaded = false;
+        let isPageFullyLoaded = false;
 
-// Function to play background music
-function playBackgroundMusic() {
-    const bgMusic = document.getElementById('bgMusic');
-    if (isPageFullyLoaded && bgMusic) {
-        bgMusic.play().catch(function(error) {
-            console.error("Music play failed:", error);
-        });
-    }
-}
+        // Function to play background music
+        function playBackgroundMusic() {
+            const bgMusic = document.getElementById('bgMusic');
+            if (isPageFullyLoaded && bgMusic) {
+                bgMusic.play().catch(function(error) {
+                    console.error("Music play failed:", error);
+                });
+            }
+        }
 
-// Mark the page as fully loaded and attempt to play music
-window.onload = function() {
-    isPageFullyLoaded = true; // Set the boolean flag to true
-    playBackgroundMusic(); // Attempt to play music
-};
+        // Mark the page as fully loaded and attempt to play music
+        window.onload = function() {
+            isPageFullyLoaded = true; // Set the boolean flag to true
+            playBackgroundMusic(); // Attempt to play music
+        };
+
         // Function to play the click sound
-function playClickSound() {
-    var clickSound = document.getElementById('clickSound');
-    clickSound.play();
-}
+        function playClickSound() {
+            var clickSound = document.getElementById('clickSound');
+            clickSound.play();
+        }
 
-// Attach the playClickSound function to all buttons and anchor tags on the page
-document.querySelectorAll('button, a').forEach(function(element) {
-    element.addEventListener('click', playClickSound);
-});
+        // Attach the playClickSound function to all buttons and anchor tags on the page
+        document.querySelectorAll('button, a').forEach(function(element) {
+            element.addEventListener('click', playClickSound);
+        });
+
         // Show error modal
         function showError(message) {
             document.getElementById('errorMessage').textContent = message;
