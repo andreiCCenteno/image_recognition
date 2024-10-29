@@ -1054,7 +1054,7 @@ input[type="range"]::-moz-range-thumb {
         <span class="close" onclick="closeSettingsModal()"></span>
     </div>
 </div>
-
+<audio id="intenseFightMusic" src="{{ asset('audio/intense-fight-music.mp3') }}" loop preload="auto"></audio>
 <audio id="playerAttackSound" src="{{ asset('audio/player-attack.mp3') }}" preload="auto"></audio>
     <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
@@ -1064,6 +1064,7 @@ input[type="range"]::-moz-range-thumb {
     </div>
     <div class="modal-content">
         <p id="learning-text"></p>
+        <button id="skip-monologue-btn">Skip Monologue</buttoni>
         <button id="start-level-btn">Start Level</button>
     </div>
 </div>
@@ -1462,7 +1463,7 @@ function startTimer() {
             document.getElementById('countdownTimer').textContent = timeLeft;
 
             if (timeLeft <= 0) {
-                alert("Time's up!"); // Notify player when time runs out
+                showGameOverModal();// Notify player when time runs out
                 endLevel(); // Call a function to end the level
             }
         }
@@ -2671,7 +2672,7 @@ function takeDamage() {
 
     if (gameState.playerHp <= 0) {
         setTimeout(() => {
-            alert("Game Over! Try again!");
+            showGameOverModal();
             resetGame();
         }, 500);
     }
@@ -2811,6 +2812,65 @@ document.getElementById("start-level-btn").onclick = function () {
     }
 };
 
+function showMonologuesInSequence(level, delay = 10000) {
+                endLevel();
+                const monologues = learningMaterials[level];
+                const monologueElement = document.getElementById("learning-text");
+                const startButton = document.getElementById("start-level-btn");
+                const skipButton = document.getElementById("skip-monologue-btn");
+
+                
+                currentMonologueIndex = 0;
+                monologueElement.innerText = monologues[currentMonologueIndex];
+                document.getElementById("learning-modal").style.display = "block";
+                startButton.style.display = "none";
+                skipButton.style.display = "inline-block";
+
+                
+                setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
+
+                
+                monologueInterval = setInterval(() => {
+                    currentMonologueIndex++;
+                    if (currentMonologueIndex < monologues.length) {
+                        monologueElement.innerText = monologues[currentMonologueIndex];
+                        speakText(monologues[currentMonologueIndex]); 
+                    } else {
+                        clearInterval(monologueInterval); 
+                        startButton.style.display = "block"; 
+                        skipButton.style.display = "none"; 
+                    }
+                }, delay);
+
+                // Add a click event listener to the skip button
+                skipButton.onclick = function () {
+                    clearInterval(monologueInterval); 
+                    document.getElementById("learning-modal").style.display = "none";
+                    skipButton.style.display = "none"; 
+                    resumeTimer(); 
+                    startLevel(currentLevel);
+                    gameState.monsterHp = 100; 
+                    startTimer();
+                    updateStats(); 
+                    
+                    if (currentLevel === 1) {
+                        draw();
+                        intenseFightMusic.play(); // Start playing the calm background music
+                        setTimeout(() => {
+                            flipAllCards(true); // Flip all cards face up
+                            setTimeout(shuffle, 1000); // Shuffle after a delay
+                        }, 1000);
+                        currentLevel++;
+                    } else if (currentLevel === 2) {
+                        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+                        draw();
+                        isStartLevel = true;
+                        switchToLevel2();
+                        currentLevel++;
+                    }
+                };
+            }
+
 function startLevel(level) {
     console.log("Starting level:", level);
 }
@@ -2852,53 +2912,100 @@ const playerImage = new Image();
         ];
 
         const backgroundImage = new Image();
-        backgroundImage.src = 'images/background.jpg';
+        backgroundImage.src = 'images/background3.jpg';
 
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        class Particle {
+        class LavaPlume {
     constructor(x, y) {
-        this.x = x; // Initial x position
-        this.y = y; // Initial y position
-        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
-        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 6 + 4;
+        this.speedY = Math.random() * 2 + 2;
+        this.speedX = (Math.random() - 0.5) * 2;
+        this.gravity = 0.1;
+        this.opacity = 1;
     }
 
     update() {
-        this.x -= this.speed; // Move particle to the left
-        // Reset particle position to the right when it moves off screen
-        if (this.x < 0) {
-            this.x = gameScene.width; // Reappear from the right
-            this.y = Math.random() * gameScene.height; // Random vertical position
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        this.speedY -= this.gravity;
+        this.opacity -= 0.02;
+
+        if (this.opacity <= 0) {
+            this.x = Math.random() * gameScene.width;
+            this.y = gameScene.height - 20;
+            this.speedY = Math.random() * 2 + 2;
+            this.opacity = 1;
         }
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        const gradient = ctx.createRadialGradient(this.x, this.y, this.size / 2, this.x, this.y, this.size);
+        gradient.addColorStop(0, `rgba(255, 69, 0, ${this.opacity})`);
+        gradient.addColorStop(1, `rgba(139, 0, 0, ${this.opacity * 0.6})`);
+        
+        ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
-// Array to hold particles
-let particles = [];
+class SmokeParticle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 10 + 10; // Larger smoke particles
+        this.speedY = Math.random() * 1 + 0.5; // Slower rising speed for smoke
+        this.opacity = Math.random() * 0.5 + 0.3; // Semi-transparent smoke
+    }
 
-// Function to initialize particles
-function initParticles() {
-    for (let i = 0; i < 100; i++) { // Create 100 particles initially
-        let x = Math.random() * gameScene.width; // Random initial x position
-        let y = Math.random() * gameScene.height; // Random initial y position
-        particles.push(new Particle(x, y));
+    update() {
+        this.y -= this.speedY; // Move particle upward
+        this.opacity -= 0.005; // Gradual fade out
+
+        // Reset particle when fully faded
+        if (this.opacity <= 0) {
+            this.x = Math.random() * gameScene.width;
+            this.y = gameScene.height - 20;
+            this.opacity = Math.random() * 0.5 + 0.3;
+        }
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = `rgba(105, 105, 105, ${this.opacity})`; // Gray color for smoke
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
-// Update and draw sand particles
+// Arrays to hold particles
+let lavaPlumes = [];
+let smokeParticles = [];
+
+// Initialize lava and smoke particles
+function initParticles() {
+    for (let i = 0; i < 80; i++) {
+        let x = Math.random() * gameScene.width;
+        let y = gameScene.height - 20;
+        lavaPlumes.push(new LavaPlume(x, y));
+        smokeParticles.push(new SmokeParticle(x, y));
+    }
+}
+
+// Draw particles for lava and smoke
 function drawParticles(ctx) {
-    particles.forEach(particle => {
-        particle.update(); // Update position
-        particle.draw(ctx); // Draw particle
+    lavaPlumes.forEach(lavaPlume => {
+        lavaPlume.update();
+        lavaPlume.draw(ctx);
+    });
+    smokeParticles.forEach(smokeParticle => {
+        smokeParticle.update();
+        smokeParticle.draw(ctx);
     });
 }
 
@@ -2936,7 +3043,7 @@ function draw() {
     // Shadow for monster
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
     ctx.beginPath();
-    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.ellipse(gameState.monsterX + 80, gameState.monsterY + 160, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
     ctx.fill();
 
     // Draw monster with breathing effect

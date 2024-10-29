@@ -1007,6 +1007,7 @@
         </div>
         <div class="modal-content">
             <p id="learning-text"></p>
+            <button id="skip-monologue-btn">Skip Monologue</button>
             <button id="start-level-btn">Start Level</button>
         </div>
     </div>
@@ -2550,6 +2551,64 @@ document.getElementById("start-level-btn").onclick = function () {
     }
 };
 
+function showMonologuesInSequence(level, delay = 10000) {
+                endLevel();
+                const monologues = learningMaterials[level];
+                const monologueElement = document.getElementById("learning-text");
+                const startButton = document.getElementById("start-level-btn");
+                const skipButton = document.getElementById("skip-monologue-btn");
+
+                
+                currentMonologueIndex = 0;
+                monologueElement.innerText = monologues[currentMonologueIndex];
+                document.getElementById("learning-modal").style.display = "block";
+                startButton.style.display = "none";
+                skipButton.style.display = "inline-block";
+
+                
+                setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
+
+                
+                monologueInterval = setInterval(() => {
+                    currentMonologueIndex++;
+                    if (currentMonologueIndex < monologues.length) {
+                        monologueElement.innerText = monologues[currentMonologueIndex];
+                        speakText(monologues[currentMonologueIndex]); 
+                    } else {
+                        clearInterval(monologueInterval); 
+                        startButton.style.display = "block"; 
+                        skipButton.style.display = "none"; 
+                    }
+                }, delay);
+
+                // Add a click event listener to the skip button
+                skipButton.onclick = function () {
+                    clearInterval(monologueInterval); 
+                    document.getElementById("learning-modal").style.display = "none";
+                    skipButton.style.display = "none"; 
+                    resumeTimer(); 
+                    startLevel(currentLevel);
+                    gameState.monsterHp = 100; 
+                    startTimer();
+                    updateStats(); 
+                    
+                    if (currentLevel === 1) {
+                        draw();
+                        intenseFightMusic.play(); // Start playing the calm background music
+                        setTimeout(() => {
+                            flipAllCards(true); // Flip all cards face up
+                            setTimeout(shuffle, 1000); // Shuffle after a delay
+                        }, 1000);
+                        currentLevel++;
+                    } else if (currentLevel === 2) {
+                        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+                        draw();
+                        isStartLevel = true;
+                        switchToLevel2();
+                        currentLevel++;
+                    }
+                };
+            }
 
 
 function startLevel(level) {
