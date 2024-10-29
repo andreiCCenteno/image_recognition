@@ -2516,6 +2516,7 @@ document.getElementById("start-level-btn").onclick = function () {
         }, 1000);
         currentLevel++;
     } else if (currentLevel === 2) {
+        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
         draw();
         isStartLevel = true;
         switchToLevel2();
@@ -2571,12 +2572,62 @@ function startLevel(level) {
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        function draw() {
+        // Particle class to handle individual sand particles
+// Particle class to handle individual sand particles
+class Particle {
+    constructor(x, y) {
+        this.x = x; // Initial x position
+        this.y = y; // Initial y position
+        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
+        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+    }
+
+    update() {
+        this.x -= this.speed; // Move particle to the left
+        // Reset particle position to the right when it moves off screen
+        if (this.x < 0) {
+            this.x = gameScene.width; // Reappear from the right
+            this.y = Math.random() * gameScene.height; // Random vertical position
+        }
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Array to hold particles
+let particles = [];
+
+// Function to initialize particles
+function initParticles() {
+    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+        let x = Math.random() * gameScene.width; // Random initial x position
+        let y = Math.random() * gameScene.height; // Random initial y position
+        particles.push(new Particle(x, y));
+    }
+}
+
+// Update and draw sand particles
+function drawParticles(ctx) {
+    particles.forEach(particle => {
+        particle.update(); // Update position
+        particle.draw(ctx); // Draw particle
+    });
+}
+
+function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
     // Draw background image
     ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+
+    // Draw sand particles in the background
+    drawParticles(ctx);
 
     // Draw player image
     ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
@@ -2598,7 +2649,6 @@ function startLevel(level) {
 
     // Check for player or monster attack
     if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
-
         // Play sound effects when attacking
         if (gameState.isPlayerAttacking) {
             let playerAttackSound = document.getElementById("playerAttackSound");
@@ -2652,6 +2702,9 @@ function startLevel(level) {
 
     requestAnimationFrame(draw);
 }
+
+// Initialize particles on game start
+initParticles();
 
 
 

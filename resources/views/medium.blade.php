@@ -2725,72 +2725,137 @@ function startLevel(level) {
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        function draw() {
-            // Clear the game scene
-            ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+        class Particle {
+    constructor(x, y) {
+        this.x = x; // Initial x position
+        this.y = y; // Initial y position
+        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
+        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+    }
 
-            // Draw background image
-            ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+    update() {
+        this.x -= this.speed; // Move particle to the left
+        // Reset particle position to the right when it moves off screen
+        if (this.x < 0) {
+            this.x = gameScene.width; // Reappear from the right
+            this.y = Math.random() * gameScene.height; // Random vertical position
+        }
+    }
 
-            // Draw player
-            const playerColor = gameState.playerHurt ? '#FF9999' : '#4CAF50';
-            ctx.fillStyle = playerColor; // Set fill color based on state
-
-            // Draw player image
-            ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
-
-            // Draw monster
-            const monsterColor = gameState.monsterHurt ? '#FF0000' : '#F44336';
-            ctx.fillStyle = monsterColor; // Set fill color based on state
-
-            // Draw monster image
-            ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
-
-            if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
-                // Draw attack line
-                ctx.beginPath();
-                ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
-                ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
-                // ctx.strokeStyle = '#FFD700';
-                // ctx.lineWidth = 3;
-                // ctx.stroke();
-
-                // Draw blood splash
-                if (gameState.bloodSplash) {
-    // Draw multiple blood droplets for a more realistic effect
-    const numberOfDroplets = 10; // Adjust to control how many droplets there are
-    for (let i = 0; i < numberOfDroplets; i++) {
-        const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60; // Randomize X position slightly
-        const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60; // Randomize Y position slightly
-        const dropletRadius = Math.random() * 10 + 5; // Randomize size of each droplet
-
-        // Create a radial gradient for each blood droplet to add depth
-        const gradient = ctx.createRadialGradient(dropletX, dropletY, dropletRadius / 4, dropletX, dropletY, dropletRadius);
-        gradient.addColorStop(0, 'rgba(255, 0, 0, 0.9)'); // Darker red at the center
-        gradient.addColorStop(1, 'rgba(139, 0, 0, 0.6)'); // Darker, more transparent at the edges
-
-        // Set gradient fill and draw droplet
-        ctx.globalAlpha = gameState.bloodSplash.opacity; // Set the opacity of the blood splash
-        ctx.fillStyle = gradient;
+    draw(ctx) {
+        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
         ctx.beginPath();
-        ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
-    ctx.globalAlpha = 1; // Reset opacity
 }
 
-// Draw damage text
-if (gameState.damageText) {
-    ctx.globalAlpha = gameState.damageText.opacity; // Set opacity of the damage text
-    ctx.fillStyle = '#FF0000'; // Red color for damage text
-    ctx.font = 'bold 24px Arial'; // Adjust font size and style
-    ctx.fillText(gameState.damageText.text, gameState.damageText.x, gameState.damageText.y); // Position the text
-    ctx.globalAlpha = 1; // Reset opacity
+// Array to hold particles
+let particles = [];
+
+// Function to initialize particles
+function initParticles() {
+    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+        let x = Math.random() * gameScene.width; // Random initial x position
+        let y = Math.random() * gameScene.height; // Random initial y position
+        particles.push(new Particle(x, y));
+    }
 }
+
+// Update and draw sand particles
+function drawParticles(ctx) {
+    particles.forEach(particle => {
+        particle.update(); // Update position
+        particle.draw(ctx); // Draw particle
+    });
+}
+
+function draw() {
+    // Clear the game scene
+    ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+
+    // Draw background image
+    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+
+    // Draw sand particles in the background
+    drawParticles(ctx);
+
+    // Draw player image
+    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+
+    // If the player is hurt, overlay a red tint
+    if (gameState.playerHurt) {
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+    }
+
+    // Draw monster image
+    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
+
+    // If the monster is hurt, overlay a red tint
+    if (gameState.monsterHurt) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+    }
+
+    // Check for player or monster attack
+    if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
+        // Play sound effects when attacking
+        if (gameState.isPlayerAttacking) {
+            let playerAttackSound = document.getElementById("playerAttackSound");
+            if (playerAttackSound.paused) {
+                playerAttackSound.play(); // Play sound if not already playing
             }
-
-            requestAnimationFrame(draw);
         }
+
+        if (gameState.isMonsterAttacking) {
+            let monsterAttackSound = document.getElementById("monsterAttackSound");
+            if (monsterAttackSound.paused) {
+                monsterAttackSound.play(); // Play sound if not already playing
+            }
+        }
+
+        // Draw attack line
+        ctx.beginPath();
+        ctx.moveTo(gameState.playerX + 60, gameState.playerY + 40);
+        ctx.lineTo(gameState.monsterX, gameState.monsterY + 50);
+
+        // Draw blood splash
+        if (gameState.bloodSplash) {
+            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            for (let i = 0; i < numberOfDroplets; i++) {
+                const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
+                const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
+                const dropletRadius = Math.random() * 10 + 5;
+
+                const gradient = ctx.createRadialGradient(dropletX, dropletY, dropletRadius / 4, dropletX, dropletY, dropletRadius);
+                gradient.addColorStop(0, 'rgba(255, 0, 0, 0.9)');
+                gradient.addColorStop(1, 'rgba(139, 0, 0, 0.6)');
+
+                ctx.globalAlpha = gameState.bloodSplash.opacity;
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1; // Reset opacity
+        }
+
+        // Draw damage text
+        if (gameState.damageText) {
+            ctx.globalAlpha = gameState.damageText.opacity;
+            ctx.fillStyle = '#FF0000';
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    requestAnimationFrame(draw);
+}
+
+// Initialize particles on game start
+initParticles();
 
         function animateAttack(attacker, damage) {
     const attackDuration = 30; // Number of frames for the attack animation

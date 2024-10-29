@@ -8,170 +8,208 @@
     <style>
          @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-body, html {
+         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto Mono', monospace;
-    color: #00ffcc;
-    text-align: center;
-    background: linear-gradient(135deg, #ff0066, #ff9933, #ffff00, #33cc33, #0066ff, #9933ff);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    display: flex;
-    flex-direction: column;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     position: relative;
+    background-color: #000;
+}
+
+/* Background Styles */
+.game-background {
+    position: absolute;
+    inset: 0;
+    background: #000;
     overflow: hidden;
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Menu Container */
+.menu-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #00ffa3,
+        inset 0 0 20px #00ffa3;
 }
 
-body::before {
+.menu-title {
+    color: #00ffa3;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #00ffa3;
+}
+
+/* Menu Buttons */
+.menu-button {
+    padding: 15px 30px;
+    border: 2px solid #00ffa3;
+    background: transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-transform: uppercase;
+    color: #00ffa3;
+    text-decoration: none;
+    text-shadow: 0 0 5px #00ffa3;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.3);
+}
+
+.menu-button:hover {
+    background: #00ffa3;
+    color: #000;
+    box-shadow: 0 0 20px #00ffa3;
+}
+
+/* Bottom line effect */
+.bottom-line {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #00ffa3;
+    box-shadow: 0 0 20px #00ffa3;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    padding: 10px;
+    color: #00ffa3;
+    text-align: center;
+    font-size: 12px;
+    text-shadow: 0 0 5px #00ffa3;
+}
+
+/* Audio Controls */
+#audio-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.audio-btn {
+    background: transparent;
+    border: 2px solid #00ffa3;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    color: #00ffa3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.3);
+}
+
+.audio-btn:hover {
+    background: #00ffa3;
+    color: #000;
+    box-shadow: 0 0 20px #00ffa3;
+}
+
+.audio-btn.disabled {
+    border-color: #ff0000;
+    color: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.audio-btn.disabled::after {
     content: '';
     position: absolute;
+    width: 70%;
+    height: 2px;
+    background-color: #ff0000;
+    transform: rotate(45deg);
+    box-shadow: 0 0 5px #ff0000;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-}
-
-.menu-container {
-    flex: 1;
-    width: 97%;
-    display: flex;
-    flex-direction: column;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    z-index: 2;
-    padding: 20px;
-    border: 2px solid #00ffcc;
-    border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.7);
-    box-shadow: 0 0 20px #00ffcc;
-    animation: pulse 2s infinite;
-    max-width: 100%; /* Responsive max width */
-    margin: auto; /* Center the container */
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 20px #00ffcc, inset 0 0 10px #00ffcc;
-    }
-    50% {
-        box-shadow: 0 0 30px #00ffcc, inset 0 0 20px #00ffcc;
-    }
-    100% {
-        box-shadow: 0 0 20px #00ffcc, inset 0 0 10px #00ffcc;
-    }
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-h1 {
-    color: #00ffcc;
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 0 0 10px rgba(0, 255, 204, 0.7), 0 0 20px rgba(0, 255, 204, 0.5);
-    margin-bottom: 40px;
-    font-size: 3.5em;
-}
-
-.buttons {
-    display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap */
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Reduced gap for smaller screens */
-}
-
-.menu-button {
-    width: 220px;
-    margin: 10px;
-    padding: 15px;
-    font-size: 1.3em;
-    color: #00ffcc;
-    background-color: transparent;
-    border: 2px solid #00ffcc;
+.modal-content {
+    background: #000;
+    padding: 30px;
     border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.7), inset 0 0 5px rgba(0, 255, 204, 0.3);
-    text-transform: uppercase;
+    text-align: center;
+    color: #00ffa3;
+    border: 2px solid #00ffa3;
+    box-shadow: 0 0 20px #00ffa3,
+        inset 0 0 20px #00ffa3;
+}
+
+.modal-buttons {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
+    gap: 20px;
 }
 
-.menu-button:hover {
-    background-color: #00d1b2;
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(0, 255, 204, 1), inset 0 0 10px rgba(0, 255, 204, 0.5);
+.modal-btn {
+    padding: 10px 30px;
+    border: 2px solid #00ffa3;
+    background: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    color: #00ffa3;
+    transition: all 0.3s ease;
 }
 
-.menu-button i {
-    font-size: 1.2em;
+.modal-btn:hover {
+    background: #00ffa3;
+    color: #000;
+    box-shadow: 0 0 20px #00ffa3;
 }
 
-.footer {
-    text-align: center;
-    width: 100%;
-    font-size: 0.8em;
-    color: #00ffcc;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 0;
-    position: relative;
-    z-index: 2;
-    border-top: 2px solid #00ffcc;
-    animation: slideInUp 1s ease-out;
-}
-
-.footer a {
-    color: #00ffcc;
-    text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-}
-
-.footer a:hover {
-    color: #00d1b2;
-}
-
-@keyframes slideInUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2.5em; /* Smaller font size for smaller screens */
+@media (max-width: 768px) {
+    .menu-container {
+        width: 90%;
+        padding: 20px;
     }
 
     .menu-button {
-        width: 80%; /* Full width on small screens */
-        font-size: 1.1em; /* Smaller font size for buttons */
-    }
-
-    .buttons {
-        flex-direction: column; /* Stack buttons vertically */
-        gap: 15px; /* Reduced gap for smaller screens */
+        font-size: 14px;
+        padding: 12px 20px;
     }
 }
     </style>
@@ -190,34 +228,45 @@ h1 {
         <button onclick="closeModal()">No</button>
     </div>
 </div>
-
+<div class="game-background">
 <div class="menu-container">
-    <h1>Welcome, you wanna play? Let's play!</h1>
-    
-    <div class="buttons">
+<h1 class="menu-title">MAIN MENU</h1>
         <a href="{{ route('play') }}" class="menu-button" onclick="playSound()"><i class="fas fa-gamepad"></i> PLAY</a>
         <a href="{{ route('leaderboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-trophy"></i> LEADERBOARD</a>
         <a href="{{ route('settings') }}" class="menu-button" onclick="playSound()"><i class="fas fa-cog"></i> SETTINGS</a>
-        <button class="menu-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+        <button class="menu-button" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
+            </button>
 
         <!-- Admin Panel Link -->
         @if(Auth::check() && Auth::user()->is_admin)
             <a href="{{ route('admin.users') }}">Admin Panel</a>
         @endif
-    </div>
 </div>
+<div id="audio-controls">
+            <button class="audio-btn" onclick="toggleMusic()">
+                <i class="fas fa-music"></i>
+            </button>
+            <button class="audio-btn" onclick="toggleSound()">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
 
-<div class="footer">
-    <p>@All Rights Reserved</p>
-    <p>
-        <a href="#">Privacy Policy</a> | 
-        <a href="#">Terms of Service</a> | 
-        <a href="#">Contact Us</a>
-    </p>
+        <div class="bottom-line"></div>
+        <div class="footer">
+            © 2024 Space Adventure Game. All Rights Reserved.
+        </div>
+    </div>
 </div>
 
     <script>
 let isPageFullyLoaded = false;
+let isMusicPlaying = false;
+let isSoundEnabled = true;
+const backgroundMusic = document.getElementById('backgroundMusic');
+const clickSound = document.getElementById('clickSound');
+const musicBtn = document.querySelector('.audio-btn:nth-child(1)');
+const soundBtn = document.querySelector('.audio-btn:nth-child(2)');
 
 // Function to play background music
 function playBackgroundMusic() {
@@ -231,12 +280,38 @@ function playBackgroundMusic() {
         });
     }
 }
+function closeModal(){
+    document.getElementById('logout-modal').style.display = 'none';
+}
 
 // Mark the page as fully loaded and attempt to play music
 window.onload = function() {
     isPageFullyLoaded = true; // Set the boolean flag to true
     playBackgroundMusic(); // Attempt to play music
 };
+
+function toggleMusic() {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        musicBtn.classList.add('disabled');
+    } else {
+        bgMusic.play().catch(error => console.log("Music play failed:", error));
+        isMusicPlaying = true;
+        musicBtn.classList.remove('disabled');
+    }
+}
+
+function toggleSound() {
+    isSoundEnabled = !isSoundEnabled;
+    clickSound.muted = !isSoundEnabled;
+    if (!isSoundEnabled) {
+        soundBtn.classList.add('disabled');
+    } else {
+        soundBtn.classList.remove('disabled');
+    }
+}
+
 
 // Function to play the click sound
 function playClickSound() {
@@ -269,7 +344,7 @@ document.querySelectorAll('button, a').forEach(function(element) {
 
     function logout() {
         // Clear user ID from localStorage on logout
-        localStorage.removeItem('userId');
+        localStorage.clear();
         // Show the logout modal
         document.getElementById('logout-modal').style.display = 'flex';
     }
