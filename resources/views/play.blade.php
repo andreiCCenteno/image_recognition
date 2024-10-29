@@ -110,7 +110,7 @@ h1 {
 }
 
 /* Modal */
-.modal {
+#tutorialModal {
     display: none;
     position: fixed;
     top: 0;
@@ -124,15 +124,60 @@ h1 {
 }
 
 .modal-content {
-    background: #000;
-    padding: 30px;
+    background: #1a1a1a;
+    padding: 25px 30px;
     border-radius: 10px;
     color: #00ffa3;
     border: 2px solid #00ffa3;
-    box-shadow: 0 0 20px #00ffa3, inset 0 0 20px #00ffa3;
-    max-width: 400px;
-    margin: auto;
+    box-shadow: 0 0 15px rgba(0, 255, 163, 0.7), inset 0 0 15px rgba(0, 255, 163, 0.4);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
 }
+
+.modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #00ffb7;
+}
+
+.modal-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #d4ffd6;
+    margin-bottom: 15px;
+}
+
+.modal-button {
+    background-color: #00ffa3;
+    color: #1a1a1a;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+    background-color: #00cc85;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: #00ffa3;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #00cc85;
+}
+
 
 /* Footer */
 footer {
@@ -201,7 +246,7 @@ footer {
             }
         }
 
-        .modal {
+        .modal{
             display: none;
             position: fixed;
             z-index: 1000;
@@ -311,13 +356,30 @@ footer {
             transition: background-color 0.3s ease, transform 0.3s ease;
             z-index: 2;
         }
+        .tooltip {
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        display: none;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none; /* Prevent tooltip from blocking hover events */
+    }
+    .tooltip.show {
+        display: block;
+        opacity: 1;
+    }
     </style>
 </head>
 <body>
 <audio id="bgMusic" src="{{ asset('music/background-music.mp3') }}" autoplay loop></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 <a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
-
+<div id="tooltip" class="tooltip"></div>
 <div class="difficulty-container">
     <h1>Select Difficulty</h1>
 
@@ -325,38 +387,43 @@ footer {
     <button class="difficulty-button" onclick="window.location.href='{{ url('easy') }}'">Easy</button>
 
     <!-- Medium Button (disabled by default, enabled after easy_finish) -->
-    <button class="difficulty-button" id="mediumButton" @if(!$easy_finish) disabled @endif 
-        @if($easy_finish) onclick="window.location.href='{{ url('medium') }}'" @endif>
-        @if(!$easy_finish)
-            <i class="fas fa-lock"></i> Medium
-        @else
-            Medium
-        @endif
-    </button>
+    <button class="difficulty-button" id="mediumButton" 
+    @if(!$easy_finish) onmouseover="showTooltip(event, 'Finish easy mode to unlock medium mode.')" onmouseout="hideTooltip()" disabled 
+    @else onclick="window.location.href='{{ url('medium') }}'" @endif>
+    @if(!$easy_finish)
+        <i class="fas fa-lock"></i> Medium
+    @else
+        Medium
+    @endif
+</button>
 
-    <!-- Hard Button (disabled by default, enabled after medium_finish) -->
-    <button class="difficulty-button" id="hardButton" @if(!$medium_finish) disabled @endif 
-        @if($medium_finish) onclick="window.location.href='{{ url('hard') }}'" @endif>
-        @if(!$medium_finish)
-            <i class="fas fa-lock"></i> Hard
-        @else
-            Hard
-        @endif
-    </button>
+<!-- Hard Button (disabled by default, enabled after medium_finish) -->
+<button class="difficulty-button" id="hardButton" 
+    @if(!$medium_finish) onmouseover="showTooltip(event, 'Finish medium mode to unlock hard mode.')" onmouseout="hideTooltip()" disabled 
+    @else onclick="window.location.href='{{ url('hard') }}'" @endif>
+    @if(!$medium_finish)
+        <i class="fas fa-lock"></i> Hard
+    @else
+        Hard
+    @endif
+</button>
+
+<button class="difficulty-button" id="hardButton" onclick="window.location.href='{{ url('tutorial') }}'" >Tutorial</button>
     
 </div>
 <div id="tutorialModal" class="modal">
-        <div class="modal-content">
-            <span class="close" ></span>
-            <h2>Tutorial</h2>
-            <p>Welcome to the Image Comparison Game!</p>
-            <p>Select your difficulty level to start:</p>
-            <p><strong>Easy:</strong> Choose this if you're new to the game. You'll have plenty of time and chances to win!</p>
-            <p><strong>Medium:</strong> A balanced challenge for players who have some experience.</p>
-            <p><strong>Hard:</strong> For the experts! This level is challenging with less time and fewer attempts.</p>
-            <button class="modal-button" onclick="startTutorial()">Start Tutorial!</button>
-        </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeTutorialModal()">&times;</span>
+        <h2>Tutorial</h2>
+        <p>Welcome to the Image Comparison Game!</p>
+        <p>Select your difficulty level to start:</p>
+        <p><strong>Easy:</strong> Start here if you're new to the game. Completing this level will unlock Medium mode. You'll have plenty of time and chances to win!</p>
+        <p><strong>Medium:</strong> This mode will be unlocked after completing Easy. A balanced challenge for players who have some experience.</p>
+        <p><strong>Hard:</strong> Unlock this level by finishing Medium mode. It's designed for experts and is challenging, with less time and fewer attempts.</p>
+        <button class="modal-button" onclick="startTutorial()">Start Tutorial!</button>
+        <button class="modal-button" onclick="closeTutorialModal()">Skip Tutorial</button>
     </div>
+</div>
 
     <div id="mediumNotificationModal" class="modal">
     <div class="modal-content">
@@ -379,6 +446,19 @@ footer {
 <script>
     let isPageFullyLoaded = false;
 
+
+    function showTooltip(event, message) {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.textContent = message;
+        tooltip.style.top = `${event.clientY - 40}px`; // Position tooltip above the cursor
+        tooltip.style.left = `${event.clientX}px`;
+        tooltip.classList.add('show');
+    }
+
+    function hideTooltip() {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.classList.remove('show');
+    }
 // Function to play background music
 function playBackgroundMusic() {
     const bgMusic = document.getElementById('bgMusic');
@@ -515,6 +595,10 @@ function unlockDifficultyLevels() {
 function showTutorial() {
     document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
 }
+
+function closeTutorialModal() {
+        document.getElementById('tutorialModal').style.display = 'none';
+    }
 
 // Show the tutorial when the document is fully loaded
 document.addEventListener('DOMContentLoaded', function() {

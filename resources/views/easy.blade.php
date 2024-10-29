@@ -782,40 +782,61 @@
         }
 
         #postTestWrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker for more contrast */
+}
 
-        #postTestContainer {
-            max-height: 80vh;
-            width: 80%;
-            overflow-y: auto;
-            padding: 20px;
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 10px;
-            box-shadow: 0 4px 30px rgba(0, 255, 204, 0.5);
-        }
+#postTestContainer {
+    max-height: 80vh;
+    width: 80%;
+    overflow-y: auto;
+    padding: 30px;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 255, 204, 0.6);
+    color: #e0f7fa; /* Light color for improved readability */
+    font-size: 18px;
+}
 
-        .test-form-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.test-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap for better separation */
+}
 
-        .question {
-            background: rgba(20, 20, 20, 0.85);
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+.question {
+    background: rgba(40, 40, 40, 0.95);
+    padding: 20px;
+    border: 1px solid #00ffa3;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.5); /* Subtle glow effect */
+}
 
-        .question p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+.question p {
+    font-size: 20px; /* Slightly larger font for readability */
+    color: #d4ffd6; /* Light green for readability */
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* Optional: Adjust scrollbar style for a more polished look */
+#postTestContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#postTestContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#postTestContainer::-webkit-scrollbar-thumb {
+    background: #00ffa3;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 163, 0.5);
+}
 
         .options label {
             display: block;
@@ -1304,8 +1325,8 @@
             ],
             playerX: 100,
             playerY: 150,
-            monsterX: 600,
-            monsterY: 100,
+            monsterX: 550,
+            monsterY: 185,
             playerHurt: false,
             monsterHurt: false
 
@@ -2158,51 +2179,56 @@
 
             // Function to draw the game
             function drawGame() {
-                if (!gameActive) return; // Stop drawing if the game is inactive
+    if (!gameActive) return; // Stop drawing if the game is inactive
 
-                // Check if currentQuestion is within the valid range
-                if (currentQuestion < totalQuestions) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Check if currentQuestion is within the valid range
+    if (currentQuestion < totalQuestions) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    // Draw question
-                    document.getElementById('questionText').innerText = questions[currentQuestion].question;
+        // Draw question
+        document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-                    // Draw stationary targets
-                    questions[currentQuestion].answers.forEach((answer, i) => {
-                        const xPos = 100 + (i * 200); // Calculate X position for each target
-                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
-                    });
+        // Draw stationary targets
+        questions[currentQuestion].answers.forEach((answer, i) => {
+            const xPos = 100 + (i * 200); // Calculate X position for each target
+            drawTarget(xPos, 300, answer); // Draw the target with the answer inside
+        });
 
-                    // Draw crosshair
-                    drawCrosshair(crosshairX, crosshairY); 
-                }
-            }
+        // Draw crosshair
+        drawCrosshair(crosshairX, crosshairY); 
+    }
+}
 
-            // Function to draw targets with answers inside
-            function drawTarget(x, y, answer) {
-    const targetSize = 80; // Size of the target shape
-    const innerCircleSize = 70; // Size of the inner circle
+// Function to draw targets with answers inside
+function drawTarget(x, y, answer) {
+    const targetSize = 100; // Increased size of the target shape
+    const innerCircleSize = 80; // Increased size of the inner circle
+    const outerCircleColor = "white"; // Color for the outer circle
+    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
+    const textColor = "black"; // Text color
+    const fontSize = "20px"; // Increased font size for better readability
 
     // Draw outer target (white circle)
-    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
     ctx.beginPath();
     ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
     ctx.fill();
     ctx.closePath();
 
     // Draw inner target (red circle outline)
-    ctx.strokeStyle = "red"; // Outline color for the inner circle
-    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
+    ctx.lineWidth = 8; // Width of the circle outline
     ctx.beginPath();
     ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
     ctx.stroke();
     ctx.closePath();
 
     // Draw the answer inside the target
-    ctx.fillStyle = "black"; // Text color
-    ctx.font = "16px Arial"; // Font style
+    ctx.fillStyle = textColor; // Text color
+    ctx.font = `${fontSize} Arial`; // Font style with increased size
     ctx.textAlign = "center"; // Center text alignment
-    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+    ctx.textBaseline = "middle"; // Vertically center the text
+    ctx.fillText(answer, x, y); // Center the text vertically
 }
 
             // Function to draw crosshair
@@ -2561,9 +2587,9 @@ function startLevel(level) {
         playerImage.src = 'images/characters/player.png'; // Replace with the correct path
 
         const monsterImages = [
-            'images/characters/monster1.png', // Replace with correct paths
-            'images/characters/monster2.png',
-            'images/characters/monster3.png'
+            'images/characters/easy/monster1.png', // Replace with correct paths
+            'images/characters/easy/monster2.png',
+            'images/characters/easy/monster3.png'
         ];
 
         const backgroundImage = new Image();
@@ -2623,28 +2649,60 @@ function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-    // Draw background image
-    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+    // Swaying effect for the background
+    const swayOffset = 5 * Math.sin(Date.now() / 1000); // Adjust sway speed and distance
+    ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
     // Draw sand particles in the background
     drawParticles(ctx);
 
-    // Draw player image
-    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+    // Calculate breathing effect for the player and monster
+    const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
+
+    // Shadow for player
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.playerX + 60, gameState.playerY + 113, 30, 3, 0, 0, 2 * Math.PI); // Simple ellipse shadow
+    ctx.fill();
+
+    // Draw player with breathing effect
+    const playerWidth = 120 * breathingScale;
+    const playerHeight = 120 * breathingScale;
+    ctx.drawImage(
+        playerImage,
+        gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
+        gameState.playerY - (playerHeight - 120) / 2,
+        playerWidth,
+        playerHeight
+    );
+
+    // Shadow for monster
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.fill();
+
+    // Draw monster with breathing effect
+    const monsterWidth = 70 * breathingScale;
+    const monsterHeight = 70 * breathingScale;
+    ctx.drawImage(
+        currentMonsterImage,
+        gameState.monsterX - (monsterWidth - 70) / 2,
+        gameState.monsterY - (monsterHeight - 70) / 2,
+        monsterWidth,
+        monsterHeight
+    );
 
     // If the player is hurt, overlay a red tint
     if (gameState.playerHurt) {
-        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
-        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)';
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120);
     }
-
-    // Draw monster image
-    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
     // If the monster is hurt, overlay a red tint
     if (gameState.monsterHurt) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
-        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 70, 70);
     }
 
     // Check for player or monster attack
@@ -2653,14 +2711,14 @@ function draw() {
         if (gameState.isPlayerAttacking) {
             let playerAttackSound = document.getElementById("playerAttackSound");
             if (playerAttackSound.paused) {
-                playerAttackSound.play(); // Play sound if not already playing
+                playerAttackSound.play();
             }
         }
 
         if (gameState.isMonsterAttacking) {
             let monsterAttackSound = document.getElementById("monsterAttackSound");
             if (monsterAttackSound.paused) {
-                monsterAttackSound.play(); // Play sound if not already playing
+                monsterAttackSound.play();
             }
         }
 
@@ -2671,7 +2729,7 @@ function draw() {
 
         // Draw blood splash
         if (gameState.bloodSplash) {
-            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            const numberOfDroplets = 10;
             for (let i = 0; i < numberOfDroplets; i++) {
                 const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
                 const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
@@ -2687,7 +2745,7 @@ function draw() {
                 ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
                 ctx.fill();
             }
-            ctx.globalAlpha = 1; // Reset opacity
+            ctx.globalAlpha = 1;
         }
 
         // Draw damage text
@@ -2695,7 +2753,7 @@ function draw() {
             ctx.globalAlpha = gameState.damageText.opacity;
             ctx.fillStyle = '#FF0000';
             ctx.font = 'bold 24px Arial';
-            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y);
             ctx.globalAlpha = 1;
         }
     }

@@ -1100,6 +1100,11 @@
 </head>
 
 <body>
+        <!-- Add these audio elements to your HTML -->
+    <audio id="playerAttackSound" src="{{ asset('audio/player-attack.mp3') }}" preload="auto"></audio>
+    <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
+    <audio id="backgroundMusic" src="{{ asset('audio/background-music.mp3') }}" loop preload="auto"></audio>
+<audio id="intenseFightMusic" src="{{ asset('audio/intense-fight-music.mp3') }}" loop preload="auto"></audio>
 
     <div id="gameOverModal" class="gameover-modal">
         <div class="gameover-modal-content">
@@ -1422,7 +1427,7 @@
             playerX: 100,
             playerY: 150,
             monsterX: 600,
-            monsterY: 100,
+            monsterY: 120,
             playerHurt: false,
             monsterHurt: false
 
@@ -1480,10 +1485,12 @@
         }
 
         function pauseTimer() {
+            intenseFightMusic.pause(); 
             isPaused = false; // Set the paused flag to true
         }
 
         function resumeTimer() {
+            intenseFightMusic.play(); 
             isPaused = true; // Set the paused flag to false
         }
 
@@ -1567,6 +1574,7 @@
 
 
         function initializeGame() {
+            intenseFightMusic.play(); 
             // Hide all content first
             gameState.level = 3;
             level1Content.style.display = 'none';
@@ -1874,10 +1882,6 @@
 
         function initializeLevel3() {
             const level3Content = document.getElementById('level3Content');
-            const level1Content = document.getElementById('level1Content');
-            const level2Content = document.getElementById('level2Content');
-            level1Content.style.display = 'none';
-            level2Content.style.display = 'none';
             level3Content.style.display = 'block';
 
             const mainImage = document.getElementById('mainImage');
@@ -2329,52 +2333,58 @@
 
             // Function to draw the game
             function drawGame() {
-                if (!gameActive) return; // Stop drawing if the game is inactive
+    if (!gameActive) return; // Stop drawing if the game is inactive
 
-                // Check if currentQuestion is within the valid range
-                if (currentQuestion < totalQuestions) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Check if currentQuestion is within the valid range
+    if (currentQuestion < totalQuestions) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    // Draw question
-                    document.getElementById('questionText').innerText = questions[currentQuestion].question;
+        // Draw question
+        document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-                    // Draw stationary targets
-                    questions[currentQuestion].answers.forEach((answer, i) => {
-                        const xPos = 100 + (i * 200); // Calculate X position for each target
-                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
-                    });
+        // Draw stationary targets
+        questions[currentQuestion].answers.forEach((answer, i) => {
+            const xPos = 100 + (i * 200); // Calculate X position for each target
+            drawTarget(xPos, 300, answer); // Draw the target with the answer inside
+        });
 
-                    // Draw crosshair
-                    drawCrosshair(crosshairX, crosshairY); 
-                }
-            }
+        // Draw crosshair
+        drawCrosshair(crosshairX, crosshairY); 
+    }
+}
 
-            // Function to draw targets with answers inside
-            function drawTarget(x, y, answer) {
-    const targetSize = 80; // Size of the target shape
-    const innerCircleSize = 70; // Size of the inner circle
+// Function to draw targets with answers inside
+function drawTarget(x, y, answer) {
+    const targetSize = 100; // Increased size of the target shape
+    const innerCircleSize = 80; // Increased size of the inner circle
+    const outerCircleColor = "white"; // Color for the outer circle
+    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
+    const textColor = "black"; // Text color
+    const fontSize = "20px"; // Increased font size for better readability
 
     // Draw outer target (white circle)
-    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
     ctx.beginPath();
     ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
     ctx.fill();
     ctx.closePath();
 
     // Draw inner target (red circle outline)
-    ctx.strokeStyle = "red"; // Outline color for the inner circle
-    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
+    ctx.lineWidth = 8; // Width of the circle outline
     ctx.beginPath();
     ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
     ctx.stroke();
     ctx.closePath();
 
     // Draw the answer inside the target
-    ctx.fillStyle = "black"; // Text color
-    ctx.font = "16px Arial"; // Font style
+    ctx.fillStyle = textColor; // Text color
+    ctx.font = `${fontSize} Arial`; // Font style with increased size
     ctx.textAlign = "center"; // Center text alignment
-    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+    ctx.textBaseline = "middle"; // Vertically center the text
+    ctx.fillText(answer, x, y); // Center the text vertically
 }
+
 
             // Function to draw crosshair
             function drawCrosshair(x, y) {
@@ -2663,20 +2673,6 @@ document.getElementById("start-level-btn").onclick = function () {
     gameState.monsterHp = 100; // Reset monster's health
     startTimer(); // Start the level timer
     updateStats(); // Update game stats
-
-    // if (currentLevel === 1) {
-    //     draw();
-    //     setTimeout(() => {
-    //         flipAllCards(true); // Flip all cards face up
-    //         setTimeout(shuffle, 1000); // Shuffle after a delay
-    //     }, 1000);
-    //     currentLevel++;
-    // } else if (currentLevel === 2) {
-    //     draw();
-    //     isStartLevel = true;
-    //     switchToLevel2();
-    //     currentLevel++;
-    // }
 };
 
 function startLevel(level) {
@@ -2714,88 +2710,124 @@ function startLevel(level) {
         playerImage.src = 'images/characters/player.png'; // Replace with the correct path
 
         const monsterImages = [
-            'images/characters/monster1.png', // Replace with correct paths
-            'images/characters/monster2.png',
-            'images/characters/monster3.png'
+            'images/characters/medium/monster1.png', // Replace with correct paths
+            'images/characters/medium/monster2.png',
+            'images/characters/medium/monster3.png',
+            'images/characters/medium/monster4.png', // Replace with correct paths
+            'images/characters/medium/monster5.png',
         ];
 
         const backgroundImage = new Image();
-        backgroundImage.src = 'images/background.jpg';
+        backgroundImage.src = 'images/background2.png';
 
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        class Particle {
+        class RainParticle {
     constructor(x, y) {
         this.x = x; // Initial x position
         this.y = y; // Initial y position
-        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
-        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+        this.size = Math.random() * 1 + 1; // Smaller size for rain drops (1 to 2)
+        this.length = Math.random() * 10 + 10; // Length of rain drop (10 to 20)
+        this.speed = Math.random() * 5 + 4; // Speed of rain (4 to 9)
     }
 
     update() {
-        this.x -= this.speed; // Move particle to the left
-        // Reset particle position to the right when it moves off screen
-        if (this.x < 0) {
-            this.x = gameScene.width; // Reappear from the right
-            this.y = Math.random() * gameScene.height; // Random vertical position
+        this.y += this.speed; // Move particle downwards
+        // Reset particle position to the top when it moves off screen
+        if (this.y > gameScene.height) {
+            this.y = 0; // Reappear from the top
+            this.x = Math.random() * gameScene.width; // Random horizontal position
         }
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; // Light blue color with some transparency
+        ctx.lineWidth = 1; // Thin rain drop line
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y - this.length); // Draw a line to represent the rain drop
+        ctx.stroke();
     }
 }
 
-// Array to hold particles
-let particles = [];
+// Array to hold rain particles
+let rainParticles = [];
 
-// Function to initialize particles
-function initParticles() {
-    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+// Function to initialize rain particles
+function initRain() {
+    for (let i = 0; i < 100; i++) { // Create 100 rain particles initially
         let x = Math.random() * gameScene.width; // Random initial x position
         let y = Math.random() * gameScene.height; // Random initial y position
-        particles.push(new Particle(x, y));
+        rainParticles.push(new RainParticle(x, y));
     }
 }
 
-// Update and draw sand particles
-function drawParticles(ctx) {
-    particles.forEach(particle => {
+// Update and draw rain particles
+function drawRain(ctx) {
+    rainParticles.forEach(particle => {
         particle.update(); // Update position
         particle.draw(ctx); // Draw particle
     });
 }
-
 function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-    // Draw background image
-    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+    // Swaying effect for the background
+    const swayOffset = 5 * Math.sin(Date.now() / 1000); // Adjust sway speed and distance
+    ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
     // Draw sand particles in the background
-    drawParticles(ctx);
+    drawRain(ctx);
 
-    // Draw player image
-    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+    // Calculate breathing effect for the player and monster
+    const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
+
+    // Shadow for player
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.playerX + 60, gameState.playerY + 113, 30, 3, 0, 0, 2 * Math.PI); // Simple ellipse shadow
+    ctx.fill();
+
+    // Draw player with breathing effect
+    const playerWidth = 120 * breathingScale;
+    const playerHeight = 120 * breathingScale;
+    ctx.drawImage(
+        playerImage,
+        gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
+        gameState.playerY - (playerHeight - 120) / 2,
+        playerWidth,
+        playerHeight
+    );
+
+    // Shadow for monster
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.monsterX + 80, gameState.monsterY + 160, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.fill();
+
+    // Draw monster with breathing effect
+    const monsterWidth = 150 * breathingScale;
+    const monsterHeight = 150 * breathingScale;
+    ctx.drawImage(
+        currentMonsterImage,
+        gameState.monsterX - (monsterWidth - 150) / 2,
+        gameState.monsterY - (monsterHeight - 150) / 2,
+        monsterWidth,
+        monsterHeight
+    );
 
     // If the player is hurt, overlay a red tint
     if (gameState.playerHurt) {
-        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
-        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)';
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120);
     }
-
-    // Draw monster image
-    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
     // If the monster is hurt, overlay a red tint
     if (gameState.monsterHurt) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
-        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 150, 150);
     }
 
     // Check for player or monster attack
@@ -2804,14 +2836,14 @@ function draw() {
         if (gameState.isPlayerAttacking) {
             let playerAttackSound = document.getElementById("playerAttackSound");
             if (playerAttackSound.paused) {
-                playerAttackSound.play(); // Play sound if not already playing
+                playerAttackSound.play();
             }
         }
 
         if (gameState.isMonsterAttacking) {
             let monsterAttackSound = document.getElementById("monsterAttackSound");
             if (monsterAttackSound.paused) {
-                monsterAttackSound.play(); // Play sound if not already playing
+                monsterAttackSound.play();
             }
         }
 
@@ -2822,7 +2854,7 @@ function draw() {
 
         // Draw blood splash
         if (gameState.bloodSplash) {
-            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            const numberOfDroplets = 10;
             for (let i = 0; i < numberOfDroplets; i++) {
                 const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
                 const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
@@ -2838,7 +2870,7 @@ function draw() {
                 ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
                 ctx.fill();
             }
-            ctx.globalAlpha = 1; // Reset opacity
+            ctx.globalAlpha = 1;
         }
 
         // Draw damage text
@@ -2846,7 +2878,7 @@ function draw() {
             ctx.globalAlpha = gameState.damageText.opacity;
             ctx.fillStyle = '#FF0000';
             ctx.font = 'bold 24px Arial';
-            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.fillText(25, gameState.damageText.x, gameState.damageText.y);
             ctx.globalAlpha = 1;
         }
     }
@@ -2855,7 +2887,7 @@ function draw() {
 }
 
 // Initialize particles on game start
-initParticles();
+initRain();
 
         function animateAttack(attacker, damage) {
     const attackDuration = 30; // Number of frames for the attack animation

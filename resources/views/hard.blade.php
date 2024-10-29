@@ -946,14 +946,89 @@ input[type="range"]::-moz-range-thumb {
     justify-content: center;
     align-items: center;
 }
+.certificate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    z-index: 1000;
+}
+
+/* Certificate styling */
 .certificate {
-            padding: 20px;
-            text-align: center;
-            background-color: #f3f3f3;
-            border: 2px solid #ccc;
-            display: inline-block;
-            margin-top: 10px;
-        }
+    background: #fff;
+    width: 90%;
+    max-width: 700px;
+    padding: 2rem;
+    border: 10px solid #D4AF37;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-family: 'Georgia', serif;
+    position: relative;
+    background-image: linear-gradient(145deg, #ffffff 50%, #f3f3f3);
+}
+
+.certificate::before,
+.certificate::after {
+    content: '';
+    position: absolute;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    border: 2px solid #D4AF37;
+    border-radius: 12px;
+    top: 1rem;
+    left: 1rem;
+}
+
+.certificate h1 {
+    font-size: 2.5rem;
+    color: #4A90E2;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+}
+
+.certificate p {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.certificate h2 {
+    font-size: 1.8rem;
+    color: #4A90E2;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+/* Date styling */
+.certificate #date {
+    font-weight: bold;
+}
+
+/* Download button styling */
+.certificate button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background-color: #4A90E2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.certificate button:hover {
+    background-color: #357ABD;
+}
+
 
 
     </style>
@@ -1376,23 +1451,23 @@ function updateScore(points) {
 }
 
 function startTimer() {
-            const timerDuration = 30;
-            timeLeft = timerDuration; // Reset time left to initial duration
+    const timerDuration = 30;
+    timeLeft = timerDuration; // Reset time left to initial duration
+    clearInterval(timerId);
+    document.getElementById('countdownTimer').textContent = timeLeft;
+
+    timerId = setInterval(() => {
+        if (isPaused) { // Check if the timer is not paused
+            timeLeft--;
             document.getElementById('countdownTimer').textContent = timeLeft;
 
-            timerId = setInterval(() => {
-                if (isPaused) { // Check if the timer is not paused
-                    timeLeft--;
-                    document.getElementById('countdownTimer').textContent = timeLeft;
-
-                    if (timeLeft <= 0) {
-                        showGameOverModal();
-                        pauseTimer();// Notify player when time runs out
-                        endLevel(); // Call a function to end the level
-                    }
-                }
-            }, 1000); // Update every second
+            if (timeLeft <= 0) {
+                alert("Time's up!"); // Notify player when time runs out
+                endLevel(); // Call a function to end the level
+            }
         }
+    }, 1000); // Update every second
+}
 
 function pauseTimer() {
     isPaused = false; // Set the paused flag to true
@@ -1700,7 +1775,7 @@ function handleCardClick(cardData) {
         updateScore(15); // Award 10 points for correct guess
 
         setTimeout(() => {
-            attackMonster(100);
+            attackMonster(50);
         }, 1500);
 
         setTimeout(() => {
@@ -1785,7 +1860,7 @@ submitGuess.addEventListener('click', () => {
                 document.getElementById('message').textContent = "Correct! You identified the image!";
                 gameState.level++;
                 level2Content.style.display = 'none';
-                attackMonster(100);
+                attackMonster(50);
                 // Force monster defeat to trigger level completion
                 isStartLevel = false;
                 // Update score for correct answer
@@ -1860,7 +1935,7 @@ function handleDrop(e) {
             setTimeout(() => {
                 showLevel3CompleteModal();
                 gameState.level++;
-                attackMonster(100); // Assuming this triggers the next stage of the game
+                attackMonster(50); // Assuming this triggers the next stage of the game
             }, 500);
         }
     } else {
@@ -2015,7 +2090,7 @@ function initializeLevel4() {
             
             showLevel4CompleteModal(); // Show completion modal
             gameState.level++; // Progress to the next level
-            attackMonster(100); // Move to the next stage or action
+            attackMonster(50); // Move to the next stage or action
         } else {
             document.getElementById('message').textContent = `Incorrect color! Try again!`;
             takeDamage(); // Handle incorrect color guess
@@ -2337,53 +2412,60 @@ function initializePostTest() {
             let crosshairY = 300; // Initial crosshair position
 
             // Function to draw the game
+            // Function to draw the game
             function drawGame() {
-                if (!gameActive) return; // Stop drawing if the game is inactive
+    if (!gameActive) return; // Stop drawing if the game is inactive
 
-                // Check if currentQuestion is within the valid range
-                if (currentQuestion < totalQuestions) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Check if currentQuestion is within the valid range
+    if (currentQuestion < totalQuestions) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    // Draw question
-                    document.getElementById('questionText').innerText = questions[currentQuestion].question;
+        // Draw question
+        document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-                    // Draw stationary targets
-                    questions[currentQuestion].answers.forEach((answer, i) => {
-                        const xPos = 100 + (i * 200); // Calculate X position for each target
-                        drawTarget(xPos, 300, answer); // Draw the target with the answer inside
-                    });
+        // Draw stationary targets
+        questions[currentQuestion].answers.forEach((answer, i) => {
+            const xPos = 100 + (i * 200); // Calculate X position for each target
+            drawTarget(xPos, 300, answer); // Draw the target with the answer inside
+        });
 
-                    // Draw crosshair
-                    drawCrosshair(crosshairX, crosshairY); 
-                }
-            }
+        // Draw crosshair
+        drawCrosshair(crosshairX, crosshairY); 
+    }
+}
 
-            // Function to draw targets with answers inside
-            function drawTarget(x, y, answer) {
-    const targetSize = 80; // Size of the target shape
-    const innerCircleSize = 70; // Size of the inner circle
+// Function to draw targets with answers inside
+function drawTarget(x, y, answer) {
+    const targetSize = 100; // Increased size of the target shape
+    const innerCircleSize = 80; // Increased size of the inner circle
+    const outerCircleColor = "white"; // Color for the outer circle
+    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
+    const textColor = "black"; // Text color
+    const fontSize = "20px"; // Increased font size for better readability
 
     // Draw outer target (white circle)
-    ctx.fillStyle = "white"; // Fill color for the outer target
+    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
     ctx.beginPath();
     ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
     ctx.fill();
     ctx.closePath();
 
     // Draw inner target (red circle outline)
-    ctx.strokeStyle = "red"; // Outline color for the inner circle
-    ctx.lineWidth = 5; // Width of the circle outline
+    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
+    ctx.lineWidth = 8; // Width of the circle outline
     ctx.beginPath();
     ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
     ctx.stroke();
     ctx.closePath();
 
     // Draw the answer inside the target
-    ctx.fillStyle = "black"; // Text color
-    ctx.font = "16px Arial"; // Font style
+    ctx.fillStyle = textColor; // Text color
+    ctx.font = `${fontSize} Arial`; // Font style with increased size
     ctx.textAlign = "center"; // Center text alignment
-    ctx.fillText(answer, x, y + 5); // Adjusted position for the text
+    ctx.textBaseline = "middle"; // Vertically center the text
+    ctx.fillText(answer, x, y); // Center the text vertically
 }
+
 
             // Function to draw crosshair
             function drawCrosshair(x, y) {
@@ -2775,46 +2857,125 @@ const playerImage = new Image();
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        function draw() {
+        class Particle {
+    constructor(x, y) {
+        this.x = x; // Initial x position
+        this.y = y; // Initial y position
+        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
+        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+    }
+
+    update() {
+        this.x -= this.speed; // Move particle to the left
+        // Reset particle position to the right when it moves off screen
+        if (this.x < 0) {
+            this.x = gameScene.width; // Reappear from the right
+            this.y = Math.random() * gameScene.height; // Random vertical position
+        }
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Array to hold particles
+let particles = [];
+
+// Function to initialize particles
+function initParticles() {
+    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+        let x = Math.random() * gameScene.width; // Random initial x position
+        let y = Math.random() * gameScene.height; // Random initial y position
+        particles.push(new Particle(x, y));
+    }
+}
+
+// Update and draw sand particles
+function drawParticles(ctx) {
+    particles.forEach(particle => {
+        particle.update(); // Update position
+        particle.draw(ctx); // Draw particle
+    });
+}
+
+function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-    // Draw background image
-    ctx.drawImage(backgroundImage, 0, 0, gameScene.width, gameScene.height);
+    // Swaying effect for the background
+    const swayOffset = 5 * Math.sin(Date.now() / 1000); // Adjust sway speed and distance
+    ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
-    // Draw player image
-    ctx.drawImage(playerImage, gameState.playerX, gameState.playerY, 120, 120); // Adjust width and height as needed
+    // Draw sand particles in the background
+    drawParticles(ctx);
+
+    // Calculate breathing effect for the player and monster
+    const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
+
+    // Shadow for player
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.playerX + 60, gameState.playerY + 113, 30, 3, 0, 0, 2 * Math.PI); // Simple ellipse shadow
+    ctx.fill();
+
+    // Draw player with breathing effect
+    const playerWidth = 120 * breathingScale;
+    const playerHeight = 120 * breathingScale;
+    ctx.drawImage(
+        playerImage,
+        gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
+        gameState.playerY - (playerHeight - 120) / 2,
+        playerWidth,
+        playerHeight
+    );
+
+    // Shadow for monster
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.fill();
+
+    // Draw monster with breathing effect
+    const monsterWidth = 170 * breathingScale;
+    const monsterHeight = 170 * breathingScale;
+    ctx.drawImage(
+        currentMonsterImage,
+        gameState.monsterX - (monsterWidth - 170) / 2,
+        gameState.monsterY - (monsterHeight - 170) / 2,
+        monsterWidth,
+        monsterHeight
+    );
 
     // If the player is hurt, overlay a red tint
     if (gameState.playerHurt) {
-        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)'; // Light red overlay with transparency
-        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120); // Overlay the rectangle with the same size as the player
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)';
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120);
     }
-
-    // Draw monster image
-    ctx.drawImage(currentMonsterImage, gameState.monsterX, gameState.monsterY, 170, 170); // Adjust width and height as needed
 
     // If the monster is hurt, overlay a red tint
     if (gameState.monsterHurt) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Darker red overlay with transparency
-        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170); // Overlay the rectangle with the same size as the monster
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 170, 170);
     }
 
     // Check for player or monster attack
     if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
-
         // Play sound effects when attacking
         if (gameState.isPlayerAttacking) {
             let playerAttackSound = document.getElementById("playerAttackSound");
             if (playerAttackSound.paused) {
-                playerAttackSound.play(); // Play sound if not already playing
+                playerAttackSound.play();
             }
         }
 
         if (gameState.isMonsterAttacking) {
             let monsterAttackSound = document.getElementById("monsterAttackSound");
             if (monsterAttackSound.paused) {
-                monsterAttackSound.play(); // Play sound if not already playing
+                monsterAttackSound.play();
             }
         }
 
@@ -2825,7 +2986,7 @@ const playerImage = new Image();
 
         // Draw blood splash
         if (gameState.bloodSplash) {
-            const numberOfDroplets = 10; // Adjust to control how many droplets there are
+            const numberOfDroplets = 10;
             for (let i = 0; i < numberOfDroplets; i++) {
                 const dropletX = gameState.bloodSplash.x + (Math.random() - 0.5) * 60;
                 const dropletY = gameState.bloodSplash.y + (Math.random() - 0.5) * 60;
@@ -2841,7 +3002,7 @@ const playerImage = new Image();
                 ctx.arc(dropletX, dropletY, dropletRadius, 0, 2 * Math.PI);
                 ctx.fill();
             }
-            ctx.globalAlpha = 1; // Reset opacity
+            ctx.globalAlpha = 1;
         }
 
         // Draw damage text
@@ -2849,13 +3010,16 @@ const playerImage = new Image();
             ctx.globalAlpha = gameState.damageText.opacity;
             ctx.fillStyle = '#FF0000';
             ctx.font = 'bold 24px Arial';
-            ctx.fillText("50", gameState.damageText.x, gameState.damageText.y); // Use damageText.value
+            ctx.fillText("50", gameState.damageText.x, gameState.damageText.y);
             ctx.globalAlpha = 1;
         }
     }
 
     requestAnimationFrame(draw);
 }
+
+// Initialize particles on game start
+initParticles();
 function animateAttack(attacker, damage) {
     const attackDuration = 30; // Number of frames for the attack animation
     const moveDistance = 400; // Distance to move
