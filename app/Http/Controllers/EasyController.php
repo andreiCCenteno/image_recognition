@@ -29,21 +29,58 @@ class EasyController extends Controller
 
     public function updateScore(Request $request, $userId)
 {
+    // Validate the request, including optional fields
     $request->validate([
-        'score' => 'required|integer',
+        'score' => 'sometimes|required|integer',
+        'easy_post_test_performance' => 'sometimes|required|numeric', // Changed to the new field name
+        'increment_total_games_played' => 'sometimes|required|boolean', // New parameter to control total games played increment
     ]);
 
     $user = User::find($userId);
-    
+
     if ($user) {
-        // Update the user's score
-        $user->score += $request->score; // You may want to add to the score instead
+        // Increment total games played if the parameter is set to true
+        if ($request->increment_total_games_played) {
+            $user->total_games_played += 1;
+        }
+
+        // If 'score' is provided, update the total score
+        if ($request->score) {
+            $user->score += $request->score;
+        }
+
+        // If 'easy_post_test_performance' is provided, check for passing criteria
+        if ($request->easy_post_test_performance !== null) {
+            if ($request->easy_post_test_performance >= 80) {
+                $user->total_wins += 1; // Increment total wins
+            }
+        
+            // Update post-test performance with the latest score
+            $user->easy_post_test_performance = $request->easy_post_test_performance;
+        }
+
+        // Calculate success rate as a percentage
+        $user->success_rate = ($user->total_games_played > 0) 
+            ? ($user->total_wins / $user->total_games_played) * 100 
+            : 0;
+
         $user->save();
 
-        return response()->json(['message' => 'Score updated successfully']);
+        return response()->json(['message' => 'Game stats updated successfully']);
     }
 
     return response()->json(['message' => 'User not found'], 404);
+}
+
+public function getCurrentPerformance($userId) {
+    $user = User::find($userId);
+    if ($user) {
+        return response()->json([
+            'post_test_performance' => $user->easy_post_test_performance // Return the new field name
+        ]);
+    } else {
+        return response()->json(['error' => 'User not found'], 404);
+    }
 }
 
     public function saveGameState(Request $request)
@@ -77,6 +114,8 @@ class EasyController extends Controller
 
     return response()->json(['message' => 'User not found'], 404);
 }
+
+
 }
 
 

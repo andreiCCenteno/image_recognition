@@ -1146,7 +1146,7 @@
                 style="max-width: 100%; cursor: pointer;">
 
             <!-- Large Detection Zones -->
-            <div id="mediumTree" class="detection-zone" style="left: 32px; top: 90px; width: 35px; height: 200px;">
+            <div id="easyTree" class="detection-zone" style="left: 32px; top: 90px; width: 35px; height: 200px;">
             </div>
             <div id="smallTree" class="detection-zone" style="left: 110px; top: 150px; width: 300px; height: 100px;">
             </div>
@@ -1258,9 +1258,9 @@
                         'images/easy/ball_outline.jpg',
                         'images/easy/apple_outline.jpg',
                         'images/easy/vase_outline.jpg',
-                        'images/medium/bicycle_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/coffeemug_outline.webp'
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/coffeemug_outline.webp'
                     ]
                 },
 
@@ -1270,9 +1270,9 @@
                         'images/easy/triangle_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/bicycle_outline.webp'
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/bicycle_outline.webp'
                     ]
                 },
 
@@ -1282,9 +1282,9 @@
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/laptop_outline.jpg'
+                        'images/easy/house_outline.jpg',
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/laptop_outline.jpg'
                     ]
                 },
 
@@ -1294,9 +1294,9 @@
                         'images/easy/vase_outline.jpg',
                         'images/easy/apple_outline.jpg',
                         'images/easy/triangle_outline.jpg',
-                        'images/medium/laptop_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
+                        'images/easy/laptop_outline.jpg',
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
                     ]
                 },
                 {
@@ -1305,9 +1305,9 @@
                         'images/easy/balloon_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/apple_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/bicycle_outline.webp'
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/bicycle_outline.webp'
                     ]
                 }, {
                     original: 'images/easy/box.jpg',
@@ -1315,9 +1315,9 @@
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
-                        'images/medium/bicycle_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/coffeemug_outline.webp'
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/coffeemug_outline.webp'
                     ]
                 },
 
@@ -1325,19 +1325,19 @@
                     original: 'images/easy/pizza.png',
                     outlines: [
                         'images/easy/pizza_outline.png',
-                        'images/medium/house_outline.jpg',
+                        'images/easy/house_outline.jpg',
                         'images/easy/triangle_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/bicycle_outline.webp'
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/bicycle_outline.webp'
                     ]
                 },
                 {
-                    original: 'images/medium/bicycle.webp',
+                    original: 'images/easy/bicycle.webp',
                     outlines: [
-                        'images/medium/bicycle_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/coffeemug_outline.webp',
                         'images/easy/pizza_outline.jpg',
                         'images/easy/house_outline.jpg',
                         'images/easy/triangle_outline.jpg',
@@ -1345,11 +1345,11 @@
                 },
 
                 {
-                    original: 'images/medium/coffeemug.webp',
+                    original: 'images/easy/coffeemug.webp',
                     outlines: [
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
-                        'images/medium/bicycle_outline.webp',
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/bicycle_outline.webp',
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
@@ -1357,11 +1357,11 @@
                 },
 
                 {
-                    original: 'images/medium/house.webp',
+                    original: 'images/easy/house.webp',
                     outlines: [
-                        'images/medium/house_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/laptop_outline.jpg',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/laptop_outline.jpg',
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
@@ -1369,11 +1369,11 @@
                 },
 
                 {
-                    original: 'images/medium/laptop.jpg',
+                    original: 'images/easy/laptop.jpg',
                     outlines: [
-                        'images/medium/laptop_outline.jpg',
-                        'images/medium/coffeemug_outline.webp',
-                        'images/medium/house_outline.jpg',
+                        'images/easy/laptop_outline.jpg',
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/house_outline.jpg',
                         'images/easy/triangle_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
@@ -1627,6 +1627,8 @@ function skipLevel() {
         }, 1000);
         showLevel1CompleteModal();
         currentLevel++;
+        updateScore(10); 
+        
     }
         console.log(`Skipped to level ${gameState.level}`);
     }else if(gameState.level === 2){
@@ -1646,7 +1648,15 @@ function skipLevel() {
         currentLevel++;
         gameState.level++;
         showLevel2CompleteModal();
+        updateScore(10); 
+        const modal = document.getElementById('levelCompleteModal');
+            modal.style.display = 'none';
+        
     }
+    }else if(gameState.level === 3){
+        const modal = document.getElementById('level2CompleteModal');
+            modal.style.display = 'none';
+        takeposttest();
     }
 }
 
@@ -2213,7 +2223,7 @@ enableSkipLevelHotkey();
 
             // Define all detection zones and their respective IDs
             const detectionZones = [
-                { id: 'mediumTree', name: 'Medium Tree' },
+                { id: 'easyTree', name: 'easy Tree' },
                 { id: 'smallTree', name: 'Small Tree' },
                 { id: 'largestTree', name: 'Largest Tree' },
                 { id: 'bench', name: 'Bench' },
@@ -2255,6 +2265,7 @@ enableSkipLevelHotkey();
 
         function initializePostTest() {
             const quizSound = new Audio("{{ asset('music/quizBackgroundMusic.mp3') }}");
+            quizSound.loop = true; // Enable looping
             quizSound.play();
             pauseTimer(); // Pause any timers if applicable
             const totalScore = gameState.totalScore || 0;
@@ -2474,91 +2485,131 @@ function drawTarget(x, y, answer) {
                 hitAnimationX = xPos;
                 hitAnimationY = 300;
 
-                if(hit){
-            currentQuestion++;
+                if (hit) {
+    currentQuestion++;
 
-            // Check if there are more questions left
-            if (currentQuestion < totalQuestions) {
-                drawGame();
-            } else {
-                quizSound.pause();
-                // Display end of game modal
-                const percentageScore = (score / totalQuestions) * 100;
-                document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-                document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+    // Check if there are more questions left
+    if (currentQuestion < totalQuestions) {
+        drawGame();
+    } else {
+        quizSound.pause();
+        
+        // Calculate the score percentage
+        const percentageScore = (score / totalQuestions) * 100;
+        document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
+        document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+
+        // Define base URL and retrieve user ID from local storage
+        const baseUrl = window.location.origin;
+        const userId = localStorage.getItem('user_id');
+        console.log('User ID:', userId);
+
+        // Fetch previous performance from backend to ensure accuracy
+        
 
                 // Check if the user passed or failed
                 if (percentageScore >= 80) {
-                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                    const updatedTotalScore = gameState.totalScore + score;
+    // Log the percentageScore and ensure it's being calculated correctly
+    console.log('Passing score detected:', percentageScore);
 
-                    // Update the game state with the new total score
-                    gameState.totalScore = updatedTotalScore;
-                    showModal(updateScore);
-                    // Display the total score including the post-test score
-                    console.log(updatedTotalScore);
-                    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+    fetch(`${baseUrl}/get-current-performance/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            let previousPostTestPerformance = data.post_test_performance || 0;
+            console.log('Previous Performance:', previousPostTestPerformance);
 
-                    // Save the score to the database
-                    const baseUrl = window.location.origin;
-                    const userId = localStorage.getItem('user_id');
-                    console.log('User ID:', userId); // Get user ID from local storage
+            // Updated logging for the performance score
+            console.log('Current easy_post_test_performance:', percentageScore);
 
-                    // First, update the user's easy_finish status
-                    fetch(`${baseUrl}/update-easy-finish/${userId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                        },
-                        body: JSON.stringify({ easy_finish: 1 }) // Set easy_finish to true
+            document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
+            const updatedTotalScore = gameState.totalScore + score;
+
+            // Update the game state with the new total score
+            gameState.totalScore = updatedTotalScore;
+            showModal(updatedTotalScore);
+
+            // Display the total score including the post-test score
+            console.log('Updated Total Score:', updatedTotalScore);
+            document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
+
+            // Update easy_finish status and save stats to the database
+            fetch(`${baseUrl}/update-easy-finish/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ easy_finish: 1 })
+            })
+            .then(response => response.json())
+            .then(() => {
+                // Save the score and additional stats
+                return fetch(`${baseUrl}/easy-update-score/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        score: updatedTotalScore,
+                        increment_total_games_played: true,
+                        total_wins: 1,  // Always sending 1 when passed
+                        success_rate: 1, // Assuming you also want to count this as a success
+                        easy_post_test_performance: percentageScore // Ensure you are sending the correct value
                     })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('easy_finish updated successfully:', data);
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Score and additional stats updated successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error updating score or easy_finish:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching current performance:', error);
+        });
 
-                            // After updating easy_finish, now save the score
-                            return fetch(`${baseUrl}/easy-update-score/${userId}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                                },
-                                body: JSON.stringify({ score: updatedTotalScore })
-                            });
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('Score updated successfully:', data);
-                        })
-                        .catch(error => {
-                            console.error('Error updating score or easy_finish:', error);
-                        });
-                    document.getElementById('postTestContainer').style.display = 'none';
-                } else {
-                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
-                    setTimeout(() => {
-                        currentQuestion = 0; // Reset to the first question
-                        score = 0; // Reset score
-                        gameActive = true; // Reactivate the game
-                        window.location.href = "{{ route('easy') }}"; // Restart the game
-                    }, 1000);
-                }
+    document.getElementById('postTestContainer').style.display = 'none';
+} else {
+    // Handle failure case as before
+    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+    // Restart the game after 1 second if the user failed
+    fetch(`${baseUrl}/easy-update-score/${userId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            increment_total_games_played: true, // Only increment total games played
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Game stats updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating total games played:', error);
+    });
+
+    setTimeout(() => {
+        currentQuestion = 0; // Reset to the first question
+        score = 0; // Reset score
+        gameActive = true; // Reactivate the game
+        window.location.href = "{{ route('easy') }}"; // Restart the game
+    }, 1000);
+}
                 // Stop the game
                 gameActive = false;
-            }
-                
-            }
+    }
+}
         }
     });
 });

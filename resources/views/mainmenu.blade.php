@@ -212,6 +212,19 @@ body {
         padding: 12px 20px;
     }
 }
+
+.dashboard-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+}
+
+.statistics {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -234,6 +247,7 @@ body {
         <a href="{{ route('play') }}" class="menu-button" onclick="playSound()"><i class="fas fa-gamepad"></i> PLAY</a>
         <a href="{{ route('leaderboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-trophy"></i> LEADERBOARD</a>
         <a href="{{ route('settings') }}" class="menu-button" onclick="playSound()"><i class="fas fa-cog"></i> SETTINGS</a>
+        <a href="{{ route('dashboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a>
         <button class="menu-button" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> LOGOUT
             </button>

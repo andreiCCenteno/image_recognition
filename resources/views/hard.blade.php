@@ -1592,6 +1592,69 @@ function initializeGame() {
                         draw();
 }
 
+function enableSkipLevelHotkey() {
+    document.addEventListener('keydown', (event) => {
+        // Check if Shift + L is pressed
+        if (event.shiftKey && event.key === 'L') {
+            skipLevel();
+        }
+    });
+}
+function skipLevel() {
+    clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+    if (gameState.level === 1) {
+                showLevel1CompleteModal();
+                updateScore(10); 
+                gameState.level++;
+            } else if (gameState.level === 2) {
+                showLevel2CompleteModal();
+                level2Content.style.display = 'block';
+                switchToLevel2();
+                updateScore(10); 
+                gameState.level++;
+                const modal = document.getElementById('levelCompleteModal');
+                modal.style.display = 'none';
+            } else if (gameState.level === 3) {
+                showLevel3CompleteModal();
+                level3Content.style.display = 'block';
+                initializeLevel3();
+                updateScore(10); 
+                gameState.level++;
+                const modal = document.getElementById('level2CompleteModal');
+                modal.style.display = 'none';
+            }else if (gameState.level === 4) {
+                showLevel4CompleteModal();
+                level4Content.style.display = 'block';
+                initializeLevel4();
+                updateScore(10); 
+                gameState.level++;
+                const modal = document.getElementById('level3CompleteModal');
+                modal.style.display = 'none';
+            }else if (gameState.level === 5) {
+                showLevel5CompleteModal();
+                level5Content.style.display = 'block';
+                initializeLevel5();
+                updateScore(10); 
+                gameState.level++;
+                const modal = document.getElementById('level4CompleteModal');
+                modal.style.display = 'none';
+            }else  {
+                takeposttest();
+                const modal = document.getElementById('level5CompleteModal');
+                modal.style.display = 'none';
+            }
+}
+
+// Call this function once to enable the hotkey
+enableSkipLevelHotkey();
+
 
 gameState.level3 = {
     features: [
@@ -2169,6 +2232,9 @@ function initializeLevel5() {
 
 
 function initializePostTest() {
+    const quizSound = new Audio("{{ asset('music/quizBackgroundMusic.mp3') }}");
+            quizSound.loop = true; // Enable looping
+            quizSound.play();
             pauseTimer(); // Pause any timers if applicable
             const totalScore = gameState.totalScore || 0;
 
@@ -2181,6 +2247,8 @@ function initializePostTest() {
 
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
+
+            const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
 
             const questions = [
                 {
@@ -2407,35 +2475,43 @@ function initializePostTest() {
             ];
 
             let currentQuestion = 0;
-            let score = 0; // Variable to keep track of the score
-            const totalQuestions = questions.length; // Total number of questions
-            let gameActive = true; // Variable to track if the game is ongoing
+    let score = 0;
+    const totalQuestions = questions.length;
+    let gameActive = true;
+    let crosshairX = 400;
+    let crosshairY = 300;
+    let hitAnimationActive = false;
+    let hitAnimationX = 0;
+    let hitAnimationY = 0;
+    let hitAnimationFrame = 0;
 
-            let crosshairX = 400; // Initial crosshair position
-            let crosshairY = 300; // Initial crosshair position
-
-            // Function to draw the game
             // Function to draw the game
             function drawGame() {
-    if (!gameActive) return; // Stop drawing if the game is inactive
+        if (!gameActive) return;
 
-    // Check if currentQuestion is within the valid range
-    if (currentQuestion < totalQuestions) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw question
-        document.getElementById('questionText').innerText = questions[currentQuestion].question;
+        if (currentQuestion < totalQuestions) {
+            document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-        // Draw stationary targets
-        questions[currentQuestion].answers.forEach((answer, i) => {
-            const xPos = 100 + (i * 200); // Calculate X position for each target
-            drawTarget(xPos, 300, answer); // Draw the target with the answer inside
-        });
+            questions[currentQuestion].answers.forEach((answer, i) => {
+                const xPos = 100 + (i * 200);
+                drawTarget(xPos, 300, answer);
+            });
 
-        // Draw crosshair
-        drawCrosshair(crosshairX, crosshairY); 
+            drawCrosshair(crosshairX, crosshairY);
+
+            if (hitAnimationActive) {
+                drawHitAnimation(hitAnimationX, hitAnimationY);
+                hitAnimationFrame++;
+
+                if (hitAnimationFrame > 5) {
+                    hitAnimationActive = false;
+                    hitAnimationFrame = 0;
+                }
+            }
+        }
     }
-}
 
 // Function to draw targets with answers inside
 function drawTarget(x, y, answer) {
@@ -2469,7 +2545,6 @@ function drawTarget(x, y, answer) {
     ctx.fillText(answer, x, y); // Center the text vertically
 }
 
-
             // Function to draw crosshair
             function drawCrosshair(x, y) {
                 ctx.strokeStyle = "red"; // Crosshair color
@@ -2482,6 +2557,49 @@ function drawTarget(x, y, answer) {
                 ctx.stroke();
             }
 
+            function drawHitAnimation(x, y) {
+    // Explosion burst effect
+    const maxBurstRadius = 50;
+    const burstRadius = 10 + hitAnimationFrame * 3;
+    const burstOpacity = 1 - hitAnimationFrame / 10;
+
+    // Draw expanding burst
+    ctx.fillStyle = `rgba(255, 69, 0, ${burstOpacity})`; // Orange-red color
+    ctx.beginPath();
+    ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+
+    // Simulate "hole" in the target
+    const holeRadius = hitAnimationFrame * 2;
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+
+    // Particle debris effect
+    for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI / 4) * i;
+        const particleX = x + Math.cos(angle) * burstRadius;
+        const particleY = y + Math.sin(angle) * burstRadius;
+        const particleSize = 2 + Math.random() * 2;
+
+        ctx.fillStyle = `rgba(169, 169, 169, ${burstOpacity})`; // Gray debris
+        ctx.beginPath();
+        ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    hitAnimationFrame++;
+
+    if (hitAnimationFrame > 10) {
+        hitAnimationActive = false;
+        hitAnimationFrame = 0;
+    }
+}
+
             canvas.addEventListener('mousemove', function (event) {
                 const rect = canvas.getBoundingClientRect();
                 crosshairX = event.clientX - rect.left; // Update crosshair X position
@@ -2491,7 +2609,10 @@ function drawTarget(x, y, answer) {
 
             // Click event to handle answer selection
             canvas.addEventListener('click', function () {
+            shootSound.play();
                 const targetSize = 80; // Size of the target shape
+
+                 let hit = false;
 
                 // Check if a target was clicked
                 questions[currentQuestion].answers.forEach((answer, i) => {
@@ -2503,15 +2624,23 @@ function drawTarget(x, y, answer) {
                         crosshairY > 300 - targetSize &&
                         crosshairY < 300 + targetSize
                     ) {
+                    hit = true;
                         if (i === questions[currentQuestion].correct) {
                 score++; // Increase score for correct answer
+                
             }
-            currentQuestion++;
+                hitAnimationActive = true;
+                hitAnimationX = xPos;
+                hitAnimationY = 300;
+
+            if(hit){
+                currentQuestion++;
 
             // Check if there are more questions left
             if (currentQuestion < totalQuestions) {
                 drawGame();
             } else {
+                quizSound.pause();
                 // Display end of game modal
                 const percentageScore = (score / totalQuestions) * 100;
                 document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
@@ -2544,67 +2673,97 @@ function downloadCertificate() {
     });
 }
                 // Check if the user passed or failed
+                 // Define base URL and retrieve user ID from local storage
+        const baseUrl = window.location.origin;
+        const userId = localStorage.getItem('user_id');
+        console.log('User ID:', userId);
+
+        // Fetch previous performance from backend to ensure accuracy
+        
+
+                // Check if the user passed or failed
                 if (percentageScore >= 80) {
+                    fetch(`${baseUrl}/get-hard-current-performance/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                let previousPostTestPerformance = data.post_test_performance || 0;
+                console.log('Previous Performance:', previousPostTestPerformance);
                     document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
                     const updatedTotalScore = gameState.totalScore + score;
-                    displayCertificate(percentageScore);
-
+                    
                     // Update the game state with the new total score
                     gameState.totalScore = updatedTotalScore;
+                    showModal(updatedTotalScore);
 
                     // Display the total score including the post-test score
-                    console.log(updatedTotalScore);
-                    showModal(updateScore);
+                    console.log('Updated Total Score:', updatedTotalScore);
                     document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
 
-                    // Save the score to the database
-                    const baseUrl = window.location.origin;
-                    const userId = localStorage.getItem('user_id');
-                    console.log('User ID:', userId); // Get user ID from local storage
-
-                    // First, update the user's hard_finish status
+                    // Update hard_finish status and save stats to the database
                     fetch(`${baseUrl}/update-hard-finish/${userId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
-                        body: JSON.stringify({ hard_finish: 1 }) // Set hard_finish to true
+                        body: JSON.stringify({ hard_finish: 1 })
                     })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('hard_finish updated successfully:', data);
-
-                            // After updating hard_finish, now save the score
-                            return fetch(`${baseUrl}/hard-update-score/${userId}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure to include CSRF token
-                                },
-                                body: JSON.stringify({ score: updatedTotalScore })
-                            });
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log('Score updated successfully:', data);
-                        })
-                        .catch(error => {
-                            console.error('Error updating score or hard_finish:', error);
+                    .then(response => response.json())
+                    .then(() => {
+                        // Save the score and additional stats
+                        return fetch(`${baseUrl}/hard-update-score/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                score: updatedTotalScore,
+                                increment_total_games_played: true,
+                                total_wins: percentageScore >= 80 ? 1 : 0,
+                                success_rate: percentageScore >= 80 ? 1 : 0,
+                                hard_post_test_performance: Math.max(percentageScore, previousPostTestPerformance)
+                            })
                         });
-                    document.getElementById('postTestContainer').style.display = 'none';
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Score and additional stats updated successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error updating score or hard_finish:', error);
+                    });
+                })
+            .catch(error => {
+                console.error('Error fetching current performance:', error);
+            });
+            document.getElementById('postTestContainer').style.display = 'none';
                 } else {
                     document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
+                    // Restart the game after 1 second if user failed
+                    fetch(`${baseUrl}/hard-update-score/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            increment_total_games_played: true, // Only increment total games played
+                            // Include other fields conditionally based on your logic
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();  // Parse JSON only if the response is ok
+                    })
+                    .then(data => {
+                        console.log('Game stats updated successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error updating total games played:', error);
+                    });
                     setTimeout(() => {
                         currentQuestion = 0; // Reset to the first question
                         score = 0; // Reset score
@@ -2613,6 +2772,7 @@ function downloadCertificate() {
                     }, 1000);
                 }
                 gameActive = false;
+            }
             }
         }
     });

@@ -12,6 +12,7 @@ use App\Http\Controllers\EasyController;
 use App\Http\Controllers\MediumController; 
 use App\Http\Controllers\HardController; // Adjust to your controller's namespace
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -67,15 +68,19 @@ Route::get('/tutorial', [tutorialController::class, 'tutorial'])->name('tutorial
 Route::get('/easy', [EasyController::class, 'easy'])->name('easy');
 Route::post('/update-easy-finish/{userId}', [EasyController::class, 'updateEasyFinish'])->name('update.easy.finish');
 Route::post('/easy-update-score/{userId}', [EasyController::class, 'updateScore']);
+Route::get('/get-current-performance/{userId}', [EasyController::class, 'getCurrentPerformance']);
+
 
 Route::get('/medium', [MediumController::class, 'medium'])->name('medium');
 Route::post('/update-medium-finish/{userId}', [MediumController::class, 'updateMediumFinish'])->name('update.medium.finish');
 Route::post('/medium-update-score/{userId}', [MediumController::class, 'updateScore']);
+Route::get('/get-medium-current-performance/{userId}', [MediumController::class, 'getCurrentPerformance']);
 
 Route::get('/hard', [HardController::class, 'hard'])->name('hard');
 Route::post('/hard-update-score/{userId}', [HardController::class, 'updateScore']);
 Route::post('/update-hard-finish/{userId}', [HardController::class, 'updateHardFinish'])->name('update.hard.finish');
 Route::get('/certificate-data', [HardController::class, 'displayCertificate']);
+Route::get('/get-hard-current-performance/{userId}', [HardController::class, 'getCurrentPerformance']);
 
 // In routes/web.php
 Route::post('/save/score', [EasyController::class, 'saveScore'])->name('save.score');
@@ -89,5 +94,8 @@ Route::post('/medium/submit-score', [MediumController::class, 'submitScore'])->n
 Route::post('/hard/submit-score', [HardController::class, 'submitScore'])->name('save.hard.score');
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 
