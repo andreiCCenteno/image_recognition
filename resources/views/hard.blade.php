@@ -374,9 +374,8 @@ overflow: hidden;
 }
 
 .feature-item img {
-width: 100%;
-height: 100%;
-object-fit: cover;
+    width: 50px; 
+    height: 50px; 
 }
 
 .feature-item.dragging {
@@ -1588,6 +1587,9 @@ function initializeGame() {
     }
     console.log(gameState.level);
             console.log(currentLevel);
+
+            currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+                        draw();
 }
 
 

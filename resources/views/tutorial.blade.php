@@ -202,12 +202,45 @@ button:hover {
 
 /* Modal content */
 #modal-content, #tutorial-modal, .tutorial-modal-content, #finishModalContent {
-    background-color: #fefefe77;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    border-radius: 10px;
+    background-color: #111; /* Darker background for retro look */
+    margin: 8% auto; /* 8% from the top for better positioning */
+    padding: 30px; /* Increased padding for better readability */
+    border: 3px solid #00ff00; /* Neon green for retro effect */
+    width: 85%; /* Increased width for larger view */
+    max-width: 800px; /* Maximum width to maintain responsiveness */
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 255, 0, 0.5); /* Enhanced glow */
+    font-family: 'Courier New', monospace; /* Retro computer font */
+    color: #00ff00; /* Retro computer text color */
+    text-align: left;
+    font-size: 18px; /* Larger font size for readability */
+}
+
+#modal-content h1, #modal-content p, #tutorial-modal h1, #tutorial-modal p,
+.tutorial-modal-content h1, .tutorial-modal-content p, #finishModalContent h1, #finishModalContent p {
+    color: #00ff00;
+    margin-bottom: 18px;
+    text-shadow: 1px 1px 0px #333; /* Subtle text shadow for readability */
+    font-size: 20px; /* Increased font size for headers */
+}
+
+#modal-content button, #tutorial-modal button, .tutorial-modal-content button, #finishModalContent button {
+    background-color: #111;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    padding: 12px 20px; /* Larger padding for buttons */
+    border: 2px solid #00ff00;
+    border-radius: 6px;
+    font-size: 18px; /* Larger button text */
+    cursor: pointer;
+    text-shadow: 1px 1px 0px #333;
+    transition: background-color 0.2s ease;
+}
+
+#modal-content button:hover, #tutorial-modal button:hover,
+.tutorial-modal-content button:hover, #finishModalContent button:hover {
+    background-color: #00ff00;
+    color: #111;
 }
 
 /* Buttons for Play Again and Save and Quit */

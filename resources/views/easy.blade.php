@@ -374,9 +374,8 @@
 }
 
 .feature-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 50px; 
+    height: 50px; 
 }
 
 .feature-item.dragging {
@@ -1258,7 +1257,10 @@
                     outlines: [
                         'images/easy/ball_outline.jpg',
                         'images/easy/apple_outline.jpg',
-                        'images/easy/vase_outline.jpg'
+                        'images/easy/vase_outline.jpg',
+                        'images/medium/bicycle_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/coffeemug_outline.webp'
                     ]
                 },
 
@@ -1267,7 +1269,10 @@
                     outlines: [
                         'images/easy/triangle_outline.jpg',
                         'images/easy/ball_outline.jpg',
-                        'images/easy/vase_outline.jpg'
+                        'images/easy/vase_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/bicycle_outline.webp'
                     ]
                 },
 
@@ -1276,7 +1281,10 @@
                     outlines: [
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
-                        'images/easy/vase_outline.jpg'
+                        'images/easy/vase_outline.jpg',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/laptop_outline.jpg'
                     ]
                 },
 
@@ -1285,7 +1293,10 @@
                     outlines: [
                         'images/easy/vase_outline.jpg',
                         'images/easy/apple_outline.jpg',
-                        'images/easy/triangle_outline.jpg'
+                        'images/easy/triangle_outline.jpg',
+                        'images/medium/laptop_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
                     ]
                 },
                 {
@@ -1293,9 +1304,82 @@
                     outlines: [
                         'images/easy/balloon_outline.jpg',
                         'images/easy/ball_outline.jpg',
-                        'images/easy/apple_outline.jpg'
+                        'images/easy/apple_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/bicycle_outline.webp'
+                    ]
+                }, {
+                    original: 'images/easy/box.jpg',
+                    outlines: [
+                        'images/easy/box_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg',
+                        'images/medium/bicycle_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/coffeemug_outline.webp'
+                    ]
+                },
+
+                {
+                    original: 'images/easy/pizza.png',
+                    outlines: [
+                        'images/easy/pizza_outline.png',
+                        'images/medium/house_outline.jpg',
+                        'images/easy/triangle_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/bicycle_outline.webp'
+                    ]
+                },
+                {
+                    original: 'images/medium/bicycle.webp',
+                    outlines: [
+                        'images/medium/bicycle_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/easy/pizza_outline.jpg',
+                        'images/easy/house_outline.jpg',
+                        'images/easy/triangle_outline.jpg',
+                    ]
+                },
+
+                {
+                    original: 'images/medium/coffeemug.webp',
+                    outlines: [
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/medium/bicycle_outline.webp',
+                        'images/easy/box_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg',
+                    ]
+                },
+
+                {
+                    original: 'images/medium/house.webp',
+                    outlines: [
+                        'images/medium/house_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/laptop_outline.jpg',
+                        'images/easy/box_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg',
+                    ]
+                },
+
+                {
+                    original: 'images/medium/laptop.jpg',
+                    outlines: [
+                        'images/medium/laptop_outline.jpg',
+                        'images/medium/coffeemug_outline.webp',
+                        'images/medium/house_outline.jpg',
+                        'images/easy/triangle_outline.jpg',
+                        'images/easy/ball_outline.jpg',
+                        'images/easy/vase_outline.jpg',
                     ]
                 }
+
             ],
 
             level2Images: [
@@ -1511,6 +1595,63 @@
             console.log(currentLevel);
         }
 
+        function enableSkipLevelHotkey() {
+    document.addEventListener('keydown', (event) => {
+        // Check if Shift + L is pressed
+        if (event.shiftKey && event.key === 'L') {
+            skipLevel();
+        }
+    });
+}
+function skipLevel() {
+    if (gameState.level === 1) { // Assuming level 5 is the maximum level
+        clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+
+    // Play background music
+    
+
+    // If the level starts, play the background music
+    if (currentLevel === 1) {
+        draw();
+        intenseFightMusic.play(); // Start playing the calm background music
+        setTimeout(() => {
+            flipAllCards(true); // Flip all cards face up
+            setTimeout(shuffle, 1000); // Shuffle after a delay
+        }, 1000);
+        showLevel1CompleteModal();
+        currentLevel++;
+    }
+        console.log(`Skipped to level ${gameState.level}`);
+    }else if(gameState.level === 2){
+        clearInterval(monologueInterval); // Stop any remaining intervals
+    document.getElementById("learning-modal").style.display = "none"; // Hide modal
+    document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
+    resumeTimer(); // Resume the game timer
+    startLevel(currentLevel); // Start the level
+    gameState.monsterHp = 100; // Reset monster's health
+    startTimer(); // Start the level timer
+    updateStats(); // Update game stats
+        if (currentLevel === 2) {
+        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+        draw();
+        isStartLevel = true;
+        switchToLevel2();
+        currentLevel++;
+        gameState.level++;
+        showLevel2CompleteModal();
+    }
+    }
+}
+
+// Call this function once to enable the hotkey
+enableSkipLevelHotkey();
 
         gameState.level3 = {
             features: [
@@ -1662,7 +1803,7 @@
             cards = [];
 
             // Randomly select an image from the gameState.images array
-            const randomImageIndex = Math.floor(Math.random() * gameState.images.length);
+            const randomImageIndex = Math.floor(Math.random() * cardNumber);
             const selectedImage = gameState.images[randomImageIndex];
 
             // Set the target image to the randomly selected one
@@ -1671,7 +1812,7 @@
             level1Content.style.display = 'block';
 
             // Randomize the correct position for the correct outline
-            const correctPosition = Math.floor(Math.random() * 3);
+            const correctPosition = Math.floor(Math.random() * cardNumber);
 
             // Create an array of outlines for this image and shuffle them
             const outlines = [...selectedImage.outlines]; // Copy the outlines array
@@ -2113,6 +2254,8 @@
         }
 
         function initializePostTest() {
+            const quizSound = new Audio("{{ asset('music/quizBackgroundMusic.mp3') }}");
+            quizSound.play();
             pauseTimer(); // Pause any timers if applicable
             const totalScore = gameState.totalScore || 0;
 
@@ -2125,6 +2268,8 @@
 
             const canvas = document.getElementById('gameCanvas');
             const ctx = canvas.getContext('2d');
+
+            const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
 
             const questions = [
               {
@@ -2171,34 +2316,43 @@
             ];
 
             let currentQuestion = 0;
-            let score = 0; // Variable to keep track of the score
-            const totalQuestions = questions.length; // Total number of questions
-            let gameActive = true; // Variable to track if the game is ongoing
-
-            let crosshairX = 400; // Initial crosshair position
-            let crosshairY = 300; // Initial crosshair position
+    let score = 0;
+    const totalQuestions = questions.length;
+    let gameActive = true;
+    let crosshairX = 400;
+    let crosshairY = 300;
+    let hitAnimationActive = false;
+    let hitAnimationX = 0;
+    let hitAnimationY = 0;
+    let hitAnimationFrame = 0;
 
             // Function to draw the game
             function drawGame() {
-    if (!gameActive) return; // Stop drawing if the game is inactive
+        if (!gameActive) return;
 
-    // Check if currentQuestion is within the valid range
-    if (currentQuestion < totalQuestions) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw question
-        document.getElementById('questionText').innerText = questions[currentQuestion].question;
+        if (currentQuestion < totalQuestions) {
+            document.getElementById('questionText').innerText = questions[currentQuestion].question;
 
-        // Draw stationary targets
-        questions[currentQuestion].answers.forEach((answer, i) => {
-            const xPos = 100 + (i * 200); // Calculate X position for each target
-            drawTarget(xPos, 300, answer); // Draw the target with the answer inside
-        });
+            questions[currentQuestion].answers.forEach((answer, i) => {
+                const xPos = 100 + (i * 200);
+                drawTarget(xPos, 300, answer);
+            });
 
-        // Draw crosshair
-        drawCrosshair(crosshairX, crosshairY); 
+            drawCrosshair(crosshairX, crosshairY);
+
+            if (hitAnimationActive) {
+                drawHitAnimation(hitAnimationX, hitAnimationY);
+                hitAnimationFrame++;
+
+                if (hitAnimationFrame > 5) {
+                    hitAnimationActive = false;
+                    hitAnimationFrame = 0;
+                }
+            }
+        }
     }
-}
 
 // Function to draw targets with answers inside
 function drawTarget(x, y, answer) {
@@ -2244,6 +2398,49 @@ function drawTarget(x, y, answer) {
                 ctx.stroke();
             }
 
+            function drawHitAnimation(x, y) {
+    // Explosion burst effect
+    const maxBurstRadius = 50;
+    const burstRadius = 10 + hitAnimationFrame * 3;
+    const burstOpacity = 1 - hitAnimationFrame / 10;
+
+    // Draw expanding burst
+    ctx.fillStyle = `rgba(255, 69, 0, ${burstOpacity})`; // Orange-red color
+    ctx.beginPath();
+    ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+
+    // Simulate "hole" in the target
+    const holeRadius = hitAnimationFrame * 2;
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+
+    // Particle debris effect
+    for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI / 4) * i;
+        const particleX = x + Math.cos(angle) * burstRadius;
+        const particleY = y + Math.sin(angle) * burstRadius;
+        const particleSize = 2 + Math.random() * 2;
+
+        ctx.fillStyle = `rgba(169, 169, 169, ${burstOpacity})`; // Gray debris
+        ctx.beginPath();
+        ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    hitAnimationFrame++;
+
+    if (hitAnimationFrame > 10) {
+        hitAnimationActive = false;
+        hitAnimationFrame = 0;
+    }
+}
+
             canvas.addEventListener('mousemove', function (event) {
                 const rect = canvas.getBoundingClientRect();
                 crosshairX = event.clientX - rect.left; // Update crosshair X position
@@ -2253,7 +2450,10 @@ function drawTarget(x, y, answer) {
 
             // Click event to handle answer selection
             canvas.addEventListener('click', function () {
+            shootSound.play();
                 const targetSize = 80; // Size of the target shape
+
+                 let hit = false;
 
                 // Check if a target was clicked
                 questions[currentQuestion].answers.forEach((answer, i) => {
@@ -2265,15 +2465,23 @@ function drawTarget(x, y, answer) {
                         crosshairY > 300 - targetSize &&
                         crosshairY < 300 + targetSize
                     ) {
+                    hit = true;
                         if (i === questions[currentQuestion].correct) {
                 score++; // Increase score for correct answer
+                
             }
+                hitAnimationActive = true;
+                hitAnimationX = xPos;
+                hitAnimationY = 300;
+
+                if(hit){
             currentQuestion++;
 
             // Check if there are more questions left
             if (currentQuestion < totalQuestions) {
                 drawGame();
             } else {
+                quizSound.pause();
                 // Display end of game modal
                 const percentageScore = (score / totalQuestions) * 100;
                 document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
@@ -2346,9 +2554,10 @@ function drawTarget(x, y, answer) {
                         window.location.href = "{{ route('easy') }}"; // Restart the game
                     }, 1000);
                 }
-
                 // Stop the game
                 gameActive = false;
+            }
+                
             }
         }
     });

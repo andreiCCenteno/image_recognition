@@ -415,10 +415,9 @@
         }
 
         .feature-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    width: 50px; 
+    height: 50px; 
+}
 
         .feature-item.dragging {
             opacity: 0.5;
@@ -1601,6 +1600,9 @@
                 level5Content.style.display = 'block';
                 initializeLevel5();
             }
+
+            currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+                        draw();
         }
 
 
@@ -1946,7 +1948,7 @@
                 {
                     id: 'feature1',
                     type: 'edge',
-                    image: '/api/placeholder/180/100', // Change image sources as needed
+                    image: 'https://placehold.co/200x200', // Change image sources as needed
                     correctZone: { x: 50, y: 50, width: 100, height: 100 }
                 },
                 {
@@ -2716,22 +2718,6 @@ function showMonologuesInSequence(level, delay = 10000) {
                     gameState.monsterHp = 100; 
                     startTimer();
                     updateStats(); 
-                    
-                    if (currentLevel === 1) {
-                        draw();
-                        intenseFightMusic.play(); // Start playing the calm background music
-                        setTimeout(() => {
-                            flipAllCards(true); // Flip all cards face up
-                            setTimeout(shuffle, 1000); // Shuffle after a delay
-                        }, 1000);
-                        currentLevel++;
-                    } else if (currentLevel === 2) {
-                        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
-                        draw();
-                        isStartLevel = true;
-                        switchToLevel2();
-                        currentLevel++;
-                    }
                 };
             }
 
