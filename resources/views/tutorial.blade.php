@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Tutorial</title>
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js/dist/fireworks.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap">
     <style>
 
@@ -47,11 +48,34 @@ h2 {
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    color: #fff; /* White text for contrast */
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    max-width: 400px;
+    width: 800px; /* Fixed width */
+    height: 150px; /* Fixed height */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); /* Optional: glow effect */
+    font-size: 22px; /* Increased font size for better visibility */
+    line-height: 1.5; /* Increased line height for better readability */
+    overflow-y: auto; /* Adds scroll if text exceeds the box height */
+}
+#skipButton, #nextTutorialButton, #backTutorialButton {
+    font-size: 20px; /* Adjusted size for button text */
+}
+
+#skipButton {
+    position: absolute; /* Positioning relative to the instruction box */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    background: none; /* No background */
+    border: none; /* No border */
+    color: #39FF14; /* Neon green color */
+    font-size: 16px; /* Adjust font size as needed */
+    text-decoration: underline; /* Underline text */
+    cursor: pointer; 
+    padding: 5px 10px; /* Add padding for better touch area */
+    margin: 0; /* Ensure no margin to avoid layout issues */
+    z-index: 103; /* Ensure it is above other elements */
 }
 
 .instruction-box button {
@@ -110,6 +134,17 @@ h2 {
     margin: 20px 0;
 }
 
+#backTutorialButton {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+#nextTutorialButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
 
 button {
     padding: 10px 20px;
@@ -1100,11 +1135,23 @@ input[type="range"]::-moz-range-thumb {
 #skipTutorialButton:hover {
     background-color: rgba(255, 0, 0, 1); /* Darker red on hover */
 }
+.fireworks-canvas {
+            position: fixed;
+            bottom: 0; /* Position at the bottom */
+            pointer-events: none; /* Prevents canvas from blocking clicks */
+            z-index: 999; /* Ensure it is below the modal */
+            height: 50%; /* Make sure the canvas covers half the height of the screen */
+        }
 
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
 <body>
+<audio id="tutorialBackgroundSound" autoplay loop>
+        <source src="{{ asset('music/tutorialBackgroundSound.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+
 <button id="skipTutorialButton">Skip Tutorial</button>
 <div class="settings-modal-overlay" id="settingsModal" style="display: none;">
         <div class="settings-modal">
@@ -1119,14 +1166,16 @@ input[type="range"]::-moz-range-thumb {
     </button>
     
     <!-- Dark Overlay for Tutorial -->
-    <div class="overlay" id="tutorialOverlay">
-        <div class="highlight-area" id="highlightArea"></div>
-        <div class="hand-pointer" id="handPointer"></div> <!-- Hand pointer element -->
-        <div class="instruction-box">
-            <p id="tutorialText">This is a tutorial message...</p>
+            <div class="overlay" id="tutorialOverlay">
+            <div class="highlight-area" id="highlightArea"></div>
+            <div class="hand-pointer" id="handPointer"></div>
+            <div class="instruction-box">
+                <button id="skipButton" style="display: none;">Skip</button>
+                <p id="tutorialText">This is a tutorial message...</p>
                 <button id="nextTutorialButton" style="display: none;">Next</button>
+                <button id="backTutorialButton" style="display: none;">Back</button>
+            </div>
         </div>
-    </div>
 
     <div id="tutorialModal" class="tutorialModal">
     <div class="tutorial-modal-content">
@@ -1309,22 +1358,48 @@ input[type="range"]::-moz-range-thumb {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-function showGameOverModal() {
-            const modal = document.getElementById('gameOverModal');
-            modal.style.display = 'flex'; // Show modal with flexbox for centering
 
-            // Set up button event listeners
-            document.getElementById('playAgainButton').addEventListener('click', function () {
-                window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
-                modal.style.display = 'none'; // Hide modal
-            });
+window.onload = function() {
+            const audio = document.getElementById("tutorialBackgroundSound");
+            audio.play();
+        };
+         let fireworks;
 
-            document.getElementById('exitGameButton').addEventListener('click', function () {
-                window.close(); // Close the game window
-                // Or you can redirect to a specific URL
-                window.location.href = "{{ url('play') }}"; // Redirect to the main page
-            });
-        }
+         function startFireworks() {
+    // Create left canvas for fireworks
+    const leftCanvas = document.createElement('canvas');
+    leftCanvas.className = 'fireworks-canvas'; // Set the class name
+    leftCanvas.style.left = '0'; // Position on the left
+    leftCanvas.style.width = '50vw'; // Set width to 20% of viewport
+    leftCanvas.style.height = '40%'; // Cover bottom half of the screen
+    leftCanvas.style.marginRight = '5vw'; // Add some space to the right
+    document.body.appendChild(leftCanvas);
+
+    // Create right canvas for fireworks
+    const rightCanvas = document.createElement('canvas');
+    rightCanvas.className = 'fireworks-canvas'; // Set the class name
+    rightCanvas.style.right = '0'; // Position on the right
+    rightCanvas.style.width = '50vw'; // Set width to 20% of viewport
+    rightCanvas.style.height = '40%'; // Cover bottom half of the screen
+    rightCanvas.style.marginLeft = '5vw'; // Add some space to the left
+    document.body.appendChild(rightCanvas);
+
+    // Start fireworks on the left canvas
+    const fireworksLeft = new Fireworks(leftCanvas, {
+        opacity: 0.5,
+        trace: 3,
+        particles: 100,
+    });
+    fireworksLeft.start();
+
+    // Start fireworks on the right canvas
+    const fireworksRight = new Fireworks(rightCanvas, {
+        opacity: 0.5,
+        trace: 3,
+        particles: 100,
+    });
+    fireworksRight.start();
+}
         $(document).ready(function () {
             // Show settings modal when settings icon is clicked
             $('#settingsIcon').click(function () {
@@ -1443,6 +1518,7 @@ document.addEventListener('DOMContentLoaded', function () {
 ];
 
 const skipTutorialButton = document.getElementById('skipTutorialButton');
+const skipButton = document.getElementById('skipButton');
 
     let currentStep = 0;
     const tutorialOverlay = document.getElementById('tutorialOverlay');
@@ -1482,25 +1558,42 @@ const skipTutorialButton = document.getElementById('skipTutorialButton');
     };
 
     const typeMessage = (message) => {
-        tutorialText.textContent = ""; // Clear previous text
+    tutorialText.textContent = ""; // Clear previous text
     let index = 0;
     const typingSpeed = 50; // Typing speed in milliseconds
+    let typingTimeout; // Store the typing timeout ID
 
+    skipButton.style.display = "block"; // Show skip button
+
+    // Typing function
     const type = () => {
         if (index < message.length) {
-            tutorialText.textContent += message.charAt(index); // Use textContent to avoid issues
+            tutorialText.textContent += message.charAt(index);
             index++;
-            setTimeout(type, typingSpeed);
-            // Call type again after a delay
-        }
-
-        if(index >= message.length){
+            typingTimeout = setTimeout(type, typingSpeed); // Store timeout ID
+        } else {
+            // Hide skip button when typing completes
+            skipButton.style.display = "none";
             nextTutorialButton.style.display = "block";
+            backTutorialButton.style.display = currentStep > 0 ? 'block' : 'none';
         }
     };
 
-    type();// Start typing effect
+    // Function to skip typing and display the full message immediately
+    const skipTyping = () => {
+        clearTimeout(typingTimeout); // Stop the ongoing typing effect
+        tutorialText.textContent = message; // Show full message immediately
+        skipButton.style.display = "none"; // Hide skip button
+        nextTutorialButton.style.display = "block"; // Show next button
+        backTutorialButton.style.display = currentStep > 0 ? 'block' : 'none';
     };
+
+    // Attach the skip function to the "Skip" button click event
+    skipButton.onclick = skipTyping;
+
+    // Start typing effect
+    type();
+};
 
     window.onload = function() {
         const modal = document.getElementById("tutorialModal");
@@ -1518,6 +1611,37 @@ const skipTutorialButton = document.getElementById('skipTutorialButton');
         // Start the game when the 'Start Game' button is clicked
         startButton.onclick = function() {
             modal.style.display = "none";
+
+            backTutorialButton.addEventListener('click', () => {
+    if (currentStep > 0) {
+        currentStep--;
+
+        if(currentStep === 5){
+                        setTimeout(() => {
+                            flipAllCards(true);
+                            setTimeout(shuffle, 1000);
+                        }, 1000);
+                    }
+        // Hide specific content if moving back between stages
+        if (currentStep === 5) {
+            document.getElementById('level2Content').style.display = 'none';
+            document.getElementById('level1Content').style.display = 'block';
+        } else if (currentStep === 9) {
+            document.getElementById('level3Content').style.display = 'none';
+            document.getElementById('level2Content').style.display = 'block';
+        } else if (currentStep === 12) {
+            document.getElementById('level4Content').style.display = 'none';
+            document.getElementById('level3Content').style.display = 'block';
+        } else if (currentStep === 18) {
+            document.getElementById('level5Content').style.display = 'none';
+            document.getElementById('level4Content').style.display = 'block';
+        }
+
+        showTutorialStep();
+        nextTutorialButton.style.display = "none";
+        backTutorialButton.style.display = 'none';
+    }
+});
             // Additional logic to start the game goes here
             nextTutorialButton.addEventListener('click', () => {
                 if (currentStep < tutorialSteps.length - 1) {
@@ -1560,12 +1684,16 @@ const skipTutorialButton = document.getElementById('skipTutorialButton');
 
                     showTutorialStep();
                     nextTutorialButton.style.display = "none";
+                    backTutorialButton.style.display = 'none';
                 } else {
                     const finishModal = document.getElementById('finishModal');
+                    skipTutorialButton.style.display = 'none';
+                    // Start fireworks and confetti before showing the modal
+                    startFireworks(); // Initiate fireworks
 
-                    finishModal.style.display = 'flex';
-                    tutorialOverlay.style.display = 'none';
-                    handPointer.style.display = 'none';
+                    finishModal.style.display = 'flex'; // Show the finish modal
+                    tutorialOverlay.style.display = 'none'; // Hide the tutorial overlay
+                    handPointer.style.display = 'none'; // Hide the hand pointer
                 }
             });
             // Initialize the first tutorial step
@@ -1576,10 +1704,13 @@ const skipTutorialButton = document.getElementById('skipTutorialButton');
         const finishModal = document.getElementById('finishModal');
         const entryModal = document.getElementById('tutorialModal');
         // Show the finish modal directly
+
+        startFireworks(); // Initiate fireworks
         entryModal.style.display = 'none';
         finishModal.style.display = 'flex';
         tutorialOverlay.style.display = 'none';
         handPointer.style.display = 'none';
+        skipTutorialButton.style.display = 'none';
 
         document.getElementById('level1Content').style.display = 'none';
         document.getElementById('level2Content').style.display = 'none';
