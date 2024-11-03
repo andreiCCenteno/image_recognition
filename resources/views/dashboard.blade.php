@@ -255,9 +255,39 @@ h1, h2, h3 {
     }
 }
 
+.back-button:hover {
+        background-color: #00d1b2;
+        transform: scale(1.1);
+    }
+
+    .back-button:focus {
+        outline: 2px solid #00ffcc;
+        outline-offset: 4px;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 50%;
+        cursor: pointer;
+        text-align: center;
+        line-height: 50px;
+        font-size: 1.5em;
+        color: #00ffcc;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        z-index: 2;
+    }
+
+
 </style>
 </head>
 <body>
+<a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
     <div class="dashboard-container">
         <h1>Your Game Dashboard</h1>
         <div class="statistics">

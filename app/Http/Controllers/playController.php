@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class playController extends Controller
 {
@@ -98,5 +99,29 @@ class playController extends Controller
     
         return response()->json(['success' => true]);
     }
+
+    // In your controller (e.g., GameController.php)
+
+    public function updateDifficulties(Request $request)
+    {
+        $userId = auth()->id();  // Get the current logged-in user ID
+    
+        // Validate input
+        $validated = $request->validate([
+            'easy_finish' => 'required|boolean',
+            'medium_finish' => 'required|boolean'
+        ]);
+    
+        // Update the user's difficulty status and notification flags
+        DB::table('users')->where('id', $userId)->update([
+            'easy_finish' => $validated['easy_finish'],
+            'medium_finish' => $validated['medium_finish'],
+            'medium_notif' => 1,
+            'hard_notif' => 1
+        ]);
+    
+        return response()->json(['status' => 'success', 'message' => 'Difficulties updated successfully.']);
+    }
+
 
 }

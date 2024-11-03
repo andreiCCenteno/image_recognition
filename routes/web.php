@@ -52,6 +52,8 @@ Route::post('/play/start', [PlayController::class, 'play'])->name('play.start');
 Route::post('/tutorial', [PlayController::class, 'startTutorial']);
 Route::post('/update-medium-notif', [PlayController::class, 'updateMediumNotif']);
 Route::post('/update-hard-notif', [PlayController::class, 'updateHardNotif']);
+Route::post('/update-difficulties', [PlayController::class, 'updateDifficulties']);
+
 
 
 Route::get('/leaderboard', [leaderboardController::class, 'index'])->name('leaderboard');

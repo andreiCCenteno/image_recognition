@@ -152,16 +152,6 @@ button:hover {
     padding-top: 60px;
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 10px;
-    text-align: center;
-}
-
 .close {
     color: #aaa;
     float: right;
@@ -176,32 +166,39 @@ button:hover {
 }
 
 #tutorialModal{
-    display: none; /* Initially hidden */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7); 
 }
 
 /* Finish Modal */
 #finishModal {
-    display: none; /* Initially hidden */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    background-color: rgba(34, 34, 34, 0.9); /* Grey background with some opacity */
+    padding: 30px; /* Increased padding for better readability */
+    border: 3px solid #00ff00; /* Neon green for retro effect */
+    width: 85%; /* Increased width for larger view */
+    max-width: 800px; /* Maximum width to maintain responsiveness */
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 255, 0, 0.5); /* Enhanced glow */
+    font-family: 'Courier New', monospace; /* Retro computer font */
+    color: #00ff00; /* Retro computer text color */
+    text-align: left;
+    font-size: 18px; 
+    top: 50%; /* Move it down to the middle of the viewport */
+    left: 50%; /* Move it to the middle of the viewport */
+    transform: translate(-50%, -50%); /* Center the modal */
 }
 
-/* Modal content */
-#modal-content, #tutorial-modal, .tutorial-modal-content, #finishModalContent {
+/* Modal content */ .tutorial-modal-content{
     background-color: #111; /* Darker background for retro look */
     margin: 8% auto; /* 8% from the top for better positioning */
     padding: 30px; /* Increased padding for better readability */
@@ -214,33 +211,6 @@ button:hover {
     color: #00ff00; /* Retro computer text color */
     text-align: left;
     font-size: 18px; /* Larger font size for readability */
-}
-
-#modal-content h1, #modal-content p, #tutorial-modal h1, #tutorial-modal p,
-.tutorial-modal-content h1, .tutorial-modal-content p, #finishModalContent h1, #finishModalContent p {
-    color: #00ff00;
-    margin-bottom: 18px;
-    text-shadow: 1px 1px 0px #333; /* Subtle text shadow for readability */
-    font-size: 20px; /* Increased font size for headers */
-}
-
-#modal-content button, #tutorial-modal button, .tutorial-modal-content button, #finishModalContent button {
-    background-color: #111;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-    padding: 12px 20px; /* Larger padding for buttons */
-    border: 2px solid #00ff00;
-    border-radius: 6px;
-    font-size: 18px; /* Larger button text */
-    cursor: pointer;
-    text-shadow: 1px 1px 0px #333;
-    transition: background-color 0.2s ease;
-}
-
-#modal-content button:hover, #tutorial-modal button:hover,
-.tutorial-modal-content button:hover, #finishModalContent button:hover {
-    background-color: #00ff00;
-    color: #111;
 }
 
 /* Buttons for Play Again and Save and Quit */
@@ -1081,11 +1051,73 @@ input[type="range"]::-moz-range-thumb {
     height: auto;         /* Optional: Adds some padding to the button */
 }
 
+.settings-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
+        .settings-modal {
+            background: linear-gradient(135deg, #1a1a1a, #2b2b2b);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #settingsIcon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        #settingsIcon:hover {
+            transform: scale(1.1);
+        }
+
+        #skipTutorialButton {
+    position: absolute; /* Allows positioning relative to the nearest positioned ancestor */
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    padding: 10px 15px; /* Add some padding */
+    background-color: rgba(255, 0, 0, 0.8); /* Red background with some transparency */
+    color: white; /* White text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+#skipTutorialButton:hover {
+    background-color: rgba(255, 0, 0, 1); /* Darker red on hover */
+}
 
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
 <body>
+<button id="skipTutorialButton">Skip Tutorial</button>
+<div class="settings-modal-overlay" id="settingsModal" style="display: none;">
+        <div class="settings-modal">
+            <h2>Settings</h2>
+            <button id="resumeButton">Resume Tutorial</button>
+            <button id="quitGameButton">Quit Tutorial</button>
+            <span class="close" onclick="closeSettingsModal()"></span>
+        </div>
+    </div>
+    <button id="settingsIcon" class="btn btn-light">
+        <i class="bi bi-gear"></i>
+    </button>
+    
     <!-- Dark Overlay for Tutorial -->
     <div class="overlay" id="tutorialOverlay">
         <div class="highlight-area" id="highlightArea"></div>
@@ -1095,20 +1127,23 @@ input[type="range"]::-moz-range-thumb {
                 <button id="nextTutorialButton" style="display: none;">Next</button>
         </div>
     </div>
+
     <div id="tutorialModal" class="tutorialModal">
-        <div class="tutorial-modal-content">
-            <span class="close" id="modalClose">&times;</span>
-            <h2>Welcome to the Image Recognition Learning Game!</h2>
-            <p>In this game, you'll be guided through several stages to improve your image recognition skills:</p>
-            <ul>
-                <li><strong>Stage 1 (Pixelator Puzzle)</strong>: Try to identify the image as it becomes increasingly pixelated.</li>
-                <li><strong>Stage 2 (Outline Selection)</strong>: Choose the correct outline for the image in a shell-game format.</li>
-                <li><strong>Stage 3 (Color Calibration)</strong>: Adjust the colors to match the target image as closely as possible.</li>
-            </ul>
-            <p>Each stage will test your ability to recognize and understand images, helping you improve your visual learning skills!</p>
-            <button id="startGameButton">Start Game</button>
-        </div>
+    <div class="tutorial-modal-content">
+        <span class="close" id="modalClose">&times;</span>
+        <h2>Welcome to the Image Recognition Learning Game!</h2>
+        <p>In this game, you'll be guided through several stages to improve your image recognition skills:</p>
+        <ul>
+            <li><strong>Stage 1 (Pixelator Puzzle)</strong>: Try to identify the image as it becomes increasingly pixelated.</li>
+            <li><strong>Stage 2 (Outline Selection)</strong>: Choose the correct outline for the image in a shell-game format.</li>
+            <li><strong>Stage 3 (Object Calibration)</strong>: Adjust the Object to match the target image as closely as possible.</li>
+            <li><strong>Stage 4 (Dominant Color Detection)</strong>: Identify the dominant color in the image using sliders.</li>
+            <li><strong>Stage 5 (Object Detection Simulation)</strong>: Click on the placeholder image to simulate object detection.</li>
+        </ul>
+        <p>Each stage will test your ability to recognize and understand images, helping you improve your visual learning skills!</p>
+        <button id="startGameButton">Start Game</button>
     </div>
+</div>
 
     <div id="gameContainer">
         <div id="stats">
@@ -1270,7 +1305,51 @@ input[type="range"]::-moz-range-thumb {
                 <button id="playGameButton" onclick="exitTutorial()">Go to Play Page</button>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
+function showGameOverModal() {
+            const modal = document.getElementById('gameOverModal');
+            modal.style.display = 'flex'; // Show modal with flexbox for centering
+
+            // Set up button event listeners
+            document.getElementById('playAgainButton').addEventListener('click', function () {
+                window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
+                modal.style.display = 'none'; // Hide modal
+            });
+
+            document.getElementById('exitGameButton').addEventListener('click', function () {
+                window.close(); // Close the game window
+                // Or you can redirect to a specific URL
+                window.location.href = "{{ url('play') }}"; // Redirect to the main page
+            });
+        }
+        $(document).ready(function () {
+            // Show settings modal when settings icon is clicked
+            $('#settingsIcon').click(function () {
+                $('#settingsModal').show();
+                pauseTimer();
+            });
+
+            // Close settings modal
+            window.closeSettingsModal = function () {
+                $('#settingsModal').hide();
+            }
+
+            // Resume button functionality
+            $('#resumeButton').click(function () {
+                closeSettingsModal(); // Close the modal
+                // Additional logic to resume the game can go here
+                resumeTimer();
+            });
+
+            // Quit game button functionality
+            $('#quitGameButton').click(function () {
+                window.location.href = "{{ url('play') }}";
+            });
+        });
+
             function exitTutorial() {
     window.location.href = "{{ route('play') }}";
 }
@@ -1363,7 +1442,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
 ];
 
-
+const skipTutorialButton = document.getElementById('skipTutorialButton');
 
     let currentStep = 0;
     const tutorialOverlay = document.getElementById('tutorialOverlay');
@@ -1444,6 +1523,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (currentStep < tutorialSteps.length - 1) {
                     currentStep++;
                     
+                    if(currentStep === 5){
+                        setTimeout(() => {
+                            flipAllCards(true);
+                            setTimeout(shuffle, 1000);
+                        }, 1000);
+                    }
                     // Check if transitioning between stages
                     if (currentStep === 6) {
                         // Hide Pixelator Puzzle, Show Shell Game
@@ -1486,6 +1571,23 @@ document.addEventListener('DOMContentLoaded', function () {
             // Initialize the first tutorial step
             showTutorialStep();
         };
+
+        skipTutorialButton.onclick = function() {
+        const finishModal = document.getElementById('finishModal');
+        const entryModal = document.getElementById('tutorialModal');
+        // Show the finish modal directly
+        entryModal.style.display = 'none';
+        finishModal.style.display = 'flex';
+        tutorialOverlay.style.display = 'none';
+        handPointer.style.display = 'none';
+
+        document.getElementById('level1Content').style.display = 'none';
+        document.getElementById('level2Content').style.display = 'none';
+        document.getElementById('level3Content').style.display = 'none';
+        document.getElementById('level4Content').style.display = 'none';
+        document.getElementById('level5Content').style.display = 'block';
+        startLevel5();
+    };
     };
 });
 
@@ -1502,8 +1604,8 @@ const gameState = {
             original: 'https://placehold.co/200x200',
             outlines: [
                 'https://placehold.co/150x200',
-                '/api/placeholder/150/200',
-                '/api/placeholder/150/200'
+                'https://placehold.co/150x200',
+                'https://placehold.co/150x200'
             ]
         }
     ],
@@ -2216,11 +2318,6 @@ function draw() {
 // Start the game
 initializeGame();
 draw();
-setTimeout(() => {
-    flipAllCards(true);
-    setTimeout(shuffle, 1000);
-}, 1000);
-
         </script>  
 </body>
 </html>

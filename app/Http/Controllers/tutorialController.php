@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TutorialController extends Controller
+class tutorialController extends Controller
 {
     // This returns the tutorial view
     public function tutorial()

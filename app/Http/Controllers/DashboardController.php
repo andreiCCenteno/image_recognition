@@ -55,8 +55,10 @@ class DashboardController extends Controller
     }
 
     private function getUserRanking($user)
-    {
-        // Assuming you have ranking information stored in the users table
-        return $user->ranking; // Adjust logic as necessary
-    }
+{
+    // Count how many users have a higher score than the current user
+    $ranking = User::where('score', '>', $user->score)->count() + 1;
+
+    return $ranking;
+}
 }

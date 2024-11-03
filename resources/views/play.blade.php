@@ -443,6 +443,15 @@ footer {
         <button class="modal-button" onclick="closeHardNotification()">Okay</button>
     </div>
 </div>
+
+<div id="cheatCodeModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeCheatCodeModal()">&times;</span>
+        <h2>Cheat Code Activated!</h2>
+        <p>All difficulties have been unlocked.</p>
+        <button onclick="closeCheatCodeModal()">OK</button>
+    </div>
+</div>
 <script>
     let isPageFullyLoaded = false;
 
@@ -582,15 +591,53 @@ function completeEasyGame() {
     unlockDifficultyLevels();
 }
 
-function unlockDifficultyLevels() {
-    // Enable Medium and Hard buttons after Easy game completion
+function unlockAllDifficulties() {
+    // Unlock the Medium and Hard difficulty buttons
     document.getElementById('mediumButton').disabled = false;
-    document.getElementById('hardButton').disabled = false;
-
-    // Update button text by removing lock icon
     document.getElementById('mediumButton').innerHTML = 'Medium';
+    
+    document.getElementById('hardButton').disabled = false;
     document.getElementById('hardButton').innerHTML = 'Hard';
+
+    // Show modal for cheat code activation
+    openCheatCodeModal();
+
+    // Update easy_finish and medium_finish in the database via AJAX
+    fetch('/update-difficulties', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'  // Laravel CSRF token if required
+        },
+        body: JSON.stringify({ easy_finish: 1, medium_finish: 1 })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Difficulties updated:", data);
+    })
+    .catch(error => {
+        console.error("Error updating difficulties:", error);
+    });
 }
+
+// Cheat code listener for Ctrl + Shift + U
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === 'U') {
+        unlockAllDifficulties();
+    }
+});
+
+// Function to open the cheat code modal
+function openCheatCodeModal() {
+    document.getElementById('cheatCodeModal').style.display = 'block';
+}
+
+// Function to close the cheat code modal
+function closeCheatCodeModal() {
+    document.getElementById('cheatCodeModal').style.display = 'none';
+    location.reload();  // Reloads the page to apply changes
+}
+
 
 function showTutorial() {
     document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
