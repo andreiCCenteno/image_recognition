@@ -1303,13 +1303,13 @@
     <script>
 
 
-        function showGameOverModal() {
+function showGameOverModal() {
             const modal = document.getElementById('gameOverModal');
             modal.style.display = 'flex'; // Show modal with flexbox for centering
-
+            gameOver.play();
             // Set up button event listeners
             document.getElementById('playAgainButton').addEventListener('click', function () {
-                window.location.href = "{{ url('medium') }}"; // Reset the game state (you'll need to implement this)
+                window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
                 modal.style.display = 'none'; // Hide modal
             });
 
@@ -1445,6 +1445,11 @@
         const guessContainer = document.getElementById('guessContainer');
         const guessInput = document.getElementById('guessInput');
         const submitGuess = document.getElementById('submitGuess');
+
+        const wrongAnswer = new Audio("{{ asset('audio/wrong-answer.mp3') }}");
+        const correctAnswer = new Audio("{{ asset('audio/correct-answer.mp3') }}");
+        const levelComplete = new Audio("{{ asset('audio/level-complete.mp3') }}");
+        const gameOver = new Audio("{{ asset('audio/game-over.mp3') }}");
 
         const cardWidth = 150;
         const cardGap = 50;
@@ -2036,9 +2041,9 @@ enableSkipLevelHotkey();
                 updateScore(15); // Example: 10 points for a correct match
 
                 if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
+                    correctAnswer.play();
                     // Level complete
-                    setTimeout(() => {
-
+                    setTimeout(() => {  
                             attackMonster(25);
                             // Delay and reset level for the next attempt until the monster is defeated
                             if(gameState.monsterHp > 0){
@@ -2049,6 +2054,7 @@ enableSkipLevelHotkey();
                             }
                             
                             if (gameState.monsterHp <= 0) {
+                                levelComplete.play();
                                 showLevel3CompleteModal();
                                 gameState.level++;
                             }
@@ -2057,6 +2063,7 @@ enableSkipLevelHotkey();
             } else {
                 // Wrong match
                 document.getElementById('message').textContent = "Wrong match! Try again.";
+                wrongAnswer.play();
                 monsterAttack();
                 takeDamage(); // Deduct HP or handle damage
             }
@@ -2189,18 +2196,21 @@ enableSkipLevelHotkey();
 
                 // If the guess is either the automatic pass or within tolerance
                 if (isAutoCorrect || isCorrect) {
+                    correctAnswer.play();
                     attackMonster(50); // Reduce monster's HP by 25 on a correct guess
                     updateScore(15); // Add points for a correct match
                     document.getElementById('message').textContent = "Correct! You've matched the color!";
 
                     // Check if monster's HP reaches 0 to complete the level
                     if (gameState.monsterHp <= 0) {
+                        levelComplete.play();
                         document.getElementById('message').textContent = "You've defeated the monster! Level Complete!";
                         // Progress to the next level or show level complete modal
                         showLevel4CompleteModal();
                         gameState.level++; // Progress to the next level
                     }
                 } else {
+                    wrongAnswer.play();
                     document.getElementById('message').textContent = "Incorrect color! Try again!";
                     takeDamage(); // Handle incorrect color guess (player damage or penalty)
                 }
@@ -2675,6 +2685,7 @@ function drawTarget(x, y, answer) {
             gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
 
             if (gameState.monsterHp == 100) {
+                levelComplete.play();
                 if (gameState.level === 1) {
                     showLevel1CompleteModal();
                 } else if (gameState.level === 2) {
@@ -2711,29 +2722,52 @@ function drawTarget(x, y, answer) {
 
         const learningMaterials = {
     1: [
-        "Outlines define object shapes and distinguish them from the background. This helps simplify object recognition.",
-        "Using outlines helps with tasks like shape recognition and segmentation. They are used in handwriting recognition.",
-        "Outlines help prepare users for advanced image analysis by improving shape recognition skills."
+        "Classification is an artificial neural networks to identify objects in the image and assign them one of the predefined groups or classifications.",
+        "They analyze the features of an image and assign it to one of the predefined categories based on the patterns they have learned during analyze.",
+        "Outline is the one of the featured of classification, this process called edge detection or shape recognition.",
+        "The outlines can help the model recognize specific shapes associated with different classes. For example, the outline of a cat may differ significantly from that of a dog, allowing the model to classify them accurately.",
+        "In this level you need to find the correct outline of the target image on the card below, one of the card is the right answer so choose wisely, otherwise you will get ATTACKED!"
     ],
     2: [
-        "Pixelation simplifies images by reducing detail but keeping shape and color intact.",
-        "Different pixelation levels help improve object recognition skills by focusing on broader features.",
-        "Practicing with pixelation aids in training machine learning models to recognize objects with varying detail."
+        "For the first step of image recognition is Image Acquisition",
+        "This is the first step in the image recognition process, and it involves capturing or obtaining images for analysis.",
+        "This step is crucial because the quality and characteristics of the acquired images can significantly influence the performance of subsequent processing and recognition tasks.",
+        "Proper image acquisition sets the stage for effective preprocessing, feature extraction, and ultimately, accurate recognition.",
+        "With the line of Image Acquistion is the Proprocessing",
+        "This is also crucial step in the image recognition pipeline that involves preparing the acquired images for analysis. The goal of preprocessing is to enhance the quality of the images and make them suitable for feature extraction and classification. ",
+        "On this level, you need to know the image before it becomes clearer it called Normalization",
+        "Normalization is an essential preprocessing step in image recognition and machine learning that involves scaling pixel values to a specific range. This process helps improve the performance and convergence of machine learning models."
     ],
     3: [
         "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
-        "Techniques like SIFT and SURF focus on relevant image details for tasks like object detection.",
-        "Mastering feature extraction strengthens skills in object detection and computer vision."
+        "This process is also a crucial step in the image recognition process that involves identifying and isolating important characteristics or patterns from an image.",
+        "These features are then used to represent the image in a way that makes it easier for machine learning models to classify or recognize objects within the image.",
+        "There are different types of method in extracting feature:",
+        "Edge Detection: Techniques like the Sobel operator, Canny edge detector, or Laplacian filter identify edges in an image, which are important for recognizing shapes and boundaries.",
+        "Texture Features: Methods such as Local Binary Patterns (LBP) or Gabor filters extract texture information from images, which can be useful for distinguishing between different materials or surfaces.",
+        "Color Extraction: The process used in image processing and computer vision to identify and isolate specific colors or color distributions within an image",
+        "On this level you need to find the right edge, texture, and color of a specific image."
     ],
     4: [
         "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
-        "RGB analysis reveals color distributions and helps improve image analysis abilities.",
-        "Practicing color identification is vital for fields like image editing and medical imaging."
+        "It involves detecting and recognizing specific colors within an image, which can be crucial for various applications in computer vision and image analysis.",
+        "Color identification fits into the broader context of image processing",
+        "Feature Extraction: Color is an important feature that can be used to distinguish between different objects or regions in an image. By identifying colors, systems can extract relevant information that aids in further analysis or classification.",
+        "Segmentation: Color identification is often used in image segmentation, where an image is divided into meaningful regions based on color similarity. This can help isolate objects of interest from the background or other elements in the image.",
+        "Object Detection: In many applications, such as robotics or autonomous vehicles, color identification is used to detect and track objects based on their color. For example, a system might identify red traffic lights or green road signs.",
+        "On this level we apply the technique of Color Space Conversion: Images are often converted from the RGB color space to other color spaces (e.g., HSV, LAB) that may be more suitable for color identification.",
+        "You need to find the right color on the target image!" 
     ],
     5: [
-        "Object detection focuses on identifying and locating objects within images, marked by bounding boxes.",
-        "It's used in autonomous vehicles, surveillance, and augmented reality applications.",
-        "Object variations and occlusions are challenges that can be addressed with techniques like data augmentation."
+        "Now with all of the steps that you have take, we can move on the final level which is the object detection",
+        "It is a computer vision task that involves identifying and locating objects within an image or video. It not only classifies objects but also provides their positions in the form of bounding boxes. ",
+        "Object detection is widely used in various applications, including autonomous vehicles, surveillance, robotics, and image retrieval.",
+        "With the help of the previous steps it will apply to this object detection.",
+        "Image Acquisition: Process of capturing or obtaining images that will be analyzed for object detection.",
+        "Preprocessing: Involves preparing the acquired images for analysis by enhancing their quality and making them suitable for feature extraction and object detection.",
+        "Classification: Determining the category or class of the detected objects.",
+        "Feature extraction: Identifying and isolating important characteristics or patterns from the preprocessed images that will be used for object detection.",
+        "Now you on this level you need to find a specific tagert!"
     ]
 };
 

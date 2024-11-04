@@ -1197,7 +1197,7 @@
         function showGameOverModal() {
             const modal = document.getElementById('gameOverModal');
             modal.style.display = 'flex'; // Show modal with flexbox for centering
-
+            gameOver.play();
             // Set up button event listeners
             document.getElementById('playAgainButton').addEventListener('click', function () {
                 window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
@@ -1260,7 +1260,10 @@
                         'images/easy/vase_outline.jpg',
                         'images/easy/bicycle_outline.webp',
                         'images/easy/house_outline.jpg',
-                        'images/easy/coffeemug_outline.webp'
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1272,7 +1275,10 @@
                         'images/easy/vase_outline.jpg',
                         'images/easy/coffeemug_outline.webp',
                         'images/easy/house_outline.jpg',
-                        'images/easy/bicycle_outline.webp'
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1284,7 +1290,10 @@
                         'images/easy/vase_outline.jpg',
                         'images/easy/house_outline.jpg',
                         'images/easy/coffeemug_outline.webp',
-                        'images/easy/laptop_outline.jpg'
+                        'images/easy/laptop_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1297,6 +1306,9 @@
                         'images/easy/laptop_outline.jpg',
                         'images/easy/coffeemug_outline.webp',
                         'images/easy/house_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
                 {
@@ -1307,7 +1319,10 @@
                         'images/easy/apple_outline.jpg',
                         'images/easy/coffeemug_outline.webp',
                         'images/easy/house_outline.jpg',
-                        'images/easy/bicycle_outline.webp'
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 }, {
                     original: 'images/easy/box.jpg',
@@ -1317,19 +1332,25 @@
                         'images/easy/vase_outline.jpg',
                         'images/easy/bicycle_outline.webp',
                         'images/easy/house_outline.jpg',
-                        'images/easy/coffeemug_outline.webp'
+                        'images/easy/coffeemug_outline.webp',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
                 {
                     original: 'images/easy/pizza.png',
                     outlines: [
-                        'images/easy/pizza_outline.png',
+                        'images/easy/pizza_outline.jpg',
                         'images/easy/house_outline.jpg',
                         'images/easy/triangle_outline.jpg',
                         'images/easy/coffeemug_outline.webp',
                         'images/easy/house_outline.jpg',
-                        'images/easy/bicycle_outline.webp'
+                        'images/easy/bicycle_outline.webp',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
                 {
@@ -1341,6 +1362,9 @@
                         'images/easy/pizza_outline.jpg',
                         'images/easy/house_outline.jpg',
                         'images/easy/triangle_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1353,6 +1377,9 @@
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1365,6 +1392,9 @@
                         'images/easy/box_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 },
 
@@ -1377,6 +1407,9 @@
                         'images/easy/triangle_outline.jpg',
                         'images/easy/ball_outline.jpg',
                         'images/easy/vase_outline.jpg',
+                        'images/easy/smartphone_outline.jpg',
+                        'images/easy/sandwich_outline.jpg',
+                        'images/easy/burger_outline.jpg'
                     ]
                 }
 
@@ -1425,6 +1458,12 @@
         let level2Content = document.getElementById('level2Content');
         let intenseFightMusic = document.getElementById("intenseFightMusic");
         intenseFightMusic.volume = 0.2;
+
+        const wrongAnswer = new Audio("{{ asset('audio/wrong-answer.mp3') }}");
+        const correctAnswer = new Audio("{{ asset('audio/correct-answer.mp3') }}");
+        const levelComplete = new Audio("{{ asset('audio/level-complete.mp3') }}");
+        const gameOver = new Audio("{{ asset('audio/game-over.mp3') }}");
+
         const level4Content = document.getElementById('level4Content');
         const blurredImage = document.getElementById('blurredImage');
         const guessContainer = document.getElementById('guessContainer');
@@ -1809,44 +1848,61 @@ enableSkipLevelHotkey();
         }
 
         function initializeLevel1(cardNumber) {
-            cardsContainer.innerHTML = '';
-            cards = [];
+    cardsContainer.innerHTML = '';
+    cards = [];
 
-            // Randomly select an image from the gameState.images array
-            const randomImageIndex = Math.floor(Math.random() * cardNumber);
-            const selectedImage = gameState.images[randomImageIndex];
+    // Ensure you have enough unique images to display
+    if (gameState.images.length < cardNumber) {
+        console.error('Not enough unique images available!');
+        return;
+    }
 
-            // Set the target image to the randomly selected one
-            targetImage.src = selectedImage.original;
+    // Shuffle images and select unique ones
+    const shuffledImages = gameState.images.sort(() => 0.5 - Math.random()).slice(0, cardNumber);
 
-            level1Content.style.display = 'block';
+    // Set the target image and outlines
+    const correctImageIndex = Math.floor(Math.random() * cardNumber);
+    const selectedImage = shuffledImages[correctImageIndex];
 
-            // Randomize the correct position for the correct outline
-            const correctPosition = Math.floor(Math.random() * cardNumber);
+    // Set the target image to the randomly selected one
+    targetImage.src = selectedImage.original;
 
-            // Create an array of outlines for this image and shuffle them
-            const outlines = [...selectedImage.outlines]; // Copy the outlines array
+    level1Content.style.display = 'block';
 
-            for (let i = 0; i < cardNumber; i++) {
-                let outlineSrc;
+    // Create an array of outlines for this image
+    const outlines = [...selectedImage.outlines]; // Copy the outlines array
 
-                if (i === correctPosition) {
-                    // Assign the correct outline for the correct card
-                    outlineSrc = selectedImage.outlines[0]; // First outline is always the correct one
-                } else {
-                    // Shuffle the remaining outlines for the incorrect cards
-                    outlineSrc = selectedImage.outlines[i === 0 ? 1 : 2]; // Pick incorrect outlines
-                }
+    // Randomize the correct position for the correct outline
+    const correctPosition = Math.floor(Math.random() * cardNumber);
 
-                const cardData = createCard(i, i === correctPosition, outlineSrc); // Pass outlineSrc to createCard
-                cards.push(cardData);
+    // Create the cards
+    for (let i = 0; i < cardNumber; i++) {
+        let outlineSrc;
 
-                cardData.element.addEventListener('click', function () {
-                    handleCardClick(cardData);
-                });
-                cardsContainer.appendChild(cardData.element);
-            }
+        if (i === correctPosition) {
+            // Assign the correct outline for the correct card
+            outlineSrc = outlines[0]; // First outline is always the correct one
+        } else {
+            // Shuffle the outlines to select an incorrect one
+            // We should pick a random incorrect outline that isn't the correct one
+            let incorrectOutlineIndex;
+            do {
+                incorrectOutlineIndex = Math.floor(Math.random() * outlines.length);
+            } while (incorrectOutlineIndex === 0); // Ensure it isn't the correct outline
+
+            outlineSrc = outlines[incorrectOutlineIndex]; // Pick incorrect outline
         }
+
+        const cardData = createCard(i, i === correctPosition, outlineSrc);
+        cards.push(cardData);
+
+        cardData.element.addEventListener('click', function () {
+            handleCardClick(cardData);
+        });
+        cardsContainer.appendChild(cardData.element);
+    }
+}
+
 
         function handleCardClick(cardData) {
             if (!gameState.canClick || gameState.shuffling) return;
@@ -1855,6 +1911,7 @@ enableSkipLevelHotkey();
             flipAllCards(false);
 
             if (cardData.isCorrect) {
+                correctAnswer.play();
                 document.getElementById('message').textContent = "Correct! You found the Outline";
                 cardData.element.classList.add('victory');
 
@@ -1888,6 +1945,7 @@ enableSkipLevelHotkey();
                     }
                 }, 2500);
             } else {
+                wrongAnswer.play();
                 document.getElementById('message').textContent = "Wrong card! Try again!";
                 cardData.element.classList.add('wrong');
 
@@ -1897,7 +1955,6 @@ enableSkipLevelHotkey();
                 }, 500);
 
                 setTimeout(() => {
-
                     monsterAttack();
                     takeDamage();
                 }, 1000);
@@ -1966,6 +2023,7 @@ enableSkipLevelHotkey();
             const currentImage = gameState.currentLevel2Image;
 
             if (guess === currentImage.answer) {
+                correctAnswer.play();
                 document.getElementById('message').textContent = "Correct! You identified the image!";
                 level2Content.style.display = 'none';
                 attackMonster(50);
@@ -1978,8 +2036,10 @@ enableSkipLevelHotkey();
                 document.getElementById('message').textContent = "Wrong guess! Try again!";
                 monsterAttack();
                 takeDamage(); // Handle player damage on wrong guess
+                wrongAnswer.play();
             }
             if (gameState.monsterHp > 0) {
+                correctAnswer.play();
                 switchToLevel2();
             }
             guessInput.value = ''; // Clear input field after submission
@@ -2257,6 +2317,7 @@ enableSkipLevelHotkey();
                     showLevel5CompleteModal(); // Trigger the completion modal for Level 5
                     gameState.level++; // Move to the next level
                 } else {
+                    
                     monsterAttack();
                     takeDamage();
                 }
@@ -2410,19 +2471,24 @@ function drawTarget(x, y, answer) {
             }
 
             function drawHitAnimation(x, y) {
-    // Explosion burst effect
     const maxBurstRadius = 50;
     const burstRadius = 10 + hitAnimationFrame * 3;
     const burstOpacity = 1 - hitAnimationFrame / 10;
 
-    // Draw expanding burst
-    ctx.fillStyle = `rgba(255, 69, 0, ${burstOpacity})`; // Orange-red color
+    // Radial gradient for the burst effect
+    const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
+    gradient.addColorStop(0, `rgba(255, 140, 0, ${burstOpacity})`); // Center - Dark Orange
+    gradient.addColorStop(0.5, `rgba(255, 69, 0, ${burstOpacity * 0.8})`); // Mid - Orange-red
+    gradient.addColorStop(1, `rgba(255, 99, 71, 0)`); // Edge - Transparent
+
+    // Draw expanding burst with gradient
+    ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
 
-    // Simulate "hole" in the target
+    // Draw "hole" in the target
     const holeRadius = hitAnimationFrame * 2;
     ctx.fillStyle = "black";
     ctx.beginPath();
@@ -2430,23 +2496,52 @@ function drawTarget(x, y, answer) {
     ctx.fill();
     ctx.closePath();
 
-    // Particle debris effect
-    for (let i = 0; i < 8; i++) {
-        const angle = (Math.PI / 4) * i;
-        const particleX = x + Math.cos(angle) * burstRadius;
-        const particleY = y + Math.sin(angle) * burstRadius;
-        const particleSize = 2 + Math.random() * 2;
+    // Shockwave ring effect
+    const shockwaveRadius = hitAnimationFrame * 4;
+    ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.6})`; // White with fading opacity
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.closePath();
 
-        ctx.fillStyle = `rgba(169, 169, 169, ${burstOpacity})`; // Gray debris
+    // Enhanced particle debris effect
+    for (let i = 0; i < 12; i++) {
+        const angle = Math.random() * Math.PI * 2; // Randomize direction
+        const distance = burstRadius + Math.random() * 15; // Varied distance from the center
+        const particleX = x + Math.cos(angle) * distance;
+        const particleY = y + Math.sin(angle) * distance;
+        const particleSize = 2 + Math.random() * 2; // Random particle size
+        const particleOpacity = burstOpacity * (0.5 + Math.random() * 0.5); // Varying opacity
+
+        ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
         ctx.beginPath();
         ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
     }
 
+    // Slight upward fade for smoke particles
+    for (let i = 0; i < 6; i++) {
+        const smokeAngle = Math.random() * Math.PI * 2;
+        const smokeDistance = 20 + Math.random() * 10;
+        const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
+        const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
+        const smokeSize = 3 + Math.random() * 4;
+        const smokeOpacity = burstOpacity * 0.3; // Fainter smoke
+
+        ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
+        ctx.beginPath();
+        ctx.arc(smokeX, smokeY, smokeSize, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    // Update animation frame count
     hitAnimationFrame++;
 
-    if (hitAnimationFrame > 10) {
+    // Reset animation once completed
+    if (hitAnimationFrame > 15) { // Extended duration for more impact
         hitAnimationActive = false;
         hitAnimationFrame = 0;
     }
@@ -2640,6 +2735,7 @@ function drawTarget(x, y, answer) {
             gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
 
             if (gameState.monsterHp === 0) {
+                levelComplete.play();
                 if (gameState.level === 1) {
                     showLevel1CompleteModal();
                 } else if (gameState.level === 2) {
@@ -2685,29 +2781,52 @@ function drawTarget(x, y, answer) {
         // }
         const learningMaterials = {
     1: [
-        "Outlines define object shapes and distinguish them from the background. This helps simplify object recognition.",
-        "Using outlines helps with tasks like shape recognition and segmentation. They are used in handwriting recognition.",
-        "Outlines help prepare users for advanced image analysis by improving shape recognition skills."
+        "Classification is an artificial neural networks to identify objects in the image and assign them one of the predefined groups or classifications.",
+        "They analyze the features of an image and assign it to one of the predefined categories based on the patterns they have learned during analyze.",
+        "Outline is the one of the featured of classification, this process called edge detection or shape recognition.",
+        "The outlines can help the model recognize specific shapes associated with different classes. For example, the outline of a cat may differ significantly from that of a dog, allowing the model to classify them accurately.",
+        "In this level you need to find the correct outline of the target image on the card below, one of the card is the right answer so choose wisely, otherwise you will get ATTACKED!"
     ],
     2: [
-        "Pixelation simplifies images by reducing detail but keeping shape and color intact.",
-        "Different pixelation levels help improve object recognition skills by focusing on broader features.",
-        "Practicing with pixelation aids in training machine learning models to recognize objects with varying detail."
+        "For the first step of image recognition is Image Acquisition",
+        "This is the first step in the image recognition process, and it involves capturing or obtaining images for analysis.",
+        "This step is crucial because the quality and characteristics of the acquired images can significantly influence the performance of subsequent processing and recognition tasks.",
+        "Proper image acquisition sets the stage for effective preprocessing, feature extraction, and ultimately, accurate recognition.",
+        "With the line of Image Acquistion is the Proprocessing",
+        "This is also crucial step in the image recognition pipeline that involves preparing the acquired images for analysis. The goal of preprocessing is to enhance the quality of the images and make them suitable for feature extraction and classification. ",
+        "On this level, you need to know the image before it becomes clearer it called Normalization",
+        "Normalization is an essential preprocessing step in image recognition and machine learning that involves scaling pixel values to a specific range. This process helps improve the performance and convergence of machine learning models."
     ],
     3: [
         "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
-        "Techniques like SIFT and SURF focus on relevant image details for tasks like object detection.",
-        "Mastering feature extraction strengthens skills in object detection and computer vision."
+        "This process is also a crucial step in the image recognition process that involves identifying and isolating important characteristics or patterns from an image.",
+        "These features are then used to represent the image in a way that makes it easier for machine learning models to classify or recognize objects within the image.",
+        "There are different types of method in extracting feature:",
+        "Edge Detection: Techniques like the Sobel operator, Canny edge detector, or Laplacian filter identify edges in an image, which are important for recognizing shapes and boundaries.",
+        "Texture Features: Methods such as Local Binary Patterns (LBP) or Gabor filters extract texture information from images, which can be useful for distinguishing between different materials or surfaces.",
+        "Color Extraction: The process used in image processing and computer vision to identify and isolate specific colors or color distributions within an image",
+        "On this level you need to find the right edge, texture, and color of a specific image."
     ],
     4: [
         "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
-        "RGB analysis reveals color distributions and helps improve image analysis abilities.",
-        "Practicing color identification is vital for fields like image editing and medical imaging."
+        "It involves detecting and recognizing specific colors within an image, which can be crucial for various applications in computer vision and image analysis.",
+        "Color identification fits into the broader context of image processing",
+        "Feature Extraction: Color is an important feature that can be used to distinguish between different objects or regions in an image. By identifying colors, systems can extract relevant information that aids in further analysis or classification.",
+        "Segmentation: Color identification is often used in image segmentation, where an image is divided into meaningful regions based on color similarity. This can help isolate objects of interest from the background or other elements in the image.",
+        "Object Detection: In many applications, such as robotics or autonomous vehicles, color identification is used to detect and track objects based on their color. For example, a system might identify red traffic lights or green road signs.",
+        "On this level we apply the technique of Color Space Conversion: Images are often converted from the RGB color space to other color spaces (e.g., HSV, LAB) that may be more suitable for color identification.",
+        "You need to find the right color on the target image!" 
     ],
     5: [
-        "Object detection focuses on identifying and locating objects within images, marked by bounding boxes.",
-        "It's used in autonomous vehicles, surveillance, and augmented reality applications.",
-        "Object variations and occlusions are challenges that can be addressed with techniques like data augmentation."
+        "Now with all of the steps that you have take, we can move on the final level which is the object detection",
+        "It is a computer vision task that involves identifying and locating objects within an image or video. It not only classifies objects but also provides their positions in the form of bounding boxes. ",
+        "Object detection is widely used in various applications, including autonomous vehicles, surveillance, robotics, and image retrieval.",
+        "With the help of the previous steps it will apply to this object detection.",
+        "Image Acquisition: Process of capturing or obtaining images that will be analyzed for object detection.",
+        "Preprocessing: Involves preparing the acquired images for analysis by enhancing their quality and making them suitable for feature extraction and object detection.",
+        "Classification: Determining the category or class of the detected objects.",
+        "Feature extraction: Identifying and isolating important characteristics or patterns from the preprocessed images that will be used for object detection.",
+        "Now you on this level you need to find a specific tagert!"
     ]
 };
 
