@@ -76,11 +76,17 @@
         }
 
         #gameScene {
-            border: 2px solid #333;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            backdrop-filter: blur(15px);
-        }
+    width: 90%; /* Make the width responsive */
+    max-width: 800px; /* Max width for larger screens */
+    height: 300px; /* Fixed height or adjust as needed */
+    margin: auto; /* Centers horizontally within flex container */
+    border: 2px solid #333;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    box-sizing: border-box;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+}
 
         #cardsContainer {
             position: relative;
@@ -1168,7 +1174,7 @@
         <div id="postTestContainer" style="display: none;">
             <h2>Quiz Game</h2>
             <p id="questionText"></p>
-            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <canvas id="gameCanvas" width="1000" height="625"></canvas>
             <div id="scoreModal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -2397,65 +2403,327 @@ enableSkipLevelHotkey();
     let hitAnimationX = 0;
     let hitAnimationY = 0;
     let hitAnimationFrame = 0;
+    let isReloading = false; // State to track if the gun is reloading
 
-            // Function to draw the game
-            function drawGame() {
-        if (!gameActive) return;
+    function drawRevolver() {
+    const gunX = canvas.width / 2; // Center position of the gun on the canvas
+    const gunY = canvas.height - 0; // Slightly above the bottom for a first-person effect
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(gunX, gunY);
 
-        if (currentQuestion < totalQuestions) {
-            document.getElementById('questionText').innerText = questions[currentQuestion].question;
+    // Scale factor to make the revolver bigger
+    const scaleFactor = 1.5;
 
-            questions[currentQuestion].answers.forEach((answer, i) => {
-                const xPos = 100 + (i * 200);
-                drawTarget(xPos, 300, answer);
-            });
+    // Draw the revolver grip with a wood texture effect
+    ctx.fillStyle = "#663300";
+    ctx.beginPath();
+    ctx.moveTo(-20 * scaleFactor, 0);
+    ctx.lineTo(20 * scaleFactor, 0);
+    ctx.lineTo(15 * scaleFactor, -40 * scaleFactor);
+    ctx.lineTo(-15 * scaleFactor, -40 * scaleFactor);
+    ctx.closePath();
+    ctx.fill();
 
-            drawCrosshair(crosshairX, crosshairY);
+    // Add some lines to simulate wood grain texture
+    ctx.strokeStyle = "#331900";
+    ctx.lineWidth = 1 * scaleFactor;
+    ctx.beginPath();
+    ctx.moveTo(-18 * scaleFactor, -10 * scaleFactor);
+    ctx.lineTo(-10 * scaleFactor, -35 * scaleFactor);
+    ctx.moveTo(10 * scaleFactor, -5 * scaleFactor);
+    ctx.lineTo(15 * scaleFactor, -35 * scaleFactor);
+    ctx.stroke();
 
-            if (hitAnimationActive) {
-                drawHitAnimation(hitAnimationX, hitAnimationY);
-                hitAnimationFrame++;
+    // Draw the revolver body with more details
+    ctx.fillStyle = "#555";
+    ctx.fillRect(-15 * scaleFactor, -40 * scaleFactor, 30 * scaleFactor, -60 * scaleFactor);
 
-                if (hitAnimationFrame > 5) {
-                    hitAnimationActive = false;
-                    hitAnimationFrame = 0;
-                }
+    // Draw the cylinder (revolver style) with rotation effect
+    ctx.save();
+    ctx.fillStyle = isReloading ? "#666" : "#777";
+    ctx.translate(0, -70 * scaleFactor);
+    ctx.rotate(isReloading ? Math.PI / 8 : 0); // Slight rotation during reload
+    ctx.beginPath();
+    ctx.arc(0, 0, 15 * scaleFactor, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Add cylinder chambers (holes for bullets)
+    ctx.fillStyle = "#333";
+    for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.arc(
+            10 * scaleFactor * Math.cos(i * Math.PI / 3), 
+            10 * scaleFactor * Math.sin(i * Math.PI / 3), 
+            3 * scaleFactor, 
+            0, 
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+    ctx.restore();
+
+    // Draw the barrel with additional details
+    ctx.fillStyle = "#444";
+    ctx.fillRect(-5 * scaleFactor, -100 * scaleFactor, 10 * scaleFactor, -40 * scaleFactor); // Main barrel shape
+
+    // Draw barrel details (e.g., grooves or lines)
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1 * scaleFactor;
+    ctx.beginPath();
+    ctx.moveTo(-3 * scaleFactor, -140 * scaleFactor);
+    ctx.lineTo(-3 * scaleFactor, -100 * scaleFactor);
+    ctx.moveTo(3 * scaleFactor, -140 * scaleFactor);
+    ctx.lineTo(3 * scaleFactor, -100 * scaleFactor);
+    ctx.stroke();
+
+    // Optional: Add a sight at the end of the barrel
+    ctx.fillStyle = "#222";
+    ctx.fillRect(-2 * scaleFactor, -140 * scaleFactor, 4 * scaleFactor, 5 * scaleFactor);
+
+    ctx.restore();
+}
+
+// Function to simulate firing and reloading
+function fireGun() {
+    if (!isReloading) {
+        isReloading = true;
+
+        // Gunfire effect
+        
+
+        // Start reloading animation with recoil effect
+        setTimeout(() => {
+            isReloading = false;
+            drawGame();
+        }, 300); // 300 ms reloading delay for animation effect
+    }
+}
+
+// Function to create a muzzle flash effect with details
+function drawMuzzleFlash() {
+    const flashX = canvas.width / 2;
+    const flashY = canvas.height - 280; // Flash should appear near the end of the barrel
+
+    ctx.save();
+    ctx.translate(flashX, flashY);
+
+    // Create outer flash (larger and less opaque)
+    ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
+    ctx.beginPath();
+    ctx.arc(0, 0, 60, 0, Math.PI * 2); // Increased size for larger gun
+    ctx.fill();
+
+    // Create inner flash (smaller and brighter)
+    ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
+    ctx.beginPath();
+    ctx.arc(0, 0, 40, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Create core flash (smallest and most intense)
+    ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+    ctx.beginPath();
+    ctx.arc(0, 0, 20, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // Remove the flash after a short time
+    setTimeout(drawGame, 100);
+}
+
+
+// Update the drawGame function to include drawing the gun
+function drawGame() {
+    if (!gameActive) return;
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the background first
+    drawBackground();
+
+    // Check if there are more questions to display
+    if (currentQuestion < totalQuestions) {
+        // Display the current question text
+        document.getElementById('questionText').innerText = questions[currentQuestion].question;
+
+        // Draw targets for each answer
+        questions[currentQuestion].answers.forEach((answer, i) => {
+            const xPos = 100 + (i * 200);
+            drawTarget(xPos, 300, answer);
+        });
+
+        // Draw the crosshair
+        drawCrosshair(crosshairX, crosshairY);
+
+        // Draw the gun that follows the crosshair
+        drawRevolver();
+
+        // Draw hit animation if active
+        if (hitAnimationActive) {
+            drawHitAnimation(hitAnimationX, hitAnimationY);
+            hitAnimationFrame++;
+
+            // Reset hit animation after a few frames
+            if (hitAnimationFrame > 5) {
+                hitAnimationActive = false;
+                hitAnimationFrame = 0;
             }
         }
     }
+}
+
+
+function drawBackground() {
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Sky Gradient
+    const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+    skyGradient.addColorStop(0, "#87CEEB"); // Light blue
+    skyGradient.addColorStop(1, "#4682B4"); // Steel blue
+    ctx.fillStyle = skyGradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+
+    // Draw Clouds
+    for (let i = 0; i < 5; i++) {
+        const cloudX = Math.random() * canvas.width;
+        const cloudY = Math.random() * (canvas.height / 3);
+        drawCloud(ctx, cloudX, cloudY);
+    }
+
+    // Ground Gradient
+    const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+    groundGradient.addColorStop(0, "#8B4513"); // Brown at horizon
+    groundGradient.addColorStop(1, "#5C4033"); // Darker brown near bottom
+    ctx.fillStyle = groundGradient;
+    ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+
+    // Horizon Line
+    ctx.strokeStyle = "#654321"; // Darker brown for horizon
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+
+    // Distant Trees on Horizon
+    for (let i = 0; i < 10; i++) {
+        const treeX = Math.random() * canvas.width;
+        const treeY = canvas.height / 2 - Math.random() * 10;
+        drawTree(ctx, treeX, treeY, 0.4); // Smaller trees for distance effect
+    }
+
+    // Grass Patches in Foreground
+    for (let i = 0; i < 15; i++) {
+        const grassX = Math.random() * canvas.width;
+        const grassY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+        drawGrass(ctx, grassX, grassY);
+    }
+
+    // Stones and Ground Details
+    for (let i = 0; i < 10; i++) {
+        const stoneX = Math.random() * canvas.width;
+        const stoneY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+        drawStone(ctx, stoneX, stoneY);
+    }
+
+    // Targets on the Ground
+    for (let i = 0; i < 3; i++) {
+        const targetX = (canvas.width / 4) * (i + 1);
+        const targetY = canvas.height / 2 + 100;
+        drawTarget(ctx, targetX, targetY);
+    }
+}
+
+// Function to draw clouds
+function drawCloud(ctx, x, y) {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.beginPath();
+    ctx.arc(x, y, 20, Math.PI * 0.5, Math.PI * 1.5);
+    ctx.arc(x + 30, y - 10, 25, Math.PI * 1, Math.PI * 1.85);
+    ctx.arc(x + 60, y, 20, Math.PI * 1.5, Math.PI * 0.5);
+    ctx.closePath();
+    ctx.fill();
+}
+
+// Function to draw trees on the horizon
+function drawTree(ctx, x, y, scale = 1) {
+    ctx.fillStyle = "#2E8B57"; // Green for tree leaves
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - 10 * scale, y + 20 * scale);
+    ctx.lineTo(x + 10 * scale, y + 20 * scale);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#8B4513"; // Brown for trunk
+    ctx.fillRect(x - 2 * scale, y + 20 * scale, 4 * scale, 10 * scale);
+}
+
+// Function to draw grass patches
+function drawGrass(ctx, x, y) {
+    ctx.fillStyle = "#228B22"; // Green color for grass
+    for (let i = 0; i < 5; i++) {
+        const bladeX = x + Math.random() * 10 - 5;
+        const bladeY = y - Math.random() * 15;
+        ctx.beginPath();
+        ctx.moveTo(bladeX, y);
+        ctx.lineTo(bladeX - 2, bladeY);
+        ctx.lineTo(bladeX + 2, bladeY);
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+// Function to draw small stones
+function drawStone(ctx, x, y) {
+    ctx.fillStyle = "#A9A9A9"; // Gray color for stone
+    ctx.beginPath();
+    ctx.ellipse(x, y, Math.random() * 5 + 2, Math.random() * 3 + 1, Math.PI / 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+}
 
 // Function to draw targets with answers inside
 function drawTarget(x, y, answer) {
-    const targetSize = 100; // Increased size of the target shape
-    const innerCircleSize = 80; // Increased size of the inner circle
-    const outerCircleColor = "white"; // Color for the outer circle
-    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
+    const ringSizes = [80, 70, 60, 50, 40, 30, 20]; // Radii for each ring from outer to inner
+    const ringColors = ["white", "black", "blue", "black", "red", "red", "yellow"]; // Colors for each ring
+
+    // Adjust x position to move targets further right
+    const adjustedX = x + 100; // Move the target right by 100 pixels
+
+    // Draw each ring
+    for (let i = 0; i < ringSizes.length; i++) {
+        ctx.fillStyle = ringColors[i]; // Set the fill color for the current ring
+        ctx.beginPath();
+        ctx.arc(adjustedX, y, ringSizes[i], 0, Math.PI * 2); // Draw the ring as a circle
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    // Text settings
     const textColor = "black"; // Text color
-    const fontSize = "20px"; // Increased font size for better readability
+    const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
+    const fontSize = "20px"; // Font size for better readability
+    const textPadding = 5; // Padding for the text background
 
-    // Draw outer target (white circle)
-    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
-    ctx.beginPath();
-    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
-    ctx.fill();
-    ctx.closePath();
+    // Calculate text background dimensions
+    const textWidth = ctx.measureText(answer).width;
+    const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
+    const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
 
-    // Draw inner target (red circle outline)
-    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
-    ctx.lineWidth = 8; // Width of the circle outline
-    ctx.beginPath();
-    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
-    ctx.stroke();
-    ctx.closePath();
+    // Draw background for the text
+    ctx.fillStyle = textBackgroundColor; // Background color for the text
+    ctx.fillRect(adjustedX - textBackgroundWidth / 2, y - ringSizes[0] - textBackgroundHeight - 10, textBackgroundWidth, textBackgroundHeight);
 
-    // Draw the answer inside the target
+    // Draw the answer label above the target
     ctx.fillStyle = textColor; // Text color
     ctx.font = `${fontSize} Arial`; // Font style with increased size
     ctx.textAlign = "center"; // Center text alignment
-    ctx.textBaseline = "middle"; // Vertically center the text
-    ctx.fillText(answer, x, y); // Center the text vertically
+    ctx.textBaseline = "bottom"; // Align text above the target
+    ctx.fillText(answer, adjustedX, y - ringSizes[0] - 10); // Position text above the target with a gap
 }
 
             // Function to draw crosshair
@@ -2471,15 +2739,15 @@ function drawTarget(x, y, answer) {
             }
 
             function drawHitAnimation(x, y) {
-    const maxBurstRadius = 50;
-    const burstRadius = 10 + hitAnimationFrame * 3;
-    const burstOpacity = 1 - hitAnimationFrame / 10;
+    const maxBurstRadius = 70; // Increase the max burst radius for a bigger effect
+    const burstRadius = 20 + hitAnimationFrame * 4; // Increase initial burst radius and speed of expansion
+    const burstOpacity = 1 - hitAnimationFrame / 8; // Make burst opacity fade out slower
 
     // Radial gradient for the burst effect
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
-    gradient.addColorStop(0, `rgba(255, 140, 0, ${burstOpacity})`); // Center - Dark Orange
-    gradient.addColorStop(0.5, `rgba(255, 69, 0, ${burstOpacity * 0.8})`); // Mid - Orange-red
-    gradient.addColorStop(1, `rgba(255, 99, 71, 0)`); // Edge - Transparent
+    gradient.addColorStop(0, `rgba(255, 165, 0, ${burstOpacity})`); // Brighter Orange
+    gradient.addColorStop(0.5, `rgba(255, 100, 0, ${burstOpacity * 0.9})`); // More intense Orange-red
+    gradient.addColorStop(1, `rgba(255, 50, 0, 0)`); // Edge - Transparent
 
     // Draw expanding burst with gradient
     ctx.fillStyle = gradient;
@@ -2489,30 +2757,30 @@ function drawTarget(x, y, answer) {
     ctx.closePath();
 
     // Draw "hole" in the target
-    const holeRadius = hitAnimationFrame * 2;
-    ctx.fillStyle = "black";
+    const holeRadius = hitAnimationFrame * 3; // Increase hole radius expansion
+    ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Darker "hole" color for contrast
     ctx.beginPath();
     ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
 
     // Shockwave ring effect
-    const shockwaveRadius = hitAnimationFrame * 4;
-    ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.6})`; // White with fading opacity
-    ctx.lineWidth = 2;
+    const shockwaveRadius = hitAnimationFrame * 5; // Larger shockwave
+    ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.8})`; // White with stronger opacity
+    ctx.lineWidth = 3; // Thicker line for the shockwave
     ctx.beginPath();
     ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
     ctx.stroke();
     ctx.closePath();
 
     // Enhanced particle debris effect
-    for (let i = 0; i < 12; i++) {
-        const angle = Math.random() * Math.PI * 2; // Randomize direction
-        const distance = burstRadius + Math.random() * 15; // Varied distance from the center
+    for (let i = 0; i < 18; i++) { // Increase particle count
+        const angle = Math.random() * Math.PI * 2;
+        const distance = burstRadius + Math.random() * 20;
         const particleX = x + Math.cos(angle) * distance;
         const particleY = y + Math.sin(angle) * distance;
-        const particleSize = 2 + Math.random() * 2; // Random particle size
-        const particleOpacity = burstOpacity * (0.5 + Math.random() * 0.5); // Varying opacity
+        const particleSize = 3 + Math.random() * 3; // Larger particles
+        const particleOpacity = burstOpacity * (0.7 + Math.random() * 0.5); // Higher opacity range
 
         ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
         ctx.beginPath();
@@ -2521,14 +2789,14 @@ function drawTarget(x, y, answer) {
         ctx.closePath();
     }
 
-    // Slight upward fade for smoke particles
-    for (let i = 0; i < 6; i++) {
+    // More noticeable smoke particles
+    for (let i = 0; i < 10; i++) { // Increase smoke particle count
         const smokeAngle = Math.random() * Math.PI * 2;
-        const smokeDistance = 20 + Math.random() * 10;
+        const smokeDistance = 25 + Math.random() * 15;
         const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
         const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
-        const smokeSize = 3 + Math.random() * 4;
-        const smokeOpacity = burstOpacity * 0.3; // Fainter smoke
+        const smokeSize = 5 + Math.random() * 4; // Larger smoke particles
+        const smokeOpacity = burstOpacity * 0.4; // Increase smoke opacity slightly
 
         ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
         ctx.beginPath();
@@ -2541,7 +2809,7 @@ function drawTarget(x, y, answer) {
     hitAnimationFrame++;
 
     // Reset animation once completed
-    if (hitAnimationFrame > 15) { // Extended duration for more impact
+    if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         hitAnimationActive = false;
         hitAnimationFrame = 0;
     }
@@ -2549,13 +2817,14 @@ function drawTarget(x, y, answer) {
 
             canvas.addEventListener('mousemove', function (event) {
                 const rect = canvas.getBoundingClientRect();
-                crosshairX = event.clientX - rect.left; // Update crosshair X position
-                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
-                drawGame(); // Redraw the game to update the crosshair position
+                crosshairX = event.clientX - rect.left;
+                crosshairY = event.clientY - rect.top;
+                drawGame();
             });
-
+            
             // Click event to handle answer selection
             canvas.addEventListener('click', function () {
+               
             shootSound.play();
                 const targetSize = 80; // Size of the target shape
 
@@ -2563,24 +2832,26 @@ function drawTarget(x, y, answer) {
 
                 // Check if a target was clicked
                 questions[currentQuestion].answers.forEach((answer, i) => {
-                    const xPos = 100 + (i * 200); // Calculate X position for the target
+                    const adjustedXPos = 100 + (i * 200) + 100; // Match x position from drawTarget
+                    const adjustedYPos = 300; // Match y position from drawTarget// Calculate X position for the target
 
                     if (
-                        crosshairX > xPos - targetSize &&
-                        crosshairX < xPos + targetSize &&
-                        crosshairY > 300 - targetSize &&
-                        crosshairY < 300 + targetSize
+                        crosshairX > adjustedXPos - targetSize &&
+                        crosshairX < adjustedXPos + targetSize &&
+                        crosshairY > adjustedYPos - targetSize &&
+                        crosshairY < adjustedYPos + targetSize
                     ) {
                     hit = true;
                         if (i === questions[currentQuestion].correct) {
                 score++; // Increase score for correct answer
                 
             }
-                hitAnimationActive = true;
-                hitAnimationX = xPos;
-                hitAnimationY = 300;
+            hitAnimationActive = true;
+            hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
+            hitAnimationY = adjustedYPos
 
                 if (hit) {
+                    canvas.addEventListener('click', fireGun);
     currentQuestion++;
 
     // Check if there are more questions left

@@ -76,10 +76,16 @@ h1,h2,h3,p {
 }
 
 #gameScene {
+    width: 90%; /* Make the width responsive */
+    max-width: 800px; /* Max width for larger screens */
+    height: 300px; /* Fixed height or adjust as needed */
+    margin: auto; /* Centers horizontally within flex container */
     border: 2px solid #333;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     backdrop-filter: blur(15px);
+    box-sizing: border-box;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
 }
 
 #cardsContainer {
@@ -276,168 +282,174 @@ h1,h2,h3,p {
 }
 
 #level3Content {
-display: none;
-max-width: 600px; /* Reduced max width */
-width: 80%; /* Reduced width for smaller screens */
-margin: 0 auto;
-padding: 15px; /* Reduced padding for better fit */
-background: rgba(0, 0, 0, 0.8);
-border-radius: 10px;
-box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-color: white;
-word-wrap: break-word;
+    display: none;
+    max-width: 100%; /* Matches most of the width of #gameScene */
+    width: 800px; 
+    height: auto; /* Increased height to occupy more vertical space */
+    margin: 0 auto;
+    padding: 20px; /* Adequate padding for readability */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    color: white;
+    word-wrap: break-word;
+    font-size: 12px;
 }
 
 @media (max-width: 1024px) {
-#level3Content {
-width: 85%;
-padding: 15px;
-}
+    #level3Content {
+        width: 85%;
+        max-height: 65vh; /* Increased for smaller screens */
+        padding: 15px;
+    }
 }
 
 @media (max-width: 768px) {
-#level3Content {
-width: 90%;
-padding: 10px;
-margin: 10px;
-}
+    #level3Content {
+        width: 90%;
+        max-height: 50vh; /* Increased for smaller screens */
+        padding: 10px;
+        margin: 10px;
+    }
 }
 
 @media (max-width: 480px) {
-#level3Content {
-width: 95%;
-padding: 8px;
-margin: 5px;
-font-size: 14px;
-}
+    #level3Content {
+        width: 95%;
+        max-height: 65vh; /* Increased for very small screens */
+        padding: 8px;
+        margin: 5px;
+        font-size: 20px;
+    }
 }
 
+
+
 .feature-matching-container {
-display: flex;
-justify-content: space-between;
-margin-top: 20px;
-flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
 .main-image-container {
-width: 100%;
-max-width: 350px; /* Reduced max width for the main image */
-height: auto;
-position: relative;
-border: 2px solid #333;
-margin-right: 15px;
-margin-bottom: 20px;
+    width: 100%;
+    max-width: 350px; /* Reduced max width for the main image */
+    height: 350px; /* Set a specific height for consistent dropzone positioning */
+    position: relative; /* Allows absolutely positioned child elements to be positioned relative to this container */
+    border: 2px solid #333; /* Border for visibility */
+    margin-right: 10px; /* Margin to the right */
+    margin-bottom: 15px; /* Margin to the bottom */
+    overflow: hidden; /* Optional: Ensures that any overflowing content is hidden */
 }
 
 @media (max-width: 768px) {
-.main-image-container {
-width: 100%;
-max-width: none;
-height: auto;
-}
+    .main-image-container {
+        width: 50%;
+        max-width: none;
+        height: auto;
+    }
 
-.feature-matching-container {
-flex-direction: column;
-align-items: center;
-}
+    .feature-matching-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .main-image {
-width: 100%;
-height: 100%;
-object-fit: contain;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
 }
 
 .feature-dropzone {
-position: absolute;
-border: 2px dashed #4CAF50;
-background: rgba(76, 175, 80, 0.1);
-cursor: pointer;
+    position: absolute;
+    border: 2px dashed #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+    cursor: pointer;
 }
 
 .features-panel {
-width: 180px; /* Slightly reduced width */
-padding: 8px; /* Reduced padding */
-background: rgba(0, 0, 0, 0.8);
-border-radius: 8px;
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 150px; /* Slightly reduced width */
+    padding: 6px; /* Reduced padding */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .feature-item {
-width: 160px; /* Slightly reduced width */
-height: 90px; /* Slightly reduced height */
-margin: 10px 0;
-border: 2px solid #333;
-cursor: grab;
-position: relative;
-overflow: hidden;
+    width: 130px; /* Reduced width */
+    height: 70px; /* Reduced height */
+    margin: 8px 0;
+    border: 2px solid #333;
+    cursor: grab;
+    position: relative;
+    overflow: hidden;
 }
 
 .feature-item img {
-    width: 50px; 
-    height: 50px; 
+    width: 45px;
+    height: 45px;
 }
 
 .feature-item.dragging {
-opacity: 0.5;
-cursor: grabbing;
+    opacity: 0.5;
+    cursor: grabbing;
 }
 
 .feature-matched {
-border-color: #4CAF50;
-opacity: 0.7;
-pointer-events: none;
+    border-color: #4CAF50;
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .dropzone-highlight {
-background: rgba(76, 175, 80, 0.3);
+    background: rgba(76, 175, 80, 0.3);
 }
 
 .level3-instructions {
-text-align: center;
-margin-bottom: 20px;
-padding: 10px;
-background: rgba(0, 0, 0, 0.8);
-border-radius: 8px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
-width: 100%;
-height: 20px; /* Reduced height */
-background: linear-gradient(145deg, #222, #555);
-border-radius: 10px; /* Reduced border radius */
-margin: 15px 0;
-overflow: hidden;
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-border: 1px solid #4CAF50;
+    width: 100%;
+    height: 16px; /* Reduced height */
+    background: linear-gradient(145deg, #222, #555);
+    border-radius: 8px; /* Reduced border radius */
+    margin: 10px 0;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid #4CAF50;
 }
 
 .progress-fill {
-height: 100%;
-background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
-width: 0%;
-transition: width 0.3s ease, background 0.6s ease;
-box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8);
-border-radius: 10px; /* Reduced border radius */
+    height: 100%;
+    background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
+    width: 0%;
+    transition: width 0.3s ease, background 0.6s ease;
+    box-shadow: 0px 3px 12px rgba(0, 255, 127, 0.8);
+    border-radius: 8px; /* Reduced border radius */
 }
 
 @keyframes pulse {
-0% {
-box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-}
-
-50% {
-box-shadow: 0 0 20px rgba(0, 255, 127, 1);
-}
-
-100% {
-box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-}
+    0% {
+        box-shadow: 0 0 4px rgba(0, 255, 127, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(0, 255, 127, 1);
+    }
+    100% {
+        box-shadow: 0 0 4px rgba(0, 255, 127, 0.8);
+    }
 }
 
 .progress-fill.active {
-animation: pulse 1s infinite ease-in-out;
+    animation: pulse 1s infinite ease-in-out;
 }
 
 
@@ -623,35 +635,41 @@ button:hover {
 }
 
 #level4Content {
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    color: #fff;
-}
+            height: auto;
+            width: auto;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
 
-#colorContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 300px;
-    margin-bottom: 20px;
-}
+        /* Color Container */
+        #colorContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            margin-bottom: 20px;
+        }
 
-#colorImage {
-    width: 300px;
-    height: 300px;
-    background-color: rgb(0, 0, 0);
-    border: 2px solid #4CAF50;
-    margin-right: 20px;
-    box-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
-}
+        #colorImage {
+            width: 150px;
+            height: 150px;
+            background-color: rgb(0, 0, 0);
+            /* Default black */
+            border: 2px solid #4CAF50;
+            /* Neon green border */
+            margin-right: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
+            /* Glowing effect */
+        }
 
-#selectedColorImage {
-    width: 200px;
-    height: 200px;
-    border: 2px solid #4CAF50;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
+        #selectedColorImage {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #4CAF50;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            /* Subtle glow */
+        }
 
 .color-sliders {
     display: flex;
@@ -785,35 +803,56 @@ input[type="range"]::-moz-range-thumb {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker for more contrast */
 }
 
 #postTestContainer {
     max-height: 80vh;
     width: 80%;
     overflow-y: auto;
-    padding: 20px;
-    background: rgba(20, 20, 20, 0.85);
-    border-radius: 10px;
-    box-shadow: 0 4px 30px rgba(0, 255, 204, 0.5);
+    padding: 30px;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 255, 204, 0.6);
+    color: #e0f7fa; /* Light color for improved readability */
+    font-size: 18px;
 }
 
 .test-form-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px; /* Increased gap for better separation */
 }
 
 .question {
-    background: rgba(20, 20, 20, 0.85);
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: rgba(40, 40, 40, 0.95);
+    padding: 20px;
+    border: 1px solid #00ffa3;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.5); /* Subtle glow effect */
 }
 
 .question p {
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 20px; /* Slightly larger font for readability */
+    color: #d4ffd6; /* Light green for readability */
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* Optional: Adjust scrollbar style for a more polished look */
+#postTestContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#postTestContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#postTestContainer::-webkit-scrollbar-thumb {
+    background: #00ffa3;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 163, 0.5);
 }
 
 .options label {
@@ -945,20 +984,21 @@ input[type="range"]::-moz-range-thumb {
     justify-content: center;
     align-items: center;
 }
+/* Certificate Modal Overlay */
 .certificate-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center; 
     z-index: 1000;
 }
 
-/* Certificate styling */
+/* Certificate Container */
 .certificate {
     background: #fff;
     width: 90%;
@@ -973,18 +1013,19 @@ input[type="range"]::-moz-range-thumb {
     background-image: linear-gradient(145deg, #ffffff 50%, #f3f3f3);
 }
 
-.certificate::before,
-.certificate::after {
+/* Inner Border */
+.certificate::before {
     content: '';
     position: absolute;
-    width: calc(100% - 2rem);
-    height: calc(100% - 2rem);
+    top: 15px;
+    left: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
     border: 2px solid #D4AF37;
     border-radius: 12px;
-    top: 1rem;
-    left: 1rem;
 }
 
+/* Certificate Text */
 .certificate h1 {
     font-size: 2.5rem;
     color: #4A90E2;
@@ -1006,14 +1047,14 @@ input[type="range"]::-moz-range-thumb {
     margin: 0.5rem 0;
 }
 
-/* Date styling */
+/* Date Styling */
 .certificate #date {
     font-weight: bold;
 }
 
-/* Download button styling */
-.certificate button {
-    margin-top: 1.5rem;
+/* Buttons Styling */
+.certificate-modal button {
+    margin-top: 1rem;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     background-color: #4A90E2;
@@ -1024,8 +1065,13 @@ input[type="range"]::-moz-range-thumb {
     transition: background-color 0.3s ease;
 }
 
-.certificate button:hover {
+.certificate-modal button:hover {
     background-color: #357ABD;
+}
+
+/* Spacing for Buttons */
+.certificate-modal button + button {
+    margin-left: 1rem;
 }
 
 
@@ -1101,6 +1147,88 @@ input[type="range"]::-moz-range-thumb {
                 <button id="submitGuess">Submit Guess</button>
             </div>
         </div>
+        <div id="level3Content">
+            <div class="level3-instructions">
+                <h2>Level 3: Feature Extraction Challenge</h2>
+                <p>Match the visual features to their correct locations in the image!</p>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="feature-matching-container">
+                <div class="main-image-container">
+                    <img class="main-image" id="mainImage" src="/api/placeholder/400/400" alt="Main image">
+                    <!-- Dropzones will be added dynamically -->
+                </div>
+                <div class="features-panel">
+                    <h3>Visual Features</h3>
+                    <div id="featuresList">
+                        <!-- Features will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="level4Content" style="display: none;">
+            <h2>Level 4: Color Identification</h2>
+            <p>Use the sliders to select the dominant color in the image below:</p>
+            
+            <div id="colorContainer">
+                <div id="colorImage"></div>
+                <div id="selectedColorImage"></div>
+            </div>
+
+            <div class="color-sliders">
+                <div class="slider-group">
+                    <label for="redSlider">Red</label>
+                    <input type="range" id="redSlider" min="0" max="255" value="0">
+                    <span id="redValue">0</span>
+                </div>
+                <div class="slider-group">
+                    <label for="greenSlider">Green</label>
+                    <input type="range" id="greenSlider" min="0" max="255" value="0">
+                    <span id="greenValue">0</span>
+                </div>
+                <div class="slider-group">
+                    <label for="blueSlider">Blue</label>
+                    <input type="range" id="blueSlider" min="0" max="255" value="0">
+                    <span id="blueValue">0</span>
+                </div>
+                <button id="submitColor" class="btn-submit">Submit Color</button>
+            </div>
+        </div>
+
+        <div id="level5Content" style="display: block;">
+                <h2>Level 5: Object Detection</h2>
+                <div id="targetZoneMessage" style="margin-bottom: 10px;"></div>
+                <div class="object-detection-container" style="position: relative;">
+                <img id="objectImage" src="{{ asset('images/hard/hard.jpg') }}" style="max-width: 1000%; height: auto; cursor: pointer;">
+            
+                    <!-- Large Detection Zones -->
+                    <div id="farthestpost" class="detection-zone" style="left: 510px; top: 180px; width: 20px; height: 200px;"></div>
+                    <div id="middlepost" class="detection-zone" style="left: 140px; top: 200px; width: 20px; height: 200px;"></div>
+                    <div id="manwithphone" class="detection-zone" style="left: 260px; top: 360px; width: 40px; height: 100px;"></div>
+                    <div id="ladyintheblackholdingplastic" class="detection-zone" style="left: 70px; top: 350px; width: 40px; height: 120px;"></div>
+                    <div id="manpink" class="detection-zone" style="left: 310px; top: 370px; width: 40px; height: 100px;"></div>
+                    <div id="mangreen" class="detection-zone" style="left: 745px; top: 370px; width: 40px; height: 80px;"></div>
+                    <div id="ladyblackandwhitejeans" class="detection-zone" style="left: 450px; top: 370px; width: 40px; height: 100px;"></div>
+                    <div id="ladygreenwithredbabg" class="detection-zone" style="left: 390px; top: 350px; width: 40px; height: 100px;"></div>
+                    <div id="closepost" class="detection-zone" style="left: 900px; top: 10px; width: 25px; height: 420px;"></div>
+                    <div id="train" class="detection-zone" style="left: 435px; top: 320px; width: 30px; height: 30px;"></div>
+                    <div id="firehydrant" class="detection-zone" style="left: 735px; top: 470px; width: 60px; height: 110px;"></div>
+                    <div id="trashcan" class="detection-zone" style="left: 680px; top: 430px; width: 60px; height: 120px;"></div>
+                    <div id="poster" class="detection-zone" style="left: 560px; top: 0px; width: 70px; height: 140px;"></div>
+                    <div id="u-turnsign" class="detection-zone" style="left: 680px; top: 130px; width: 70px; height: 70px;"></div>
+                    <div id="trafficlight" class="detection-zone" style="left: 830px; top: 200px; width: 70px; height: 70px;"></div>
+                    <div id="blackcar" class="detection-zone" style="left: 0px; top: 370px; width: 150px; height: 70px;"></div>
+                    
+                </div>
+            </div>
+        </div>
+
+            <div id="detectedObjectsList"></div>    
+            
+            </div>
     </div>
 
     <div class="modal-overlay" id="levelCompleteModal">
@@ -1123,27 +1251,6 @@ input[type="range"]::-moz-range-thumb {
         </div>
     </div>
 
-    <div id="level3Content">
-        <div class="level3-instructions">
-            <h2>Level 3: Feature Extraction Challenge</h2>
-            <p>Match the visual features to their correct locations in the image!</p>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressBar"></div>
-        </div>
-        <div class="feature-matching-container">
-            <div class="main-image-container">
-                <img class="main-image" id="mainImage" src="/api/placeholder/400/400" alt="Main image">
-                <!-- Dropzones will be added dynamically -->
-            </div>
-            <div class="features-panel">
-                <h3>Visual Features</h3>
-                <div id="featuresList">
-                    <!-- Features will be added dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="celebration"></div>
 
@@ -1156,34 +1263,7 @@ input[type="range"]::-moz-range-thumb {
         </div>
     </div>
 
-    <div id="level4Content" style="display: none;">
-    <h2>Level 4: Color Identification</h2>
-    <p>Use the sliders to select the dominant color in the image below:</p>
     
-    <div id="colorContainer">
-        <div id="colorImage"></div>
-        <div id="selectedColorImage"></div>
-    </div>
-
-    <div class="color-sliders">
-        <div class="slider-group">
-            <label for="redSlider">Red</label>
-            <input type="range" id="redSlider" min="0" max="255" value="0">
-            <span id="redValue">0</span>
-        </div>
-        <div class="slider-group">
-            <label for="greenSlider">Green</label>
-            <input type="range" id="greenSlider" min="0" max="255" value="0">
-            <span id="greenValue">0</span>
-        </div>
-        <div class="slider-group">
-            <label for="blueSlider">Blue</label>
-            <input type="range" id="blueSlider" min="0" max="255" value="0">
-            <span id="blueValue">0</span>
-        </div>
-        <button id="submitColor" class="btn-submit">Submit Color</button>
-    </div>
-</div>
     </div>
     
     <div class="modal-overlay" id="level4CompleteModal">
@@ -1195,37 +1275,7 @@ input[type="range"]::-moz-range-thumb {
         </div>
     </div>
         
-    <div id="level5Content" style="display: block;">
-        <h2>Level 5: Object Detection</h2>
-        <div id="targetZoneMessage" style="margin-bottom: 10px;"></div>
-        <div class="object-detection-container" style="position: relative;">
-        <img id="objectImage" src="{{ asset('images/hard/hard.jpg') }}" style="max-width: 2000%; height: auto; cursor: pointer;">
     
-            <!-- Large Detection Zones -->
-            <div id="farthestpost" class="detection-zone" style="left: 510px; top: 180px; width: 20px; height: 200px;"></div>
-            <div id="middlepost" class="detection-zone" style="left: 140px; top: 200px; width: 20px; height: 200px;"></div>
-            <div id="manwithphone" class="detection-zone" style="left: 260px; top: 360px; width: 40px; height: 100px;"></div>
-            <div id="ladyintheblackholdingplastic" class="detection-zone" style="left: 70px; top: 350px; width: 40px; height: 120px;"></div>
-            <div id="manpink" class="detection-zone" style="left: 310px; top: 370px; width: 40px; height: 100px;"></div>
-            <div id="mangreen" class="detection-zone" style="left: 745px; top: 370px; width: 40px; height: 80px;"></div>
-            <div id="ladyblackandwhitejeans" class="detection-zone" style="left: 450px; top: 370px; width: 40px; height: 100px;"></div>
-            <div id="ladygreenwithredbabg" class="detection-zone" style="left: 390px; top: 350px; width: 40px; height: 100px;"></div>
-            <div id="closepost" class="detection-zone" style="left: 900px; top: 10px; width: 25px; height: 420px;"></div>
-            <div id="train" class="detection-zone" style="left: 435px; top: 320px; width: 30px; height: 30px;"></div>
-            <div id="firehydrant" class="detection-zone" style="left: 735px; top: 470px; width: 60px; height: 110px;"></div>
-            <div id="trashcan" class="detection-zone" style="left: 680px; top: 430px; width: 60px; height: 120px;"></div>
-            <div id="poster" class="detection-zone" style="left: 560px; top: 0px; width: 70px; height: 140px;"></div>
-            <div id="u-turnsign" class="detection-zone" style="left: 680px; top: 130px; width: 70px; height: 70px;"></div>
-            <div id="trafficlight" class="detection-zone" style="left: 830px; top: 200px; width: 70px; height: 70px;"></div>
-            <div id="blackcar" class="detection-zone" style="left: 0px; top: 370px; width: 150px; height: 70px;"></div>
-            
-        </div>
-    </div>
-</div>
-
-    <div id="detectedObjectsList"></div>    
-    
-    </div>
         
         <div class="modal-overlay" id="level5CompleteModal" style="display: none;">
             <div class="modal">
@@ -1238,7 +1288,7 @@ input[type="range"]::-moz-range-thumb {
         <div id="postTestContainer" style="display: none;">
             <h2>Quiz Game</h2>
             <p id="questionText"></p>
-            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <canvas id="gameCanvas" width="1000" height="625"></canvas>
             <div id="scoreModal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -1255,6 +1305,7 @@ input[type="range"]::-moz-range-thumb {
     <div class="modal-result">
         <h1>Congratulations! You have completed the Game!</h1>
         <p id="score">Your total score: </p>
+        <button onclick="displayCertificate()">Show Certificate</button>
         <button onclick="closeModal()">Close</button>
         <button onclick="playAgain()">Play Again</button>
     </div>
@@ -1265,10 +1316,17 @@ input[type="range"]::-moz-range-thumb {
         <h1>Certificate of Achievement</h1>
         <p>This certificate is awarded to:</p>
         <h2 id="userName">John Doe</h2>
-        <p>For achieving a score of</p>
-        <h2 id="userScore">80%</h2>
+        <p>For Easy Mode achieving a score of</p>
+        <h2 id="easyPostTest">80%</h2>
+        <p>For Medium Mode achieving a score of</p>
+        <h2 id="mediumPostTest">80%</h2>
+        <p>For Hard Mode achieving a score of</p>
+        <h2 id="hardPostTest">80%</h2>
         <p>Date: <span id="date"></span></p>
+    </div>
+    <div class="certificate-modal-buttons">
         <button onclick="downloadCertificate()">Download Certificate</button>
+        <button onclick="closeCertificate()">Close Certificate</button>
     </div>
 </div>
 
@@ -1276,7 +1334,7 @@ input[type="range"]::-moz-range-thumb {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
 
 function showGameOverModal() {
@@ -1691,7 +1749,7 @@ function initializeGame() {
     // Show appropriate level content
     if (gameState.level === 1) {
         level1Content.style.display = 'block';
-        initializeLevel1();
+        initializeLevel1(9);
     } else if (gameState.level === 2) {
         level2Content.style.display = 'block';
         switchToLevel2();
@@ -1737,6 +1795,7 @@ function skipLevel() {
                 showLevel1CompleteModal();
                 updateScore(10); 
                 gameState.level++;
+                currentLevel++;
             } else if (gameState.level === 2) {
                 showLevel2CompleteModal();
                 level2Content.style.display = 'block';
@@ -1968,54 +2027,61 @@ function initializeLevel1(cardNumber) {
 }
 
 function handleCardClick(cardData) {
-    if (!gameState.canClick || gameState.shuffling) return;
+            if (!gameState.canClick || gameState.shuffling) return;
 
-    gameState.canClick = false;
-    flipAllCards(false);
+            gameState.canClick = false;
+            flipAllCards(false);
 
-    if (cardData.isCorrect) {
-        document.getElementById('message').textContent = "Correct! You found the Outline";
-        cardData.element.classList.add('victory');
-        correctAnswer.play();
+            if (cardData.isCorrect) {
+                correctAnswer.play();
+                document.getElementById('message').textContent = "Correct! You found the Outline";
+                cardData.element.classList.add('victory');
 
-        // Update score for correct answer
-        updateScore(15); // Award 10 points for correct guess
+                // Update score for correct answer
 
-        setTimeout(() => {
-            attackMonster(50);
-        }, 1500);
+                updateScore(10); // Award 10 points for correct guess
 
-        setTimeout(() => {
-            cardData.element.classList.remove('victory');
-            if (gameState.monsterHp >= 100 && gameState.playerHp > 0) {
-                nextRound();
+                setTimeout(() => {
+                    attackMonster(50);
+                }, 500);
+
+                setTimeout(() => {
+                    cardData.element.classList.remove('victory');
+                    if (gameState.monsterHp > 0 && gameState.playerHp > 0) {
+                        nextRound();
+                    }
+                }, 2500);
+            } else {
+                wrongAnswer.play();
+                document.getElementById('message').textContent = "Wrong card! Try again!";
+                cardData.element.classList.add('wrong');
+
+                const correctCard = cards.find(card => card.isCorrect);
+                setTimeout(() => {
+                    correctCard.element.classList.add('correct-reveal');
+                }, 500);
+
+                setTimeout(() => {
+                    monsterAttack();
+                    takeDamage();
+                }, 1000);
+
+                setTimeout(() => {
+                    cardData.element.classList.remove('wrong');
+                    correctCard.element.classList.remove('correct-reveal');
+                    flipAllCards(true);
+                    shuffle();
+                    gameState.canClick = true;
+                }, 3000);
             }
-        }, 2500);
-    } else {
-        wrongAnswer.play();
-        document.getElementById('message').textContent = "Wrong card! Try again!";
-        cardData.element.classList.add('wrong');
-
-        const correctCard = cards.find(card => card.isCorrect);
-        setTimeout(() => {
-            correctCard.element.classList.add('correct-reveal');
-        }, 500);
-
-        setTimeout(() => {
-            monsterAttack();
-            takeDamage();
-        }, 1000);
-
-        setTimeout(() => {
-            cardData.element.classList.remove('wrong');
-            correctCard.element.classList.remove('correct-reveal');
-            flipAllCards(true);
-            shuffle();
-            gameState.canClick = true;
-        }, 3000);
-    }
-}
-
+        }
+        function nextRound() {
+            initializeGame();
+            setTimeout(() => {
+                flipAllCards(true);
+                setTimeout(shuffle, 1000);
+            }, 1000);
+        }
 function switchToLevel2() {
             // Ensure that the timer and level 1 state are cleared
             level1Content.style.display = 'none'; // Hide Level 1 content
@@ -2067,11 +2133,13 @@ submitGuess.addEventListener('click', () => {
             if (guess === currentImage.answer) {
                 correctAnswer.play();
                 document.getElementById('message').textContent = "Correct! You identified the image!";
-                gameState.level++;
                 level2Content.style.display = 'none';
                 attackMonster(50);
                 // Force monster defeat to trigger level completion
-                isStartLevel = false;
+                if(gameState.monsterHp === 0){
+                    isStartLevel = false;
+                    gameState.level++;
+                }
                 // Update score for correct answer
                 updateScore(10); // Award 20 points for correct guess
                 // showLevel2CompleteModal(); // Show level 2 completion modal
@@ -2087,108 +2155,261 @@ submitGuess.addEventListener('click', () => {
             guessInput.value = ''; // Clear input field after submission
         });
 
-function initializeLevel3() {
-    const level3Content = document.getElementById('level3Content');
-    level1Content.style.display = 'none';
-    level2Content.style.display = 'none';
-    level3Content.style.display = 'block';
-
-    const mainImage = document.getElementById('mainImage');
-    mainImage.src = gameState.level3.mainImage;
-
-    // Clear any existing dropzones and draggable features
-    const mainImageContainer = document.querySelector('.main-image-container');
-    mainImageContainer.innerHTML = ''; // Clear previous dropzones if any
-    const featuresList = document.getElementById('featuresList');
-    featuresList.innerHTML = ''; // Clear previous feature elements if any
-
-    // Create dropzones for the main image
-    gameState.level3.features.forEach(feature => {
-        const dropzone = createDropzone(feature);
-        mainImageContainer.appendChild(dropzone);
-    });
-
-    // Create draggable features
-    gameState.level3.features.forEach(feature => {
-        const featureElement = createFeatureElement(feature);
-        featuresList.appendChild(featureElement);
-    });
-
-    // Update the progress bar or any level-specific info
-    updateLevel3Progress();
-
-    // Start the timer for Level 3
-    startNewLevel(3); // This function handles starting the countdown timer for the level
-}
-
-function handleDrop(e) {
-    e.preventDefault();
-    e.target.classList.remove('dropzone-highlight');
-    
-    const featureId = e.dataTransfer.getData('text/plain');
-    const dropzone = e.target;
-    
-    if (dropzone.dataset.featureId === featureId) {
-        // Correct match
-        const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
-        featureElement.classList.add('feature-matched');
-        gameState.level3.matchedFeatures.add(featureId);
-        
-        document.getElementById('message').textContent = "Correct match!";
-        correctAnswer.play();
-        updateLevel3Progress();
-        
-        // Update score for a correct match
-        updateScore(15); // Example: 10 points for a correct match
-        
-        if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
-            // Level complete
-            setTimeout(() => {
-                showLevel3CompleteModal();
-                gameState.level++;
-                attackMonster(50); // Assuming this triggers the next stage of the game
-            }, 500);
+        const featureSets = [
+    [
+        {
+            id: 'featurelevel11',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
+            correctZone: { x: 50, y: 50, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel12',
+            type: 'texture',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 200, y: 150, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel13',
+            type: 'color',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 100, y: 250, width: 100, height: 100 }
         }
-    } else {
-        // Wrong match\
-        wrongAnswer.play();
-        document.getElementById('message').textContent = "Wrong match! Try again.";
-        takeDamage(); // Deduct HP or handle damage
-    }
+    ],
+    [
+        {
+            id: 'featurelevel21',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel22',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel23',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+    [
+        {
+            id: 'featurelevel31',
+            type: 'edge',
+            image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel32',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel33',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+    [
+        {
+            id: 'featurelevel41',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel42',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel43',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+   
+];
+
+
+let currentFeatureSetIndex = 0; // Tracks the current feature set
+
+// Function to generate a new set of features from predefined sets
+function generateNewFeatures() {
+    // Load the current feature set into the game state
+    gameState.level3.features = featureSets[currentFeatureSetIndex];
+
+    // Update the index to cycle through the sets
+    currentFeatureSetIndex = (currentFeatureSetIndex + 1) % featureSets.length;
 }
 
-function handleDragStart(e) {
-    e.target.classList.add('dragging');
-    e.dataTransfer.setData('text/plain', e.target.dataset.featureId);
-}
+// Initialization of gameState for Level 3
+gameState.level3 = {
+    features: featureSets[0], // Initial set of features
+    matchedFeatures: new Set(),
+    mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+};
 
-function handleDragEnd(e) {
-    e.target.classList.remove('dragging');
-}
+        function initializeLevel3() {
+            const level2Content = document.getElementById('level2Content');
+            level2Content.style.display = 'none';
+            const level3Content = document.getElementById('level3Content');
+            level3Content.style.display = 'block';
 
-function handleDragOver(e) {
-    e.preventDefault();
-}
+            const mainImage = document.getElementById('mainImage');
+            console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
+            mainImage.src = gameState.level3.mainImage; // This should use the new image URL
 
-function handleDragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add('dropzone-highlight');
-}
+            // Create dropzones for the main image
+            gameState.level3.features.forEach(feature => {
+                const dropzone = createDropzone(feature);
+                document.querySelector('.main-image-container').appendChild(dropzone);
+            });
 
-function handleDragLeave(e) {
-    e.target.classList.remove('dropzone-highlight');
-}
+            // Create draggable features
+            gameState.level3.features.forEach(feature => {
+                const featureElement = createFeatureElement(feature);
+                document.getElementById('featuresList').appendChild(featureElement);
+            });
 
+            // Update the progress bar or any level-specific info
+            updateLevel3Progress();
 
+            // Start the timer for Level 3
+            startNewLevel(3); // This function handles starting the countdown timer for the level
+        }
 
-function createDropzone(feature) {
+        function resetLevel3() {
+            const mainImageContainer = document.querySelector('.main-image-container');
+            const featuresList = document.getElementById('featuresList');
+
+            // Clear previous dropzones and draggable features
+            mainImageContainer.innerHTML = '';
+            featuresList.innerHTML = '';
+
+            // Reset matched features
+            gameState.level3.matchedFeatures.clear(); // Reset matched features
+
+            // Generate a new set of features
+            generateNewFeatures();
+
+            // Create dropzones for the new features
+            gameState.level3.features.forEach(feature => {
+                const dropzone = createDropzone(feature);
+                mainImageContainer.appendChild(dropzone); // Append new dropzones
+            });
+
+            // Create draggable features for the new features
+            gameState.level3.features.forEach(feature => {
+                const featureElement = createFeatureElement(feature);
+                featuresList.appendChild(featureElement); // Append new feature elements
+            });
+
+            // Reset progress
+            updateLevel3Progress(); // Reset the progress bar to 0%
+        }
+
+        function updateLevel3Progress() {
+            // Set progress to 0% on reset
+            if (gameState.level3.matchedFeatures.size === 0) {
+                document.querySelector('.progress-fill').style.width = '0%';
+            } else {
+                // Update progress based on matched features
+                const progress = (gameState.level3.matchedFeatures.size / gameState.level3.features.length) * 100;
+                document.querySelector('.progress-fill').style.width = `${progress}%`;
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('dropzone-highlight');
+
+            const featureId = e.dataTransfer.getData('text/plain');
+            const dropzone = e.target;
+
+            if (dropzone.dataset.featureId === featureId) {
+                // Correct match
+                const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
+                featureElement.classList.add('feature-matched');
+                gameState.level3.matchedFeatures.add(featureId);
+
+                document.getElementById('message').textContent = "Correct match!";
+                updateLevel3Progress();
+
+                // Update score for a correct match
+                updateScore(15); // Example: 10 points for a correct match
+
+                if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
+                    // Level complete
+                    setTimeout(() => {
+
+                            attackMonster(25);
+                            // Delay and reset level for the next attempt until the monster is defeated
+                            if(gameState.monsterHp > 0){
+                                setTimeout(() => {
+                                resetLevel3(); // Reset the level for another attempt
+                                initializeLevel3(); // Reinitialize the level
+                            }, 500);
+                            }
+                            
+                            if (gameState.monsterHp <= 0) {
+                                showLevel3CompleteModal();
+                                gameState.level++;
+                            }
+                    }, 500);
+                }
+            } else {
+                // Wrong match
+                document.getElementById('message').textContent = "Wrong match! Try again.";
+                monsterAttack();
+                takeDamage(); // Deduct HP or handle damage
+            }
+        }
+
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.dataset.featureId);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            e.target.classList.add('dropzone-highlight');
+        }
+
+        function handleDragLeave(e) {
+            e.target.classList.remove('dropzone-highlight');
+        }
+        function createDropzone(feature) {
     const dropzone = document.createElement('div');
     dropzone.className = 'feature-dropzone';
     dropzone.dataset.featureId = feature.id;
     dropzone.style.width = feature.correctZone.width + 'px';
     dropzone.style.height = feature.correctZone.height + 'px';
+    dropzone.style.position = 'absolute'; // Set to absolute to position within parent
     dropzone.style.left = feature.correctZone.x + 'px';
     dropzone.style.top = feature.correctZone.y + 'px';
+
+    // Ensure the dropzone is within the main-image-container
+    const mainImageContainer = document.querySelector('.main-image-container');
+    if (mainImageContainer) {
+        mainImageContainer.appendChild(dropzone); // Append dropzone to the container
+    }
 
     dropzone.addEventListener('dragover', handleDragOver);
     dropzone.addEventListener('drop', handleDrop);
@@ -2198,7 +2419,8 @@ function createDropzone(feature) {
     return dropzone;
 }
 
-function createFeatureElement(feature) {
+
+        function createFeatureElement(feature) {
     const featureElement = document.createElement('div');
     featureElement.className = 'feature-item';
     featureElement.draggable = true;
@@ -2207,26 +2429,29 @@ function createFeatureElement(feature) {
     const featureImage = document.createElement('img');
     featureImage.src = feature.image;
     featureImage.alt = `${feature.type} feature`;
+
+    // Prevent drag on the image itself
+    featureImage.addEventListener('dragstart', (event) => {
+        event.preventDefault(); // Prevent default drag behavior on the image
+    });
+
+    // Add mousedown event to initiate drag on the parent div
+    featureImage.addEventListener('mousedown', (event) => {
+        featureElement.dispatchEvent(new DragEvent('dragstart', {
+            bubbles: true,
+            cancelable: true,
+            dataTransfer: new DataTransfer(), // Create a new DataTransfer object
+        }));
+        event.preventDefault(); // Prevent default behavior
+    });
+
     featureElement.appendChild(featureImage);
 
+    // Add drag event listeners to featureElement
     featureElement.addEventListener('dragstart', handleDragStart);
     featureElement.addEventListener('dragend', handleDragEnd);
 
     return featureElement;
-}
-
-
-function nextRound() {
-    initializeGame();
-    setTimeout(() => {
-        flipAllCards(true);
-        setTimeout(shuffle, 1000);
-    }, 1000);
-}
-
-function updateLevel3Progress() {
-    const progress = (gameState.level3.matchedFeatures.size / gameState.level3.features.length) * 100;
-    document.querySelector('.progress-fill').style.width = `${progress}%`;
 }
 
 function initializeLevel4() {
@@ -2631,188 +2856,452 @@ function initializePostTest() {
     let hitAnimationX = 0;
     let hitAnimationY = 0;
     let hitAnimationFrame = 0;
+    let isReloading = false; // State to track if the gun is reloading
 
-            // Function to draw the game
-            function drawGame() {
-        if (!gameActive) return;
+function drawRevolver() {
+const gunX = canvas.width / 2; // Center position of the gun on the canvas
+const gunY = canvas.height - 0; // Slightly above the bottom for a first-person effect
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.save();
+ctx.translate(gunX, gunY);
 
-        if (currentQuestion < totalQuestions) {
-            document.getElementById('questionText').innerText = questions[currentQuestion].question;
+// Scale factor to make the revolver bigger
+const scaleFactor = 1.5;
 
-            questions[currentQuestion].answers.forEach((answer, i) => {
-                const xPos = 100 + (i * 200);
-                drawTarget(xPos, 300, answer);
-            });
+// Draw the revolver grip with a wood texture effect
+ctx.fillStyle = "#663300";
+ctx.beginPath();
+ctx.moveTo(-20 * scaleFactor, 0);
+ctx.lineTo(20 * scaleFactor, 0);
+ctx.lineTo(15 * scaleFactor, -40 * scaleFactor);
+ctx.lineTo(-15 * scaleFactor, -40 * scaleFactor);
+ctx.closePath();
+ctx.fill();
 
-            drawCrosshair(crosshairX, crosshairY);
+// Add some lines to simulate wood grain texture
+ctx.strokeStyle = "#331900";
+ctx.lineWidth = 1 * scaleFactor;
+ctx.beginPath();
+ctx.moveTo(-18 * scaleFactor, -10 * scaleFactor);
+ctx.lineTo(-10 * scaleFactor, -35 * scaleFactor);
+ctx.moveTo(10 * scaleFactor, -5 * scaleFactor);
+ctx.lineTo(15 * scaleFactor, -35 * scaleFactor);
+ctx.stroke();
 
-            if (hitAnimationActive) {
-                drawHitAnimation(hitAnimationX, hitAnimationY);
-                hitAnimationFrame++;
+// Draw the revolver body with more details
+ctx.fillStyle = "#555";
+ctx.fillRect(-15 * scaleFactor, -40 * scaleFactor, 30 * scaleFactor, -60 * scaleFactor);
 
-                if (hitAnimationFrame > 5) {
-                    hitAnimationActive = false;
-                    hitAnimationFrame = 0;
-                }
-            }
+// Draw the cylinder (revolver style) with rotation effect
+ctx.save();
+ctx.fillStyle = isReloading ? "#666" : "#777";
+ctx.translate(0, -70 * scaleFactor);
+ctx.rotate(isReloading ? Math.PI / 8 : 0); // Slight rotation during reload
+ctx.beginPath();
+ctx.arc(0, 0, 15 * scaleFactor, 0, Math.PI * 2);
+ctx.fill();
+
+// Add cylinder chambers (holes for bullets)
+ctx.fillStyle = "#333";
+for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(
+        10 * scaleFactor * Math.cos(i * Math.PI / 3), 
+        10 * scaleFactor * Math.sin(i * Math.PI / 3), 
+        3 * scaleFactor, 
+        0, 
+        Math.PI * 2
+    );
+    ctx.fill();
+}
+ctx.restore();
+
+// Draw the barrel with additional details
+ctx.fillStyle = "#444";
+ctx.fillRect(-5 * scaleFactor, -100 * scaleFactor, 10 * scaleFactor, -40 * scaleFactor); // Main barrel shape
+
+// Draw barrel details (e.g., grooves or lines)
+ctx.strokeStyle = "#333";
+ctx.lineWidth = 1 * scaleFactor;
+ctx.beginPath();
+ctx.moveTo(-3 * scaleFactor, -140 * scaleFactor);
+ctx.lineTo(-3 * scaleFactor, -100 * scaleFactor);
+ctx.moveTo(3 * scaleFactor, -140 * scaleFactor);
+ctx.lineTo(3 * scaleFactor, -100 * scaleFactor);
+ctx.stroke();
+
+// Optional: Add a sight at the end of the barrel
+ctx.fillStyle = "#222";
+ctx.fillRect(-2 * scaleFactor, -140 * scaleFactor, 4 * scaleFactor, 5 * scaleFactor);
+
+ctx.restore();
+}
+
+// Function to simulate firing and reloading
+function fireGun() {
+if (!isReloading) {
+    isReloading = true;
+
+    // Gunfire effect
+    
+
+    // Start reloading animation with recoil effect
+    setTimeout(() => {
+        isReloading = false;
+        drawGame();
+    }, 300); // 300 ms reloading delay for animation effect
+}
+}
+
+// Function to create a muzzle flash effect with details
+function drawMuzzleFlash() {
+const flashX = canvas.width / 2;
+const flashY = canvas.height - 280; // Flash should appear near the end of the barrel
+
+ctx.save();
+ctx.translate(flashX, flashY);
+
+// Create outer flash (larger and less opaque)
+ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
+ctx.beginPath();
+ctx.arc(0, 0, 60, 0, Math.PI * 2); // Increased size for larger gun
+ctx.fill();
+
+// Create inner flash (smaller and brighter)
+ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
+ctx.beginPath();
+ctx.arc(0, 0, 40, 0, Math.PI * 2);
+ctx.fill();
+
+// Create core flash (smallest and most intense)
+ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+ctx.beginPath();
+ctx.arc(0, 0, 20, 0, Math.PI * 2);
+ctx.fill();
+
+ctx.restore();
+
+// Remove the flash after a short time
+setTimeout(drawGame, 100);
+}
+
+
+// Update the drawGame function to include drawing the gun
+function drawGame() {
+if (!gameActive) return;
+
+// Clear the canvas
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+// Draw the background first
+drawBackground();
+
+// Check if there are more questions to display
+if (currentQuestion < totalQuestions) {
+    // Display the current question text
+    document.getElementById('questionText').innerText = questions[currentQuestion].question;
+
+    // Draw targets for each answer
+    questions[currentQuestion].answers.forEach((answer, i) => {
+        const xPos = 100 + (i * 200);
+        drawTarget(xPos, 300, answer);
+    });
+
+    // Draw the crosshair
+    drawCrosshair(crosshairX, crosshairY);
+
+    // Draw the gun that follows the crosshair
+    drawRevolver();
+
+    // Draw hit animation if active
+    if (hitAnimationActive) {
+        drawHitAnimation(hitAnimationX, hitAnimationY);
+        hitAnimationFrame++;
+
+        // Reset hit animation after a few frames
+        if (hitAnimationFrame > 5) {
+            hitAnimationActive = false;
+            hitAnimationFrame = 0;
         }
     }
+}
+}
+
+
+function drawBackground() {
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Sky Gradient
+const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+skyGradient.addColorStop(0, "#87CEEB"); // Light blue
+skyGradient.addColorStop(1, "#4682B4"); // Steel blue
+ctx.fillStyle = skyGradient;
+ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+
+// Draw Clouds
+for (let i = 0; i < 5; i++) {
+    const cloudX = Math.random() * canvas.width;
+    const cloudY = Math.random() * (canvas.height / 3);
+    drawCloud(ctx, cloudX, cloudY);
+}
+
+// Ground Gradient
+const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+groundGradient.addColorStop(0, "#8B4513"); // Brown at horizon
+groundGradient.addColorStop(1, "#5C4033"); // Darker brown near bottom
+ctx.fillStyle = groundGradient;
+ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+
+// Horizon Line
+ctx.strokeStyle = "#654321"; // Darker brown for horizon
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(0, canvas.height / 2);
+ctx.lineTo(canvas.width, canvas.height / 2);
+ctx.stroke();
+
+// Distant Trees on Horizon
+for (let i = 0; i < 10; i++) {
+    const treeX = Math.random() * canvas.width;
+    const treeY = canvas.height / 2 - Math.random() * 10;
+    drawTree(ctx, treeX, treeY, 0.4); // Smaller trees for distance effect
+}
+
+// Grass Patches in Foreground
+for (let i = 0; i < 15; i++) {
+    const grassX = Math.random() * canvas.width;
+    const grassY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+    drawGrass(ctx, grassX, grassY);
+}
+
+// Stones and Ground Details
+for (let i = 0; i < 10; i++) {
+    const stoneX = Math.random() * canvas.width;
+    const stoneY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+    drawStone(ctx, stoneX, stoneY);
+}
+
+// Targets on the Ground
+for (let i = 0; i < 3; i++) {
+    const targetX = (canvas.width / 4) * (i + 1);
+    const targetY = canvas.height / 2 + 100;
+    drawTarget(ctx, targetX, targetY);
+}
+}
+
+// Function to draw clouds
+function drawCloud(ctx, x, y) {
+ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+ctx.beginPath();
+ctx.arc(x, y, 20, Math.PI * 0.5, Math.PI * 1.5);
+ctx.arc(x + 30, y - 10, 25, Math.PI * 1, Math.PI * 1.85);
+ctx.arc(x + 60, y, 20, Math.PI * 1.5, Math.PI * 0.5);
+ctx.closePath();
+ctx.fill();
+}
+
+// Function to draw trees on the horizon
+function drawTree(ctx, x, y, scale = 1) {
+ctx.fillStyle = "#2E8B57"; // Green for tree leaves
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x - 10 * scale, y + 20 * scale);
+ctx.lineTo(x + 10 * scale, y + 20 * scale);
+ctx.closePath();
+ctx.fill();
+
+ctx.fillStyle = "#8B4513"; // Brown for trunk
+ctx.fillRect(x - 2 * scale, y + 20 * scale, 4 * scale, 10 * scale);
+}
+
+// Function to draw grass patches
+function drawGrass(ctx, x, y) {
+ctx.fillStyle = "#228B22"; // Green color for grass
+for (let i = 0; i < 5; i++) {
+    const bladeX = x + Math.random() * 10 - 5;
+    const bladeY = y - Math.random() * 15;
+    ctx.beginPath();
+    ctx.moveTo(bladeX, y);
+    ctx.lineTo(bladeX - 2, bladeY);
+    ctx.lineTo(bladeX + 2, bladeY);
+    ctx.fill();
+    ctx.closePath();
+}
+}
+
+// Function to draw small stones
+function drawStone(ctx, x, y) {
+ctx.fillStyle = "#A9A9A9"; // Gray color for stone
+ctx.beginPath();
+ctx.ellipse(x, y, Math.random() * 5 + 2, Math.random() * 3 + 1, Math.PI / 4, 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
+}
 
 // Function to draw targets with answers inside
 function drawTarget(x, y, answer) {
-    const targetSize = 100; // Increased size of the target shape
-    const innerCircleSize = 80; // Increased size of the inner circle
-    const outerCircleColor = "white"; // Color for the outer circle
-    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
-    const textColor = "black"; // Text color
-    const fontSize = "20px"; // Increased font size for better readability
+const ringSizes = [80, 70, 60, 50, 40, 30, 20]; // Radii for each ring from outer to inner
+const ringColors = ["white", "black", "blue", "black", "red", "red", "yellow"]; // Colors for each ring
 
-    // Draw outer target (white circle)
-    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
+// Adjust x position to move targets further right
+const adjustedX = x + 100; // Move the target right by 100 pixels
+
+// Draw each ring
+for (let i = 0; i < ringSizes.length; i++) {
+    ctx.fillStyle = ringColors[i]; // Set the fill color for the current ring
     ctx.beginPath();
-    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
+    ctx.arc(adjustedX, y, ringSizes[i], 0, Math.PI * 2); // Draw the ring as a circle
     ctx.fill();
     ctx.closePath();
-
-    // Draw inner target (red circle outline)
-    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
-    ctx.lineWidth = 8; // Width of the circle outline
-    ctx.beginPath();
-    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
-    ctx.stroke();
-    ctx.closePath();
-
-    // Draw the answer inside the target
-    ctx.fillStyle = textColor; // Text color
-    ctx.font = `${fontSize} Arial`; // Font style with increased size
-    ctx.textAlign = "center"; // Center text alignment
-    ctx.textBaseline = "middle"; // Vertically center the text
-    ctx.fillText(answer, x, y); // Center the text vertically
 }
 
-            // Function to draw crosshair
-            function drawCrosshair(x, y) {
-                ctx.strokeStyle = "red"; // Crosshair color
-                ctx.lineWidth = 2; // Crosshair line width
-                ctx.beginPath();
-                ctx.moveTo(x - 10, y);
-                ctx.lineTo(x + 10, y);
-                ctx.moveTo(x, y - 10);
-                ctx.lineTo(x, y + 10);
-                ctx.stroke();
-            }
+// Text settings
+const textColor = "black"; // Text color
+const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
+const fontSize = "20px"; // Font size for better readability
+const textPadding = 5; // Padding for the text background
 
-            function drawHitAnimation(x, y) {
-    const maxBurstRadius = 50;
-    const burstRadius = 10 + hitAnimationFrame * 3;
-    const burstOpacity = 1 - hitAnimationFrame / 10;
+// Calculate text background dimensions
+const textWidth = ctx.measureText(answer).width;
+const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
+const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
 
-    // Radial gradient for the burst effect
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
-    gradient.addColorStop(0, `rgba(255, 140, 0, ${burstOpacity})`); // Center - Dark Orange
-    gradient.addColorStop(0.5, `rgba(255, 69, 0, ${burstOpacity * 0.8})`); // Mid - Orange-red
-    gradient.addColorStop(1, `rgba(255, 99, 71, 0)`); // Edge - Transparent
+// Draw background for the text
+ctx.fillStyle = textBackgroundColor; // Background color for the text
+ctx.fillRect(adjustedX - textBackgroundWidth / 2, y - ringSizes[0] - textBackgroundHeight - 10, textBackgroundWidth, textBackgroundHeight);
 
-    // Draw expanding burst with gradient
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
-
-    // Draw "hole" in the target
-    const holeRadius = hitAnimationFrame * 2;
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
-
-    // Shockwave ring effect
-    const shockwaveRadius = hitAnimationFrame * 4;
-    ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.6})`; // White with fading opacity
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.closePath();
-
-    // Enhanced particle debris effect
-    for (let i = 0; i < 12; i++) {
-        const angle = Math.random() * Math.PI * 2; // Randomize direction
-        const distance = burstRadius + Math.random() * 15; // Varied distance from the center
-        const particleX = x + Math.cos(angle) * distance;
-        const particleY = y + Math.sin(angle) * distance;
-        const particleSize = 2 + Math.random() * 2; // Random particle size
-        const particleOpacity = burstOpacity * (0.5 + Math.random() * 0.5); // Varying opacity
-
-        ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
-        ctx.beginPath();
-        ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    // Slight upward fade for smoke particles
-    for (let i = 0; i < 6; i++) {
-        const smokeAngle = Math.random() * Math.PI * 2;
-        const smokeDistance = 20 + Math.random() * 10;
-        const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
-        const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
-        const smokeSize = 3 + Math.random() * 4;
-        const smokeOpacity = burstOpacity * 0.3; // Fainter smoke
-
-        ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
-        ctx.beginPath();
-        ctx.arc(smokeX, smokeY, smokeSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    // Update animation frame count
-    hitAnimationFrame++;
-
-    // Reset animation once completed
-    if (hitAnimationFrame > 15) { // Extended duration for more impact
-        hitAnimationActive = false;
-        hitAnimationFrame = 0;
-    }
+// Draw the answer label above the target
+ctx.fillStyle = textColor; // Text color
+ctx.font = `${fontSize} Arial`; // Font style with increased size
+ctx.textAlign = "center"; // Center text alignment
+ctx.textBaseline = "bottom"; // Align text above the target
+ctx.fillText(answer, adjustedX, y - ringSizes[0] - 10); // Position text above the target with a gap
 }
 
-            canvas.addEventListener('mousemove', function (event) {
-                const rect = canvas.getBoundingClientRect();
-                crosshairX = event.clientX - rect.left; // Update crosshair X position
-                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
-                drawGame(); // Redraw the game to update the crosshair position
-            });
+        // Function to draw crosshair
+        function drawCrosshair(x, y) {
+            ctx.strokeStyle = "red"; // Crosshair color
+            ctx.lineWidth = 2; // Crosshair line width
+            ctx.beginPath();
+            ctx.moveTo(x - 10, y);
+            ctx.lineTo(x + 10, y);
+            ctx.moveTo(x, y - 10);
+            ctx.lineTo(x, y + 10);
+            ctx.stroke();
+        }
 
-            // Click event to handle answer selection
-            canvas.addEventListener('click', function () {
-            shootSound.play();
-                const targetSize = 80; // Size of the target shape
+        function drawHitAnimation(x, y) {
+const maxBurstRadius = 70; // Increase the max burst radius for a bigger effect
+const burstRadius = 20 + hitAnimationFrame * 4; // Increase initial burst radius and speed of expansion
+const burstOpacity = 1 - hitAnimationFrame / 8; // Make burst opacity fade out slower
 
-                 let hit = false;
+// Radial gradient for the burst effect
+const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
+gradient.addColorStop(0, `rgba(255, 165, 0, ${burstOpacity})`); // Brighter Orange
+gradient.addColorStop(0.5, `rgba(255, 100, 0, ${burstOpacity * 0.9})`); // More intense Orange-red
+gradient.addColorStop(1, `rgba(255, 50, 0, 0)`); // Edge - Transparent
 
-                // Check if a target was clicked
-                questions[currentQuestion].answers.forEach((answer, i) => {
-                    const xPos = 100 + (i * 200); // Calculate X position for the target
+// Draw expanding burst with gradient
+ctx.fillStyle = gradient;
+ctx.beginPath();
+ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
 
-                    if (
-                        crosshairX > xPos - targetSize &&
-                        crosshairX < xPos + targetSize &&
-                        crosshairY > 300 - targetSize &&
-                        crosshairY < 300 + targetSize
-                    ) {
-                    hit = true;
-                        if (i === questions[currentQuestion].correct) {
-                score++; // Increase score for correct answer
-                
-            }
-                hitAnimationActive = true;
-                hitAnimationX = xPos;
-                hitAnimationY = 300;
+// Draw "hole" in the target
+const holeRadius = hitAnimationFrame * 3; // Increase hole radius expansion
+ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Darker "hole" color for contrast
+ctx.beginPath();
+ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
+
+// Shockwave ring effect
+const shockwaveRadius = hitAnimationFrame * 5; // Larger shockwave
+ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.8})`; // White with stronger opacity
+ctx.lineWidth = 3; // Thicker line for the shockwave
+ctx.beginPath();
+ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
+ctx.stroke();
+ctx.closePath();
+
+// Enhanced particle debris effect
+for (let i = 0; i < 18; i++) { // Increase particle count
+    const angle = Math.random() * Math.PI * 2;
+    const distance = burstRadius + Math.random() * 20;
+    const particleX = x + Math.cos(angle) * distance;
+    const particleY = y + Math.sin(angle) * distance;
+    const particleSize = 3 + Math.random() * 3; // Larger particles
+    const particleOpacity = burstOpacity * (0.7 + Math.random() * 0.5); // Higher opacity range
+
+    ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// More noticeable smoke particles
+for (let i = 0; i < 10; i++) { // Increase smoke particle count
+    const smokeAngle = Math.random() * Math.PI * 2;
+    const smokeDistance = 25 + Math.random() * 15;
+    const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
+    const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
+    const smokeSize = 5 + Math.random() * 4; // Larger smoke particles
+    const smokeOpacity = burstOpacity * 0.4; // Increase smoke opacity slightly
+
+    ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
+    ctx.beginPath();
+    ctx.arc(smokeX, smokeY, smokeSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Update animation frame count
+hitAnimationFrame++;
+
+// Reset animation once completed
+if (hitAnimationFrame > 20) { // Longer duration for extended visibility
+    hitAnimationActive = false;
+    hitAnimationFrame = 0;
+}
+}
+
+        canvas.addEventListener('mousemove', function (event) {
+            const rect = canvas.getBoundingClientRect();
+            crosshairX = event.clientX - rect.left;
+            crosshairY = event.clientY - rect.top;
+            drawGame();
+        });
+        
+        // Click event to handle answer selection
+        canvas.addEventListener('click', function () {
+           
+        shootSound.play();
+            const targetSize = 80; // Size of the target shape
+
+             let hit = false;
+
+            // Check if a target was clicked
+            questions[currentQuestion].answers.forEach((answer, i) => {
+                const adjustedXPos = 100 + (i * 200) + 100; // Match x position from drawTarget
+                const adjustedYPos = 300; // Match y position from drawTarget// Calculate X position for the target
+
+                if (
+                    crosshairX > adjustedXPos - targetSize &&
+                    crosshairX < adjustedXPos + targetSize &&
+                    crosshairY > adjustedYPos - targetSize &&
+                    crosshairY < adjustedYPos + targetSize
+                ) {
+                hit = true;
+                    if (i === questions[currentQuestion].correct) {
+            score++; // Increase score for correct answer
+            
+        }
+        hitAnimationActive = true;
+        hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
+        hitAnimationY = adjustedYPos;
 
             if(hit){
                 currentQuestion++;
@@ -2827,32 +3316,11 @@ function drawTarget(x, y, answer) {
                 document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
                 document.getElementById('scoreModal').style.display = 'flex'; // Show modal
 
-                function displayCertificate(score) {
-    // Fetch user data from the backend
-    fetch('/certificate-data') // Replace with your correct route
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('userName').innerText = data.name; // Set the name on the certificate
-            document.getElementById('userScore').innerText = `${score}%`; // Set the score on the certificate
-            document.getElementById('date').innerText = data.date; // Set the current date
-
-            // Display the certificate modal
-            document.getElementById('certificateModal').style.display = 'block';
-        });
-}
+                
 
 
 // Function to download the certificate as an image
-function downloadCertificate() {
-    const certificate = document.querySelector('.certificate');
-    
-    html2canvas(certificate).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'certificate.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
+
                 // Check if the user passed or failed
                  // Define base URL and retrieve user ID from local storage
         const baseUrl = window.location.origin;
@@ -2962,7 +3430,48 @@ function downloadCertificate() {
             setInterval(drawGame, 100);
             document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
         }
+        function displayCertificate() {
+    // Fetch user data from the backend
+    fetch('/certificate-data') // Replace with your correct route
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('userName').innerText = data.name;
+            document.getElementById('easyPostTest').innerText = `${data.easyPostTest}%`;
+            document.getElementById('mediumPostTest').innerText = `${data.mediumPostTest}%`;
+            document.getElementById('hardPostTest').innerText = `${data.hardPostTest}%`;
+            document.getElementById('date').innerText = data.date;
 
+            // Display the certificate modal
+            document.getElementById('certificateModal').style.display = 'flex';
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+            alert("Failed to load certificate data. Please try again.");
+        });
+}
+
+function closeCertificate() {
+    document.getElementById('certificateModal').style.display = 'none';
+}
+
+function downloadCertificate() {
+    const certificate = document.querySelector('.certificate');
+    console.log(html2canvas); 
+    // Capture the certificate as an image
+    html2canvas(certificate).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'certificate.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }).catch(error => {
+        console.error("Error generating the certificate image:", error);
+    });
+}
         function showModal(score) {
             document.getElementById('score').textContent = "Your total score: " + score; // Set the score
             document.getElementById('resultsModal').style.display = 'flex'; // Show modal

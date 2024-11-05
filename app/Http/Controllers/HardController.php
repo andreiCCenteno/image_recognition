@@ -103,7 +103,9 @@ public function displayCertificate()
 
     return response()->json([
         'name' => $fullName,
-        'score' => $user->score, // Assuming you store the score in the users table
+        'easyPostTest' => $user->easy_post_test_performance, // Assuming you store the score in the users table
+        'mediumPostTest' => $user->medium_post_test_performance, // Assuming you store the score in the users table
+        'hardPostTest' => $user->hard_post_test_performance, // Assuming you store the score in the users table
         'date' => now()->toDateString(),
     ]);
 }

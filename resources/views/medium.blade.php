@@ -89,12 +89,17 @@
         }
 
         #gameScene {
-            border: 2px solid #333;
-            background: rgba(255, 255, 255, 0.2);
-            /* Semi-transparent background */
-            border-radius: 10px;
-            backdrop-filter: blur(15px);
-        }
+    width: 90%; /* Make the width responsive */
+    max-width: 800px; /* Max width for larger screens */
+    height: 300px; /* Fixed height or adjust as needed */
+    margin: auto; /* Centers horizontally within flex container */
+    border: 2px solid #333;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(15px);
+    box-sizing: border-box;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+}
 
         #cardsContainer {
             position: relative;
@@ -294,205 +299,176 @@
 
         /* Level 3 specific styles */
         #level3Content {
-            display: none;
-            max-width: 100%;
-            /* Ensures it doesn't exceed the screen width */
-            width: 60%;
-            /* Keeps it at a responsive size within the screen */
-            margin: 0 auto;
-            /* Centers the content */
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            /* Adds a semi-transparent background */
-            border-radius: 10px;
-            /* Adds rounded corners */
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
-            /* Creates a shadow for depth */
-            color: white;
-            word-wrap: break-word;
-            /* Prevents content from overflowing */
-        }
-
-        /* Media queries for responsive design */
-        @media (max-width: 899px) {
-            #level3Content {
-                width: 95%;
-                /* Slightly reduces the width for smaller screens */
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            #level3Content {
-                width: 100%;
-                /* Takes up more space on smaller screens */
-                padding: 10px;
-                margin: 10px;
-                /* Adds a margin for better layout */
-            }
-        }
-
-        @media (max-width: 480px) {
-            #level3Content {
-                width: 100%;
-                padding: 8px;
-                margin: 5px;
-                /* Adds a smaller margin for better fit on small devices */
-                font-size: 14px;
-                /* Reduces text size for smaller screens */
-            }
-        }
-
-        .feature-matching-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            /* Allows wrapping on smaller screens */
-        }
-
-        .main-image-container {
-            width: 100%;
-            /* Makes it responsive, can adjust for larger screens */
-            max-width: 400px;
-            /* Limits the size */
-            height: auto;
-            /* Maintains aspect ratio */
-            position: relative;
-            border: 2px solid #333;
-            margin-right: 20px;
-            margin-bottom: 20px;
-            /* Space between images on smaller screens */
-        }
-
-        /* Ensures responsiveness on smaller screens */
-        @media (max-width: 768px) {
-            .main-image-container {
-                width: 100%;
-                /* Full width on smaller devices */
-                max-width: none;
-                /* Remove the fixed width for better flexibility */
-                height: auto;
-            }
-
-            .feature-matching-container {
-                flex-direction: column;
-                /* Stacks images vertically */
-                align-items: center;
-                /* Centers the content */
-            }
-        }
-
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .feature-dropzone {
-            position: absolute;
-            border: 2px dashed #4CAF50;
-            background: rgba(76, 175, 80, 0.1);
-            cursor: pointer;
-        }
-
-        .features-panel {
-            width: 200px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-item {
-            width: 180px;
-            height: 100px;
-            margin: 10px 0;
-            border: 2px solid #333;
-            cursor: grab;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-item img {
-    width: 50px; 
-    height: 50px; 
+    display: none;
+    max-width: 100%; /* Matches most of the width of #gameScene */
+    width: 800px; 
+    height: auto; /* Increased height to occupy more vertical space */
+    margin: 0 auto;
+    padding: 20px; /* Adequate padding for readability */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    color: white;
+    word-wrap: break-word;
+    font-size: 12px;
 }
 
-        .feature-item.dragging {
-            opacity: 0.5;
-            cursor: grabbing;
-        }
+@media (max-width: 1024px) {
+    #level3Content {
+        width: 85%;
+        max-height: 65vh; /* Increased for smaller screens */
+        padding: 15px;
+    }
+}
 
-        .feature-matched {
-            border-color: #4CAF50;
-            opacity: 0.7;
-            pointer-events: none;
-        }
+@media (max-width: 768px) {
+    #level3Content {
+        width: 90%;
+        max-height: 50vh; /* Increased for smaller screens */
+        padding: 10px;
+        margin: 10px;
+    }
+}
 
-        .dropzone-highlight {
-            background: rgba(76, 175, 80, 0.3);
-        }
+@media (max-width: 480px) {
+    #level3Content {
+        width: 95%;
+        max-height: 65vh; /* Increased for very small screens */
+        padding: 8px;
+        margin: 5px;
+        font-size: 20px;
+    }
+}
 
-        .level3-instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
-        /* Progress indicator */
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            /* Slightly increased height for better visibility */
-            background: linear-gradient(145deg, #222, #555);
-            /* Gradient background for a sleek look */
-            border-radius: 15px;
-            /* Increased roundness for a smoother feel */
-            margin: 15px 0;
-            /* Increased margin for better spacing */
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            /* Adds shadow for depth */
-            border: 1px solid #4CAF50;
-            /* Neon-like border effect */
-        }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
-            /* Neon green gradient */
-            width: 0%;
-            transition: width 0.3s ease, background 0.6s ease;
-            /* Smooth transition for both width and color */
-            box-shadow: 0px 4px 15px rgba(0, 255, 127, 0.8);
-            /* Glowing effect */
-            border-radius: 15px;
-            /* Matches the outer container’s roundness */
-        }
+.feature-matching-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
 
-        /* Optional animation for progress fill to pulse */
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-            }
+.main-image-container {
+    width: 100%;
+    max-width: 350px; /* Reduced max width for the main image */
+    height: 350px; /* Set a specific height for consistent dropzone positioning */
+    position: relative; /* Allows absolutely positioned child elements to be positioned relative to this container */
+    border: 2px solid #333; /* Border for visibility */
+    margin-right: 10px; /* Margin to the right */
+    margin-bottom: 15px; /* Margin to the bottom */
+    overflow: hidden; /* Optional: Ensures that any overflowing content is hidden */
+}
 
-            50% {
-                box-shadow: 0 0 20px rgba(0, 255, 127, 1);
-            }
+@media (max-width: 768px) {
+    .main-image-container {
+        width: 50%;
+        max-width: none;
+        height: auto;
+    }
 
-            100% {
-                box-shadow: 0 0 5px rgba(0, 255, 127, 0.8);
-            }
-        }
+    .feature-matching-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
 
-        /* Apply the pulse effect when the progress bar is filling */
-        .progress-fill.active {
-            animation: pulse 1s infinite ease-in-out;
-        }
+.main-image {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.feature-dropzone {
+    position: absolute;
+    border: 2px dashed #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+    cursor: pointer;
+}
+
+.features-panel {
+    width: 150px; /* Slightly reduced width */
+    padding: 6px; /* Reduced padding */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item {
+    width: 130px; /* Reduced width */
+    height: 70px; /* Reduced height */
+    margin: 8px 0;
+    border: 2px solid #333;
+    cursor: grab;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-item img {
+    width: 45px;
+    height: 45px;
+}
+
+.feature-item.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.feature-matched {
+    border-color: #4CAF50;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.dropzone-highlight {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.level3-instructions {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 16px; /* Reduced height */
+    background: linear-gradient(145deg, #222, #555);
+    border-radius: 8px; /* Reduced border radius */
+    margin: 10px 0;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid #4CAF50;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff7f, #32cd32, #228b22);
+    width: 0%;
+    transition: width 0.3s ease, background 0.6s ease;
+    box-shadow: 0px 3px 12px rgba(0, 255, 127, 0.8);
+    border-radius: 8px; /* Reduced border radius */
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 4px rgba(0, 255, 127, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(0, 255, 127, 1);
+    }
+    100% {
+        box-shadow: 0 0 4px rgba(0, 255, 127, 0.8);
+    }
+}
+
+.progress-fill.active {
+    animation: pulse 1s infinite ease-in-out;
+}
+
 
         #level2CompleteModal {
             display: none;
@@ -721,7 +697,8 @@
         }
 
         #level4Content {
-            width: 100%;
+            height: auto;
+            width: auto;
             padding: 20px;
             text-align: center;
             color: #fff;
@@ -732,13 +709,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 300px;
+            height: 150px;
             margin-bottom: 20px;
         }
 
         #colorImage {
-            width: 300px;
-            height: 300px;
+            width: 150px;
+            height: 150px;
             background-color: rgb(0, 0, 0);
             /* Default black */
             border: 2px solid #4CAF50;
@@ -749,8 +726,8 @@
         }
 
         #selectedColorImage {
-            width: 200px;
-            height: 200px;
+            width: 100px;
+            height: 100px;
             border: 2px solid #4CAF50;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
             /* Subtle glow */
@@ -909,41 +886,61 @@
 
         /* General Test Container Styling */
         #postTestWrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.05);
-            /* Light overlay for effect */
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.1); /* Slightly darker for more contrast */
+}
 
-        #postTestContainer {
-            max-height: 80vh;
-            width: 80%;
-            overflow-y: auto;
-            padding: 20px;
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 10px;
-            box-shadow: 0 4px 30px rgba(0, 255, 204, 0.5);
-        }
+#postTestContainer {
+    max-height: 80vh;
+    width: 80%;
+    overflow-y: auto;
+    padding: 30px;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 255, 204, 0.6);
+    color: #e0f7fa; /* Light color for improved readability */
+    font-size: 18px;
+}
 
-        .test-form-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.test-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap for better separation */
+}
 
-        .question {
-            background: rgba(20, 20, 20, 0.85);
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
+.question {
+    background: rgba(40, 40, 40, 0.95);
+    padding: 20px;
+    border: 1px solid #00ffa3;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.5); /* Subtle glow effect */
+}
 
-        .question p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+.question p {
+    font-size: 20px; /* Slightly larger font for readability */
+    color: #d4ffd6; /* Light green for readability */
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+/* Optional: Adjust scrollbar style for a more polished look */
+#postTestContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#postTestContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+#postTestContainer::-webkit-scrollbar-thumb {
+    background: #00ffa3;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 163, 0.5);
+}
 
         .options label {
             display: block;
@@ -1168,31 +1165,59 @@
                 <button id="submitGuess">Submit Guess</button>
             </div>
         </div>
-    </div>
-
-    <div id="celebration"></div>
-
-    <div id="level3Content">
-        <div class="level3-instructions">
-            <h2>Level 3: Feature Extraction Challenge</h2>
-            <p>Match the visual features to their correct locations in the image!</p>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressBar"></div>
-        </div>
-        <div class="feature-matching-container">
-            <div class="main-image-container">
-                <img class="main-image" id="mainImage" src="/api/placeholder/400/400" alt="Main image">
-                <!-- Dropzones will be added dynamically -->
+        <div id="level3Content">
+            <div class="level3-instructions">
+                <h2>Level 3: Feature Extraction Challenge</h2>
+                <p>Match the visual features to their correct locations in the image!</p>
             </div>
-            <div class="features-panel">
-                <h3>Visual Features</h3>
-                <div id="featuresList">
-                    <!-- Features will be added dynamically -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="feature-matching-container">
+                <div class="main-image-container">
+                    <img class="main-image" id="mainImage" src="/api/placeholder/400/400" alt="Main image">
+                    <!-- Dropzones will be added dynamically -->
+                </div>
+                <div class="features-panel">
+                    <h3>Visual Features</h3>
+                    <div id="featuresList">
+                        <!-- Features will be added dynamically -->
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div id="level4Content" style="display: none;">
+            <h2>Level 4: Color Identification</h2>
+            <p>Use the sliders to select the dominant color in the image below:</p>
+
+            <div id="colorContainer">
+                <div id="colorImage"></div>
+                <div id="selectedColorImage"></div>
+            </div>
+
+            <div class="color-sliders">
+                <div class="slider-group">
+                    <label for="redSlider">Red</label>
+                    <input type="range" id="redSlider" min="0" max="255" value="0">
+                    <span id="redValue">0</span>
+                </div>
+                <div class="slider-group">
+                    <label for="greenSlider">Green</label>
+                    <input type="range" id="greenSlider" min="0" max="255" value="0">
+                    <span id="greenValue">0</span>
+                </div>
+                <div class="slider-group">
+                    <label for="blueSlider">Blue</label>
+                    <input type="range" id="blueSlider" min="0" max="255" value="0">
+                    <span id="blueValue">0</span>
+                </div>
+                <button id="submitColor" class="btn-submit">Submit Color</button>
+            </div>
+        </div>
     </div>
+
+    <div id="celebration"></div>
 
     <div id="celebration"></div>
 
@@ -1205,34 +1230,7 @@
         </div>
     </div>
 
-    <div id="level4Content" style="display: none;">
-        <h2>Level 4: Color Identification</h2>
-        <p>Use the sliders to select the dominant color in the image below:</p>
-
-        <div id="colorContainer">
-            <div id="colorImage"></div>
-            <div id="selectedColorImage"></div>
-        </div>
-
-        <div class="color-sliders">
-            <div class="slider-group">
-                <label for="redSlider">Red</label>
-                <input type="range" id="redSlider" min="0" max="255" value="0">
-                <span id="redValue">0</span>
-            </div>
-            <div class="slider-group">
-                <label for="greenSlider">Green</label>
-                <input type="range" id="greenSlider" min="0" max="255" value="0">
-                <span id="greenValue">0</span>
-            </div>
-            <div class="slider-group">
-                <label for="blueSlider">Blue</label>
-                <input type="range" id="blueSlider" min="0" max="255" value="0">
-                <span id="blueValue">0</span>
-            </div>
-            <button id="submitColor" class="btn-submit">Submit Color</button>
-        </div>
-    </div>
+    
     </div>
 
     <div class="modal-overlay" id="level4CompleteModal">
@@ -1276,7 +1274,7 @@
         <div id="postTestContainer" style="display: none;">
             <h2>Quiz Game</h2>
             <p id="questionText"></p>
-            <canvas id="gameCanvas" width="800" height="500"></canvas>
+            <canvas id="gameCanvas" width="1000" height="625"></canvas>
             <div id="scoreModal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -1902,40 +1900,122 @@ enableSkipLevelHotkey();
             guessInput.value = ''; // Clear input field after submission
         });
 
-        gameState.level3 = {
-            features: [
-                {
-                    id: 'feature1',
-                    type: 'edge',
-                    image: '/api/placeholder/180/100',
-                    correctZone: { x: 50, y: 50, width: 100, height: 100 }
-                },
-                {
-                    id: 'feature2',
-                    type: 'texture',
-                    image: '/api/placeholder/180/100',
-                    correctZone: { x: 200, y: 150, width: 100, height: 100 }
-                },
-                {
-                    id: 'feature3',
-                    type: 'color',
-                    image: '/api/placeholder/180/100',
-                    correctZone: { x: 100, y: 250, width: 100, height: 100 }
-                }
-            ],
-            matchedFeatures: new Set(),
-            mainImage: '/api/placeholder/400/400'
-        };
+        const containerWidth = 400; // Assuming the width of the container
+const containerHeight = 400; // Assuming the height of the container
+const zoneWidth = 80; // Width of each correct zone
+const zoneHeight = 80; // Height of each correct zone
+
+// Function to get a random position for the correctZone
+const featureSets = [
+    [
+        {
+            id: 'featurelevel11',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
+            correctZone: { x: 50, y: 50, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel12',
+            type: 'texture',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 200, y: 150, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel13',
+            type: 'color',
+            image: '/api/placeholder/180/100',
+            correctZone: { x: 100, y: 250, width: 100, height: 100 }
+        }
+    ],
+    [
+        {
+            id: 'featurelevel21',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel22',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel23',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+    [
+        {
+            id: 'featurelevel31',
+            type: 'edge',
+            image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel32',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel33',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+    [
+        {
+            id: 'featurelevel41',
+            type: 'edge',
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
+            correctZone: { x: 90, y: 60, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel42',
+            type: 'texture',
+            image: 'https://example.com/texture1.jpg',
+            correctZone: { x: 210, y: 160, width: 100, height: 100 }
+        },
+        {
+            id: 'featurelevel43',
+            type: 'color',
+            image: 'https://example.com/color1.jpg',
+            correctZone: { x: 110, y: 260, width: 100, height: 100 }
+        },
+    ],
+   
+];
+
+
+let currentFeatureSetIndex = 0; // Tracks the current feature set
+
+// Function to generate a new set of features from predefined sets
+function generateNewFeatures() {
+    // Load the current feature set into the game state
+    gameState.level3.features = featureSets[currentFeatureSetIndex];
+
+    // Update the index to cycle through the sets
+    currentFeatureSetIndex = (currentFeatureSetIndex + 1) % featureSets.length;
+}
+
+// Initialization of gameState for Level 3
+gameState.level3 = {
+    features: featureSets[0], // Initial set of features
+    matchedFeatures: new Set(),
+    mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+};
 
         function initializeLevel3() {
             const level3Content = document.getElementById('level3Content');
             level3Content.style.display = 'block';
 
             const mainImage = document.getElementById('mainImage');
-            mainImage.src = gameState.level3.mainImage;
-
-            // Clear any existing dropzones and draggable features
-            resetLevel3(); // Resetting the level
+            console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
+            mainImage.src = gameState.level3.mainImage; // This should use the new image URL
 
             // Create dropzones for the main image
             gameState.level3.features.forEach(feature => {
@@ -1986,30 +2066,6 @@ enableSkipLevelHotkey();
             updateLevel3Progress(); // Reset the progress bar to 0%
         }
 
-        function generateNewFeatures() {
-            // Generate a new set of features (this can be randomized or fixed)
-            gameState.level3.features = [
-                {
-                    id: 'feature1',
-                    type: 'edge',
-                    image: 'https://placehold.co/200x200', // Change image sources as needed
-                    correctZone: { x: 50, y: 50, width: 100, height: 100 }
-                },
-                {
-                    id: 'feature2',
-                    type: 'texture',
-                    image: '/api/placeholder/180/100', // Change image sources as needed
-                    correctZone: { x: 200, y: 150, width: 100, height: 100 }
-                },
-                {
-                    id: 'feature3',
-                    type: 'color',
-                    image: '/api/placeholder/180/100', // Change image sources as needed
-                    correctZone: { x: 100, y: 250, width: 100, height: 100 }
-                }
-            ];
-        }
-
         function updateLevel3Progress() {
             // Set progress to 0% on reset
             if (gameState.level3.matchedFeatures.size === 0) {
@@ -2041,9 +2097,9 @@ enableSkipLevelHotkey();
                 updateScore(15); // Example: 10 points for a correct match
 
                 if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
-                    correctAnswer.play();
                     // Level complete
-                    setTimeout(() => {  
+                    setTimeout(() => {
+
                             attackMonster(25);
                             // Delay and reset level for the next attempt until the monster is defeated
                             if(gameState.monsterHp > 0){
@@ -2054,7 +2110,6 @@ enableSkipLevelHotkey();
                             }
                             
                             if (gameState.monsterHp <= 0) {
-                                levelComplete.play();
                                 showLevel3CompleteModal();
                                 gameState.level++;
                             }
@@ -2063,7 +2118,6 @@ enableSkipLevelHotkey();
             } else {
                 // Wrong match
                 document.getElementById('message').textContent = "Wrong match! Try again.";
-                wrongAnswer.play();
                 monsterAttack();
                 takeDamage(); // Deduct HP or handle damage
             }
@@ -2090,40 +2144,64 @@ enableSkipLevelHotkey();
         function handleDragLeave(e) {
             e.target.classList.remove('dropzone-highlight');
         }
-
         function createDropzone(feature) {
-            const dropzone = document.createElement('div');
-            dropzone.className = 'feature-dropzone';
-            dropzone.dataset.featureId = feature.id;
-            dropzone.style.width = feature.correctZone.width + 'px';
-            dropzone.style.height = feature.correctZone.height + 'px';
-            dropzone.style.left = feature.correctZone.x + 'px';
-            dropzone.style.top = feature.correctZone.y + 'px';
+    const dropzone = document.createElement('div');
+    dropzone.className = 'feature-dropzone';
+    dropzone.dataset.featureId = feature.id;
+    dropzone.style.width = feature.correctZone.width + 'px';
+    dropzone.style.height = feature.correctZone.height + 'px';
+    dropzone.style.position = 'absolute'; // Set to absolute to position within parent
+    dropzone.style.left = feature.correctZone.x + 'px';
+    dropzone.style.top = feature.correctZone.y + 'px';
 
-            dropzone.addEventListener('dragover', handleDragOver);
-            dropzone.addEventListener('drop', handleDrop);
-            dropzone.addEventListener('dragenter', handleDragEnter);
-            dropzone.addEventListener('dragleave', handleDragLeave);
+    // Ensure the dropzone is within the main-image-container
+    const mainImageContainer = document.querySelector('.main-image-container');
+    if (mainImageContainer) {
+        mainImageContainer.appendChild(dropzone); // Append dropzone to the container
+    }
 
-            return dropzone;
-        }
+    dropzone.addEventListener('dragover', handleDragOver);
+    dropzone.addEventListener('drop', handleDrop);
+    dropzone.addEventListener('dragenter', handleDragEnter);
+    dropzone.addEventListener('dragleave', handleDragLeave);
+
+    return dropzone;
+}
+
 
         function createFeatureElement(feature) {
-            const featureElement = document.createElement('div');
-            featureElement.className = 'feature-item';
-            featureElement.draggable = true;
-            featureElement.dataset.featureId = feature.id;
+    const featureElement = document.createElement('div');
+    featureElement.className = 'feature-item';
+    featureElement.draggable = true;
+    featureElement.dataset.featureId = feature.id;
 
-            const featureImage = document.createElement('img');
-            featureImage.src = feature.image;
-            featureImage.alt = `${feature.type} feature`;
-            featureElement.appendChild(featureImage);
+    const featureImage = document.createElement('img');
+    featureImage.src = feature.image;
+    featureImage.alt = `${feature.type} feature`;
 
-            featureElement.addEventListener('dragstart', handleDragStart);
-            featureElement.addEventListener('dragend', handleDragEnd);
+    // Prevent drag on the image itself
+    featureImage.addEventListener('dragstart', (event) => {
+        event.preventDefault(); // Prevent default drag behavior on the image
+    });
 
-            return featureElement;
-        }
+    // Add mousedown event to initiate drag on the parent div
+    featureImage.addEventListener('mousedown', (event) => {
+        featureElement.dispatchEvent(new DragEvent('dragstart', {
+            bubbles: true,
+            cancelable: true,
+            dataTransfer: new DataTransfer(), // Create a new DataTransfer object
+        }));
+        event.preventDefault(); // Prevent default behavior
+    });
+
+    featureElement.appendChild(featureImage);
+
+    // Add drag event listeners to featureElement
+    featureElement.addEventListener('dragstart', handleDragStart);
+    featureElement.addEventListener('dragend', handleDragEnd);
+
+    return featureElement;
+}
 
 
         function initializeLevel4() {
@@ -2390,154 +2468,452 @@ enableSkipLevelHotkey();
     let hitAnimationX = 0;
     let hitAnimationY = 0;
     let hitAnimationFrame = 0;
+    let isReloading = false; // State to track if the gun is reloading
 
-            // Function to draw the game
-            function drawGame() {
-        if (!gameActive) return;
+function drawRevolver() {
+const gunX = canvas.width / 2; // Center position of the gun on the canvas
+const gunY = canvas.height - 0; // Slightly above the bottom for a first-person effect
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+ctx.save();
+ctx.translate(gunX, gunY);
 
-        if (currentQuestion < totalQuestions) {
-            document.getElementById('questionText').innerText = questions[currentQuestion].question;
+// Scale factor to make the revolver bigger
+const scaleFactor = 1.5;
 
-            questions[currentQuestion].answers.forEach((answer, i) => {
-                const xPos = 100 + (i * 200);
-                drawTarget(xPos, 300, answer);
-            });
+// Draw the revolver grip with a wood texture effect
+ctx.fillStyle = "#663300";
+ctx.beginPath();
+ctx.moveTo(-20 * scaleFactor, 0);
+ctx.lineTo(20 * scaleFactor, 0);
+ctx.lineTo(15 * scaleFactor, -40 * scaleFactor);
+ctx.lineTo(-15 * scaleFactor, -40 * scaleFactor);
+ctx.closePath();
+ctx.fill();
 
-            drawCrosshair(crosshairX, crosshairY);
+// Add some lines to simulate wood grain texture
+ctx.strokeStyle = "#331900";
+ctx.lineWidth = 1 * scaleFactor;
+ctx.beginPath();
+ctx.moveTo(-18 * scaleFactor, -10 * scaleFactor);
+ctx.lineTo(-10 * scaleFactor, -35 * scaleFactor);
+ctx.moveTo(10 * scaleFactor, -5 * scaleFactor);
+ctx.lineTo(15 * scaleFactor, -35 * scaleFactor);
+ctx.stroke();
 
-            if (hitAnimationActive) {
-                drawHitAnimation(hitAnimationX, hitAnimationY);
-                hitAnimationFrame++;
+// Draw the revolver body with more details
+ctx.fillStyle = "#555";
+ctx.fillRect(-15 * scaleFactor, -40 * scaleFactor, 30 * scaleFactor, -60 * scaleFactor);
 
-                if (hitAnimationFrame > 5) {
-                    hitAnimationActive = false;
-                    hitAnimationFrame = 0;
-                }
-            }
+// Draw the cylinder (revolver style) with rotation effect
+ctx.save();
+ctx.fillStyle = isReloading ? "#666" : "#777";
+ctx.translate(0, -70 * scaleFactor);
+ctx.rotate(isReloading ? Math.PI / 8 : 0); // Slight rotation during reload
+ctx.beginPath();
+ctx.arc(0, 0, 15 * scaleFactor, 0, Math.PI * 2);
+ctx.fill();
+
+// Add cylinder chambers (holes for bullets)
+ctx.fillStyle = "#333";
+for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(
+        10 * scaleFactor * Math.cos(i * Math.PI / 3), 
+        10 * scaleFactor * Math.sin(i * Math.PI / 3), 
+        3 * scaleFactor, 
+        0, 
+        Math.PI * 2
+    );
+    ctx.fill();
+}
+ctx.restore();
+
+// Draw the barrel with additional details
+ctx.fillStyle = "#444";
+ctx.fillRect(-5 * scaleFactor, -100 * scaleFactor, 10 * scaleFactor, -40 * scaleFactor); // Main barrel shape
+
+// Draw barrel details (e.g., grooves or lines)
+ctx.strokeStyle = "#333";
+ctx.lineWidth = 1 * scaleFactor;
+ctx.beginPath();
+ctx.moveTo(-3 * scaleFactor, -140 * scaleFactor);
+ctx.lineTo(-3 * scaleFactor, -100 * scaleFactor);
+ctx.moveTo(3 * scaleFactor, -140 * scaleFactor);
+ctx.lineTo(3 * scaleFactor, -100 * scaleFactor);
+ctx.stroke();
+
+// Optional: Add a sight at the end of the barrel
+ctx.fillStyle = "#222";
+ctx.fillRect(-2 * scaleFactor, -140 * scaleFactor, 4 * scaleFactor, 5 * scaleFactor);
+
+ctx.restore();
+}
+
+// Function to simulate firing and reloading
+function fireGun() {
+if (!isReloading) {
+    isReloading = true;
+
+    // Gunfire effect
+    
+
+    // Start reloading animation with recoil effect
+    setTimeout(() => {
+        isReloading = false;
+        drawGame();
+    }, 300); // 300 ms reloading delay for animation effect
+}
+}
+
+// Function to create a muzzle flash effect with details
+function drawMuzzleFlash() {
+const flashX = canvas.width / 2;
+const flashY = canvas.height - 280; // Flash should appear near the end of the barrel
+
+ctx.save();
+ctx.translate(flashX, flashY);
+
+// Create outer flash (larger and less opaque)
+ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
+ctx.beginPath();
+ctx.arc(0, 0, 60, 0, Math.PI * 2); // Increased size for larger gun
+ctx.fill();
+
+// Create inner flash (smaller and brighter)
+ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
+ctx.beginPath();
+ctx.arc(0, 0, 40, 0, Math.PI * 2);
+ctx.fill();
+
+// Create core flash (smallest and most intense)
+ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+ctx.beginPath();
+ctx.arc(0, 0, 20, 0, Math.PI * 2);
+ctx.fill();
+
+ctx.restore();
+
+// Remove the flash after a short time
+setTimeout(drawGame, 100);
+}
+
+
+// Update the drawGame function to include drawing the gun
+function drawGame() {
+if (!gameActive) return;
+
+// Clear the canvas
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+// Draw the background first
+drawBackground();
+
+// Check if there are more questions to display
+if (currentQuestion < totalQuestions) {
+    // Display the current question text
+    document.getElementById('questionText').innerText = questions[currentQuestion].question;
+
+    // Draw targets for each answer
+    questions[currentQuestion].answers.forEach((answer, i) => {
+        const xPos = 100 + (i * 200);
+        drawTarget(xPos, 300, answer);
+    });
+
+    // Draw the crosshair
+    drawCrosshair(crosshairX, crosshairY);
+
+    // Draw the gun that follows the crosshair
+    drawRevolver();
+
+    // Draw hit animation if active
+    if (hitAnimationActive) {
+        drawHitAnimation(hitAnimationX, hitAnimationY);
+        hitAnimationFrame++;
+
+        // Reset hit animation after a few frames
+        if (hitAnimationFrame > 5) {
+            hitAnimationActive = false;
+            hitAnimationFrame = 0;
         }
     }
+}
+}
+
+
+function drawBackground() {
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Sky Gradient
+const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+skyGradient.addColorStop(0, "#87CEEB"); // Light blue
+skyGradient.addColorStop(1, "#4682B4"); // Steel blue
+ctx.fillStyle = skyGradient;
+ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+
+// Draw Clouds
+for (let i = 0; i < 5; i++) {
+    const cloudX = Math.random() * canvas.width;
+    const cloudY = Math.random() * (canvas.height / 3);
+    drawCloud(ctx, cloudX, cloudY);
+}
+
+// Ground Gradient
+const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+groundGradient.addColorStop(0, "#8B4513"); // Brown at horizon
+groundGradient.addColorStop(1, "#5C4033"); // Darker brown near bottom
+ctx.fillStyle = groundGradient;
+ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+
+// Horizon Line
+ctx.strokeStyle = "#654321"; // Darker brown for horizon
+ctx.lineWidth = 2;
+ctx.beginPath();
+ctx.moveTo(0, canvas.height / 2);
+ctx.lineTo(canvas.width, canvas.height / 2);
+ctx.stroke();
+
+// Distant Trees on Horizon
+for (let i = 0; i < 10; i++) {
+    const treeX = Math.random() * canvas.width;
+    const treeY = canvas.height / 2 - Math.random() * 10;
+    drawTree(ctx, treeX, treeY, 0.4); // Smaller trees for distance effect
+}
+
+// Grass Patches in Foreground
+for (let i = 0; i < 15; i++) {
+    const grassX = Math.random() * canvas.width;
+    const grassY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+    drawGrass(ctx, grassX, grassY);
+}
+
+// Stones and Ground Details
+for (let i = 0; i < 10; i++) {
+    const stoneX = Math.random() * canvas.width;
+    const stoneY = canvas.height / 2 + Math.random() * (canvas.height / 2);
+    drawStone(ctx, stoneX, stoneY);
+}
+
+// Targets on the Ground
+for (let i = 0; i < 3; i++) {
+    const targetX = (canvas.width / 4) * (i + 1);
+    const targetY = canvas.height / 2 + 100;
+    drawTarget(ctx, targetX, targetY);
+}
+}
+
+// Function to draw clouds
+function drawCloud(ctx, x, y) {
+ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+ctx.beginPath();
+ctx.arc(x, y, 20, Math.PI * 0.5, Math.PI * 1.5);
+ctx.arc(x + 30, y - 10, 25, Math.PI * 1, Math.PI * 1.85);
+ctx.arc(x + 60, y, 20, Math.PI * 1.5, Math.PI * 0.5);
+ctx.closePath();
+ctx.fill();
+}
+
+// Function to draw trees on the horizon
+function drawTree(ctx, x, y, scale = 1) {
+ctx.fillStyle = "#2E8B57"; // Green for tree leaves
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x - 10 * scale, y + 20 * scale);
+ctx.lineTo(x + 10 * scale, y + 20 * scale);
+ctx.closePath();
+ctx.fill();
+
+ctx.fillStyle = "#8B4513"; // Brown for trunk
+ctx.fillRect(x - 2 * scale, y + 20 * scale, 4 * scale, 10 * scale);
+}
+
+// Function to draw grass patches
+function drawGrass(ctx, x, y) {
+ctx.fillStyle = "#228B22"; // Green color for grass
+for (let i = 0; i < 5; i++) {
+    const bladeX = x + Math.random() * 10 - 5;
+    const bladeY = y - Math.random() * 15;
+    ctx.beginPath();
+    ctx.moveTo(bladeX, y);
+    ctx.lineTo(bladeX - 2, bladeY);
+    ctx.lineTo(bladeX + 2, bladeY);
+    ctx.fill();
+    ctx.closePath();
+}
+}
+
+// Function to draw small stones
+function drawStone(ctx, x, y) {
+ctx.fillStyle = "#A9A9A9"; // Gray color for stone
+ctx.beginPath();
+ctx.ellipse(x, y, Math.random() * 5 + 2, Math.random() * 3 + 1, Math.PI / 4, 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
+}
 
 // Function to draw targets with answers inside
 function drawTarget(x, y, answer) {
-    const targetSize = 100; // Increased size of the target shape
-    const innerCircleSize = 80; // Increased size of the inner circle
-    const outerCircleColor = "white"; // Color for the outer circle
-    const innerCircleColor = "rgba(255, 0, 0, 0.7)"; // Semi-transparent red for inner circle outline
-    const textColor = "black"; // Text color
-    const fontSize = "20px"; // Increased font size for better readability
+const ringSizes = [80, 70, 60, 50, 40, 30, 20]; // Radii for each ring from outer to inner
+const ringColors = ["white", "black", "blue", "black", "red", "red", "yellow"]; // Colors for each ring
 
-    // Draw outer target (white circle)
-    ctx.fillStyle = outerCircleColor; // Fill color for the outer target
+// Adjust x position to move targets further right
+const adjustedX = x + 100; // Move the target right by 100 pixels
+
+// Draw each ring
+for (let i = 0; i < ringSizes.length; i++) {
+    ctx.fillStyle = ringColors[i]; // Set the fill color for the current ring
     ctx.beginPath();
-    ctx.arc(x, y, targetSize, 0, Math.PI * 2); // Draw the outer circle
+    ctx.arc(adjustedX, y, ringSizes[i], 0, Math.PI * 2); // Draw the ring as a circle
     ctx.fill();
     ctx.closePath();
-
-    // Draw inner target (red circle outline)
-    ctx.strokeStyle = innerCircleColor; // Outline color for the inner circle
-    ctx.lineWidth = 8; // Width of the circle outline
-    ctx.beginPath();
-    ctx.arc(x, y, innerCircleSize, 0, Math.PI * 2); // Draw the inner circle outline
-    ctx.stroke();
-    ctx.closePath();
-
-    // Draw the answer inside the target
-    ctx.fillStyle = textColor; // Text color
-    ctx.font = `${fontSize} Arial`; // Font style with increased size
-    ctx.textAlign = "center"; // Center text alignment
-    ctx.textBaseline = "middle"; // Vertically center the text
-    ctx.fillText(answer, x, y); // Center the text vertically
 }
 
-            // Function to draw crosshair
-            function drawCrosshair(x, y) {
-                ctx.strokeStyle = "red"; // Crosshair color
-                ctx.lineWidth = 2; // Crosshair line width
-                ctx.beginPath();
-                ctx.moveTo(x - 10, y);
-                ctx.lineTo(x + 10, y);
-                ctx.moveTo(x, y - 10);
-                ctx.lineTo(x, y + 10);
-                ctx.stroke();
-            }
+// Text settings
+const textColor = "black"; // Text color
+const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
+const fontSize = "20px"; // Font size for better readability
+const textPadding = 5; // Padding for the text background
 
-            function drawHitAnimation(x, y) {
-    // Explosion burst effect
-    const maxBurstRadius = 50;
-    const burstRadius = 10 + hitAnimationFrame * 3;
-    const burstOpacity = 1 - hitAnimationFrame / 10;
+// Calculate text background dimensions
+const textWidth = ctx.measureText(answer).width;
+const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
+const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
 
-    // Draw expanding burst
-    ctx.fillStyle = `rgba(255, 69, 0, ${burstOpacity})`; // Orange-red color
-    ctx.beginPath();
-    ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
+// Draw background for the text
+ctx.fillStyle = textBackgroundColor; // Background color for the text
+ctx.fillRect(adjustedX - textBackgroundWidth / 2, y - ringSizes[0] - textBackgroundHeight - 10, textBackgroundWidth, textBackgroundHeight);
 
-    // Simulate "hole" in the target
-    const holeRadius = hitAnimationFrame * 2;
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
-
-    // Particle debris effect
-    for (let i = 0; i < 8; i++) {
-        const angle = (Math.PI / 4) * i;
-        const particleX = x + Math.cos(angle) * burstRadius;
-        const particleY = y + Math.sin(angle) * burstRadius;
-        const particleSize = 2 + Math.random() * 2;
-
-        ctx.fillStyle = `rgba(169, 169, 169, ${burstOpacity})`; // Gray debris
-        ctx.beginPath();
-        ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    hitAnimationFrame++;
-
-    if (hitAnimationFrame > 10) {
-        hitAnimationActive = false;
-        hitAnimationFrame = 0;
-    }
+// Draw the answer label above the target
+ctx.fillStyle = textColor; // Text color
+ctx.font = `${fontSize} Arial`; // Font style with increased size
+ctx.textAlign = "center"; // Center text alignment
+ctx.textBaseline = "bottom"; // Align text above the target
+ctx.fillText(answer, adjustedX, y - ringSizes[0] - 10); // Position text above the target with a gap
 }
 
-            canvas.addEventListener('mousemove', function (event) {
-                const rect = canvas.getBoundingClientRect();
-                crosshairX = event.clientX - rect.left; // Update crosshair X position
-                crosshairY = event.clientY - rect.top;  // Update crosshair Y position
-                drawGame(); // Redraw the game to update the crosshair position
-            });
+        // Function to draw crosshair
+        function drawCrosshair(x, y) {
+            ctx.strokeStyle = "red"; // Crosshair color
+            ctx.lineWidth = 2; // Crosshair line width
+            ctx.beginPath();
+            ctx.moveTo(x - 10, y);
+            ctx.lineTo(x + 10, y);
+            ctx.moveTo(x, y - 10);
+            ctx.lineTo(x, y + 10);
+            ctx.stroke();
+        }
 
-            // Click event to handle answer selection
-            canvas.addEventListener('click', function () {
-            shootSound.play();
-                const targetSize = 80; // Size of the target shape
+        function drawHitAnimation(x, y) {
+const maxBurstRadius = 70; // Increase the max burst radius for a bigger effect
+const burstRadius = 20 + hitAnimationFrame * 4; // Increase initial burst radius and speed of expansion
+const burstOpacity = 1 - hitAnimationFrame / 8; // Make burst opacity fade out slower
 
-                 let hit = false;
+// Radial gradient for the burst effect
+const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
+gradient.addColorStop(0, `rgba(255, 165, 0, ${burstOpacity})`); // Brighter Orange
+gradient.addColorStop(0.5, `rgba(255, 100, 0, ${burstOpacity * 0.9})`); // More intense Orange-red
+gradient.addColorStop(1, `rgba(255, 50, 0, 0)`); // Edge - Transparent
 
-                // Check if a target was clicked
-                questions[currentQuestion].answers.forEach((answer, i) => {
-                    const xPos = 100 + (i * 200); // Calculate X position for the target
+// Draw expanding burst with gradient
+ctx.fillStyle = gradient;
+ctx.beginPath();
+ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
 
-                    if (
-                        crosshairX > xPos - targetSize &&
-                        crosshairX < xPos + targetSize &&
-                        crosshairY > 300 - targetSize &&
-                        crosshairY < 300 + targetSize
-                    ) {
-                    hit = true;
-                        if (i === questions[currentQuestion].correct) {
-                score++; // Increase score for correct answer
-                
-            }
-                hitAnimationActive = true;
-                hitAnimationX = xPos;
-                hitAnimationY = 300;
+// Draw "hole" in the target
+const holeRadius = hitAnimationFrame * 3; // Increase hole radius expansion
+ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Darker "hole" color for contrast
+ctx.beginPath();
+ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+ctx.fill();
+ctx.closePath();
+
+// Shockwave ring effect
+const shockwaveRadius = hitAnimationFrame * 5; // Larger shockwave
+ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.8})`; // White with stronger opacity
+ctx.lineWidth = 3; // Thicker line for the shockwave
+ctx.beginPath();
+ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
+ctx.stroke();
+ctx.closePath();
+
+// Enhanced particle debris effect
+for (let i = 0; i < 18; i++) { // Increase particle count
+    const angle = Math.random() * Math.PI * 2;
+    const distance = burstRadius + Math.random() * 20;
+    const particleX = x + Math.cos(angle) * distance;
+    const particleY = y + Math.sin(angle) * distance;
+    const particleSize = 3 + Math.random() * 3; // Larger particles
+    const particleOpacity = burstOpacity * (0.7 + Math.random() * 0.5); // Higher opacity range
+
+    ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
+    ctx.beginPath();
+    ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// More noticeable smoke particles
+for (let i = 0; i < 10; i++) { // Increase smoke particle count
+    const smokeAngle = Math.random() * Math.PI * 2;
+    const smokeDistance = 25 + Math.random() * 15;
+    const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
+    const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
+    const smokeSize = 5 + Math.random() * 4; // Larger smoke particles
+    const smokeOpacity = burstOpacity * 0.4; // Increase smoke opacity slightly
+
+    ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
+    ctx.beginPath();
+    ctx.arc(smokeX, smokeY, smokeSize, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Update animation frame count
+hitAnimationFrame++;
+
+// Reset animation once completed
+if (hitAnimationFrame > 20) { // Longer duration for extended visibility
+    hitAnimationActive = false;
+    hitAnimationFrame = 0;
+}
+}
+
+        canvas.addEventListener('mousemove', function (event) {
+            const rect = canvas.getBoundingClientRect();
+            crosshairX = event.clientX - rect.left;
+            crosshairY = event.clientY - rect.top;
+            drawGame();
+        });
+        
+        // Click event to handle answer selection
+        canvas.addEventListener('click', function () {
+           
+        shootSound.play();
+            const targetSize = 80; // Size of the target shape
+
+             let hit = false;
+
+            // Check if a target was clicked
+            questions[currentQuestion].answers.forEach((answer, i) => {
+                const adjustedXPos = 100 + (i * 200) + 100; // Match x position from drawTarget
+                const adjustedYPos = 300; // Match y position from drawTarget// Calculate X position for the target
+
+                if (
+                    crosshairX > adjustedXPos - targetSize &&
+                    crosshairX < adjustedXPos + targetSize &&
+                    crosshairY > adjustedYPos - targetSize &&
+                    crosshairY < adjustedYPos + targetSize
+                ) {
+                hit = true;
+                    if (i === questions[currentQuestion].correct) {
+            score++; // Increase score for correct answer
+            
+        }
+        hitAnimationActive = true;
+        hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
+        hitAnimationY = adjustedYPos;
 
                 if (hit) {
     currentQuestion++;
