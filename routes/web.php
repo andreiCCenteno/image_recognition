@@ -83,6 +83,9 @@ Route::post('/hard-update-score/{userId}', [HardController::class, 'updateScore'
 Route::post('/update-hard-finish/{userId}', [HardController::class, 'updateHardFinish'])->name('update.hard.finish');
 Route::get('/certificate-data', [HardController::class, 'displayCertificate']);
 Route::get('/get-hard-current-performance/{userId}', [HardController::class, 'getCurrentPerformance']);
+Route::post('/send-certificate-email', [HardController::class, 'sendCertificateEmail']);
+
+
 
 // In routes/web.php
 Route::post('/save/score', [EasyController::class, 'saveScore'])->name('save.score');

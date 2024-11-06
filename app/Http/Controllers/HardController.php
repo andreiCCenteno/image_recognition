@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class HardController extends Controller
 {
@@ -109,4 +111,30 @@ public function displayCertificate()
         'date' => now()->toDateString(),
     ]);
 }
+
+public function sendCertificateEmail(Request $request)
+{
+    $request->validate([
+        'certificateImage' => 'required|string',
+    ]);
+
+    $user = Auth::user();
+    $imageData = $request->input('certificateImage');
+
+    // Ensure the base64 data is valid
+    if (!preg_match('/^data:image\/png;base64,/', $imageData)) {
+        return response()->json(['message' => 'Invalid image data'], 422);
+    }
+
+    // Decode the base64 image
+    $imageData = str_replace('data:image/png;base64,', '', $imageData);
+    $imageData = base64_decode($imageData);
+
+    if ($imageData === false) {
+        return response()->json(['message' => 'Failed to decode image'], 500);
+    }
+
+    // The rest of your code for sending email...
+}
+
 }

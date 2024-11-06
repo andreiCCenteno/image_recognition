@@ -981,7 +981,6 @@
     <!-- Add these audio elements to your HTML -->
     <audio id="playerAttackSound" src="{{ asset('audio/player-attack.mp3') }}" preload="auto"></audio>
     <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
-    <audio id="backgroundMusic" src="{{ asset('audio/background-music.mp3') }}" loop preload="auto"></audio>
 <audio id="intenseFightMusic" src="{{ asset('audio/intense-fight-music.mp3') }}" loop preload="auto"></audio>
 
 
@@ -1202,6 +1201,7 @@
 
         function showGameOverModal() {
             const modal = document.getElementById('gameOverModal');
+            pauseTimer();
             modal.style.display = 'flex'; // Show modal with flexbox for centering
             gameOver.play();
             // Set up button event listeners
@@ -3142,7 +3142,7 @@ function speakText(text) {
     availableVoices = window.speechSynthesis.getVoices();
 
     // Select a specific voice by index or name
-    const selectedVoiceName = "Google UK English Male";
+    const selectedVoiceName = "Google UK English Female";
     const selectedVoice = availableVoices.find(voice => voice.name === selectedVoiceName);
 
     if (selectedVoice) {

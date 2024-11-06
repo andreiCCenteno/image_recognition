@@ -1307,7 +1307,7 @@ function showGameOverModal() {
             gameOver.play();
             // Set up button event listeners
             document.getElementById('playAgainButton').addEventListener('click', function () {
-                window.location.href = "{{ url('easy') }}"; // Reset the game state (you'll need to implement this)
+                window.location.href = "{{ url('medium') }}"; // Reset the game state (you'll need to implement this)
                 modal.style.display = 'none'; // Hide modal
             });
 
@@ -1620,10 +1620,8 @@ function skipLevel() {
     clearInterval(monologueInterval); // Stop any remaining intervals
     document.getElementById("learning-modal").style.display = "none"; // Hide modal
     document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
-    resumeTimer(); // Resume the game timer
     startLevel(currentLevel); // Start the level
     gameState.monsterHp = 100; // Reset monster's health
-    startTimer(); // Start the level timer
     updateStats(); // Update game stats
     if (gameState.level === 3) {
                 showLevel3CompleteModal();
@@ -2275,7 +2273,7 @@ gameState.level3 = {
                 // If the guess is either the automatic pass or within tolerance
                 if (isAutoCorrect || isCorrect) {
                     correctAnswer.play();
-                    attackMonster(50); // Reduce monster's HP by 25 on a correct guess
+                    attackMonster(100); // Reduce monster's HP by 25 on a correct guess
                     updateScore(15); // Add points for a correct match
                     document.getElementById('message').textContent = "Correct! You've matched the color!";
 
@@ -2291,6 +2289,7 @@ gameState.level3 = {
                     wrongAnswer.play();
                     document.getElementById('message').textContent = "Incorrect color! Try again!";
                     takeDamage(); // Handle incorrect color guess (player damage or penalty)
+                    monsterAttack();
                 }
             });
         }
@@ -3210,7 +3209,7 @@ window.onload = function () {
         } else {
             console.log("Voices loaded successfully.");
         }
-        showMonologuesInSequence(3); // Automatically start the monologues for level 1
+        showMonologuesInSequence(1); // Automatically start the monologues for level 1
     };
 };
 

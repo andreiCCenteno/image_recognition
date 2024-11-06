@@ -1122,7 +1122,7 @@ input[type="range"]::-moz-range-thumb {
             <div>Level: <span id="level">1</span></div>
             <div>Player HP: <span id="playerHp">100</span></div>
             <div>Monster HP: <span id="monsterHp">100</span></div>
-            <div>Time Left: <span id="countdownTimer">60</span> seconds</div> 
+            <div>Time Left: <span id="countdownTimer">30</span> seconds</div> 
             <div id="scoreDisplay">Score: 0</div>
         </div>
 
@@ -1258,7 +1258,7 @@ input[type="range"]::-moz-range-thumb {
         <div class="modal">
             <h2>Level 3 Complete!</h2>
             <p>Excellent work! You've mastered the image recognition challenge.</p>
-            <p>Get ready for Level 3: Feature Extraction Challenge!</p>
+            <p>Get ready for Level 4: Feature Extraction Challenge!</p>
             <button onclick="startLevel4()">Start Level 4</button>
         </div>
     </div>
@@ -1339,6 +1339,7 @@ input[type="range"]::-moz-range-thumb {
 
 function showGameOverModal() {
     gameOver.play();
+    pauseTimer();
     const modal = document.getElementById('gameOverModal');
     modal.style.display = 'flex'; // Show modal with flexbox for centering
 
@@ -1786,10 +1787,8 @@ function skipLevel() {
     clearInterval(monologueInterval); // Stop any remaining intervals
     document.getElementById("learning-modal").style.display = "none"; // Hide modal
     document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
-    resumeTimer(); // Resume the game timer
     startLevel(currentLevel); // Start the level
     gameState.monsterHp = 100; // Reset monster's health
-    startTimer(); // Start the level timer
     updateStats(); // Update game stats
     if (gameState.level === 1) {
                 showLevel1CompleteModal();
@@ -1804,6 +1803,7 @@ function skipLevel() {
                 gameState.level++;
                 const modal = document.getElementById('levelCompleteModal');
                 modal.style.display = 'none';
+                currentLevel++;
             } else if (gameState.level === 3) {
                 showLevel3CompleteModal();
                 level3Content.style.display = 'block';
@@ -2527,11 +2527,12 @@ function initializeLevel4() {
             
             showLevel4CompleteModal(); // Show completion modal
             gameState.level++; // Progress to the next level
-            attackMonster(50); // Move to the next stage or action
+            attackMonster(100); // Move to the next stage or action
         } else {
             wrongAnswer.play();
             document.getElementById('message').textContent = `Incorrect color! Try again!`;
             takeDamage(); // Handle incorrect color guess
+            monsterAttack();
         }
     });
 }
@@ -2593,7 +2594,7 @@ function initializeLevel5() {
             // Update score for successful detection
             updateScore(20); // Example: Award 20 points for detecting the object
 
-            showLevel5CompleteModal(); // Trigger the completion modal for Level 5
+            attackMonster(20);
             gameState.level++; // Move to the next level
         } else {
             takeDamage(); // Handle incorrect clicks
@@ -3343,6 +3344,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
                     // Update the game state with the new total score
                     gameState.totalScore = updatedTotalScore;
                     showModal(updatedTotalScore);
+                    
 
                     // Display the total score including the post-test score
                     console.log('Updated Total Score:', updatedTotalScore);
@@ -3378,6 +3380,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
                     .then(response => response.json())
                     .then(data => {
                         console.log('Score and additional stats updated successfully:', data);
+                        displayCertificate();
                     })
                     .catch(error => {
                         console.error('Error updating score or hard_finish:', error);
@@ -3455,6 +3458,36 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         });
 }
 
+function sendCertificateByEmail() {
+    // Capture the certificate as an image
+    html2canvas(document.querySelector('.certificate')).then(canvas => {
+        const imageData = canvas.toDataURL("image/png");
+
+        fetch(`/send-certificate-email`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                certificateImage: imageData
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.message === 'Certificate emailed successfully') {
+                alert("Certificate emailed successfully!");
+            } else {
+                alert("Failed to email certificate.");
+            }
+        })
+        .catch(error => {
+            console.error("Error emailing certificate:", error);
+            alert("Error occurred while emailing certificate.");
+        });
+    });
+}
+
 function closeCertificate() {
     document.getElementById('certificateModal').style.display = 'none';
 }
@@ -3526,7 +3559,6 @@ function takeDamage() {
     if (gameState.playerHp <= 0) {
         setTimeout(() => {
             showGameOverModal();
-            resetGame();
         }, 500);
     }
 }
