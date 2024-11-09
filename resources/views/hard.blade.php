@@ -356,10 +356,15 @@ h1,h2,h3,p {
     }
 }
 
+.feature-item img {
+    width: 80px;  /* Set the desired width */
+    height: 80px; /* Set the desired height */
+    object-fit: cover; /* Ensures the image fits well within the specified dimensions */
+}
 .main-image {
-    width: 80%;
-    height: 80%;
-    object-fit: contain;
+    width: 100%;  /* Set the width of the main image */
+    height: 100%; /* Set the height of the main image */
+    object-fit: cover;  /* Ensures the image covers the area without distortion */
 }
 
 .feature-dropzone {
@@ -815,7 +820,7 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 12px;
     box-shadow: 0 4px 30px rgba(0, 255, 204, 0.6);
     color: #e0f7fa; /* Light color for improved readability */
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .test-form-container {
@@ -1336,7 +1341,7 @@ input[type="range"]::-moz-range-thumb {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-
+let quizOn = false;
 function showGameOverModal() {
     gameOver.play();
     pauseTimer();
@@ -1359,7 +1364,10 @@ function showGameOverModal() {
     // Show settings modal when settings icon is clicked
     $('#settingsIcon').click(function() {
         $('#settingsModal').show();
-        pauseTimer();
+        if(quizOn === false){
+            pauseTimer();
+        }
+        
     });
 
     // Close settings modal
@@ -1371,7 +1379,9 @@ function showGameOverModal() {
     $('#resumeButton').click(function() {
         closeSettingsModal(); // Close the modal
         // Additional logic to resume the game can go here
-        resumeTimer();
+        if(quizOn === false){
+            resumeTimer();
+        }
     });
 
     // Quit game button functionality
@@ -1606,6 +1616,8 @@ const blurredImage = document.getElementById('blurredImage');
 const guessContainer = document.getElementById('guessContainer');
 const guessInput = document.getElementById('guessInput');
 const submitGuess = document.getElementById('submitGuess');
+let intenseFightMusic = document.getElementById("intenseFightMusic");
+intenseFightMusic.volume = 0.2;
 
 const wrongAnswer = new Audio("{{ asset('audio/wrong-answer.mp3') }}");
 const correctAnswer = new Audio("{{ asset('audio/correct-answer.mp3') }}");
@@ -1680,12 +1692,13 @@ function startNewLevel(level) {
 
 
 function takeposttest() {
-    const modal = document.getElementById('level5CompleteModal');
-    modal.style.display = 'none';
-    document.getElementById('gameContainer').style.display = 'none';
-    document.getElementById('postTestContainer').style.display = 'block';
-       initializePostTest();
-}
+            quizOn = true;
+            const modal = document.getElementById('level5CompleteModal');
+            modal.style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('postTestContainer').style.display = 'block';
+            initializePostTest();
+        }
 
 function startLevel5() {
     const modal = document.getElementById('level4CompleteModal');
@@ -1784,7 +1797,9 @@ function enableSkipLevelHotkey() {
     });
 }
 function skipLevel() {
-    clearInterval(monologueInterval); // Stop any remaining intervals
+    pauseTimer();
+    window.speechSynthesis.cancel(); 
+    clearInterval(monologueInterval); 
     document.getElementById("learning-modal").style.display = "none"; // Hide modal
     document.getElementById("start-level-btn").style.display = "none"; // Hide the start button for next time
     startLevel(currentLevel); // Start the level
@@ -1793,11 +1808,10 @@ function skipLevel() {
     if (gameState.level === 1) {
                 showLevel1CompleteModal();
                 updateScore(10); 
-                gameState.level++;
-                currentLevel++;
             } else if (gameState.level === 2) {
                 showLevel2CompleteModal();
                 level2Content.style.display = 'block';
+                isStartLevel = false;
                 switchToLevel2();
                 updateScore(10); 
                 gameState.level++;
@@ -1893,35 +1907,46 @@ function startLevel2() {
 }
 
 function showLevel1CompleteModal() {
+    levelComplete.play();
     const modal = document.getElementById('levelCompleteModal');
     modal.style.display = 'flex';
     createConfetti();
+    currentLevel++;
+    gameState.level++;
 }
 
 function showLevel2CompleteModal() {
+    levelComplete.play();
     const modal = document.getElementById('level2CompleteModal');
     console.log(gameState.level);
     level2Content.style.display = 'none';
     modal.style.display = 'flex';
     createConfetti();
+    currentLevel++;
 }
 
 function showLevel3CompleteModal() {
+    levelComplete.play();
     const modal = document.getElementById('level3CompleteModal');
     modal.style.display = 'flex';
     createConfetti();
+    currentLevel++;
 }
 
 function showLevel4CompleteModal() {
+    levelComplete.play();
     const modal = document.getElementById('level4CompleteModal');
     modal.style.display = 'flex';
     createConfetti();
+    currentLevel++;
 }
 
 function showLevel5CompleteModal() {
+    levelComplete.play();
     const modal = document.getElementById('level5CompleteModal');
     modal.style.display = 'flex';
     createConfetti();
+    currentLevel++;
 }
 
 function flipAllCards(faceDown = true) {
@@ -2102,8 +2127,6 @@ function switchToLevel2() {
             // Delay the blur reduction to create the animation effect
             setTimeout(() => {
                 if (isStartLevel) {
-                    
-
                     blurredImage.style.transition = 'filter 6s ease'; // Ensure smooth transition
                     blurredImage.style.filter = 'blur(0px)';
 
@@ -2138,7 +2161,6 @@ submitGuess.addEventListener('click', () => {
                 // Force monster defeat to trigger level completion
                 if(gameState.monsterHp === 0){
                     isStartLevel = false;
-                    gameState.level++;
                 }
                 // Update score for correct answer
                 updateScore(10); // Award 20 points for correct guess
@@ -2155,97 +2177,115 @@ submitGuess.addEventListener('click', () => {
             guessInput.value = ''; // Clear input field after submission
         });
 
-        const featureSets = [
-    [
-        {
-            id: 'featurelevel11',
-            type: 'edge',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
-            correctZone: { x: 50, y: 50, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel12',
-            type: 'texture',
-            image: '/api/placeholder/180/100',
-            correctZone: { x: 200, y: 150, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel13',
-            type: 'color',
-            image: '/api/placeholder/180/100',
-            correctZone: { x: 100, y: 250, width: 100, height: 100 }
-        }
-    ],
-    [
-        {
-            id: 'featurelevel21',
-            type: 'edge',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
-            correctZone: { x: 90, y: 60, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel22',
-            type: 'texture',
-            image: 'https://example.com/texture1.jpg',
-            correctZone: { x: 210, y: 160, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel23',
-            type: 'color',
-            image: 'https://example.com/color1.jpg',
-            correctZone: { x: 110, y: 260, width: 100, height: 100 }
-        },
-    ],
-    [
-        {
-            id: 'featurelevel31',
-            type: 'edge',
-            image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
-            correctZone: { x: 90, y: 60, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel32',
-            type: 'texture',
-            image: 'https://example.com/texture1.jpg',
-            correctZone: { x: 210, y: 160, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel33',
-            type: 'color',
-            image: 'https://example.com/color1.jpg',
-            correctZone: { x: 110, y: 260, width: 100, height: 100 }
-        },
-    ],
-    [
-        {
-            id: 'featurelevel41',
-            type: 'edge',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
-            correctZone: { x: 90, y: 60, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel42',
-            type: 'texture',
-            image: 'https://example.com/texture1.jpg',
-            correctZone: { x: 210, y: 160, width: 100, height: 100 }
-        },
-        {
-            id: 'featurelevel43',
-            type: 'color',
-            image: 'https://example.com/color1.jpg',
-            correctZone: { x: 110, y: 260, width: 100, height: 100 }
-        },
-    ],
-   
+        const containerWidth = 400; // Assuming the width of the container
+const containerHeight = 400; // Assuming the height of the container
+const zoneWidth = 80; // Width of each correct zone
+const zoneHeight = 80; // Height of each correct zone
+
+const featureSets = [
+    {
+        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        features: [
+            {
+                id: 'featurelevel11',
+                type: 'edge',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
+                correctZone: { x: 50, y: 50, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel12',
+                type: 'texture',
+                image: '/api/placeholder/180/100',
+                correctZone: { x: 200, y: 150, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel13',
+                type: 'color',
+                image: '/api/placeholder/180/100',
+                correctZone: { x: 100, y: 250, width: 100, height: 100 }
+            }
+        ]
+    },
+    {
+        mainImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
+        features: [
+            {
+                id: 'featurelevel21',
+                type: 'edge',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
+                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel22',
+                type: 'texture',
+                image: 'https://example.com/texture1.jpg',
+                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel23',
+                type: 'color',
+                image: 'https://example.com/color1.jpg',
+                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+            },
+        ]
+    },
+    {
+        mainImage: 'https://example.com/mainImage3.jpg',
+        features: [
+            {
+                id: 'featurelevel31',
+                type: 'edge',
+                image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel32',
+                type: 'texture',
+                image: 'https://example.com/texture1.jpg',
+                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel33',
+                type: 'color',
+                image: 'https://example.com/color1.jpg',
+                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+            },
+        ]
+    },
+    {
+        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        features: [
+            {
+                id: 'featurelevel41',
+                type: 'edge',
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
+                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel42',
+                type: 'texture',
+                image: 'https://example.com/texture1.jpg',
+                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+            },
+            {
+                id: 'featurelevel43',
+                type: 'color',
+                image: 'https://example.com/color1.jpg',
+                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+            },
+        ]
+    },
 ];
 
-
+// Initialize the current feature set index
 let currentFeatureSetIndex = 0; // Tracks the current feature set
 
-// Function to generate a new set of features from predefined sets
+/// Function to generate a new set of features from predefined sets
 function generateNewFeatures() {
     // Load the current feature set into the game state
-    gameState.level3.features = featureSets[currentFeatureSetIndex];
+    const currentFeatureSet = featureSets[currentFeatureSetIndex];
+    gameState.level3.features = currentFeatureSet.features; // Set the features
+    gameState.level3.mainImage = currentFeatureSet.mainImage; // Set the main image
 
     // Update the index to cycle through the sets
     currentFeatureSetIndex = (currentFeatureSetIndex + 1) % featureSets.length;
@@ -2253,69 +2293,75 @@ function generateNewFeatures() {
 
 // Initialization of gameState for Level 3
 gameState.level3 = {
-    features: featureSets[0], // Initial set of features
+    features: featureSets[3].features, // Initial set of features
     matchedFeatures: new Set(),
-    mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+    mainImage: featureSets[3].mainImage // Initial main image
 };
 
-        function initializeLevel3() {
-            const level2Content = document.getElementById('level2Content');
-            level2Content.style.display = 'none';
-            const level3Content = document.getElementById('level3Content');
-            level3Content.style.display = 'block';
+function initializeLevel3() {
+    const level3Content = document.getElementById('level3Content');
+    level2Content.style.display = 'none';
+    level3Content.style.display = 'block';
 
-            const mainImage = document.getElementById('mainImage');
-            console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
-            mainImage.src = gameState.level3.mainImage; // This should use the new image URL
+    const mainImage = document.getElementById('mainImage');
+    console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
+    mainImage.src = gameState.level3.mainImage; // This should use the new image URL
 
-            // Create dropzones for the main image
-            gameState.level3.features.forEach(feature => {
-                const dropzone = createDropzone(feature);
-                document.querySelector('.main-image-container').appendChild(dropzone);
-            });
+    // Create dropzones for the main image
+    gameState.level3.features.forEach(feature => {
+        const dropzone = createDropzone(feature);
+        document.querySelector('.main-image-container').appendChild(dropzone);
+    });
 
-            // Create draggable features
-            gameState.level3.features.forEach(feature => {
-                const featureElement = createFeatureElement(feature);
-                document.getElementById('featuresList').appendChild(featureElement);
-            });
+    // Create draggable features
+    gameState.level3.features.forEach(feature => {
+        const featureElement = createFeatureElement(feature);
+        document.getElementById('featuresList').appendChild(featureElement);
+    });
 
-            // Update the progress bar or any level-specific info
-            updateLevel3Progress();
+    // Update the progress bar or any level-specific info
+    updateLevel3Progress();
 
-            // Start the timer for Level 3
-            startNewLevel(3); // This function handles starting the countdown timer for the level
-        }
+    // Start the timer for Level 3
+    startNewLevel(3); // This function handles starting the countdown timer for the level
+}
 
-        function resetLevel3() {
-            const mainImageContainer = document.querySelector('.main-image-container');
-            const featuresList = document.getElementById('featuresList');
+function resetLevel3() {
+    const mainImageContainer = document.querySelector('.main-image-container');
+    const featuresList = document.getElementById('featuresList');
 
-            // Clear previous dropzones and draggable features
-            mainImageContainer.innerHTML = '';
-            featuresList.innerHTML = '';
 
-            // Reset matched features
-            gameState.level3.matchedFeatures.clear(); // Reset matched features
+    // Clear previous dropzones and draggable features
+    mainImageContainer.innerHTML = '';
+    featuresList.innerHTML = '';
 
-            // Generate a new set of features
-            generateNewFeatures();
+    // Reset matched features
+    gameState.level3.matchedFeatures.clear(); // Reset matched features
 
-            // Create dropzones for the new features
-            gameState.level3.features.forEach(feature => {
-                const dropzone = createDropzone(feature);
-                mainImageContainer.appendChild(dropzone); // Append new dropzones
-            });
+    // Generate a new set of features
+    generateNewFeatures(); // This updates the features and main image
+    
 
-            // Create draggable features for the new features
-            gameState.level3.features.forEach(feature => {
-                const featureElement = createFeatureElement(feature);
-                featuresList.appendChild(featureElement); // Append new feature elements
-            });
+    // Create dropzones for the new features
+    gameState.level3.features.forEach(feature => {
+        const dropzone = createDropzone(feature);
+        mainImageContainer.appendChild(dropzone); // Append new dropzones
+    });
 
-            // Reset progress
-            updateLevel3Progress(); // Reset the progress bar to 0%
-        }
+    // Create draggable features for the new features
+    gameState.level3.features.forEach(feature => {
+        const featureElement = createFeatureElement(feature);
+        featuresList.appendChild(featureElement); // Append new feature elements
+    });
+
+    // Reset progress
+    updateLevel3Progress(); // Reset the progress bar to 0%
+
+    // Update the main image after resetting
+    console.log('gameState.level3.mainImage:', gameState.level3.mainImage);
+    const mainImage = document.getElementById('mainImage');
+    mainImage.src = gameState.level3.mainImage; // Ensure the new main image is set
+}
 
         function updateLevel3Progress() {
             // Set progress to 0% on reset
@@ -2454,6 +2500,7 @@ gameState.level3 = {
     return featureElement;
 }
 
+
 function initializeLevel4() {
     const level4Content = document.getElementById('level4Content');
     level1Content.style.display = 'none';
@@ -2552,29 +2599,31 @@ function initializeLevel5() {
 
     // Define all detection zones and their respective IDs
     const detectionZones = [
-    { id: 'farthestpost', name: 'Farthest Post' },
-    { id: 'middlepost', name: 'Middle Post' },
-    { id: 'manwithphone', name: 'Man with Phone' },
-    { id: 'ladyintheblackholdingplastic', name: 'Lady in Black Holding Plastic' },
-    { id: 'manpink', name: 'Man in Pink' },
-    { id: 'mangreen', name: 'Man in Green' },
-    { id: 'ladyblackandwhitejeans', name: 'Lady with Black and White Jeans' },
-    { id: 'ladygreenwithredbabg', name: 'Lady in Green with Red Bag' },
-    { id: 'closepost', name: 'Close Post' },
-    { id: 'train', name: 'Train' },
-    { id: 'firehydrant', name: 'Fire Hydrant' },
-    { id: 'trashcan', name: 'Trash Can' },
-    { id: 'poster', name: 'Poster' },
-    { id: 'u-turnsign', name: 'U-turn Sign' },
-    { id: 'trafficlight', name: 'Traffic Light' },
-    { id: 'blackcar', name: 'Black Car' }
-];
+        { id: 'farthestpost', name: 'Farthest Post' },
+        { id: 'middlepost', name: 'Middle Post' },
+        { id: 'manwithphone', name: 'Man with Phone' },
+        { id: 'ladyintheblackholdingplastic', name: 'Lady in Black Holding Plastic' },
+        { id: 'manpink', name: 'Man in Pink' },
+        { id: 'mangreen', name: 'Man in Green' },
+        { id: 'ladyblackandwhitejeans', name: 'Lady with Black and White Jeans' },
+        { id: 'ladygreenwithredbabg', name: 'Lady in Green with Red Bag' },
+        { id: 'closepost', name: 'Close Post' },
+        { id: 'train', name: 'Train' },
+        { id: 'firehydrant', name: 'Fire Hydrant' },
+        { id: 'trashcan', name: 'Trash Can' },
+        { id: 'poster', name: 'Poster' },
+        { id: 'u-turnsign', name: 'U-turn Sign' },
+        { id: 'trafficlight', name: 'Traffic Light' },
+        { id: 'blackcar', name: 'Black Car' }
+    ];
 
-    // Randomly select a target from the detection zones
-    const randomIndex = Math.floor(Math.random() * detectionZones.length);
-    const selectedTarget = detectionZones[randomIndex];
-    
-    targetZoneMessage.innerText = `Click on the: ${selectedTarget.name}`;
+    // Randomly shuffle and select 8 distinct targets
+    const shuffledZones = [...detectionZones].sort(() => Math.random() - 0.5);
+    const selectedTargets = shuffledZones.slice(0, 8);
+
+    // Show the first target's name in the message
+    let currentTargetIndex = 0;
+    targetZoneMessage.innerText = `Click on the: ${selectedTargets[currentTargetIndex].name}`;
 
     // Event listener for image click
     objectImage.addEventListener('click', function(event) {
@@ -2582,8 +2631,8 @@ function initializeLevel5() {
         const x = event.clientX - rect.left; 
         const y = event.clientY - rect.top;  
 
-        // Get the target zone using getBoundingClientRect()
-        const targetZone = document.getElementById(selectedTarget.id);
+        // Get the target zone for the current target
+        const targetZone = document.getElementById(selectedTargets[currentTargetIndex].id);
         const targetRect = targetZone.getBoundingClientRect();
 
         // Check if the clicked area is within the target zone
@@ -2592,12 +2641,25 @@ function initializeLevel5() {
 
         if (detected) {
             // Update score for successful detection
-            updateScore(20); // Example: Award 20 points for detecting the object
+            updateScore(5); // Example: Award 20 points for detecting the object
+            attackMonster(25);
+            correctAnswer.play();
+            // Move to the next target
+            currentTargetIndex++;
 
-            attackMonster(20);
-            gameState.level++; // Move to the next level
+            if (currentTargetIndex < selectedTargets.length) {
+                // Update the message to show the next target
+                targetZoneMessage.innerText = `Click on the: ${selectedTargets[currentTargetIndex].name}`;
+            } 
+            // else {
+            //     // If all targets are found, complete the level
+            //     showLevel5CompleteModal(); // Trigger the completion modal for Level 5
+            //     gameState.level++; // Move to the next level
+            // }
         } else {
             takeDamage(); // Handle incorrect clicks
+            monsterAttack();
+            wrongAnswer.play();
         }
     });
 }
@@ -2624,228 +2686,227 @@ function initializePostTest() {
             const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
 
             const questions = [
-                {
-    question: "What is outline classification in image recognition?",
-    answers: [
-        "Identifying edges",
-        "Color detection",
-        "Pixel classification",
-        "Object tracking"
-    ],
-    correct: 0,
-    topic: "Outline"
-},
-{
-    question: "What does pixelation in images do?",
-    answers: [
-        "Increases clarity",
-        "Reduces detail",
-        "Enhances color",
-        "Adds noise"
-    ],
-    correct: 1,
-    topic: "Pixelation"
-},
-{
-    question: "Which method is commonly used for object detection?",
-    answers: [
-        "Convolutional Neural Networks",
-        "Decision Trees",
-        "Linear Regression",
-        "K-Means Clustering"
-    ],
-    correct: 0,
-    topic: "ObjectDetection"
-},
-{
-    question: "What is color identification in image processing?",
-    answers: [
-        "Identifying shapes",
-        "Determining the predominant color",
-        "Detecting edges",
-        "Segmenting images"
-    ],
-    correct: 1,
-    topic: "ColorIdentification"
-},
-{
-    question: "What is feature extraction in image recognition?",
-    answers: [
-        "Simplifying the image",
-        "Identifying key attributes",
-        "Enhancing colors",
-        "Reducing noise"
-    ],
-    correct: 1,
-    topic: "FeatureExtraction"
-},
-{
-    question: "What is the primary goal of image segmentation?",
-    answers: [
-        "To isolate regions of interest",
-        "To increase image size",
-        "To enhance brightness",
-        "To compress images"
-    ],
-    correct: 0,
-    topic: "Pixelation"
-},
-{
-    question: "Which algorithm is used for outline classification?",
-    answers: [
-        "Hough Transform",
-        "K-Means Clustering",
-        "Principal Component Analysis",
-        "Support Vector Machine"
-    ],
-    correct: 0,
-    topic: "Outline"
-},
-{
-    question: "What is a common technique used in object detection?",
-    answers: [
-        "Histogram Equalization",
-        "Sliding Window",
-        "Color Thresholding",
-        "Image Blurring"
-    ],
-    correct: 1,
-    topic: "Object Detection"
-},
-{
-    question: "In color identification, which color model is often used?",
-    answers: [
-        "CMYK",
-        "HSV",
-        "XYZ",
-        "LAB"
-    ],
-    correct: 1,
-    topic: "Color Identification"
-},
-{
-    question: "Which method is essential for feature extraction?",
-    answers: [
-        "Normalization",
-        "Data Augmentation",
-        "Dimensionality Reduction",
-        "Color Correction"
-    ],
-    correct: 2,
-    topic: "FeatureExtraction"
-},
-{
-    question: "What is a common technique for identifying edges in images?",
-    answers: [
-        "Gaussian Blur",
-        "Sobel Filter",
-        "Mean Shift",
-        "Median Filter"
-    ],
-    correct: 1,
-    topic: "Outline"
-},
-{
-    question: "What does image segmentation help with?",
-    answers: [
-        "Improving image resolution",
-        "Separating distinct objects",
-        "Enhancing colors",
-        "Changing brightness"
-    ],
-    correct: 1,
-    topic: "Pixelation"
-},
-{
-    question: "What is the purpose of object detection?",
-    answers: [
-        "Finding edges",
-        "Recognizing patterns",
-        "Locating objects within an image",
-        "Changing colors"
-    ],
-    correct: 2,
-    topic: "ObjectDetection"
-},
-{
-    question: "Which algorithm is used for color detection?",
-    answers: [
-        "K-Means Clustering",
-        "Random Forest",
-        "Decision Tree",
-        "PCA"
-    ],
-    correct: 0,
-    topic: "ColorIdentification"
-},
-{
-    question: "What is an important aspect of feature extraction?",
-    answers: [
-        "Image size",
-        "Color depth",
-        "Shape representation",
-        "Resolution"
-    ],
-    correct: 2,
-    topic: "FeatureExtraction"
-},
-{
-    question: "What is the process of simplifying an image while preserving important information?",
-    answers: [
-        "Compression",
-        "Segmentation",
-        "Normalization",
-        "Smoothing"
-    ],
-    correct: 0,
-    topic: "Pixelation"
-},
-{
-    question: "What do we analyze in outline classification?",
-    answers: [
-        "Shapes and edges",
-        "Colors",
-        "Brightness",
-        "Textures"
-    ],
-    correct: 0,
-    topic: "Outline"
-},
-{
-    question: "What technique is used to detect multiple objects in an image?",
-    answers: [
-        "YOLO",
-        "Convolutional Filtering",
-        "Edge Detection",
-        "Histogram Equalization"
-    ],
-    correct: 0,
-    topic: "ObjectDetection"
-},
-{
-    question: "What is the significance of the HSV color model?",
-    answers: [
-        "It separates color information from intensity",
-        "It's faster than RGB",
-        "It's easier to visualize",
-        "It's more accurate"
-    ],
-    correct: 0,
-    topic: "ColorIdentification"
-},
-{
-    question: "Which of the following is a method for image feature extraction?",
-    answers: [
-        "Scale-Invariant Feature Transform",
-        "Color Balancing",
-        "Image Denoising",
-        "Color Correction"
-    ],
-    correct: 0,
-    topic: "FeatureExtraction"
-}
-              
-            ];
+    {
+        question: "1. What is outline classification in image recognition?\n\n\nA. Identifying edges\nB. Color detection\nC. Pixel classification\nD. Object tracking",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "Outline"
+    },
+    {
+        question: "2. What does pixelation in images do?\n\n\nA. Increases clarity\nB. Reduces detail\nC. Enhances color\nD. Adds noise",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "Pixelation"
+    },
+    {
+        question: "3. Which method is commonly used for object detection?\n\n\nA. Convolutional Neural Networks\nB. Decision Trees\nC. Linear Regression\nD. K-Means Clustering",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "ObjectDetection"
+    },
+    {
+        question: "4. What is color identification in image processing?\n\n\nA. Identifying shapes\nB. Determining the predominant color\nC. Detecting edges\nD. Segmenting images",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "ColorIdentification"
+    },
+    {
+        question: "5. What is feature extraction in image recognition?\n\n\nA. Simplifying the image\nB. Identifying key attributes\nC. Enhancing colors\nD. Reducing noise",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "FeatureExtraction"
+    },
+    {
+        question: "6. What is the primary goal of image segmentation?\n\n\nA. To isolate regions of interest\nB. To increase image size\nC. To enhance brightness\nD. To compress images",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "Pixelation"
+    },
+    {
+        question: "7. Which algorithm is used for outline classification?\n\n\nA. Hough Transform\nB. K-Means Clustering\nC. Principal Component Analysis\nD. Support Vector Machine",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "Outline"
+    },
+    {
+        question: "8. What is a common technique used in object detection?\n\n\nA. Histogram Equalization\nB. Sliding Window\nC. Color Thresholding\nD. Image Blurring",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "Object Detection"
+    },
+    {
+        question: "9. In color identification, which color model is often used?\n\n\nA. CMYK\nB. HSV\nC. XYZ\nD. LAB",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "Color Identification"
+    },
+    {
+        question: "10. Which method is essential for feature extraction?\n\n\nA. Normalization\nB. Data Augmentation\nC. Dimensionality Reduction\nD. Color Correction",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 2,
+        topic: "FeatureExtraction"
+    },
+    {
+        question: "11. What is a common technique for identifying edges in images?\n\n\nA. Gaussian Blur\nB. Sobel Filter\nC. Mean Shift\nD. Median Filter",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "Outline"
+    },
+    {
+        question: "12. What does image segmentation help with?\n\n\nA. Improving image resolution\nB. Separating distinct objects\nC. Enhancing colors\nD. Changing brightness",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 1,
+        topic: "Pixelation"
+    },
+    {
+        question: "13. What is the purpose of object detection?\n\n\nA. Finding edges\nB. Recognizing patterns\nC. Locating objects within an image\nD. Changing colors",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 2,
+        topic: "ObjectDetection"
+    },
+    {
+        question: "14. Which algorithm is used for color detection?\n\n\nA. K-Means Clustering\nB. Random Forest\nC. Decision Tree\nD. PCA",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "ColorIdentification"
+    },
+    {
+        question: "15. What is an important aspect of feature extraction?\n\n\nA. Image size\nB. Color depth\nC. Shape representation\nD. Resolution",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 2,
+        topic: "FeatureExtraction"
+    },
+    {
+        question: "16. What is the process of simplifying an image while preserving important information?\n\n\nA. Compression\nB. Segmentation\nC. Normalization\nD. Smoothing",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "Pixelation"
+    },
+    {
+        question: "17. What do we analyze in outline classification?\n\n\nA. Shapes and edges\nB. Colors\nC. Brightness\nD. Textures",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "Outline"
+    },
+    {
+        question: "18. What technique is used to detect multiple objects in an image?\n\n\nA. YOLO\nB. Convolutional Filtering\nC. Edge Detection\nD. Histogram Equalization",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "ObjectDetection"
+    },
+    {
+        question: "19. What is the significance of the HSV color model?\n\n\nA. It separates color information from intensity\nB. It's faster than RGB\nC. It's easier to visualize\nD. It's more accurate",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "ColorIdentification"
+    },
+    {
+        question: "20. Which of the following is a method for image feature extraction?\n\n\nA. Scale-Invariant Feature Transform\nB. Color Balancing\nC. Image Denoising\nD. Color Correction",
+        answers: [
+            "A.",
+            "B.",
+            "C.",
+            "D."
+        ],
+        correct: 0,
+        topic: "FeatureExtraction"
+    }
+];
 
             let currentQuestion = 0;
     let score = 0;
@@ -2957,7 +3018,7 @@ if (!isReloading) {
 // Function to create a muzzle flash effect with details
 function drawMuzzleFlash() {
 const flashX = canvas.width / 2;
-const flashY = canvas.height - 280; // Flash should appear near the end of the barrel
+const flashY = canvas.height - 200; // Flash should appear near the end of the barrel
 
 ctx.save();
 ctx.translate(flashX, flashY);
@@ -3017,6 +3078,8 @@ if (currentQuestion < totalQuestions) {
     // Draw hit animation if active
     if (hitAnimationActive) {
         drawHitAnimation(hitAnimationX, hitAnimationY);
+        fireGun();
+        drawMuzzleFlash();
         hitAnimationFrame++;
 
         // Reset hit animation after a few frames
@@ -3168,16 +3231,12 @@ const textWidth = ctx.measureText(answer).width;
 const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
 const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
 
-// Draw background for the text
-ctx.fillStyle = textBackgroundColor; // Background color for the text
-ctx.fillRect(adjustedX - textBackgroundWidth / 2, y - ringSizes[0] - textBackgroundHeight - 10, textBackgroundWidth, textBackgroundHeight);
-
-// Draw the answer label above the target
+// Draw the answer label inside the target
 ctx.fillStyle = textColor; // Text color
-ctx.font = `${fontSize} Arial`; // Font style with increased size
+ctx.font = `bold ${fontSize} Arial`; // Font style with increased size
 ctx.textAlign = "center"; // Center text alignment
-ctx.textBaseline = "bottom"; // Align text above the target
-ctx.fillText(answer, adjustedX, y - ringSizes[0] - 10); // Position text above the target with a gap
+ctx.textBaseline = "middle"; // Align text vertically in the middle
+ctx.fillText(answer, adjustedX, y);
 }
 
         // Function to draw crosshair
@@ -3278,7 +3337,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         
         // Click event to handle answer selection
         canvas.addEventListener('click', function () {
-           
+            fireGun();
         shootSound.play();
             const targetSize = 80; // Size of the target shape
 
@@ -3306,7 +3365,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
 
             if(hit){
                 currentQuestion++;
-
+                
             // Check if there are more questions left
             if (currentQuestion < totalQuestions) {
                 drawGame();
@@ -3527,7 +3586,6 @@ function attackMonster(damage) {
 
     if (gameState.monsterHp === 0) {
         pauseTimer();
-        levelComplete.play();
         if (gameState.level === 1) {
             showLevel1CompleteModal();
         } else if (gameState.level === 2) {
@@ -3618,7 +3676,7 @@ function monsterAttack() {
         "Preprocessing: Involves preparing the acquired images for analysis by enhancing their quality and making them suitable for feature extraction and object detection.",
         "Classification: Determining the category or class of the detected objects.",
         "Feature extraction: Identifying and isolating important characteristics or patterns from the preprocessed images that will be used for object detection.",
-        "Now you on this level you need to find a specific tagert!"
+        "Now you on this level you need to find a specific target!"
     ]
 };
 
@@ -3711,11 +3769,10 @@ document.getElementById("start-level-btn").onclick = function () {
             flipAllCards(true); // Flip all cards face up
             setTimeout(shuffle, 1000); // Shuffle after a delay
         }, 1000);
-        currentLevel++;
     } else if (currentLevel === 2) {
         draw();
-        isStartLevel = true;
         switchToLevel2();
+        isStartLevel = true;
         currentLevel++;
     }
 };
@@ -3752,35 +3809,35 @@ function showMonologuesInSequence(level, delay = 10000) {
 
                 // Add a click event listener to the skip button
                 skipButton.onclick = function () {
-                    clearInterval(monologueInterval); 
-                    document.getElementById("learning-modal").style.display = "none";
-                    skipButton.style.display = "none"; 
-                    resumeTimer(); 
-                    startLevel(currentLevel);
-                    gameState.monsterHp = 100; 
-                    startTimer();
-                    updateStats(); 
-                    
-                    if (currentLevel === 1) {
-                        draw();
-                        intenseFightMusic.play(); // Start playing the calm background music
-                        setTimeout(() => {
-                            flipAllCards(true); // Flip all cards face up
-                            setTimeout(shuffle, 1000); // Shuffle after a delay
-                        }, 1000);
-                        currentLevel++;
-                    } else if (currentLevel === 2) {
-                        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
-                        draw();
-                        isStartLevel = true;
-                        switchToLevel2();
-                        currentLevel++;
-                    }
-                };
-            }
+
+window.speechSynthesis.cancel(); 
+clearInterval(monologueInterval); 
+document.getElementById("learning-modal").style.display = "none";
+skipButton.style.display = "none"; 
+resumeTimer(); 
+startLevel(currentLevel);
+gameState.monsterHp = 100; 
+startTimer();
+updateStats(); 
+
+if (currentLevel === 1) {
+    draw();
+    intenseFightMusic.play(); // Start playing the calm background music
+    setTimeout(() => {
+        flipAllCards(true); // Flip all cards face up
+        setTimeout(shuffle, 1000); // Shuffle after a delay
+    }, 1000);
+} else if (currentLevel === 2) {
+    currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+    draw();
+    isStartLevel = true;
+    switchToLevel2();
+}
+};
+}
 
 function startLevel(level) {
-    console.log("Starting level:", level);
+console.log("Starting level:", level);
 }
 
 function resetGame() {

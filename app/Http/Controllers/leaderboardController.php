@@ -16,7 +16,7 @@ class leaderboardController extends Controller
     // Retrieve the top players sorted by score, excluding the user named 'admin'
     $topUsers = User::where('username', '!=', 'admin')
                     ->orderBy('score', 'desc')
-                    ->take(5)
+                    ->take(3)
                     ->get();
 
     // Combine top users with the current user, avoiding duplicates

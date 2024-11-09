@@ -803,7 +803,7 @@
     border-radius: 12px;
     box-shadow: 0 4px 30px rgba(0, 255, 204, 0.6);
     color: #e0f7fa; /* Light color for improved readability */
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .test-form-container {
@@ -1198,7 +1198,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-
+        let quizOn = false;
         function showGameOverModal() {
             const modal = document.getElementById('gameOverModal');
             pauseTimer();
@@ -1220,7 +1220,9 @@
             // Show settings modal when settings icon is clicked
             $('#settingsIcon').click(function () {
                 $('#settingsModal').show();
-                pauseTimer();
+                if(quizOn === false){
+                    pauseTimer();
+                }
             });
 
             // Close settings modal
@@ -1232,7 +1234,9 @@
             $('#resumeButton').click(function () {
                 closeSettingsModal(); // Close the modal
                 // Additional logic to resume the game can go here
-                resumeTimer();
+                if(quizOn === false){
+                    resumeTimer();
+                }
             });
 
             // Quit game button functionality
@@ -1550,6 +1554,7 @@
 
 
         function takeposttest() {
+            quizOn = true;
             const modal = document.getElementById('level2CompleteModal');
             modal.style.display = 'none';
             document.getElementById('gameContainer').style.display = 'none';
@@ -1649,6 +1654,8 @@
     });
 }
 function skipLevel() {
+    window.speechSynthesis.cancel(); 
+clearInterval(monologueInterval); 
     if (gameState.level === 1) { // Assuming level 5 is the maximum level
         clearInterval(monologueInterval); // Stop any remaining intervals
     document.getElementById("learning-modal").style.display = "none"; // Hide modal
@@ -1665,15 +1672,12 @@ function skipLevel() {
     // If the level starts, play the background music
     if (currentLevel === 1) {
         draw();
-        intenseFightMusic.play(); // Start playing the calm background music
         setTimeout(() => {
             flipAllCards(true); // Flip all cards face up
             setTimeout(shuffle, 1000); // Shuffle after a delay
         }, 1000);
         showLevel1CompleteModal();
-        currentLevel++;
         updateScore(10); 
-        
     }
         console.log(`Skipped to level ${gameState.level}`);
     }else if(gameState.level === 2){
@@ -1688,9 +1692,8 @@ function skipLevel() {
         if (currentLevel === 2) {
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
         draw();
-        isStartLevel = true;
+        isStartLevel = false;
         switchToLevel2();
-        currentLevel++;
         gameState.level++;
         showLevel2CompleteModal();
         updateScore(10); 
@@ -1702,6 +1705,7 @@ function skipLevel() {
         const modal = document.getElementById('level2CompleteModal');
             modal.style.display = 'none';
         takeposttest();
+        intenseFightMusic.pause();
     }
 }
 
@@ -1763,22 +1767,25 @@ enableSkipLevelHotkey();
         }
 
         function showLevel1CompleteModal() {
+            levelComplete.play();
             pauseTimer();
             const modal = document.getElementById('levelCompleteModal');
             modal.style.display = 'flex';
             createConfetti();
             console.log(gameState.level);
             gameState.level++;
+            currentLevel++;
         }
 
         function showLevel2CompleteModal() {
+            levelComplete.play();
             pauseTimer();
             const modal = document.getElementById('level2CompleteModal');
             modal.style.display = 'flex';
             // gameState.level++;
             console.log(gameState.level);
             createConfetti();
-
+            currentLevel++;
         }
 
         function showLevel3CompleteModal() {
@@ -1854,6 +1861,7 @@ enableSkipLevelHotkey();
         }
 
         function initializeLevel1(cardNumber) {
+            intenseFightMusic.play(); // Start playing the calm background music
     cardsContainer.innerHTML = '';
     cards = [];
 
@@ -1976,6 +1984,7 @@ enableSkipLevelHotkey();
         }
         let attackCount = 0;
         function switchToLevel2() {
+            intenseFightMusic.play(); // Start playing the calm background music
             // Ensure that the timer and level 1 state are cleared
             level1Content.style.display = 'none'; // Hide Level 1 content
             level2Content.style.display = 'block'; // Show Level 2 content
@@ -2350,48 +2359,47 @@ enableSkipLevelHotkey();
             const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
 
             const questions = [
-              {
-                    question: "1. Why are outlines essential in image recognition?",
-                    answers: ["A. Define shape", "B. Add color", "C. Highlight details", "D. Remove textures"],
-                    correct: 0
-                },
-                {
-                    question: "2. What is pixelation in image recognition?",
-                    answers: ["A. Enhancing details", "B. Transforming to blocks", "C. Increasing size", "D. Improving color"],
-                    correct: 1
-                },
-                {
-                    question: "3. What role do outlines play in feature extraction?",
-                    answers: ["A. They obscure details", "B. They help identify shapes", "C. They add complexity", "D. They reduce processing time"],
-                    correct: 1
-                },
-                {
-                    question: "4. Which of the following best describes pixelation?",
-                    answers: ["A. A smoothing technique", "B. A method to reduce noise", "C. A way to create block-like images", "D. A technique for enhancing edges"],
-                    correct: 2
-                },
-                {
-                    question: "5. Why is it important to recognize outlines in image processing?",
-                    answers: ["A. To remove background noise", "B. To improve image resolution", "C. To extract essential features", "D. To enhance color saturation"],
-                    correct: 2
-                },
-                {
-                    question: "6. How does pixelation affect image quality?",
-                    answers: ["A. It improves sharpness", "B. It makes images clearer", "C. It reduces detail", "D. It has no effect"],
-                    correct: 2
-                },
-                {
-                    question: "7. Which method is commonly used for detecting outlines?",
-                    answers: ["A. Histogram equalization", "B. Edge detection algorithms", "C. Noise reduction", "D. Image segmentation"],
-                    correct: 1
-                },
-                {
-                    question: "8. What happens to pixelated images when you zoom in?",
-                    answers: ["A. They become clearer", "B. They show blocks of color", "C. They lose detail", "D. They remain unchanged"],
-                    correct: 1
-                },
-              
-            ];
+    {
+        question: "1. Why are outlines essential in image recognition?\n\n\nA. Define shape\nB. Add color\nC. Highlight details\nD. Remove textures",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 0
+    },
+    {
+        question: "2. What is pixelation in image recognition?\n\n\nA. Enhancing details\nB. Transforming to blocks\nC. Increasing size\nD. Improving color",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 1
+    },
+    {
+        question: "3. What role do outlines play in feature extraction?\n\n\nA. They obscure details\nB. They help identify shapes\nC. They add complexity\nD. They reduce processing time",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 1
+    },
+    {
+        question: "4. Which of the following best describes pixelation?\n\n\nA. A smoothing technique\nB. A method to reduce noise\nC. A way to create block-like images\nD. A technique for enhancing edges",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 2
+    },
+    {
+        question: "5. Why is it important to recognize outlines in image processing?\n\n\nA. To remove background noise\nB. To improve image resolution\nC. To extract essential features\nD. To enhance color saturation",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 2
+    },
+    {
+        question: "6. How does pixelation affect image quality?\n\n\nA. It improves sharpness\nB. It makes images clearer\nC. It reduces detail\nD. It has no effect",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 2
+    },
+    {
+        question: "7. Which method is commonly used for detecting outlines?\n\n\nA. Histogram equalization\nB. Edge detection algorithms\nC. Noise reduction\nD. Image segmentation",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 1
+    },
+    {
+        question: "8. What happens to pixelated images when you zoom in?\n\n\nA. They become clearer\nB. They show blocks of color\nC. They lose detail\nD. They remain unchanged",
+        answers: ["A.", "B.", "C.", "D."],
+        correct: 1
+    }
+];
 
             let currentQuestion = 0;
     let score = 0;
@@ -2503,7 +2511,7 @@ function fireGun() {
 // Function to create a muzzle flash effect with details
 function drawMuzzleFlash() {
     const flashX = canvas.width / 2;
-    const flashY = canvas.height - 280; // Flash should appear near the end of the barrel
+    const flashY = canvas.height - 200; // Flash should appear near the end of the barrel
 
     ctx.save();
     ctx.translate(flashX, flashY);
@@ -2563,6 +2571,8 @@ function drawGame() {
         // Draw hit animation if active
         if (hitAnimationActive) {
             drawHitAnimation(hitAnimationX, hitAnimationY);
+            fireGun();
+        drawMuzzleFlash();
             hitAnimationFrame++;
 
             // Reset hit animation after a few frames
@@ -2704,26 +2714,23 @@ function drawTarget(x, y, answer) {
     }
 
     // Text settings
-    const textColor = "black"; // Text color
-    const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
-    const fontSize = "20px"; // Font size for better readability
-    const textPadding = 5; // Padding for the text background
+    // Text settings
+const textColor = "black"; // Text color
+const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
+const fontSize = "20px"; // Font size for better readability
+const textPadding = 5; // Padding for the text background
 
-    // Calculate text background dimensions
-    const textWidth = ctx.measureText(answer).width;
-    const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
-    const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
+// Calculate text background dimensions
+const textWidth = ctx.measureText(answer).width;
+const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
+const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
 
-    // Draw background for the text
-    ctx.fillStyle = textBackgroundColor; // Background color for the text
-    ctx.fillRect(adjustedX - textBackgroundWidth / 2, y - ringSizes[0] - textBackgroundHeight - 10, textBackgroundWidth, textBackgroundHeight);
-
-    // Draw the answer label above the target
-    ctx.fillStyle = textColor; // Text color
-    ctx.font = `${fontSize} Arial`; // Font style with increased size
-    ctx.textAlign = "center"; // Center text alignment
-    ctx.textBaseline = "bottom"; // Align text above the target
-    ctx.fillText(answer, adjustedX, y - ringSizes[0] - 10); // Position text above the target with a gap
+// Draw the answer label inside the target
+ctx.fillStyle = textColor; // Text color
+ctx.font = `bold ${fontSize} Arial`; // Font style with increased size
+ctx.textAlign = "center"; // Center text alignment
+ctx.textBaseline = "middle"; // Align text vertically in the middle
+ctx.fillText(answer, adjustedX, y);
 }
 
             // Function to draw crosshair
@@ -3006,7 +3013,6 @@ function drawTarget(x, y, answer) {
             gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
 
             if (gameState.monsterHp === 0) {
-                levelComplete.play();
                 if (gameState.level === 1) {
                     showLevel1CompleteModal();
                 } else if (gameState.level === 2) {
@@ -3186,7 +3192,6 @@ document.getElementById("start-level-btn").onclick = function () {
     // If the level starts, play the background music
     if (currentLevel === 1) {
         draw();
-        intenseFightMusic.play(); // Start playing the calm background music
         setTimeout(() => {
             flipAllCards(true); // Flip all cards face up
             setTimeout(shuffle, 1000); // Shuffle after a delay
@@ -3197,7 +3202,6 @@ document.getElementById("start-level-btn").onclick = function () {
         draw();
         isStartLevel = true;
         switchToLevel2();
-        currentLevel++;
     }
 };
 
@@ -3233,36 +3237,34 @@ function showMonologuesInSequence(level, delay = 10000) {
 
                 // Add a click event listener to the skip button
                 skipButton.onclick = function () {
-                    clearInterval(monologueInterval); 
-                    document.getElementById("learning-modal").style.display = "none";
-                    skipButton.style.display = "none"; 
-                    resumeTimer(); 
-                    startLevel(currentLevel);
-                    gameState.monsterHp = 100; 
-                    startTimer();
-                    updateStats(); 
-                    
-                    if (currentLevel === 1) {
-                        draw();
-                        intenseFightMusic.play(); // Start playing the calm background music
-                        setTimeout(() => {
-                            flipAllCards(true); // Flip all cards face up
-                            setTimeout(shuffle, 1000); // Shuffle after a delay
-                        }, 1000);
-                        currentLevel++;
-                    } else if (currentLevel === 2) {
-                        currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
-                        draw();
-                        isStartLevel = true;
-                        switchToLevel2();
-                        currentLevel++;
-                    }
-                };
-            }
 
+window.speechSynthesis.cancel(); 
+clearInterval(monologueInterval); 
+document.getElementById("learning-modal").style.display = "none";
+skipButton.style.display = "none"; 
+resumeTimer(); 
+startLevel(currentLevel);
+gameState.monsterHp = 100; 
+startTimer();
+updateStats(); 
+
+if (currentLevel === 1) {
+    draw();
+    setTimeout(() => {
+        flipAllCards(true); // Flip all cards face up
+        setTimeout(shuffle, 1000); // Shuffle after a delay
+    }, 1000);
+} else if (currentLevel === 2) {
+    currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
+    draw();
+    isStartLevel = true;
+    switchToLevel2();
+}
+};
+}
 
 function startLevel(level) {
-    console.log("Starting level:", level);
+console.log("Starting level:", level);
 }
 
         function resetGame() {
