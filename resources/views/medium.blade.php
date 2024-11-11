@@ -195,37 +195,88 @@
         }
 
         #guessContainer {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; /* Increased gap for better spacing */
+    flex-wrap: wrap;
+    margin-top: 55px; /* Space between image and choices */
+    padding: 10px; /* Added padding for better alignment */
+}
 
-        #guessInput {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
+/* Styling for the choice buttons */
+.choice-button {
+    padding: 15px 30px; /* Increased padding for larger buttons */
+    font-size: 18px; /* Slightly larger font for better readability */
+    background: linear-gradient(145deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px; /* Increased border-radius for smoother curves */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    width: 150px; /* Increased width for better alignment */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    text-transform: uppercase; /* Uppercase text for buttons for emphasis */
+    font-weight: bold; /* Bold text for a stronger presence */
+}
 
-        #submitGuess {
-            padding: 10px 20px;
-            font-size: 16px;
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            /* Gradient button */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
+/* Hover effect */
+.choice-button:hover {
+    background: linear-gradient(145deg, #45a049, #4CAF50);
+    transform: translateY(-5px); /* Slightly stronger hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+}
 
-        #submitGuess:hover {
-            background: linear-gradient(145deg, #45a049, #4CAF50);
-            transform: translateY(-2px);
-        }
+/* Focused button for accessibility */
+.choice-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* Green outline for focus */
+}
+
+/* Correct choice animation */
+.correct-choice {
+    animation: correctAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4); /* Green shadow for correct */
+}
+
+/* Wrong choice animation */
+.wrong-choice {
+    animation: wrongAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4); /* Red shadow for wrong */
+}
+
+/* Correct answer animation (green) */
+@keyframes correctAnimation {
+    0% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #28a745, #218838);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+}
+
+/* Wrong answer animation (red) */
+@keyframes wrongAnimation {
+    0% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #d32f2f, #c62828);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+}
+
 
         #blurredImage {
             max-width: 300px;
@@ -373,11 +424,7 @@
     }
 }
 
-.feature-item img {
-    width: 80px;  /* Set the desired width */
-    height: 80px; /* Set the desired height */
-    object-fit: cover; /* Ensures the image fits well within the specified dimensions */
-}
+
 .main-image {
     width: 100%;  /* Set the width of the main image */
     height: 100%; /* Set the height of the main image */
@@ -386,9 +433,35 @@
 
 .feature-dropzone {
     position: absolute;
-    border: 2px dashed #4CAF50;
-    background: rgba(76, 175, 80, 0.1);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Or set specific dimensions like 300px */
+    border: 3px dashed #E57373; /* Soft red border */
+    background: rgba(229, 115, 115, 0.35); /* Light red background with transparency */
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 8px; /* Rounded corners for a smooth look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transitions */
+}
+
+.feature-dropzone:hover {
+    background: rgba(229, 115, 115, 0.25); /* Darker red background on hover */
+    border-color: #D32F2F; /* Darker red border on hover */
+}
+
+.feature-dropzone::before {
+    font-size: 18px;
+    color: #D32F2F; /* Dark red text for visibility */
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Modern sans-serif font */
 }
 
 .features-panel {
@@ -407,11 +480,19 @@
     cursor: grab;
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.feature-item:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    background: rgba(0, 0, 0, 0.05); /* Light background change on hover */
+    border-color: #007BFF; /* Border color change on hover */
 }
 
 .feature-item img {
-    width: 45px;
-    height: 45px;
+    width: 80px;
+    height: 80px;
+    transition: transform 0.2s ease; /* Smooth image transition */
 }
 
 .feature-item.dragging {
@@ -1926,93 +2007,93 @@ const zoneHeight = 80; // Height of each correct zone
 
 const featureSets = [
     {
-        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        mainImage: 'https://cdn.pixabay.com/photo/2019/12/29/06/02/tree-4726335_1280.jpg',
         features: [
             {
                 id: 'featurelevel11',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
-                correctZone: { x: 50, y: 50, width: 100, height: 100 }
+                image: 'images/level3/edge/tree_edge.png',
+                correctZone: { x: 30, y: 70, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel12',
                 type: 'texture',
-                image: '/api/placeholder/180/100',
-                correctZone: { x: 200, y: 150, width: 100, height: 100 }
+                image: 'images/level3/texture/tree_texture.png',
+                correctZone: { x: 230, y: 185, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel13',
                 type: 'color',
-                image: '/api/placeholder/180/100',
-                correctZone: { x: 100, y: 250, width: 100, height: 100 }
+                image: 'images/level3/color/tree_color.png',
+                correctZone: { x: 150, y: 20, width: 100, height: 100 }
             }
         ]
     },
     {
-        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        mainImage: 'https://m.media-amazon.com/images/I/613JPrgkWFL._SX522_.jpg',
         features: [
             {
                 id: 'featurelevel21',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/oregano_edge.png',
+                correctZone: { x: 70, y: 60, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel22',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/oregano_texture.png',
+                correctZone: { x: 230, y: 60, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel23',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
-                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+                image: 'images/level3/color/oregano_color.png',
+                correctZone: { x: 30, y: 200, width: 100, height: 100 }
             },
         ]
     },
     {
-        mainImage: 'https://example.com/mainImage3.jpg',
+        mainImage: 'https://th.bing.com/th/id/OIP.S2ETHA7VZURStDrTXOch0gAAAA?rs=1&pid=ImgDetMain',
         features: [
             {
                 id: 'featurelevel31',
                 type: 'edge',
-                image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/window_edge.png',
+                correctZone: { x: 35, y: 45, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel32',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/window_texture.png',
+                correctZone: { x: 180, y: 120, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel33',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
-                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+                image: 'images/level3/color/window_color.png',
+                correctZone: { x: 110, y: 220, width: 100, height: 100 }
             },
         ]
     },
     {
-        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        mainImage: 'https://www.handmadebrick.com/files/2372/Image/2015-09-16%2010_27_31.jpg',
         features: [
             {
                 id: 'featurelevel41',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/brick_edge.png',
+                correctZone: { x: 60, y: 80, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel42',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/brick_texture.png',
+                correctZone: { x: 200, y: 180, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel43',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
+                image: 'images/level3/color/brick_color.png',
                 correctZone: { x: 110, y: 260, width: 100, height: 100 }
             },
         ]
@@ -2020,7 +2101,7 @@ const featureSets = [
 ];
 
 // Initialize the current feature set index
-let currentFeatureSetIndex = 0; // Tracks the current feature set
+let currentFeatureSetIndex = 1; // Tracks the current feature set
 let featureTracker = 0;
 
 /// Function to generate a new set of features from predefined sets
@@ -2036,14 +2117,15 @@ function generateNewFeatures() {
 
 // Initialization of gameState for Level 3
 gameState.level3 = {
-    features: featureSets[3].features, // Initial set of features
+    features: featureSets[featureTracker].features, // Initial set of features
     matchedFeatures: new Set(),
-    mainImage: featureSets[3].mainImage // Initial main image
+    mainImage: featureSets[featureTracker].mainImage // Initial main image
 };
 
 function initializeLevel3() {
     const level3Content = document.getElementById('level3Content');
     level3Content.style.display = 'block';
+    level2Content.style.display = 'none';
 
     const mainImage = document.getElementById('mainImage');
     console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
@@ -2121,49 +2203,56 @@ function resetLevel3() {
         }
 
         function handleDrop(e) {
-            e.preventDefault();
-            e.target.classList.remove('dropzone-highlight');
+    e.preventDefault();
+    e.target.classList.remove('dropzone-highlight');
 
-            const featureId = e.dataTransfer.getData('text/plain');
-            const dropzone = e.target;
+    const featureId = e.dataTransfer.getData('text/plain');
+    const dropzone = e.target;
 
-            if (dropzone.dataset.featureId === featureId) {
-                // Correct match
-                const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
-                featureElement.classList.add('feature-matched');
-                gameState.level3.matchedFeatures.add(featureId);
+    if (dropzone.dataset.featureId === featureId) {
+        // Correct match
+        const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
+        featureElement.classList.add('feature-matched');
+        gameState.level3.matchedFeatures.add(featureId);
 
-                document.getElementById('message').textContent = "Correct match!";
-                updateLevel3Progress();
+        document.getElementById('message').textContent = "Correct match!";
+        correctAnswer.play();
+        updateLevel3Progress();
+        
+        // Update score for a correct match
+        updateScore(15); // Example: 15 points for a correct match
 
-                // Update score for a correct match
-                updateScore(15); // Example: 10 points for a correct match
+        // Remove the dropzone from the DOM
+        dropzone.style.display = 'none';  // Hide the dropzone when a correct match is made
 
-                if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
-                    // Level complete
+        if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
+            // Level complete
+            setTimeout(() => {
+                attackMonster(25);
+                featureTracker++;
+
+                // Delay and reset level for the next attempt until the monster is defeated
+                if (gameState.monsterHp > 0) {
                     setTimeout(() => {
-
-                            attackMonster(25);
-                            // Delay and reset level for the next attempt until the monster is defeated
-                            if(gameState.monsterHp > 0){
-                                setTimeout(() => {
-                                resetLevel3();
-                            }, 500);
-                            }
-                            
-                            if (gameState.monsterHp <= 0) {
-                                showLevel3CompleteModal();
-                                gameState.level++;
-                            }
+                        resetLevel3();
                     }, 500);
                 }
-            } else {
-                // Wrong match
-                document.getElementById('message').textContent = "Wrong match! Try again.";
-                monsterAttack();
-                takeDamage(); // Deduct HP or handle damage
-            }
+
+                if (gameState.monsterHp <= 0) {
+                    showLevel3CompleteModal();
+                    gameState.level++;
+                }
+            }, 500);
         }
+    } else {
+        wrongAnswer.play();
+        // Wrong match
+        document.getElementById('message').textContent = "Wrong match! Try again.";
+        monsterAttack();
+        takeDamage(); // Deduct HP or handle damage
+    }
+}
+
 
         function handleDragStart(e) {
             e.target.classList.add('dragging');
@@ -2192,16 +2281,35 @@ function resetLevel3() {
     dropzone.dataset.featureId = feature.id;
     dropzone.style.width = feature.correctZone.width + 'px';
     dropzone.style.height = feature.correctZone.height + 'px';
-    dropzone.style.position = 'absolute'; // Set to absolute to position within parent
+    dropzone.style.position = 'absolute';
     dropzone.style.left = feature.correctZone.x + 'px';
     dropzone.style.top = feature.correctZone.y + 'px';
 
-    // Ensure the dropzone is within the main-image-container
+    // Create a label for the dropzone
+    const label = document.createElement('span');
+    label.className = 'dropzone-label';
+    label.textContent = feature.type; // Set label text based on feature type (e.g., "edges", "texture", "color")
+    dropzone.appendChild(label);
+
+    // Style the label to appear at the top of the dropzone
+    label.style.position = 'absolute';
+    label.style.top = '-20px'; // Position the label slightly above the dropzone
+    label.style.left = '50%';
+    label.style.transform = 'translateX(-50%)'; // Center horizontally
+    label.style.color = '#fff';
+    label.style.fontSize = '14px';
+    label.style.fontWeight = 'bold';
+    label.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+    label.style.padding = '4px 8px';
+    label.style.borderRadius = '4px';
+
+    // Append the dropzone to the main image container
     const mainImageContainer = document.querySelector('.main-image-container');
     if (mainImageContainer) {
-        mainImageContainer.appendChild(dropzone); // Append dropzone to the container
+        mainImageContainer.appendChild(dropzone);
     }
 
+    // Add event listeners for drag-and-drop functionality
     dropzone.addEventListener('dragover', handleDragOver);
     dropzone.addEventListener('drop', handleDrop);
     dropzone.addEventListener('dragenter', handleDragEnter);
@@ -2211,36 +2319,30 @@ function resetLevel3() {
 }
 
 
-        function createFeatureElement(feature) {
+
+
+function createFeatureElement(feature) {
     const featureElement = document.createElement('div');
     featureElement.className = 'feature-item';
-    featureElement.draggable = true;
+    featureElement.draggable = true; // Make the parent div draggable
     featureElement.dataset.featureId = feature.id;
 
     const featureImage = document.createElement('img');
     featureImage.src = feature.image;
     featureImage.alt = `${feature.type} feature`;
 
-    // Prevent drag on the image itself
-    featureImage.addEventListener('dragstart', (event) => {
-        event.preventDefault(); // Prevent default drag behavior on the image
-    });
+    // Prevent the image itself from being draggable to avoid conflicts
+    featureImage.draggable = false;
 
-    // Add mousedown event to initiate drag on the parent div
-    featureImage.addEventListener('mousedown', (event) => {
-        featureElement.dispatchEvent(new DragEvent('dragstart', {
-            bubbles: true,
-            cancelable: true,
-            dataTransfer: new DataTransfer(), // Create a new DataTransfer object
-        }));
-        event.preventDefault(); // Prevent default behavior
-    });
-
+    // Add the image to the feature element
     featureElement.appendChild(featureImage);
 
-    // Add drag event listeners to featureElement
+    // Add drag event listeners to featureElement (the parent div)
     featureElement.addEventListener('dragstart', handleDragStart);
     featureElement.addEventListener('dragend', handleDragEnd);
+
+    // Optional: Add cursor style for better user feedback
+    featureElement.style.cursor = 'grab';
 
     return featureElement;
 }

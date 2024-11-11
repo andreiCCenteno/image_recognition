@@ -180,37 +180,91 @@ h1,h2,h3,p {
     color: #fff;
 }
 
+/* Styling for the guess container */
 #guessContainer {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; /* Increased gap for better spacing */
+    flex-wrap: wrap;
+    margin-top: 55px; /* Space between image and choices */
+    padding: 10px; /* Added padding for better alignment */
 }
 
-#guessInput {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #333;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-
-#submitGuess {
-    padding: 10px 20px;
-    font-size: 16px;
+/* Styling for the choice buttons */
+.choice-button {
+    padding: 15px 30px; /* Increased padding for larger buttons */
+    font-size: 18px; /* Slightly larger font for better readability */
     background: linear-gradient(145deg, #4CAF50, #45a049);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* Increased border-radius for smoother curves */
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    width: 150px; /* Increased width for better alignment */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    text-transform: uppercase; /* Uppercase text for buttons for emphasis */
+    font-weight: bold; /* Bold text for a stronger presence */
 }
 
-#submitGuess:hover {
+/* Hover effect */
+.choice-button:hover {
     background: linear-gradient(145deg, #45a049, #4CAF50);
-    transform: translateY(-2px);
+    transform: translateY(-5px); /* Slightly stronger hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
 }
+
+/* Focused button for accessibility */
+.choice-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* Green outline for focus */
+}
+
+/* Correct choice animation */
+.correct-choice {
+    animation: correctAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4); /* Green shadow for correct */
+}
+
+/* Wrong choice animation */
+.wrong-choice {
+    animation: wrongAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4); /* Red shadow for wrong */
+}
+
+/* Correct answer animation (green) */
+@keyframes correctAnimation {
+    0% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #28a745, #218838);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+}
+
+/* Wrong answer animation (red) */
+@keyframes wrongAnimation {
+    0% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #d32f2f, #c62828);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+}
+
+
 
 #blurredImage {
     max-width: 300px;
@@ -369,9 +423,35 @@ h1,h2,h3,p {
 
 .feature-dropzone {
     position: absolute;
-    border: 2px dashed #4CAF50;
-    background: rgba(76, 175, 80, 0.1);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Or set specific dimensions like 300px */
+    border: 3px dashed #E57373; /* Soft red border */
+    background: rgba(229, 115, 115, 0.35); /* Light red background with transparency */
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 8px; /* Rounded corners for a smooth look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transitions */
+}
+
+.feature-dropzone:hover {
+    background: rgba(229, 115, 115, 0.25); /* Darker red background on hover */
+    border-color: #D32F2F; /* Darker red border on hover */
+}
+
+.feature-dropzone::before {
+    font-size: 18px;
+    color: #D32F2F; /* Dark red text for visibility */
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Modern sans-serif font */
 }
 
 .features-panel {
@@ -390,11 +470,23 @@ h1,h2,h3,p {
     cursor: grab;
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.feature-item:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    background: rgba(0, 0, 0, 0.05); /* Light background change on hover */
+    border-color: #007BFF; /* Border color change on hover */
 }
 
 .feature-item img {
-    width: 45px;
-    height: 45px;
+    width: 80px;
+    height: 80px;
+    transition: transform 0.2s ease; /* Smooth image transition */
+}
+
+.feature-item:hover img {
+    transform: scale(1.1); /* Slight zoom effect on the image */
 }
 
 .feature-item.dragging {
@@ -2107,75 +2199,126 @@ function handleCardClick(cardData) {
                 setTimeout(shuffle, 1000);
             }, 1000);
         }
-function switchToLevel2() {
-            // Ensure that the timer and level 1 state are cleared
-            level1Content.style.display = 'none'; // Hide Level 1 content
-            level2Content.style.display = 'block'; // Show Level 2 content
-            guessContainer.style.display = 'flex'; // Display guess container for level 2
-            console.log(isStartLevel);
-            // Randomly select an image from the level2Images array
-            const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
-            const selectedImage = gameState.level2Images[randomImageIndex];
+        function switchToLevel2() {
+    // Ensure that the timer and level 1 state are cleared
+    level1Content.style.display = 'none'; // Hide Level 1 content
+    level2Content.style.display = 'block'; // Show Level 2 content
+    guessContainer.style.display = 'flex'; // Display guess container for level 2
+    
+    // Randomly select an image from the level2Images array
+    const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
+    const selectedImage = gameState.level2Images[randomImageIndex];
+    gameState.currentLevel2Image = selectedImage; // Store selected image in game state
 
-            // Set up level 2 with the randomly selected image
-            blurredImage.src = selectedImage.image;
+    // Set up level 2 with the randomly selected image
+    blurredImage.src = selectedImage.image;
 
-            // **Reset the blur to 100px at the start to ensure consistent animation**
-            blurredImage.style.transition = 'none'; // Remove any existing transition
-            blurredImage.style.filter = 'blur(100px)'; // Reset the blur to 100px
+    // Reset the blur to 100px at the start to ensure consistent animation
+    blurredImage.style.transition = 'none';
+    blurredImage.style.filter = 'blur(100px)';
 
-            // Delay the blur reduction to create the animation effect
-            setTimeout(() => {
-                if (isStartLevel) {
-                    blurredImage.style.transition = 'filter 6s ease'; // Ensure smooth transition
-                    blurredImage.style.filter = 'blur(0px)';
+    // Delay the blur reduction to create the animation effect
+    setTimeout(() => {
+        if (isStartLevel) {
+            blurredImage.style.transition = 'filter 6s ease';
+            blurredImage.style.filter = 'blur(0px)';
+        }
+    }, 10);
 
-                }// Reduce the blur to 0px
-            }, 10);
+    // Start the timer for Level 2
+    startNewLevel(2);
 
-            // Start the timer for Level 2
-            startNewLevel(2);
+    // Create multiple-choice options
+    createMultipleChoiceOptions(selectedImage.answer);
 
-            // Store the selected image in the game state for later use
-            gameState.currentLevel2Image = selectedImage;
+    // Event listener for when the blur animation ends
+    blurredImage.addEventListener('transitionend', () => {
+        endLevel();
+        pauseTimer();
+        showGameOverModal();
+    }, { once: true });
+}
 
-            // Event listener for when the blur animation ends
-            blurredImage.addEventListener('transitionend', () => {
-                // Handle when blur finishes
-                endLevel();
-                pauseTimer();
-                showGameOverModal();
-            }, { once: true }); // Ensure the event only fires once per call
+// Function to generate multiple-choice options with relevant answers
+function createMultipleChoiceOptions(correctAnswer) {
+    // Clear existing guess container contents
+    guessContainer.innerHTML = '';
+
+    // Filter to find incorrect answers from level2Images that are not the correct answer
+    const incorrectAnswers = gameState.level2Images
+        .map(item => item.answer)
+        .filter(answer => answer !== correctAnswer);
+
+    // Randomly select three incorrect answers
+    const randomIncorrectAnswers = incorrectAnswers
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3); // Pick only three incorrect options
+
+    // Combine the correct answer with the incorrect answers
+    const options = [correctAnswer, ...randomIncorrectAnswers];
+    
+    // Shuffle options array to randomize button placement
+    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+
+    // Create a button for each option
+    shuffledOptions.forEach((optionText) => {
+        const optionButton = document.createElement('button');
+        optionButton.className = 'choice-button';
+        optionButton.textContent = optionText;
+        
+        // Event listener for handling guesses
+        optionButton.addEventListener('click', () => handleGuess(optionText, correctAnswer));
+
+        // Append each button to the guessContainer
+        guessContainer.appendChild(optionButton);
+    });
+
+    // Display the guess container with the multiple-choice options
+    guessContainer.style.display = 'flex';
+}
+
+// Handle guess selection
+function handleGuess(selectedOption, correctAnswerText) {
+    const currentImage = gameState.currentLevel2Image;
+
+    // Find the button based on the selectedOption text
+    const selectedButton = [...document.querySelectorAll('.choice-button')].find(button => button.textContent === selectedOption);
+
+    if (selectedOption === correctAnswerText) {
+        // Add correct animation class
+        selectedButton.classList.add('correct-choice');
+        correctAnswer.play(); // Play correct answer sound
+        document.getElementById('message').textContent = "Correct! You identified the image!";
+        level2Content.style.display = 'none';
+        attackMonster(50);
+
+        // Force monster defeat to trigger level completion
+        if (gameState.monsterHp === 0) {
+            isStartLevel = false;
         }
 
-// Event listener for submitting a guess
-submitGuess.addEventListener('click', () => {
-            const guess = guessInput.value.toLowerCase().trim();
-            const currentImage = gameState.currentLevel2Image;
+        // Update score for correct answer
+        updateScore(10);
+    } else {
+        // Add wrong animation class
+        selectedButton.classList.add('wrong-choice');
+        wrongAnswer.play(); // Play wrong answer sound
+        document.getElementById('message').textContent = "Wrong guess! Try again!";
+        monsterAttack();
+        takeDamage(); // Handle player damage on wrong guess
+    }
 
-            if (guess === currentImage.answer) {
-                correctAnswer.play();
-                document.getElementById('message').textContent = "Correct! You identified the image!";
-                level2Content.style.display = 'none';
-                attackMonster(50);
-                // Force monster defeat to trigger level completion
-                if(gameState.monsterHp === 0){
-                    isStartLevel = false;
-                }
-                // Update score for correct answer
-                updateScore(10); // Award 20 points for correct guess
-                // showLevel2CompleteModal(); // Show level 2 completion modal
-            } else {
-                wrongAnswer.play();
-                document.getElementById('message').textContent = "Wrong guess! Try again!";
-                monsterAttack();
-                takeDamage(); // Handle player damage on wrong guess
-            }
-            if (gameState.monsterHp > 0) {
-                switchToLevel2();
-            }
-            guessInput.value = ''; // Clear input field after submission
-        });
+    // Remove the class after animation ends (reset for next guess)
+    selectedButton.addEventListener('animationend', () => {
+        selectedButton.classList.remove('correct-choice', 'wrong-choice');
+    });
+
+    // Continue or restart Level 2 based on game state
+    if (gameState.monsterHp > 0) {
+        switchToLevel2();
+    }
+}
+
 
         const containerWidth = 400; // Assuming the width of the container
 const containerHeight = 400; // Assuming the height of the container
@@ -2184,93 +2327,93 @@ const zoneHeight = 80; // Height of each correct zone
 
 const featureSets = [
     {
-        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        mainImage: 'https://cdn.pixabay.com/photo/2019/12/29/06/02/tree-4726335_1280.jpg',
         features: [
             {
                 id: 'featurelevel11',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s',
-                correctZone: { x: 50, y: 50, width: 100, height: 100 }
+                image: 'images/level3/edge/tree_edge.png',
+                correctZone: { x: 30, y: 70, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel12',
                 type: 'texture',
-                image: '/api/placeholder/180/100',
-                correctZone: { x: 200, y: 150, width: 100, height: 100 }
+                image: 'images/level3/texture/tree_texture.png',
+                correctZone: { x: 230, y: 185, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel13',
                 type: 'color',
-                image: '/api/placeholder/180/100',
-                correctZone: { x: 100, y: 250, width: 100, height: 100 }
+                image: 'images/level3/color/tree_color.png',
+                correctZone: { x: 150, y: 20, width: 100, height: 100 }
             }
         ]
     },
     {
-        mainImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
+        mainImage: 'https://m.media-amazon.com/images/I/613JPrgkWFL._SX522_.jpg',
         features: [
             {
                 id: 'featurelevel21',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dSygMWbKQFzgP20rLq6crx3itm6mnQ5hcA&s',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/oregano_edge.png',
+                correctZone: { x: 70, y: 60, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel22',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/oregano_texture.png',
+                correctZone: { x: 230, y: 60, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel23',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
-                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+                image: 'images/level3/color/oregano_color.png',
+                correctZone: { x: 30, y: 200, width: 100, height: 100 }
             },
         ]
     },
     {
-        mainImage: 'https://example.com/mainImage3.jpg',
+        mainImage: 'https://th.bing.com/th/id/OIP.S2ETHA7VZURStDrTXOch0gAAAA?rs=1&pid=ImgDetMain',
         features: [
             {
                 id: 'featurelevel31',
                 type: 'edge',
-                image: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/window_edge.png',
+                correctZone: { x: 35, y: 45, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel32',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/window_texture.png',
+                correctZone: { x: 180, y: 120, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel33',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
-                correctZone: { x: 110, y: 260, width: 100, height: 100 }
+                image: 'images/level3/color/window_color.png',
+                correctZone: { x: 110, y: 220, width: 100, height: 100 }
             },
         ]
     },
     {
-        mainImage: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        mainImage: 'https://www.handmadebrick.com/files/2372/Image/2015-09-16%2010_27_31.jpg',
         features: [
             {
                 id: 'featurelevel41',
                 type: 'edge',
-                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s',
-                correctZone: { x: 90, y: 60, width: 100, height: 100 }
+                image: 'images/level3/edge/brick_edge.png',
+                correctZone: { x: 60, y: 80, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel42',
                 type: 'texture',
-                image: 'https://example.com/texture1.jpg',
-                correctZone: { x: 210, y: 160, width: 100, height: 100 }
+                image: 'images/level3/texture/brick_texture.png',
+                correctZone: { x: 200, y: 180, width: 100, height: 100 }
             },
             {
                 id: 'featurelevel43',
                 type: 'color',
-                image: 'https://example.com/color1.jpg',
+                image: 'images/level3/color/brick_color.png',
                 correctZone: { x: 110, y: 260, width: 100, height: 100 }
             },
         ]
@@ -2278,7 +2421,8 @@ const featureSets = [
 ];
 
 // Initialize the current feature set index
-let currentFeatureSetIndex = 0; // Tracks the current feature set
+let currentFeatureSetIndex = 1; // Tracks the current feature set
+let featureTracker = 0;
 
 /// Function to generate a new set of features from predefined sets
 function generateNewFeatures() {
@@ -2293,15 +2437,15 @@ function generateNewFeatures() {
 
 // Initialization of gameState for Level 3
 gameState.level3 = {
-    features: featureSets[3].features, // Initial set of features
+    features: featureSets[featureTracker].features, // Initial set of features
     matchedFeatures: new Set(),
-    mainImage: featureSets[3].mainImage // Initial main image
+    mainImage: featureSets[featureTracker].mainImage // Initial main image
 };
 
 function initializeLevel3() {
     const level3Content = document.getElementById('level3Content');
-    level2Content.style.display = 'none';
     level3Content.style.display = 'block';
+    level2Content.style.display = 'none';
 
     const mainImage = document.getElementById('mainImage');
     console.log("Setting main image source to:", gameState.level3.mainImage); // Log the image URL
@@ -2330,37 +2474,41 @@ function resetLevel3() {
     const mainImageContainer = document.querySelector('.main-image-container');
     const featuresList = document.getElementById('featuresList');
 
-
     // Clear previous dropzones and draggable features
     mainImageContainer.innerHTML = '';
     featuresList.innerHTML = '';
 
     // Reset matched features
-    gameState.level3.matchedFeatures.clear(); // Reset matched features
+    gameState.level3.matchedFeatures.clear();
 
     // Generate a new set of features
-    generateNewFeatures(); // This updates the features and main image
-    
+    generateNewFeatures();
 
     // Create dropzones for the new features
     gameState.level3.features.forEach(feature => {
         const dropzone = createDropzone(feature);
-        mainImageContainer.appendChild(dropzone); // Append new dropzones
+        mainImageContainer.appendChild(dropzone);
     });
 
     // Create draggable features for the new features
     gameState.level3.features.forEach(feature => {
         const featureElement = createFeatureElement(feature);
-        featuresList.appendChild(featureElement); // Append new feature elements
+        featuresList.appendChild(featureElement);
     });
 
     // Reset progress
-    updateLevel3Progress(); // Reset the progress bar to 0%
+    updateLevel3Progress();
 
-    // Update the main image after resetting
-    console.log('gameState.level3.mainImage:', gameState.level3.mainImage);
-    const mainImage = document.getElementById('mainImage');
-    mainImage.src = gameState.level3.mainImage; // Ensure the new main image is set
+    // Ensure mainImage element exists, or create it if it doesn't
+    let mainImage = document.getElementById('mainImage');
+    if (!mainImage) {
+        mainImage = document.createElement('img');
+        mainImage.id = 'mainImage';
+        mainImageContainer.appendChild(mainImage);
+    }
+
+    // Update the main image
+    mainImage.src = gameState.level3.mainImage;
 }
 
         function updateLevel3Progress() {
@@ -2375,50 +2523,56 @@ function resetLevel3() {
         }
 
         function handleDrop(e) {
-            e.preventDefault();
-            e.target.classList.remove('dropzone-highlight');
+    e.preventDefault();
+    e.target.classList.remove('dropzone-highlight');
 
-            const featureId = e.dataTransfer.getData('text/plain');
-            const dropzone = e.target;
+    const featureId = e.dataTransfer.getData('text/plain');
+    const dropzone = e.target;
 
-            if (dropzone.dataset.featureId === featureId) {
-                // Correct match
-                const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
-                featureElement.classList.add('feature-matched');
-                gameState.level3.matchedFeatures.add(featureId);
+    if (dropzone.dataset.featureId === featureId) {
+        // Correct match
+        const featureElement = document.querySelector(`.feature-item[data-feature-id="${featureId}"]`);
+        featureElement.classList.add('feature-matched');
+        gameState.level3.matchedFeatures.add(featureId);
 
-                document.getElementById('message').textContent = "Correct match!";
-                updateLevel3Progress();
+        document.getElementById('message').textContent = "Correct match!";
+        correctAnswer.play();
+        updateLevel3Progress();
+        
+        // Update score for a correct match
+        updateScore(15); // Example: 15 points for a correct match
 
-                // Update score for a correct match
-                updateScore(15); // Example: 10 points for a correct match
+        // Remove the dropzone from the DOM
+        dropzone.style.display = 'none';  // Hide the dropzone when a correct match is made
 
-                if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
-                    // Level complete
+        if (gameState.level3.matchedFeatures.size === gameState.level3.features.length) {
+            // Level complete
+            setTimeout(() => {
+                attackMonster(25);
+                featureTracker++;
+
+                // Delay and reset level for the next attempt until the monster is defeated
+                if (gameState.monsterHp > 0) {
                     setTimeout(() => {
-
-                            attackMonster(25);
-                            // Delay and reset level for the next attempt until the monster is defeated
-                            if(gameState.monsterHp > 0){
-                                setTimeout(() => {
-                                resetLevel3(); // Reset the level for another attempt
-                                initializeLevel3(); // Reinitialize the level
-                            }, 500);
-                            }
-                            
-                            if (gameState.monsterHp <= 0) {
-                                showLevel3CompleteModal();
-                                gameState.level++;
-                            }
+                        resetLevel3();
                     }, 500);
                 }
-            } else {
-                // Wrong match
-                document.getElementById('message').textContent = "Wrong match! Try again.";
-                monsterAttack();
-                takeDamage(); // Deduct HP or handle damage
-            }
+
+                if (gameState.monsterHp <= 0) {
+                    showLevel3CompleteModal();
+                    gameState.level++;
+                }
+            }, 500);
         }
+    } else {
+        wrongAnswer.play();
+        // Wrong match
+        document.getElementById('message').textContent = "Wrong match! Try again.";
+        monsterAttack();
+        takeDamage(); // Deduct HP or handle damage
+    }
+}
+
 
         function handleDragStart(e) {
             e.target.classList.add('dragging');
@@ -2447,16 +2601,35 @@ function resetLevel3() {
     dropzone.dataset.featureId = feature.id;
     dropzone.style.width = feature.correctZone.width + 'px';
     dropzone.style.height = feature.correctZone.height + 'px';
-    dropzone.style.position = 'absolute'; // Set to absolute to position within parent
+    dropzone.style.position = 'absolute';
     dropzone.style.left = feature.correctZone.x + 'px';
     dropzone.style.top = feature.correctZone.y + 'px';
 
-    // Ensure the dropzone is within the main-image-container
+    // Create a label for the dropzone
+    const label = document.createElement('span');
+    label.className = 'dropzone-label';
+    label.textContent = feature.type; // Set label text based on feature type (e.g., "edges", "texture", "color")
+    dropzone.appendChild(label);
+
+    // Style the label to appear at the top of the dropzone
+    label.style.position = 'absolute';
+    label.style.top = '-20px'; // Position the label slightly above the dropzone
+    label.style.left = '50%';
+    label.style.transform = 'translateX(-50%)'; // Center horizontally
+    label.style.color = '#fff';
+    label.style.fontSize = '14px';
+    label.style.fontWeight = 'bold';
+    label.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+    label.style.padding = '4px 8px';
+    label.style.borderRadius = '4px';
+
+    // Append the dropzone to the main image container
     const mainImageContainer = document.querySelector('.main-image-container');
     if (mainImageContainer) {
-        mainImageContainer.appendChild(dropzone); // Append dropzone to the container
+        mainImageContainer.appendChild(dropzone);
     }
 
+    // Add event listeners for drag-and-drop functionality
     dropzone.addEventListener('dragover', handleDragOver);
     dropzone.addEventListener('drop', handleDrop);
     dropzone.addEventListener('dragenter', handleDragEnter);
@@ -2466,39 +2639,35 @@ function resetLevel3() {
 }
 
 
-        function createFeatureElement(feature) {
+
+
+function createFeatureElement(feature) {
     const featureElement = document.createElement('div');
     featureElement.className = 'feature-item';
-    featureElement.draggable = true;
+    featureElement.draggable = true; // Make the parent div draggable
     featureElement.dataset.featureId = feature.id;
 
     const featureImage = document.createElement('img');
     featureImage.src = feature.image;
     featureImage.alt = `${feature.type} feature`;
 
-    // Prevent drag on the image itself
-    featureImage.addEventListener('dragstart', (event) => {
-        event.preventDefault(); // Prevent default drag behavior on the image
-    });
+    // Prevent the image itself from being draggable to avoid conflicts
+    featureImage.draggable = false;
 
-    // Add mousedown event to initiate drag on the parent div
-    featureImage.addEventListener('mousedown', (event) => {
-        featureElement.dispatchEvent(new DragEvent('dragstart', {
-            bubbles: true,
-            cancelable: true,
-            dataTransfer: new DataTransfer(), // Create a new DataTransfer object
-        }));
-        event.preventDefault(); // Prevent default behavior
-    });
-
+    // Add the image to the feature element
     featureElement.appendChild(featureImage);
 
-    // Add drag event listeners to featureElement
+    // Add drag event listeners to featureElement (the parent div)
     featureElement.addEventListener('dragstart', handleDragStart);
     featureElement.addEventListener('dragend', handleDragEnd);
 
+    // Optional: Add cursor style for better user feedback
+    featureElement.style.cursor = 'grab';
+
     return featureElement;
 }
+
+
 
 
 function initializeLevel4() {
@@ -2599,20 +2768,20 @@ function initializeLevel5() {
 
     // Define all detection zones and their respective IDs
     const detectionZones = [
-        { id: 'farthestpost', name: 'Farthest Post' },
-        { id: 'middlepost', name: 'Middle Post' },
+        { id: 'farthestpost', name: 'Farthest Lamp Post' },
+        { id: 'middlepost', name: 'Middle Lamp Post' },
         { id: 'manwithphone', name: 'Man with Phone' },
         { id: 'ladyintheblackholdingplastic', name: 'Lady in Black Holding Plastic' },
-        { id: 'manpink', name: 'Man in Pink' },
+        { id: 'manpink', name: 'Old Woman in Pink' },
         { id: 'mangreen', name: 'Man in Green' },
         { id: 'ladyblackandwhitejeans', name: 'Lady with Black and White Jeans' },
         { id: 'ladygreenwithredbabg', name: 'Lady in Green with Red Bag' },
-        { id: 'closepost', name: 'Close Post' },
+        { id: 'closepost', name: 'Closest Lamp Post' },
         { id: 'train', name: 'Train' },
         { id: 'firehydrant', name: 'Fire Hydrant' },
         { id: 'trashcan', name: 'Trash Can' },
         { id: 'poster', name: 'Poster' },
-        { id: 'u-turnsign', name: 'U-turn Sign' },
+        { id: 'u-turnsign', name: 'Do not turn Sign' },
         { id: 'trafficlight', name: 'Traffic Light' },
         { id: 'blackcar', name: 'Black Car' }
     ];

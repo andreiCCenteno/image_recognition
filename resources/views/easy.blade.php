@@ -180,37 +180,89 @@
             color: #fff;
         }
 
-        #guessContainer {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
+        /* Styling for the guess container */
+#guessContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px; /* Increased gap for better spacing */
+    flex-wrap: wrap;
+    margin-top: 55px; /* Space between image and choices */
+    padding: 10px; /* Added padding for better alignment */
+}
 
-        #guessInput {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-        }
+/* Styling for the choice buttons */
+.choice-button {
+    padding: 15px 30px; /* Increased padding for larger buttons */
+    font-size: 18px; /* Slightly larger font for better readability */
+    background: linear-gradient(145deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px; /* Increased border-radius for smoother curves */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    width: 150px; /* Increased width for better alignment */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    text-transform: uppercase; /* Uppercase text for buttons for emphasis */
+    font-weight: bold; /* Bold text for a stronger presence */
+}
 
-        #submitGuess {
-            padding: 10px 20px;
-            font-size: 16px;
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
+/* Hover effect */
+.choice-button:hover {
+    background: linear-gradient(145deg, #45a049, #4CAF50);
+    transform: translateY(-5px); /* Slightly stronger hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+}
 
-        #submitGuess:hover {
-            background: linear-gradient(145deg, #45a049, #4CAF50);
-            transform: translateY(-2px);
-        }
+/* Focused button for accessibility */
+.choice-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* Green outline for focus */
+}
+
+/* Correct choice animation */
+.correct-choice {
+    animation: correctAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4); /* Green shadow for correct */
+}
+
+/* Wrong choice animation */
+.wrong-choice {
+    animation: wrongAnimation 0.5s ease forwards;
+    box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4); /* Red shadow for wrong */
+}
+
+/* Correct answer animation (green) */
+@keyframes correctAnimation {
+    0% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #28a745, #218838);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #4CAF50, #45a049);
+        transform: scale(1);
+    }
+}
+
+/* Wrong answer animation (red) */
+@keyframes wrongAnimation {
+    0% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+    50% {
+        background: linear-gradient(145deg, #d32f2f, #c62828);
+        transform: scale(1.1);
+    }
+    100% {
+        background: linear-gradient(145deg, #f44336, #e53935);
+        transform: scale(1);
+    }
+}
 
         #blurredImage {
             max-width: 300px;
@@ -1984,26 +2036,26 @@ enableSkipLevelHotkey();
         }
         let attackCount = 0;
         function switchToLevel2() {
-            intenseFightMusic.play(); // Start playing the calm background music
-            // Ensure that the timer and level 1 state are cleared
-            level1Content.style.display = 'none'; // Hide Level 1 content
-            level2Content.style.display = 'block'; // Show Level 2 content
-            guessContainer.style.display = 'flex'; // Display guess container for level 2
+    // Ensure that the timer and level 1 state are cleared
+    level1Content.style.display = 'none'; // Hide Level 1 content
+    level2Content.style.display = 'block'; // Show Level 2 content
+    guessContainer.style.display = 'flex'; // Display guess container for level 2
+    
+    // Randomly select an image from the level2Images array
+    const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
+    const selectedImage = gameState.level2Images[randomImageIndex];
+    gameState.currentLevel2Image = selectedImage; // Store selected image in game state
 
-            // Randomly select an image from the level2Images array
-            const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
-            const selectedImage = gameState.level2Images[randomImageIndex];
+    // Set up level 2 with the randomly selected image
+    blurredImage.src = selectedImage.image;
 
-            // Set up level 2 with the randomly selected image
-            blurredImage.src = selectedImage.image;
+    // Reset the blur to 100px at the start to ensure consistent animation
+    blurredImage.style.transition = 'none';
+    blurredImage.style.filter = 'blur(100px)';
 
-            // **Reset the blur to 100px at the start to ensure consistent animation**
-            blurredImage.style.transition = 'none'; // Remove any existing transition
-            blurredImage.style.filter = 'blur(100px)'; // Reset the blur to 100px
-
-            // Delay the blur reduction to create the animation effect
-            setTimeout(() => {
-                if (isStartLevel) {
+    // Delay the blur reduction to create the animation effect
+    setTimeout(() => {
+        if (isStartLevel) {
                     if (attackCount === 0) {
                         blurredImage.style.transition = 'filter 13s ease'; // Ensure smooth transition
 
@@ -2014,51 +2066,101 @@ enableSkipLevelHotkey();
                     blurredImage.style.filter = 'blur(0px)';
 
                 }// Reduce the blur to 0px
-            }, 10);
+    }, 10);
 
-            // Start the timer for Level 2
-            startNewLevel(2);
+    // Start the timer for Level 2
+    startNewLevel(2);
 
-            // Store the selected image in the game state for later use
-            gameState.currentLevel2Image = selectedImage;
+    // Create multiple-choice options
+    createMultipleChoiceOptions(selectedImage.answer);
 
-            // Event listener for when the blur animation ends
-            blurredImage.addEventListener('transitionend', () => {
-                // Handle when blur finishes
-                endLevel();
-                pauseTimer();
-                showGameOverModal();
-            }, { once: true }); // Ensure the event only fires once per call
+    // Event listener for when the blur animation ends
+    blurredImage.addEventListener('transitionend', () => {
+        endLevel();
+        pauseTimer();
+        showGameOverModal();
+    }, { once: true });
+}
+
+// Function to generate multiple-choice options with relevant answers
+function createMultipleChoiceOptions(correctAnswer) {
+    // Clear existing guess container contents
+    guessContainer.innerHTML = '';
+
+    // Filter to find incorrect answers from level2Images that are not the correct answer
+    const incorrectAnswers = gameState.level2Images
+        .map(item => item.answer)
+        .filter(answer => answer !== correctAnswer);
+
+    // Randomly select three incorrect answers
+    const randomIncorrectAnswers = incorrectAnswers
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3); // Pick only three incorrect options
+
+    // Combine the correct answer with the incorrect answers
+    const options = [correctAnswer, ...randomIncorrectAnswers];
+    
+    // Shuffle options array to randomize button placement
+    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+
+    // Create a button for each option
+    shuffledOptions.forEach((optionText) => {
+        const optionButton = document.createElement('button');
+        optionButton.className = 'choice-button';
+        optionButton.textContent = optionText;
+        
+        // Event listener for handling guesses
+        optionButton.addEventListener('click', () => handleGuess(optionText, correctAnswer));
+
+        // Append each button to the guessContainer
+        guessContainer.appendChild(optionButton);
+    });
+
+    // Display the guess container with the multiple-choice options
+    guessContainer.style.display = 'flex';
+}
+
+// Handle guess selection
+function handleGuess(selectedOption, correctAnswerText) {
+    const currentImage = gameState.currentLevel2Image;
+
+    // Find the button based on the selectedOption text
+    const selectedButton = [...document.querySelectorAll('.choice-button')].find(button => button.textContent === selectedOption);
+
+    if (selectedOption === correctAnswerText) {
+        // Add correct animation class
+        selectedButton.classList.add('correct-choice');
+        correctAnswer.play(); // Play correct answer sound
+        document.getElementById('message').textContent = "Correct! You identified the image!";
+        level2Content.style.display = 'none';
+        attackMonster(50);
+
+        // Force monster defeat to trigger level completion
+        if (gameState.monsterHp === 0) {
+            isStartLevel = false;
         }
 
+        // Update score for correct answer
+        updateScore(10);
+    } else {
+        // Add wrong animation class
+        selectedButton.classList.add('wrong-choice');
+        wrongAnswer.play(); // Play wrong answer sound
+        document.getElementById('message').textContent = "Wrong guess! Try again!";
+        monsterAttack();
+        takeDamage(); // Handle player damage on wrong guess
+    }
 
-        // Event listener for submitting a guess
-        submitGuess.addEventListener('click', () => {
-            const guess = guessInput.value.toLowerCase().trim();
-            const currentImage = gameState.currentLevel2Image;
+    // Remove the class after animation ends (reset for next guess)
+    selectedButton.addEventListener('animationend', () => {
+        selectedButton.classList.remove('correct-choice', 'wrong-choice');
+    });
 
-            if (guess === currentImage.answer) {
-                correctAnswer.play();
-                document.getElementById('message').textContent = "Correct! You identified the image!";
-                level2Content.style.display = 'none';
-                attackMonster(50);
-                // Force monster defeat to trigger level completion
-
-                // Update score for correct answer
-                updateScore(10); // Award 20 points for correct guess
-                // showLevel2CompleteModal(); // Show level 2 completion modal
-            } else {
-                document.getElementById('message').textContent = "Wrong guess! Try again!";
-                monsterAttack();
-                takeDamage(); // Handle player damage on wrong guess
-                wrongAnswer.play();
-            }
-            if (gameState.monsterHp > 0) {
-                correctAnswer.play();
-                switchToLevel2();
-            }
-            guessInput.value = ''; // Clear input field after submission
-        });
+    // Continue or restart Level 2 based on game state
+    if (gameState.monsterHp > 0) {
+        switchToLevel2();
+    }
+}
 
         function initializeLevel3() {
             const level3Content = document.getElementById('level3Content');
@@ -2583,7 +2685,7 @@ function drawGame() {
         }
     }
 }
-
+setInterval(drawGame, 50000);
 
 function drawBackground() {
     const canvas = document.getElementById("gameCanvas");
@@ -2597,12 +2699,32 @@ function drawBackground() {
     ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
 
     // Draw Clouds
-    for (let i = 0; i < 5; i++) {
-        const cloudX = Math.random() * canvas.width;
-        const cloudY = Math.random() * (canvas.height / 3);
-        drawCloud(ctx, cloudX, cloudY);
-    }
+    const clouds = [];
 
+// Create more clouds
+for (let i = 0; i < 10; i++) {
+    const cloud = {
+        x: Math.random() * canvas.width,  // Random initial X position
+        y: Math.random() * (canvas.height / 5),  // Random initial Y position within the upper part of the canvas
+        speed: 0.02 + Math.random() * 0.03  // Slower cloud speed (further reduced for a smoother effect)
+    };
+    clouds.push(cloud);
+}
+
+// In your draw function:
+for (let i = 0; i < clouds.length; i++) {
+        const cloud = clouds[i];
+        cloud.x += cloud.speed;  // Move the cloud horizontally based on its speed
+
+        // Reset cloud position when it moves off-screen
+        if (cloud.x > canvas.width) {
+            cloud.x = -100;  // Move it off-screen to the left
+            cloud.y = Math.random() * (canvas.height / 3);  // Reset its Y position randomly within the top third of the canvas
+        }
+
+        // Draw the cloud at its new position
+        drawCloud(ctx, cloud.x, cloud.y);
+    }
     // Ground Gradient
     const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
     groundGradient.addColorStop(0, "#8B4513"); // Brown at horizon
@@ -2649,11 +2771,11 @@ function drawBackground() {
 
 // Function to draw clouds
 function drawCloud(ctx, x, y) {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";  // White cloud color with transparency
     ctx.beginPath();
-    ctx.arc(x, y, 20, Math.PI * 0.5, Math.PI * 1.5);
-    ctx.arc(x + 30, y - 10, 25, Math.PI * 1, Math.PI * 1.85);
-    ctx.arc(x + 60, y, 20, Math.PI * 1.5, Math.PI * 0.5);
+    ctx.arc(x, y, 25, Math.PI * 0.5, Math.PI * 1.5);  // Left side of the cloud
+    ctx.arc(x + 30, y - 10, 30, Math.PI * 1, Math.PI * 1.85);  // Middle part of the cloud
+    ctx.arc(x + 60, y, 25, Math.PI * 1.5, Math.PI * 0.5);  // Right side of the cloud
     ctx.closePath();
     ctx.fill();
 }
@@ -2827,6 +2949,7 @@ ctx.fillText(answer, adjustedX, y);
                 crosshairX = event.clientX - rect.left;
                 crosshairY = event.clientY - rect.top;
                 drawGame();
+                requestAnimationFrame(animate);
             });
             
             // Click event to handle answer selection
