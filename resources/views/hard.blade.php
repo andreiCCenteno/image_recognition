@@ -2651,11 +2651,9 @@ function initializeLevel5() {
                 // Update the message to show the next target
                 targetZoneMessage.innerText = `Click on the: ${selectedTargets[currentTargetIndex].name}`;
             } 
-            // else {
-            //     // If all targets are found, complete the level
-            //     showLevel5CompleteModal(); // Trigger the completion modal for Level 5
-            //     gameState.level++; // Move to the next level
-            // }
+            else {
+                gameState.level++; // Move to the next level
+            }
         } else {
             takeDamage(); // Handle incorrect clicks
             monsterAttack();
