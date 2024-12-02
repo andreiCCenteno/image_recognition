@@ -13,11 +13,21 @@ use App\Http\Controllers\MediumController;
 use App\Http\Controllers\HardController; // Adjust to your controller's namespace
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PreprocessingController;
+use App\Http\Controllers\PostprocessingController;
 
 
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/stage1', [PreprocessingController::class, 'stage1'])->name('stage1');
+Route::get('/stage2', [PreprocessingController::class, 'stage2'])->name('stage2');
+Route::get('/stage3', [PreprocessingController::class, 'stage3'])->name('stage3');
+
+Route::get('/poststage1', [PostprocessingController::class, 'stage1'])->name('poststage1');
+Route::get('/poststage2', [PostprocessingController::class, 'stage2'])->name('poststage2');
+Route::get('/poststage3', [PostprocessingController::class, 'stage3'])->name('poststage3');
+
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -67,13 +77,13 @@ Route::post('/toggle-sound', [settingsController::class, 'toggleSound'])->name('
 Route::get('/tutorial', [tutorialController::class, 'tutorial'])->name('tutorial'); // for displaying the tutorial page
 
 
-Route::get('/easy', [EasyController::class, 'easy'])->name('easy');
+Route::get('/preprocessing', [EasyController::class, 'preprocessing'])->name('preprocessing');
 Route::post('/update-easy-finish/{userId}', [EasyController::class, 'updateEasyFinish'])->name('update.easy.finish');
 Route::post('/easy-update-score/{userId}', [EasyController::class, 'updateScore']);
 Route::get('/get-current-performance/{userId}', [EasyController::class, 'getCurrentPerformance']);
 
 
-Route::get('/medium', [MediumController::class, 'medium'])->name('medium');
+Route::get('/postprocessing', [MediumController::class, 'postprocessing'])->name('postprocessing');
 Route::post('/update-medium-finish/{userId}', [MediumController::class, 'updateMediumFinish'])->name('update.medium.finish');
 Route::post('/medium-update-score/{userId}', [MediumController::class, 'updateScore']);
 Route::get('/get-medium-current-performance/{userId}', [MediumController::class, 'getCurrentPerformance']);

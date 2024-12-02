@@ -208,37 +208,66 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        .password-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .password-container input {
+        flex: 1;
+        padding-right: 30px; /* Add space for the icon */
+    }
+
+    .toggle-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%); /* Center the icon vertically */
+        cursor: pointer;
+        color: #007bff;
+        font-size: 1.2em;
+    }
+
+    .toggle-icon:hover {
+        color: #0056b3;
+    }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 <audio id="background-music" src="{{ asset('music/background-music.mp3') }}" preload="auto" loop></audio>
-    <div class="login-form">
-        <h2>LOGIN FORM</h2>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <label>Username:</label>
-            <input type="text" id="username" name="username" required>
+<div class="login-form">
+    <h2>LOGIN FORM</h2>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+        <label>Username:</label>
+        <input type="text" id="username" name="username" required>
 
-            <label>Password:</label>
+        <label>Password:</label>
+        <div class="password-container">
             <input type="password" id="password" name="password" required>
+            <i class="fa-solid fa-eye toggle-icon" onclick="togglePasswordVisibility('password', this)"></i>
+        </div>
 
-            <a href="#">Forgot Password?</a>
+        <a href="#">Forgot Password?</a>
 
-            <button type="submit" name="login">LOGIN</button>
+        <button type="submit" name="login">LOGIN</button>
 
-            <p>Don't have an account? <a href="{{ url('register') }}">Create Account</a></p>
-        </form>
-    </div>
+        <p>Don't have an account? <a href="{{ url('register') }}">Create Account</a></p>
+    </form>
+</div>
     
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -273,6 +302,20 @@ function playClickSound() {
     var clickSound = document.getElementById('clickSound');
     clickSound.play();
 }
+
+function togglePasswordVisibility(fieldId, icon) {
+        const passwordField = document.getElementById(fieldId);
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
 
 // Attach the playClickSound function to all buttons and anchor tags on the page
 document.querySelectorAll('button, a').forEach(function(element) {

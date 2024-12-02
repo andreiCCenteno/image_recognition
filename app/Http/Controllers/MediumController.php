@@ -8,9 +8,9 @@ use App\Models\User; // Import the User model
 class MediumController extends Controller
 {
     // Show the medium view
-    public function medium()
+    public function postprocessing()
     {
-        return view('medium'); // Ensure you have a medium.blade.php file in resources/views
+        return view('postprocessing'); // Ensure you have a medium.blade.php file in resources/views
     }
 
     // Update the user's score

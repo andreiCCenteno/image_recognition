@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class EasyController extends Controller
 {
-    public function easy()
+    public function preprocessing()
     {
         $userId = auth()->id(); // Get the logged-in user's ID
         $gameState = GameState::where('id', $userId)->first(); // Get the game state
 
         $gameStateData = $gameState ? json_decode($gameState->state, true) : []; // Decode JSON to array
 
-        return view('easy', compact('gameStateData'));
+        return view('preprocessing', compact('gameStateData'));
     }
 
     public function updateGameState(Request $request)

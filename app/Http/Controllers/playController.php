@@ -30,16 +30,16 @@ class playController extends Controller
     }
 
     // Retrieve the game completion status for difficulty levels
-    $easy_finish = $user->easy_finish;
-    $medium_finish = $user->medium_finish;
+    $preprocessing_complete = $user->preprocessing_complete;
+    $postprocessing_complete = $user->postprocessing_complete;
     $hard_finish = $user->hard_finish;
 
     // Retrieve the notification statuses
-    $medium_notif = $user->medium_notif ?? 0; // Default to 0 if not set
+    $postprocessing_notif = $user->postprocessing_notif ?? 0; // Default to 0 if not set
     $hard_notif = $user->hard_notif ?? 0; // Default to 0 if not set
 
     // Pass the tutorial status, difficulty completion, and notification statuses to the view
-    return view('play', compact('tutorialShown', 'easy_finish', 'medium_finish', 'hard_finish', 'medium_notif', 'hard_notif'));
+    return view('play', compact('tutorialShown', 'preprocessing_complete', 'postprocessing_complete', 'hard_finish', 'postprocessing_notif', 'hard_notif'));
 }
     public function startTutorial(Request $request)
     {
@@ -61,8 +61,8 @@ class playController extends Controller
     $user = auth()->user();
 
     // Unlock difficulty levels and set notifications
-    $user->easy_finish = true;
-    $user->medium_notif = 1; // Set to 1 when Easy game is completed
+    $user->preprocessing_complete = true;
+    $user->postprocessing_complete = 1; // Set to 1 when Easy game is completed
     $user->hard_notif = 0; // Initially set to 0 for Hard
     $user->save();
 
@@ -71,14 +71,14 @@ class playController extends Controller
     public function updateMediumNotif(Request $request) {
         // Validate the incoming request
         $request->validate([
-            'medium_notif' => 'required|integer',
+            'postprocessing_notif' => 'required|integer',
         ]);
     
         // Assuming you have a User model or a similar one to track user data
         $user = auth()->user(); // Get the currently authenticated user
     
         // Update the medium_notif field in the user's record
-        $user->medium_notif = $request->medium_notif;
+        $user->postprocessing_notif = $request->postprocessing_notif;
         $user->save();
     
         return response()->json(['success' => true]);
@@ -108,15 +108,15 @@ class playController extends Controller
     
         // Validate input
         $validated = $request->validate([
-            'easy_finish' => 'required|boolean',
-            'medium_finish' => 'required|boolean'
+            'preprocessing_complete' => 'required|boolean',
+            'postprocessing_complete' => 'required|boolean'
         ]);
     
         // Update the user's difficulty status and notification flags
         DB::table('users')->where('id', $userId)->update([
-            'easy_finish' => $validated['easy_finish'],
-            'medium_finish' => $validated['medium_finish'],
-            'medium_notif' => 1,
+            'preprocessing_complete' => $validated['preprocessing_complete'],
+            'postprocessing_complete' => $validated['postprocessing_complete'],
+            'postprocessing_notif' => 1,
             'hard_notif' => 1
         ]);
     

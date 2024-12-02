@@ -381,80 +381,44 @@ footer {
 <a href="{{ route('mainmenu') }}" class="back-button" title="Back">&larr;</a>
 <div id="tooltip" class="tooltip"></div>
 <div class="difficulty-container">
-    <h1>Select Difficulty</h1>
+    <h1>Select Stage</h1>
 
-    <!-- Easy Button (always enabled) -->
-    <button class="difficulty-button" onclick="window.location.href='{{ url('easy') }}'">Easy</button>
+    <!-- Pre-Processing Button (always enabled) -->
+    <button class="stage-button" onclick="window.location.href='{{ url('preprocessing') }}'">Pre-Processing</button>
 
-    <!-- Medium Button (disabled by default, enabled after easy_finish) -->
-    <button class="difficulty-button" id="mediumButton" 
-    @if(!$easy_finish) onmouseover="showTooltip(event, 'Finish easy mode to unlock medium mode.')" onmouseout="hideTooltip()" disabled 
-    @else onclick="window.location.href='{{ url('medium') }}'" @endif>
-    @if(!$easy_finish)
-        <i class="fas fa-lock"></i> Medium
+    <!-- Post-Processing Button (disabled by default, enabled after pre-processing is complete) -->
+    <button class="stage-button" id="postProcessingButton" 
+    @if(!$preprocessing_complete) 
+        onmouseover="showTooltip(event, 'Complete pre-processing to unlock post-processing.')" 
+        onmouseout="hideTooltip()" disabled 
+    @else 
+        onclick="window.location.href='{{ url('postprocessing') }}'" 
+    @endif>
+    @if(!$preprocessing_complete)
+        <i class="fas fa-lock"></i> Post-Processing
     @else
-        Medium
+        Post-Processing
     @endif
-</button>
+    </button>
 
-<!-- Hard Button (disabled by default, enabled after medium_finish) -->
-<button class="difficulty-button" id="hardButton" 
-    @if(!$medium_finish) onmouseover="showTooltip(event, 'Finish medium mode to unlock hard mode.')" onmouseout="hideTooltip()" disabled 
-    @else onclick="window.location.href='{{ url('hard') }}'" @endif>
-    @if(!$medium_finish)
-        <i class="fas fa-lock"></i> Hard
-    @else
-        Hard
-    @endif
-</button>
-
-<button class="difficulty-button" id="hardButton" onclick="window.location.href='{{ url('tutorial') }}'" >Tutorial</button>
-    
+    <button class="stage-button" id="tutorialButton" onclick="window.location.href='{{ url('tutorial') }}'">Tutorial</button>
 </div>
+
 <div id="tutorialModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeTutorialModal()">&times;</span>
         <h2>Tutorial</h2>
-        <p>Welcome to the Image Comparison Game!</p>
-        <p>Select your difficulty level to start:</p>
-        <p><strong>Easy:</strong> Start here if you're new to the game. Completing this level will unlock Medium mode. You'll have plenty of time and chances to win!</p>
-        <p><strong>Medium:</strong> This mode will be unlocked after completing Easy. A balanced challenge for players who have some experience.</p>
-        <p><strong>Hard:</strong> Unlock this level by finishing Medium mode. It's designed for experts and is challenging, with less time and fewer attempts.</p>
+        <p>Welcome to the Image Processing Game!</p>
+        <p>Select your stage to start:</p>
+        <p><strong>Pre-Processing:</strong> Begin here to learn the basics of preparing images for analysis. Completing this stage unlocks Post-Processing.</p>
+        <p><strong>Post-Processing:</strong> Learn advanced techniques to enhance or analyze images. This stage will be unlocked after completing Pre-Processing.</p>
         <button class="modal-button" onclick="startTutorial()">Start Tutorial!</button>
         <button class="modal-button" onclick="closeTutorialModal()">Skip Tutorial</button>
     </div>
 </div>
 
-    <div id="mediumNotificationModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeMediumNotification()">&times;</span>
-        <h2>Medium Unlocked!</h2>
-        <p>Congratulations! You have unlocked the Medium difficulty level.</p>
-        <button class="modal-button" onclick="closeMediumNotification()">Okay</button>
-    </div>
-</div>
-
-<!-- Hard Notification Modal -->
-<div id="hardNotificationModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeHardNotification()">&times;</span>
-        <h2>Hard Unlocked!</h2>
-        <p>Congratulations! You have unlocked the Hard difficulty level.</p>
-        <button class="modal-button" onclick="closeHardNotification()">Okay</button>
-    </div>
-</div>
-
-<div id="cheatCodeModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close" onclick="closeCheatCodeModal()">&times;</span>
-        <h2>Cheat Code Activated!</h2>
-        <p>All difficulties have been unlocked.</p>
-        <button onclick="closeCheatCodeModal()">OK</button>
-    </div>
-</div>
 <script>
     let isPageFullyLoaded = false;
-
 
     function showTooltip(event, message) {
         const tooltip = document.getElementById('tooltip');
@@ -468,203 +432,58 @@ footer {
         const tooltip = document.getElementById('tooltip');
         tooltip.classList.remove('show');
     }
-// Function to play background music
-function playBackgroundMusic() {
-    const bgMusic = document.getElementById('bgMusic');
-    if (isPageFullyLoaded && bgMusic) {
-        // Retrieve volume from local storage or set default value
-        const savedVolume = localStorage.getItem('musicVolume');
-        bgMusic.volume = savedVolume ? parseFloat(savedVolume) : 0.5; // Default volume is 0.5
-        bgMusic.play().catch(function(error) {
-            console.error("Music play failed:", error);
-        });
-    }
-}
 
-// Mark the page as fully loaded and attempt to play music
-window.onload = function() {
-    isPageFullyLoaded = true; // Set the boolean flag to true
-    playBackgroundMusic(); // Attempt to play music
-
-    // Existing user ID logic
-    const userId = localStorage.getItem('user_id');
-    if (userId) {
-        console.log("User ID:", userId);
-        // Use the user ID for your game logic
-    } else {
-        console.warn("User ID not found in local storage.");
+    // Function to play background music
+    function playBackgroundMusic() {
+        const bgMusic = document.getElementById('bgMusic');
+        if (isPageFullyLoaded && bgMusic) {
+            const savedVolume = localStorage.getItem('musicVolume');
+            bgMusic.volume = savedVolume ? parseFloat(savedVolume) : 0.5;
+            bgMusic.play().catch(function(error) {
+                console.error("Music play failed:", error);
+            });
+        }
     }
 
-    // Check if easy_finish is 1 and show Medium notification if so
-};
+    // Mark the page as fully loaded and attempt to play music
+    window.onload = function() {
+        isPageFullyLoaded = true;
+        playBackgroundMusic();
+    };
 
-// Function to play the click sound
-function playClickSound() {
-    var clickSound = document.getElementById('clickSound');
-    const savedVolume = localStorage.getItem('sfxVolume');
-    clickSound.volume = savedVolume ? parseFloat(savedVolume) : 0.5;
-    clickSound.play();
-}
-
-// Attach the playClickSound function to all buttons and anchor tags on the page
-document.querySelectorAll('button, a').forEach(function(element) {
-    element.addEventListener('click', playClickSound);
-});
-
-// Rest of your existing code
-function unlockMediumNotification() {
-    document.getElementById('mediumNotificationModal').style.display = 'flex'; // Show the Medium notification modal
-    document.getElementById('mediumButton').disabled = false; // Enable the Medium button
-    document.getElementById('mediumButton').innerHTML = 'Medium'; // Update button text
-    updateMediumNotification(); // Call function to update medium_notif in the database
-}
-
-function closeMediumNotification() {
-    document.getElementById('mediumNotificationModal').style.display = 'none'; // Hide the Medium notification modal
-}
-
-function unlockHardNotification() {
-    document.getElementById('hardNotificationModal').style.display = 'flex'; // Show the Hard notification modal
-    document.getElementById('hardButton').disabled = false; // Enable the Hard button
-    document.getElementById('hardButton').innerHTML = 'Hard'; // Update button text
-    updateHardNotification(); // Call function to update hard_notif in the database
-}
-
-function closeHardNotification() {
-    document.getElementById('hardNotificationModal').style.display = 'none'; // Hide the Hard notification modal
-}
-
-function updateMediumNotification() {
-    fetch("{{ url('update-medium-notif') }}", {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ medium_notif: 1 }) // Send a request to update medium_notif in the database
-    }).then(response => {
-        if (!response.ok) {
-            console.error("Error updating medium_notif:", response.statusText);
-        }
-    }).catch(error => {
-        console.error("Error:", error);
+    // Attach the playClickSound function to all buttons and anchor tags on the page
+    document.querySelectorAll('button, a').forEach(function(element) {
+        element.addEventListener('click', playClickSound);
     });
-}
 
-function updateHardNotification() {
-    fetch("{{ url('update-hard-notif') }}", {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ hard_notif: 1 }) // Send a request to update hard_notif in the database
-    }).then(response => {
-        if (!response.ok) {
-            console.error("Error updating hard_notif:", response.statusText);
-        }
-    }).catch(error => {
-        console.error("Error:", error);
-    });
-}
-
-function startTutorial() {
-    fetch("{{ url('tutorial') }}", {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ is_tutorial: 1 }) // Send a request to update the database
-    }).then(response => {
-        if (response.ok) {
-            window.location.href = "{{ url('tutorial') }}"; // Redirect to the tutorial page
-        } else {
-            alert("Error starting tutorial. Please try again.");
-        }
-    }).catch(error => {
-        console.error("Error:", error);
-    });
-}
-
-function completeEasyGame() {
-    unlockDifficultyLevels();
-}
-
-function unlockAllDifficulties() {
-    // Unlock the Medium and Hard difficulty buttons
-    document.getElementById('mediumButton').disabled = false;
-    document.getElementById('mediumButton').innerHTML = 'Medium';
-    
-    document.getElementById('hardButton').disabled = false;
-    document.getElementById('hardButton').innerHTML = 'Hard';
-
-    // Show modal for cheat code activation
-    openCheatCodeModal();
-
-    // Update easy_finish and medium_finish in the database via AJAX
-    fetch('/update-difficulties', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'  // Laravel CSRF token if required
-        },
-        body: JSON.stringify({ easy_finish: 1, medium_finish: 1 })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Difficulties updated:", data);
-    })
-    .catch(error => {
-        console.error("Error updating difficulties:", error);
-    });
-}
-
-// Cheat code listener for Ctrl + Shift + U
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.shiftKey && event.key === 'U') {
-        unlockAllDifficulties();
+    // Function to show the tutorial modal
+    function showTutorial() {
+        document.getElementById('tutorialModal').style.display = 'flex';
     }
-});
 
-// Function to open the cheat code modal
-function openCheatCodeModal() {
-    document.getElementById('cheatCodeModal').style.display = 'block';
-}
-
-// Function to close the cheat code modal
-function closeCheatCodeModal() {
-    document.getElementById('cheatCodeModal').style.display = 'none';
-    location.reload();  // Reloads the page to apply changes
-}
-
-
-function showTutorial() {
-    document.getElementById('tutorialModal').style.display = 'flex'; // Show the tutorial modal
-}
-
-function closeTutorialModal() {
+    // Function to close the tutorial modal
+    function closeTutorialModal() {
         document.getElementById('tutorialModal').style.display = 'none';
     }
 
-// Show the tutorial when the document is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if the tutorial should be shown
-    @if($tutorialShown)
-        showTutorial();
-    @endif
+    // Show the tutorial when the document is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        @if($tutorialShown)
+            showTutorial();
+        @endif
 
-    // Check if easy_finish is 1 and medium_notif is 0
-    @if($easy_finish && $medium_notif == 0)
-        unlockMediumNotification();
-    @endif
+        @if($preprocessing_complete && $postprocessing_notif == 0)
+            unlockPostProcessingNotification();
+        @endif
+    });
 
-    // Check if medium_finish is 1 and hard_notif is 0
-    @if($medium_finish && $hard_notif == 0)
-        unlockHardNotification();
-    @endif
-});
+    function unlockPostProcessingNotification() {
+        document.getElementById('postProcessingButton').disabled = false;
+        document.getElementById('postProcessingButton').innerHTML = 'Post-Processing';
+    }
 </script>
+</body>
+
 
 <!-- Add FontAwesome CDN for lock icons -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

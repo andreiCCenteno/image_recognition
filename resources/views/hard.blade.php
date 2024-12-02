@@ -2821,7 +2821,7 @@ function initializeLevel5() {
                 targetZoneMessage.innerText = `Click on the: ${selectedTargets[currentTargetIndex].name}`;
             } 
             else {
-                gameState.level++; // Move to the next level
+                gameState.level = 6; // Move to the next level
             }
         } else {
             takeDamage(); // Handle incorrect clicks

@@ -3319,7 +3319,6 @@ document.getElementById("start-level-btn").onclick = function () {
             flipAllCards(true); // Flip all cards face up
             setTimeout(shuffle, 1000); // Shuffle after a delay
         }, 1000);
-        currentLevel++;
     } else if (currentLevel === 2) {
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
         draw();
