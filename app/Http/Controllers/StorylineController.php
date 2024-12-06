@@ -20,4 +20,9 @@ class StorylineController extends Controller
     {
         return view('storyline3');
     }
+
+    public function storylinestage4()
+    {
+        return view('storyline4');
+    }
 }

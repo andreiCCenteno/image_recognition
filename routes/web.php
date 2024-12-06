@@ -24,6 +24,7 @@ Route::get('/', function () {
 Route::get('/stage1', [PreprocessingController::class, 'stage1'])->name('stage1');
 Route::get('/stage2', [PreprocessingController::class, 'stage2'])->name('stage2');
 Route::get('/stage3', [PreprocessingController::class, 'stage3'])->name('stage3');
+Route::get('/stage4', [PreprocessingController::class, 'stage4'])->name('stage4');
 Route::get('/preprocessingquiz', [PreprocessingController::class, 'preprocessingquiz'])->name('preprocessingquiz');
 
 Route::get('/poststage1', [PostprocessingController::class, 'stage1'])->name('poststage1');
@@ -34,6 +35,7 @@ Route::get('/postprocessingquiz', [PostprocessingController::class, 'postprocess
 Route::get('/storylinestage1', [StorylineController::class, 'storylinestage1'])->name('storylinestage1');
 Route::get('/storylinestage2', [StorylineController::class, 'storylinestage2'])->name('storylinestage2');
 Route::get('/storylinestage3', [StorylineController::class, 'storylinestage3'])->name('storylinestage3');
+Route::get('/storylinestage4', [StorylineController::class, 'storylinestage4'])->name('storylinestage4');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [LoginController::class, 'login'])->name('login');

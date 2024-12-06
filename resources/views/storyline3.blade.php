@@ -303,6 +303,9 @@
     }
 
     function proceedToNextStep() {
+    setTimeout(() => {
+        window.location.href = "{{ route('stage3') }}"; // Restart the game
+    }, 3000);
     document.getElementById('filtering-gameContainer').style.display = 'none'; // Hide the current section
     document.getElementById('well-done').style.display = 'block';
 }

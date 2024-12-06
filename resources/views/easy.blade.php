@@ -1243,6 +1243,7 @@
         <button onclick="closeModal()">Close</button>
         <button onclick="playAgain()">Play Again</button>
     </div>
+    </div>
     
 
 

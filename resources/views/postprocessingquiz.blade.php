@@ -1068,6 +1068,13 @@
             <h2>Quiz Game</h2>
             <p id="questionText"></p>
             <canvas id="gameCanvas" width="1000" height="625"></canvas>
+            <div id="scoreModal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Your Score</h2>
+                    <p id="finalScoreText"></p>
+                </div>
+            </div>
         </div>
     </div>
   <script>
@@ -1075,234 +1082,236 @@
     const ctx = canvas.getContext('2d');
 
             const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
+            const quizSound = new Audio("{{ asset('music/quizBackgroundMusic.mp3') }}");
 
-            const questions = [
+         const questions = [
     {
-        question: "1. What is the primary purpose of feature extraction in image recognition?\n\n\nA. To increase image resolution\nB. To identify and isolate specific characteristics of an image\nC. To convert images into different formats\nD. To change the color of an image",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "1. What is the main purpose of feature extraction in image processing?\n\nA. To reduce the size of the image\nB. To identify important patterns or features\nC. To convert the image to grayscale\nD. To remove noise",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "2. What does feature extraction enable users to focus on in an image?\n\n\nA. Color properties\nB. Background elements\nC. Key aspects like edges and textures\nD. File formats",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "2. Which of the following techniques is used to enhance the edges of an image?\n\nA. Gaussian blur\nB. Sobel filter\nC. Thresholding\nD. Dilation",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "3. How does the Hough Transform aid in image analysis?\n\nA. By detecting shapes like lines and circles\nB. By identifying regions of interest\nC. By removing background noise\nD. By normalizing image intensities",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "4. What is the significance of a confusion matrix in evaluating a model's performance?\n\nA. It calculates the model's precision\nB. It provides a summary of classification results including true/false positives and negatives\nC. It normalizes the image data\nD. It segments the image into regions",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "5. What does 'overfitting' in a machine learning model refer to?\n\nA. The model performs well on unseen data\nB. The model becomes too complex and performs poorly on new data\nC. The model generalizes well to new datasets\nD. The model is robust to noise",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "6. What does the watershed algorithm do in image segmentation?\n\nA. It detects edges\nB. It segments the image into distinct regions based on intensity\nC. It applies a Gaussian blur\nD. It reduces noise by smoothing the image",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "7. What is a common use of the K-means clustering algorithm in image processing?\n\nA. Image classification\nB. Edge detection\nC. Color quantization\nD. Image denoising",
+        answers: ["A", "B", "C", "D"],
         correct: 2
     },
     {
-        question: "3. Which application is enhanced by mastering feature extraction?\n\n\nA. Web development\nB. Object detection and computer vision\nC. Image compression\nD. Sound recognition",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "4. Which technique helps users understand color distributions in images?\n\n\nA. Edge detection\nB. Color histograms\nC. Image scaling\nD. Pixelation",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "5. Why is color identification important in various fields?\n\n\nA. It improves image quality.\nB. It enhances visual perception and classification of objects.\nC. It reduces image file size.\nD. It increases image brightness.",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "6. What is a common method used in color identification to analyze color properties?\n\n\nA. Pixelation\nB. RGB analysis\nC. Grayscale conversion\nD. Image segmentation",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "7. Engaging in color identification exercises helps foster a deeper appreciation of what?\n\n\nA. Color theory\nB. Graphic design\nC. Sound engineering\nD. Data analysis",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "8. Which method is often used for dimensionality reduction in image processing?\n\nA. Principal Component Analysis (PCA)\nB. Hough Transform\nC. Convolution\nD. Histogram of Oriented Gradients (HOG)",
+        answers: ["A", "B", "C", "D"],
         correct: 0
     },
     {
-        question: "8. How does feature extraction improve object recognition capabilities?\n\n\nA. By simplifying images\nB. By identifying irrelevant data\nC. By focusing on significant features like edges and textures\nD. By converting images to black and white",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "9. How does the Fourier Transform contribute to image analysis?\n\nA. By enhancing image resolution\nB. By transforming the image into the frequency domain\nC. By segmenting the image\nD. By identifying object features",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "10. In image processing, what does the convolution operation typically involve?\n\nA. Applying a filter to the image to detect specific features\nB. Reducing image size\nC. Adding noise to an image\nD. Enhancing brightness",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "11. Which of the following is a common technique for denoising an image?\n\nA. Histogram equalization\nB. Gaussian filter\nC. Hough Transform\nD. Sobel filter",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "12. What is the purpose of thresholding in image segmentation?\n\nA. To identify boundaries between regions\nB. To normalize the image's intensity\nC. To enhance edges\nD. To remove noise",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "13. What type of feature does the Histogram of Oriented Gradients (HOG) primarily capture?\n\nA. Color gradients\nB. Shape and edge features\nC. Texture patterns\nD. Intensity distribution",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "14. In which type of applications is the Scale-Invariant Feature Transform (SIFT) commonly used?\n\nA. Object recognition\nB. Image sharpening\nC. Noise reduction\nD. Color correction",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "15. What is a key characteristic of the Canny edge detector?\n\nA. It detects high-frequency noise\nB. It creates a binary image after detecting edges\nC. It normalizes color intensity\nD. It applies a convolution filter",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "16. Which method is commonly used to detect corners in an image?\n\nA. Hough Transform\nB. Harris corner detector\nC. Sobel filter\nD. Gaussian filter",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "17. What is the function of a filter kernel in convolution?\n\nA. It reduces noise\nB. It detects edges or features in the image\nC. It normalizes the image\nD. It enhances colors",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "18. What is the role of object detection in image processing?\n\nA. Identifying specific patterns within an image\nB. Classifying all regions as background\nC. Segmenting the image into equal parts\nD. Removing noise from the image",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "19. How does the sliding window approach help in object detection?\n\nA. It slides over the image to detect specific objects at different scales\nB. It smooths the image\nC. It normalizes the image's color\nD. It identifies color gradients",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "20. What is a common technique for improving image resolution?\n\nA. Image upsampling\nB. Convolution\nC. Feature extraction\nD. Histogram equalization",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "21. What is the purpose of edge detection in image processing?\n\nA. To blur the image\nB. To identify transitions between different regions of an image\nC. To convert the image to grayscale\nD. To reduce image noise",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "22. Which of the following algorithms is often used for image segmentation?\n\nA. K-means clustering\nB. Gradient descent\nC. Backpropagation\nD. ReLU",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "23. What is the role of the Gaussian filter in image processing?\n\nA. To detect edges\nB. To apply a blur effect and reduce noise\nC. To highlight image features\nD. To sharpen the image",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "24. Which technique is used to align multiple images of the same scene?\n\nA. Feature matching\nB. Histogram equalization\nC. Sobel filter\nD. Hough Transform",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "25. How does image compression benefit image processing?\n\nA. By increasing image size\nB. By reducing the computational load and storage requirements\nC. By improving image sharpness\nD. By removing noise",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
+    },
+    {
+        question: "26. What is the main use of morphological operations in image processing?\n\nA. To detect shapes and edges\nB. To enhance color features\nC. To segment and analyze shapes based on structure\nD. To apply blurring effects",
+        answers: ["A", "B", "C", "D"],
         correct: 2
     },
     {
-        question: "9. What is the primary role of edge detection in image recognition?\n\n\nA. To remove noise\nB. To identify boundaries within images\nC. To increase image resolution\nD. To change the color properties of an image",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "27. What does the term 'histogram equalization' refer to?\n\nA. The process of converting an image to grayscale\nB. The process of stretching the contrast of an image\nC. The process of segmenting an image into regions\nD. The process of applying a Gaussian filter",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "10. What is the importance of grayscale conversion in image processing?\n\n\nA. To enhance colors\nB. To simplify the image by removing color information\nC. To sharpen edges\nD. To increase the image size",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "28. What is the role of a convolutional neural network (CNN) in image processing?\n\nA. To reduce the size of the image\nB. To perform pixel-level classification and feature extraction\nC. To identify colors in an image\nD. To remove noise",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "11. Which technology helps in analyzing the frequency of colors in images?\n\n\nA. RGB analysis\nB. Edge detection\nC. Grayscale conversion\nD. Histogram equalization",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 0
-    },
-    {
-        question: "12. What role does noise reduction play in image recognition?\n\n\nA. It helps to simplify complex data\nB. It enhances details in images\nC. It improves the accuracy of color identification\nD. It helps to identify edges",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "29. What is the key advantage of using deep learning in image recognition tasks?\n\nA. It requires less data for training\nB. It can automatically extract complex features from the image\nC. It is faster than traditional methods\nD. It performs well only on small datasets",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "13. What is the main goal of convolution in image processing?\n\n\nA. To reduce image size\nB. To apply filters for feature extraction\nC. To sharpen image resolution\nD. To adjust the contrast of the image",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "14. What does pooling do in the context of convolutional neural networks (CNN)?\n\n\nA. Increases the image resolution\nB. Reduces the size of the feature maps\nC. Enhances color analysis\nD. Converts images into grayscale",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "15. What is the main function of the softmax layer in neural networks?\n\n\nA. To convert the network’s outputs into probabilities\nB. To reduce the image size\nC. To identify the color of an image\nD. To detect edges",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 0
-    },
-    {
-        question: "16. What technique can help in recognizing patterns in images?\n\n\nA. Color histograms\nB. Grayscale conversion\nC. Edge detection\nD. Convolution filters",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 3
-    },
-    {
-        question: "17. Which method is used for noise reduction in image processing?\n\n\nA. Median filtering\nB. Gaussian filtering\nC. Thresholding\nD. Edge detection",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 0
-    },
-    {
-        question: "18. What is the role of the Sobel filter in image processing?\n\n\nA. To apply color adjustments\nB. To perform edge detection\nC. To reduce noise\nD. To enhance image brightness",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "19. In what type of task is feature extraction commonly used?\n\n\nA. Sorting colors\nB. Object recognition\nC. Image compression\nD. Image resizing",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "20. What does histogram equalization help to improve in image processing?\n\n\nA. The brightness of an image\nB. The contrast of an image\nC. The resolution of an image\nD. The color distribution of an image",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "21. What does RGB stand for?\n\n\nA. Red, Green, Blue\nB. Red, Grey, Black\nC. Red, Gradient, Blue\nD. Red, Green, Black",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 0
-    },
-    {
-        question: "22. Which model is used for representing colors in digital images?\n\n\nA. CMYK\nB. RGB\nC. HSL\nD. HSV",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "23. How does pixelation affect the clarity of an image?\n\n\nA. It sharpens the image\nB. It increases the resolution\nC. It reduces the resolution\nD. It adjusts the contrast",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "30. What does the term 'image augmentation' refer to in machine learning?\n\nA. Adding noise to the image\nB. Increasing the resolution of the image\nC. Modifying images in various ways to increase data diversity\nD. Segmenting images into regions",
+        answers: ["A", "B", "C", "D"],
         correct: 2
     },
     {
-        question: "24. What is a typical use case for CNNs in image processing?\n\n\nA. Color enhancement\nB. Image classification\nC. Image resizing\nD. Text recognition",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "25. What does the median filter help to reduce in an image?\n\n\nA. Gaussian noise\nB. Salt-and-pepper noise\nC. Random noise\nD. White noise",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "26. What is the main purpose of convolutional layers in CNNs?\n\n\nA. To adjust image brightness\nB. To apply filters and extract features\nC. To resize the image\nD. To add noise to the image",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "27. What is the effect of increasing the RGB value of red?\n\n\nA. Decreases brightness\nB. Increases brightness\nC. Changes contrast\nD. Increases image resolution",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "28. In image recognition, what is a ‘feature’?\n\n\nA. A color component of an image\nB. A distinct and identifiable pattern or object in an image\nC. A pixel's brightness level\nD. A noise pattern",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "29. Which algorithm is commonly used in feature extraction for object recognition?\n\n\nA. K-means clustering\nB. SIFT (Scale Invariant Feature Transform)\nC. Gaussian blur\nD. Histogram equalization",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "30. How do convolution layers enhance image recognition?\n\n\nA. By applying random filters\nB. By extracting and emphasizing relevant features\nC. By converting images to grayscale\nD. By increasing image size",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "31. What is the purpose of using the color histogram in image processing?\n\n\nA. To classify images\nB. To adjust the resolution\nC. To analyze the distribution of colors\nD. To detect edges",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 2
-    },
-    {
-        question: "32. How does image segmentation contribute to object recognition?\n\n\nA. By dividing the image into meaningful regions\nB. By increasing image resolution\nC. By removing color information\nD. By adjusting brightness",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "31. What is the purpose of the Region of Interest (ROI) in image processing?\n\nA. To specify areas of interest for analysis\nB. To adjust the brightness of an image\nC. To blur the image\nD. To remove background noise",
+        answers: ["A", "B", "C", "D"],
         correct: 0
     },
     {
-        question: "33. What does applying the Sobel operator to an image help to detect?\n\n\nA. Noise\nB. Edges\nC. Color changes\nD. Image contrast",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "34. Which method is commonly used for image compression?\n\n\nA. PCA (Principal Component Analysis)\nB. JPEG compression\nC. Median filtering\nD. Histogram equalization",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
-    },
-    {
-        question: "35. What is the main challenge in image recognition?\n\n\nA. Extracting features\nB. Reducing noise\nC. Identifying patterns in images\nD. Enhancing color quality",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 2
-    },
-    {
-        question: "36. How can pixelation be reversed in an image?\n\n\nA. By increasing the resolution\nB. By using color enhancement algorithms\nC. By smoothing the image\nD. Pixelation cannot be reversed",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "32. What is the typical use of the SVM (Support Vector Machine) in image recognition?\n\nA. Object classification\nB. Edge detection\nC. Histogram equalization\nD. Image segmentation",
+        answers: ["A", "B", "C", "D"],
         correct: 0
     },
     {
-        question: "37. What is the function of the Hough transform in image analysis?\n\n\nA. To detect edges\nB. To identify circular shapes\nC. To perform noise reduction\nD. To adjust image color",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "33. How does image thresholding work?\n\nA. It adjusts the image’s color balance\nB. It converts the image into a binary format by setting a threshold value\nC. It removes noise by averaging pixel values\nD. It highlights edges in the image",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "38. Which of the following is crucial for accurate object recognition?\n\n\nA. Image resolution\nB. Image contrast\nC. Feature extraction\nD. Image file size",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 2
+        question: "34. What does the term 'template matching' mean in the context of image processing?\n\nA. Matching pixels based on color intensity\nB. Finding an image or pattern within a larger image\nC. Detecting edges in an image\nD. Analyzing the histogram of an image",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
     },
     {
-        question: "39. What effect does the RGB color model have on image recognition?\n\n\nA. It increases brightness\nB. It enhances image quality\nC. It simplifies color matching\nD. It reduces image size",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 2
+        question: "35. What is the use of the Canny edge detection algorithm?\n\nA. To segment the image into regions\nB. To detect the sharpest transitions in an image\nC. To apply a blur effect\nD. To normalize image color",
+        answers: ["A", "B", "C", "D"],
+        correct: 1
     },
     {
-        question: "40. What is the key advantage of using neural networks in image recognition?\n\n\nA. It automates feature extraction\nB. It enhances image resolution\nC. It reduces image size\nD. It enhances color vibrancy",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "36. What is the key difference between supervised and unsupervised learning?\n\nA. Supervised learning requires labeled data, while unsupervised learning does not\nB. Unsupervised learning requires labeled data, while supervised learning does not\nC. Supervised learning is faster\nD. There is no difference",
+        answers: ["A", "B", "C", "D"],
         correct: 0
     },
     {
-        question: "41. What does image recognition involve?\n\n\nA. Identifying the contents of an image\nB. Enhancing image brightness\nC. Compressing an image\nD. Applying color adjustments",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "37. What is the role of backpropagation in a neural network?\n\nA. To optimize the weights of the network during training\nB. To generate output predictions\nC. To preprocess the input data\nD. To reduce the complexity of the model",
+        answers: ["A", "B", "C", "D"],
         correct: 0
     },
     {
-        question: "42. What role does contrast play in object recognition?\n\n\nA. It simplifies the image\nB. It enhances the visibility of features\nC. It changes image size\nD. It reduces image noise",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "38. What is the typical use of object tracking in computer vision?\n\nA. To find the object within an image\nB. To follow the movement of an object across video frames\nC. To classify objects based on color\nD. To detect edges of objects",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     },
     {
-        question: "43. How can you improve color identification accuracy in images?\n\n\nA. By increasing the image resolution\nB. By improving image contrast\nC. By performing noise reduction\nD. By enhancing image brightness",
-        answers: ["A.", "B.", "C.", "D."],
-        correct: 1
+        question: "39. How is the 'k-nearest neighbors' algorithm used in image recognition?\n\nA. By classifying images based on their features compared to a set of labeled training images\nB. By identifying edges in an image\nC. By segmenting the image\nD. By enhancing color",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
     },
     {
-        question: "44. What is one of the primary uses of color histograms in image processing?\n\n\nA. To detect edges\nB. To detect patterns\nC. To analyze the color distribution\nD. To reduce noise",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "40. What is the primary goal of object classification in image processing?\n\nA. To recognize and label objects in an image\nB. To enhance image quality\nC. To detect edges\nD. To segment an image",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "41. What does 'color quantization' do in image processing?\n\nA. Reduces the number of distinct colors in an image\nB. Enhances the image resolution\nC. Increases the contrast in an image\nD. Removes noise",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "42. What does the term 'image stitching' refer to?\n\nA. Combining multiple images to create a panoramic image\nB. Converting images to grayscale\nC. Removing noise from an image\nD. Reducing the size of an image",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "43. What is the role of the Sobel filter in edge detection?\n\nA. To detect vertical and horizontal edges\nB. To remove noise from an image\nC. To smooth the image\nD. To segment the image into regions",
+        answers: ["A", "B", "C", "D"],
+        correct: 0
+    },
+    {
+        question: "44. What is the significance of deep learning in modern image recognition?\n\nA. It requires less data than traditional methods\nB. It uses simple algorithms to identify objects\nC. It can automatically learn and extract complex features from data\nD. It focuses on edge detection",
+        answers: ["A", "B", "C", "D"],
         correct: 2
     },
     {
-        question: "45. Which tool would you use to detect the most prevalent color in an image?\n\n\nA. Edge detection\nB. Histogram analysis\nC. Pixelation\nD. Contrast enhancement",
-        answers: ["A.", "B.", "C.", "D."],
+        question: "45. What is the purpose of using data augmentation in image processing?\n\nA. To reduce the number of images in the dataset\nB. To artificially expand the size of the dataset by generating new data from existing data\nC. To normalize the image colors\nD. To remove noise from the images",
+        answers: ["A", "B", "C", "D"],
         correct: 1
     }
 ];
+
 
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -1797,8 +1806,6 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         
         // Calculate the score percentage
         const percentageScore = (score / totalQuestions) * 100;
-        document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-        document.getElementById('scoreModal').style.display = 'flex'; // Show modal
 
         // Define base URL and retrieve user ID from local storage
         const baseUrl = window.location.origin;
@@ -1810,93 +1817,26 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
 
                 // Check if the user passed or failed
                 if (percentageScore >= 80) {
-                    fetch(`${baseUrl}/get-medium-current-performance/${userId}`)
-            .then(response => response.json())
-            .then(data => {
                 let previousPostTestPerformance = data.post_test_performance || 0;
-                console.log('Previous Performance:', previousPostTestPerformance);
-                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                    const updatedTotalScore = gameState.totalScore + score;
+                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!\nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
+                    document.getElementById('scoreModal').style.display = 'flex'; // Show modal
+                    const updatedTotalScore = score;
+                    setTimeout(() => {
+                        gameActive = true; // Reactivate the game
+                        window.location.href = "{{ route('storylinestage1') }}"; // Restart the game
+                    }, 3000);
                     
                     // Update the game state with the new total score
                     gameState.totalScore = updatedTotalScore;
                     showModal(updatedTotalScore);
 
-                    // Display the total score including the post-test score
-                    console.log('Updated Total Score:', updatedTotalScore);
-                    document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-
-                    // Update medium_finish status and save stats to the database
-                    fetch(`${baseUrl}/update-medium-finish/${userId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ medium_finish: 1 })
-                    })
-                    .then(response => response.json())
-                    .then(() => {
-                        // Save the score and additional stats
-                        return fetch(`${baseUrl}/medium-update-score/${userId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                score: updatedTotalScore,
-                                increment_total_games_played: true,
-                                total_wins: percentageScore >= 80 ? 1 : 0,
-                                success_rate: percentageScore >= 80 ? 1 : 0,
-                                medium_post_test_performance: Math.max(percentageScore, previousPostTestPerformance)
-                            })
-                        });
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Score and additional stats updated successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error updating score or medium_finish:', error);
-                    });
-                })
-            .catch(error => {
-                console.error('Error fetching current performance:', error);
-            });
-            document.getElementById('postTestContainer').style.display = 'none';
                 } else {
-                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
-                    // Restart the game after 1 second if user failed
-                    fetch(`${baseUrl}/medium-update-score/${userId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            increment_total_games_played: true, // Only increment total games played
-                            // Include other fields conditionally based on your logic
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.json();  // Parse JSON only if the response is ok
-                    })
-                    .then(data => {
-                        console.log('Game stats updated successfully:', data);
-                    })
-                    .catch(error => {
-                        console.error('Error updating total games played:', error);
-                    });
+                    const updatedTotalScore = score;
+                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again! \nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
+                    document.getElementById('scoreModal').style.display = 'flex'; // Show modal
                     setTimeout(() => {
-                        currentQuestion = 0; // Reset to the first question
-                        score = 0; // Reset score
-                        gameActive = true; // Reactivate the game
-                        window.location.href = "{{ route('medium') }}"; // Restart the game
-                    }, 1000);
+                        window.location.href = "{{ route('postprocessingquiz') }}"; // Restart the game
+                    }, 3000);
                 }
                 // Stop the game
                 gameActive = false;
