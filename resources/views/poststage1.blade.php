@@ -1,67 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RGB Color Space Analysis</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f8ff;
-      margin: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classify the Target Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .imagecontainer {
+            margin-top: 30px;
+        }
+        input {
+            margin-top: 10px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        img {
+            max-width: 300px;
+            display: block;
+            margin-top: 20px;
+        }
+        .formula {
+            margin-top: 20px;
+            font-size: 18px;
+            background-color: transparent;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
 
-    .pixel-data {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .pixel {
-      text-align: center;
-    }
-    .color-box {
-      width: 50px;
-      height: 50px;
-      border: 1px solid #000;
-      margin-bottom: 5px;
-    }
-    .input-row {
-      margin: 10px 0;
-    }
-    input {
-      width: 80px;
-      padding: 5px;
-      font-size: 14px;
-      margin: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-    .feedback {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .formula {
-      font-size: 16px;
-      font-style: italic;
-      margin-bottom: 15px;
-    }
-    #scoreDisplay {
-      font-size: 18px;
-      margin-top: 20px;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
         body,html {
             margin: 0;
@@ -141,12 +125,6 @@
     box-sizing: border-box;
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
 }
-
-        .victory {
-            transform: scale(1.2) translateY(-30px);
-            box-shadow: 0 0 30px #FFD700;
-            z-index: 100;
-        }
 
         #stats {
             display: flex;
@@ -248,7 +226,6 @@
             word-wrap: break-word;
         }
 
-
         .character {
             width: 100px;
             margin-right: 20px;
@@ -281,6 +258,19 @@
             display: none;
         }
 
+        #colorContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+        }
+
+        #colorImage,
+        #selectedColorImage {
+            width: 300px;
+            height: 300px;
+            background-color: rgb(0, 0, 0);
+        }
 
         .modal-overlay-result {
             position: fixed;
@@ -330,28 +320,8 @@
                 transform: translateY(0);
             }
         }
-
-
-  
-        .btn-submit {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 25px;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            margin-top: 20px;
-        }
-
-        .btn-submit:hover {
-            background-color: #45a049;
-            box-shadow: 0 0 10px rgba(0, 255, 127, 0.7);
-        }
-
-        /* Overlay for the settings modal (background shade) */
-    .settings-modal-overlay {
+                /* Overlay for the settings modal (background shade) */
+        .settings-modal-overlay {
             position: fixed; /* Fix position to cover the entire screen */
             top: 0;
             left: 0;
@@ -410,6 +380,7 @@
         .settings-modal button:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
+
 
         #settingsIcon {
             position: fixed;
@@ -482,15 +453,16 @@
             align-items: center;
         }
 
+        
         .container {
         display: flex;
-        justify-content: center; 
-        align-items: center;      
+        justify-content: center;  
+        align-items: center;     
         height: 100vh;           
-      }
+        }
 
-           /* Settings Button Styling */
-           .settings-button {
+                /* Settings Button Styling */
+        .settings-button {
             font-size: 24px; /* Larger font size for the icon */
             width: 60px; /* Increased width */
             height: 60px; /* Increased height */
@@ -518,11 +490,13 @@
             outline: none;
             box-shadow: 0 0 0 3px #007bff; /* Add focus ring */
         }
-  </style>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
 <body>
-  <!-- Settings Button -->
+
+<!-- Settings Button -->
 <button id="settingsIcon" class="btn btn-light settings-button" onclick="openSettingsModal()" aria-label="Settings">
     <i class="bi bi-gear"></i>
 </button>
@@ -536,52 +510,71 @@
         <span class="close" onclick="closeSettingsModal()">✖️</span>
     </div>
 </div>
-     <!-- Intro Modal -->
-  <div id="introModal">
+
+<div id="introModal">
     <div class="modal-content">
-      <h2>Welcome to RGB Color Analysis Game!</h2>
-      <p>Welcome, players! Today, we're diving into the fascinating world of colors and how computers understand them. Colors in digital images are represented using the <strong>RGB color model</strong>—a system that combines three primary colors: <strong>Red</strong>, <strong>Green</strong>, and <strong>Blue</strong>. These three colors are the building blocks of all the images you see on your screen.</p>
-      <p>Now, why RGB? Well, the human eye is sensitive to red, green, and blue light. By combining different amounts of these colors, we can create any color we want. Think of it like mixing paint: by adjusting the amount of red, green, and blue, you can paint virtually any color!</p>
-      <p>Each of the three colors—Red (R), Green (G), and Blue (B)—can have a value between <strong>0</strong> and <strong>255</strong>. A value of <strong>0</strong> means that color is not present at all, while <strong>255</strong> means it's fully present. For example, if we have a color with values of (255, 0, 0), we get <strong>pure red</strong>. If the values are (0, 255, 0), we get <strong>pure green</strong>, and (0, 0, 255) gives us <strong>pure blue</strong>. When all three colors are at their maximum, (255, 255, 255), we get <strong>white</strong>, and when all three are at zero, (0, 0, 0), we get <strong>black</strong>.</p>
-      <p>In this game, you’ll analyze pixel colors and calculate the average RGB values of multiple pixels. Each pixel will have its own mix of red, green, and blue, and your task is to figure out the overall average color.</p>
-      <p>So, let's start exploring the colors around you and see how well you can identify their exact makeup!</p>
+      <h2>Welcome to Image Recognition: Thresholding and Filtering Game!</h2>
+      <p>Welcome, players! Today, we're diving into the world of <strong>thresholding and filtering</strong> in image recognition, essential techniques used in computer vision to process and analyze images.</p>
+      <p>In image recognition, one of the key steps is to process the image to highlight important features while minimizing irrelevant details. <strong>Thresholding</strong> is used to convert a grayscale image into a binary image, where specific pixel values are either turned on or off based on a set threshold.</p>
+      <p><strong>Filtering</strong>, on the other hand, involves applying specific filters to an image to enhance or suppress certain features, such as edges, textures, or patterns. Filters can help sharpen or smooth an image, making it easier to detect key elements for recognition.</p>
+      <p>In this game, you’ll work with thresholding and filtering techniques to process images and identify key features. Your task will be to apply different thresholding methods and filters to prepare images for analysis and recognition.</p>
+      <p>By the end of this game, you'll have a better understanding of how thresholding and filtering are applied in image recognition to extract meaningful information from images, which are fundamental techniques in computer vision!</p>
       <button onclick="startGame()">Start Game</button>
     </div>
-  </div>
+</div>
 
-  <div class="container">
-    <div id="gameContainer">
+<div class="container">
+ <div id="gameContainer">
       <div id="stats">
         <div>Player HP: <span id="playerHp">100</span></div>
         <div>Monster HP: <span id="monsterHp">100</span></div>
-        <div id="scoreDisplay">Score: 0</div>
         <div>Time :<span id="timeElapsed"> 0</span> seconds</div>
+        <div id="scoreDisplay">Score: 0</div>
       </div>
+
       <canvas id="gameScene" width="800" height="300"></canvas>
-      <h1>RGB Color Analysis</h1>
-      <p>Analyze the pixel colors and solve the task below:</p>
-      <div class="pixel-data" id="pixelData"></div>
-      <p id="taskText"></p>
-      <p class="formula" id="formula"></p>
-      <div class="input-row">
-        <label for="rInput">R:</label>
-        <input type="number" id="rInput" min="0" max="255" placeholder="0">
-        <label for="gInput">G:</label>
-        <input type="number" id="gInput" min="0" max="255" placeholder="0">
-        <label for="bInput">B:</label>
-        <input type="number" id="bInput" min="0" max="255" placeholder="0">
-      </div>
-      <button onclick="checkAnswer()">Submit Answer</button>
-      <div class="feedback" id="feedback"></div>
+    <h1>Filterting and Thresholding</h1>
+    <p>Use the softmax formula to calculate the confidence score for each target image.</p>
+
+    <!-- Display the Softmax Formula -->
+    <div class="formula">
+        <p><strong>Softmax Formula:</strong></p>
+        <p>
+            <code>
+                Confidence Score = <sup>e<sup>𝑧<sub>i</sub></sup></sup> / ∑<sub>j</sub> e<sup>𝑧<sub>j</sub></sup>
+            </code>
+        </p>
+        <p>Where:</p>
+        <ul>
+            <li><strong>𝑧<sub>i</sub></strong>: Logit (raw score) for the predicted class.</li>
+            <li><strong>∑<sub>j</sub> e<sup>𝑧<sub>j</sub></sup></strong>: Sum of exponentials of all logits for all classes.</li>
+        </ul>
     </div>
-    
-  </div>
-  <script>
-    let gameState = {
+
+    <div class="imagecontainer">
+        <h3>Target Image:</h3>
+        <!-- Placeholder for the target image -->
+        <img src="images/cat.jpg" alt="Target Image" id="target-image">
+        
+        <h3>Logits for this Image:</h3>
+        <div id="logits-container"></div>
+
+        <div id="inputs-container"></div>
+
+        <button onclick="checkAnswers()">Submit</button>
+        <div class="feedback" id="feedback"></div>
+    </div>
+</div>
+
+    <script>
+
+        let gameState = {
             playerHp: 100,
             monsterHp: 100,
             isAttacking: false,
             attackFrame: 0,
+            shuffling: false,
+            canClick: false,
             playerX: 100,
             playerY: 150,
             monsterX: 550,
@@ -590,156 +583,121 @@
             monsterHurt: false
 
         };
-        const gameScene = document.getElementById('gameScene');
-        const ctx = gameScene.getContext('2d');
-    // DOM Elements
-    const pixelDataElement = document.getElementById('pixelData');
-    const taskText = document.getElementById('taskText');
-    const formulaText = document.getElementById('formula');
-    const feedback = document.getElementById('feedback');
-    const rInput = document.getElementById('rInput');
-    const gInput = document.getElementById('gInput');
-    const bInput = document.getElementById('bInput');
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    const timeElapsedDisplay = document.getElementById('timeElapsed');
+        let timeElapsed = 0;
+        const timeSpan = document.getElementById("timeElapsed");
 
-    let pixelData;
-    let correctAnswer;
-    let startTime;
-    let score = 0;
-    let timerInterval;
-
-      // Function to start the game
-      function startGame() {
+        function startGame() {
       document.getElementById('introModal').style.display = 'none'; // Hide intro modal
       loadTask(); // Start the first task
     }
 
-    // Generate random pixel data
-    function generatePixelData(numPixels) {
-      const pixels = [];
-      for (let i = 0; i < numPixels; i++) {
-        pixels.push({
-          r: Math.floor(Math.random() * 256),
-          g: Math.floor(Math.random() * 256),
-          b: Math.floor(Math.random() * 256),
+        // Function to update the timer
+        function startTimer() {
+            setInterval(function() {
+                timeElapsed++;
+                timeSpan.textContent = timeElapsed;
+            }, 1000); // Update every second (1000 milliseconds)
+        }
+
+        // Start the timer
+        startTimer();
+
+        const gameScene = document.getElementById('gameScene');
+        const ctx = gameScene.getContext('2d');
+        // List of available categories
+        const categories = ["Cat", "Dog", "Bird", "Elephant", "Lion", "Tiger", "Horse", "Rabbit", "Fish"];
+
+        // Function to generate random logits
+        function generateRandomLogits() {
+            const min = -2; // Minimum logit value
+            const max = 3;  // Maximum logit value
+            return Math.random() * (max - min) + min;
+        }
+
+        // Function to select 3 random categories and generate logits
+        function getRandomCategoriesAndLogits() {
+            const selectedCategories = [];
+            const selectedLogits = {};
+
+            while (selectedCategories.length < 3) {
+                const randomIndex = Math.floor(Math.random() * categories.length);
+                const category = categories[randomIndex];
+                if (!selectedCategories.includes(category)) {
+                    selectedCategories.push(category);
+                    selectedLogits[category] = generateRandomLogits();
+                }
+            }
+
+            return { selectedCategories, selectedLogits };
+        }
+
+        // Get random categories and logits
+        const { selectedCategories, selectedLogits } = getRandomCategoriesAndLogits();
+
+        // Display the selected categories and logits
+        const logitsContainer = document.getElementById("logits-container");
+        selectedCategories.forEach(category => {
+            const logitText = document.createElement("p");
+            logitText.innerHTML = `<strong>${category}:</strong> Logit = <span id="${category}-logit">${selectedLogits[category].toFixed(2)}</span>`;
+            logitsContainer.appendChild(logitText);
         });
-      }
-      return pixels;
-    }
 
-    // Display pixel data as colors and values
-    function displayPixelData() {
-      pixelDataElement.innerHTML = '';
-      pixelData.forEach((pixel, index) => {
-        const pixelDiv = document.createElement('div');
-        pixelDiv.className = 'pixel';
+        // Create input fields dynamically for each category
+        const inputsContainer = document.getElementById("inputs-container");
+        selectedCategories.forEach(category => {
+            const inputLabel = document.createElement("label");
+            inputLabel.setAttribute("for", `${category}-score`);
+            inputLabel.innerHTML = `Confidence Score for ${category}:`;
+            inputsContainer.appendChild(inputLabel);
+            const input = document.createElement("input");
+            input.type = "number";
+            input.id = `${category}-score`;
+            input.placeholder = `Enter score for ${category}`;
+            inputsContainer.appendChild(input);
+            inputsContainer.appendChild(document.createElement("br"));
+        });
 
-        const colorBox = document.createElement('div');
-        colorBox.className = 'color-box';
-        colorBox.style.backgroundColor = `rgb(${pixel.r}, ${pixel.g}, ${pixel.b})`;
+        // Softmax formula implementation
+        function softmax(logits) {
+            const expLogits = Object.values(logits).map(logit => Math.exp(logit));
+            const sumExp = expLogits.reduce((acc, val) => acc + val, 0);
+            const scores = expLogits.map(expLogit => expLogit / sumExp);
+            return scores;
+        }
 
-        const pixelInfo = document.createElement('p');
-        pixelInfo.textContent = `(${pixel.r}, ${pixel.g}, ${pixel.b})`;
+        // Check if player's answers are correct
+        function checkAnswers() {
+            const playerScores = {};
+            selectedCategories.forEach(category => {
+                const score = parseFloat(document.getElementById(`${category}-score`).value);
+                playerScores[category] = score;
+            });
 
-        pixelDiv.appendChild(colorBox);
-        pixelDiv.appendChild(pixelInfo);
-        pixelDataElement.appendChild(pixelDiv);
-      });
-    }
+            // Calculate the correct confidence scores using softmax
+            const correctScores = softmax(selectedLogits);
 
-    // Calculate average RGB values
-    function calculateAverageRGB() {
-      let totalR = 0, totalG = 0, totalB = 0;
+            // Allow some tolerance for floating point comparison
+            const tolerance = 0.05;
 
-      pixelData.forEach(pixel => {
-        totalR += pixel.r;
-        totalG += pixel.g;
-        totalB += pixel.b;
-      });
+            // Check if answers are within tolerance
+            let correct = true;
+            selectedCategories.forEach((category, index) => {
+                if (Math.abs(playerScores[category] - correctScores[index]) >= tolerance) {
+                    correct = false;
+                }
+            });
 
-      return {
-        r: Math.round(totalR / pixelData.length),
-        g: Math.round(totalG / pixelData.length),
-        b: Math.round(totalB / pixelData.length),
-      };
-    }
-
-    // Update formula display
-    function updateFormula() {
-      const formula = `
-        Average R = ΣR / N, Average G = ΣG / N, Average B = ΣB / N
-        where N = ${pixelData.length}
-      `;
-      formulaText.textContent = formula;
-    }
-
-    // Load a new task
-    function loadTask() {
-      feedback.textContent = '';
-      rInput.value = '';
-      gInput.value = '';
-      bInput.value = '';
-
-      // Generate new pixel data
-      pixelData = generatePixelData(5);
-
-      // Display pixel data
-      displayPixelData();
-
-      // Set the task and calculate the answer
-      taskText.textContent = 'Task: Calculate the average RGB color.';
-      correctAnswer = calculateAverageRGB();
-
-      // Update formula display
-      updateFormula();
-
-      // Start timer
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000); // Update every second
-    }
-
-    // Update the running timer display
-    function updateTimer() {
-      const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(1); // in seconds
-      timeElapsedDisplay.textContent = timeElapsed;
-    }
-
-    // Check user's answer
-    function checkAnswer() {
-      const userAnswer = {
-        r: parseInt(rInput.value),
-        g: parseInt(gInput.value),
-        b: parseInt(bInput.value),
-      };
-
-      const tolerance = 5; // Allow small deviation
-      const isCorrect =
-        Math.abs(userAnswer.r - correctAnswer.r) <= tolerance &&
-        Math.abs(userAnswer.g - correctAnswer.g) <= tolerance &&
-        Math.abs(userAnswer.b - correctAnswer.b) <= tolerance;
-
-      // Stop the timer
-      clearInterval(timerInterval);
-
-      // Calculate time taken
-      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(1); // in seconds
-
-      if (isCorrect) {
-        feedback.textContent = `Correct! Well done. Time taken: ${timeTaken} seconds.`;
-        feedback.style.color = 'green';
-        score += 10; // Increase score for correct answer
-        scoreDisplay.textContent = `Score: ${score}`;
-        setTimeout(loadTask, 2000); // Load next task
-      } else {
-        feedback.textContent = `Incorrect. Correct Answer: R=${correctAnswer.r}, G=${correctAnswer.g}, B=${correctAnswer.b}. Time taken: ${timeTaken} seconds.`;
-        feedback.style.color = 'red';
-        setTimeout(loadTask, 2000); // Load next task
-      }
-    }
-
-    
-    function updateStats() {
+            // Display feedback
+            if (correct) {
+                document.getElementById("feedback").innerText = "Correct! Well done.";
+            } else {
+                const correctScoresText = selectedCategories.map((category, index) => {
+                    return `${category}: ${correctScores[index].toFixed(3)}`;
+                }).join(", ");
+                document.getElementById("feedback").innerText = `Incorrect. Correct Scores: ${correctScoresText}`;
+            }
+        }
+        function updateStats() {
             document.getElementById('level').textContent = gameState.level;
             document.getElementById('playerHp').textContent = gameState.playerHp;
             document.getElementById('monsterHp').textContent = gameState.monsterHp;
@@ -749,64 +707,66 @@
         playerImage.src = 'images/characters/player.png'; // Replace with the correct path
 
         const monsterImages = [
-            'images/characters/easy/monster1.png', // Replace with correct paths
-            'images/characters/easy/monster2.png',
-            'images/characters/easy/monster3.png'
+            'images/characters/medium/monster1.png', // Replace with correct paths
+            'images/characters/medium/monster2.png',
+            'images/characters/medium/monster3.png',
+            'images/characters/medium/monster4.png', // Replace with correct paths
+            'images/characters/medium/monster5.png',
         ];
 
         const backgroundImage = new Image();
-        backgroundImage.src = 'images/background.jpg';
+        backgroundImage.src = 'images/background2.png';
 
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        // Particle class to handle individual sand particles
-// Particle class to handle individual sand particles
-class Particle {
+        class RainParticle {
     constructor(x, y) {
         this.x = x; // Initial x position
         this.y = y; // Initial y position
-        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
-        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+        this.size = Math.random() * 1 + 1; // Smaller size for rain drops (1 to 2)
+        this.length = Math.random() * 10 + 10; // Length of rain drop (10 to 20)
+        this.speed = Math.random() * 5 + 4; // Speed of rain (4 to 9)
     }
 
     update() {
-        this.x -= this.speed; // Move particle to the left
-        // Reset particle position to the right when it moves off screen
-        if (this.x < 0) {
-            this.x = gameScene.width; // Reappear from the right
-            this.y = Math.random() * gameScene.height; // Random vertical position
+        this.y += this.speed; // Move particle downwards
+        // Reset particle position to the top when it moves off screen
+        if (this.y > gameScene.height) {
+            this.y = 0; // Reappear from the top
+            this.x = Math.random() * gameScene.width; // Random horizontal position
         }
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; // Light blue color with some transparency
+        ctx.lineWidth = 1; // Thin rain drop line
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y - this.length); // Draw a line to represent the rain drop
+        ctx.stroke();
     }
 }
 
-// Array to hold particles
-let particles = [];
+// Array to hold rain particles
+let rainParticles = [];
 
-// Function to initialize particles
-function initParticles() {
-    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+// Function to initialize rain particles
+function initRain() {
+    for (let i = 0; i < 100; i++) { // Create 100 rain particles initially
         let x = Math.random() * gameScene.width; // Random initial x position
         let y = Math.random() * gameScene.height; // Random initial y position
-        particles.push(new Particle(x, y));
+        rainParticles.push(new RainParticle(x, y));
     }
 }
 
-// Update and draw sand particles
-function drawParticles(ctx) {
-    particles.forEach(particle => {
+// Update and draw rain particles
+function drawRain(ctx) {
+    rainParticles.forEach(particle => {
         particle.update(); // Update position
         particle.draw(ctx); // Draw particle
     });
 }
-
 function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
@@ -816,7 +776,7 @@ function draw() {
     ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
     // Draw sand particles in the background
-    drawParticles(ctx);
+    drawRain(ctx);
 
     // Calculate breathing effect for the player and monster
     const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
@@ -841,16 +801,16 @@ function draw() {
     // Shadow for monster
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
     ctx.beginPath();
-    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.ellipse(gameState.monsterX + 80, gameState.monsterY + 160, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
     ctx.fill();
 
     // Draw monster with breathing effect
-    const monsterWidth = 70 * breathingScale;
-    const monsterHeight = 70 * breathingScale;
+    const monsterWidth = 150 * breathingScale;
+    const monsterHeight = 150 * breathingScale;
     ctx.drawImage(
         currentMonsterImage,
-        gameState.monsterX - (monsterWidth - 70) / 2,
-        gameState.monsterY - (monsterHeight - 70) / 2,
+        gameState.monsterX - (monsterWidth - 150) / 2,
+        gameState.monsterY - (monsterHeight - 150) / 2,
         monsterWidth,
         monsterHeight
     );
@@ -864,7 +824,7 @@ function draw() {
     // If the monster is hurt, overlay a red tint
     if (gameState.monsterHurt) {
         ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-        ctx.fillRect(gameState.monsterX, gameState.monsterY, 70, 70);
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 150, 150);
     }
 
     // Check for player or monster attack
@@ -915,7 +875,7 @@ function draw() {
             ctx.globalAlpha = gameState.damageText.opacity;
             ctx.fillStyle = '#FF0000';
             ctx.font = 'bold 24px Arial';
-            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y);
+            ctx.fillText(25, gameState.damageText.x, gameState.damageText.y);
             ctx.globalAlpha = 1;
         }
     }
@@ -924,9 +884,7 @@ function draw() {
 }
 
 // Initialize particles on game start
-initParticles();
-
-
+initRain();
 
         function animateAttack(attacker, damage) {
     const attackDuration = 30; // Number of frames for the attack animation
@@ -1030,36 +988,6 @@ initParticles();
 animate();
 }
 
-
-        // Call this function to trigger the attack
-        function triggerAttack() {
-            gameState.isAttacking = true;
-        }
-
-        function attackMonster(damage) {
-            gameState.isAttacking = true;
-            gameState.attackFrame = 0;
-            gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
-
-            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
-                gameState.isPlayerAttacking = true;
-                gameState.attackFrame = 0;
-                animateAttack('player');
-            }
-            updateStats();
-        }
-
-        function takeDamage() {
-            gameState.playerHp = Math.max(0, gameState.playerHp - 10);
-            updateStats();
-            if (gameState.playerHp <= 0) {
-                setTimeout(() => {
-                    showGameOverModal();
-                    resetGame();
-                }, 500);
-            }
-        }
-
         function monsterAttack() {
             if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
                 gameState.isMonsterAttacking = true;
@@ -1067,8 +995,8 @@ animate();
                 animateAttack('monster');
             }
         }
-
-        // Settings Functionality
+        
+// Settings Functionality
 function openSettingsModal() {
     const settingsModal = document.getElementById('settingsModal');
     settingsModal.style.display = 'flex'; // Show the settings modal
@@ -1094,10 +1022,8 @@ function resumeGame() {
 function quitGame() {
     window.location.href = "{{ url('play') }}"; // Redirect to the main menu
 }
-
-draw();
-    // Initialize game
-    loadTask();
-  </script>
+        // Start the game
+        draw();
+    </script>
 </body>
 </html>

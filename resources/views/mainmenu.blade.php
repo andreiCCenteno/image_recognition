@@ -244,7 +244,7 @@ body {
 <div class="game-background">
 <div class="menu-container">
 <h1 class="menu-title">MAIN MENU</h1>
-        <a href="{{ route('play') }}" class="menu-button" onclick="playSound()"><i class="fas fa-gamepad"></i> PLAY</a>
+        <a href="{{ route('storylinestage1') }}" class="menu-button" onclick="playSound()"><i class="fas fa-gamepad"></i> PLAY</a>
         <a href="{{ route('leaderboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-trophy"></i> LEADERBOARD</a>
         <a href="{{ route('settings') }}" class="menu-button" onclick="playSound()"><i class="fas fa-cog"></i> SETTINGS</a>
         <a href="{{ route('dashboard') }}" class="menu-button" onclick="playSound()"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a>

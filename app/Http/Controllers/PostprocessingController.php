@@ -20,4 +20,9 @@ class PostprocessingController extends Controller
     {
         return view('poststage3');
     }
+
+    public function postprocessingquiz()
+    {
+        return view('postprocessingquiz');
+    }
 }

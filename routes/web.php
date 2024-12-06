@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PreprocessingController;
 use App\Http\Controllers\PostprocessingController;
+use App\Http\Controllers\StorylineController;
 
 
 Route::get('/', function () {
@@ -23,11 +24,16 @@ Route::get('/', function () {
 Route::get('/stage1', [PreprocessingController::class, 'stage1'])->name('stage1');
 Route::get('/stage2', [PreprocessingController::class, 'stage2'])->name('stage2');
 Route::get('/stage3', [PreprocessingController::class, 'stage3'])->name('stage3');
+Route::get('/preprocessingquiz', [PreprocessingController::class, 'preprocessingquiz'])->name('preprocessingquiz');
 
 Route::get('/poststage1', [PostprocessingController::class, 'stage1'])->name('poststage1');
 Route::get('/poststage2', [PostprocessingController::class, 'stage2'])->name('poststage2');
 Route::get('/poststage3', [PostprocessingController::class, 'stage3'])->name('poststage3');
+Route::get('/postprocessingquiz', [PostprocessingController::class, 'postprocessingquiz'])->name('postprocessingquiz');
 
+Route::get('/storylinestage1', [StorylineController::class, 'storylinestage1'])->name('storylinestage1');
+Route::get('/storylinestage2', [StorylineController::class, 'storylinestage2'])->name('storylinestage2');
+Route::get('/storylinestage3', [StorylineController::class, 'storylinestage3'])->name('storylinestage3');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [LoginController::class, 'login'])->name('login');

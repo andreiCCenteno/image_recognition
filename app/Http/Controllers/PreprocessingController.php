@@ -20,4 +20,9 @@ class PreprocessingController extends Controller
     {
         return view('stage3');
     }
+
+    public function preprocessingquiz()
+    {
+        return view('preprocessingquiz');
+    }
 }

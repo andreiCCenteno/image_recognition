@@ -64,26 +64,50 @@ h1 {
 }
 
 /* Buttons */
-.difficulty-button, .modal-button {
-    width: 250px;
+.stage-button, .modal-button {
+    width: 400px;
     padding: 20px;
-    font-size: 1.5em;
-    color: #00ffcc;
-    background: transparent;
+    font-size: 1.3em;
+    color: #00fff0; /* Updated text color for better visibility */
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
     border: 2px solid #00ffcc;
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
-    text-shadow: 0 0 5px rgba(0, 255, 204, 0.7);
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 163, 0.3);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Stronger text shadow */
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 163, 0.1), /* Outer glow */
+        inset 0 0 10px rgba(0, 255, 204, 0.1); /* Inner glow */
+    margin: 15px 0; /* Adds spacing between buttons */
+    position: relative;
+    overflow: hidden;
 }
 
-.difficulty-button:hover, .modal-button:hover {
-    background: #00ffcc;
-    color: #000;
-    box-shadow: 0 0 20px #00ffcc;
-    transform: scale(1.05);
+.stage-button::before, .modal-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 300%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: all 0.6s ease;
+    transform: skewX(-45deg);
 }
+
+.stage-button:hover::before, .modal-button:hover::before {
+    left: 100%;
+}
+
+.stage-button:hover, .modal-button:hover {
+    background: linear-gradient(145deg, rgba(0, 255, 204, 0.3), rgba(0, 0, 0, 0.7));
+    color: #000;
+    box-shadow: 
+        0 0 30px #00ffcc, 
+        inset 0 0 15px #00ffcc;
+    transform: scale(1.1);
+}
+
 
 /* Back Button */
 .back-button {
@@ -305,35 +329,18 @@ footer {
             color: red;
         }
 
-        .difficulty-button {
-            width: 250px;
-            margin: 15px;
-            padding: 20px;
-            font-size: 1.5em;
-            color: #00ffcc;
-            background: linear-gradient(135deg, #1a1a1a 25%, #333 100%);
-            border: 2px solid #00ffcc;
-            border-radius: 10px;
-            cursor: pointer;
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.7);
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
 
-        .difficulty-button:disabled {
+        .stage-button:disabled {
             color: #888;
             border-color: #888;
             cursor: not-allowed;
         }
 
-        .difficulty-button i {
+        .stage-button i {
             font-size: 1.2em;
         }
 
-        .difficulty-button:hover:enabled {
+        .stage-button:hover:enabled {
             background: linear-gradient(135deg, #333 25%, #1a1a1a 100%);
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
             transform: scale(1.05);

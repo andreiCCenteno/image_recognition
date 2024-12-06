@@ -1,67 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RGB Color Space Analysis</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f8ff;
-      margin: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Prediction Analysis Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .pixel-data {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .pixel {
-      text-align: center;
-    }
-    .color-box {
-      width: 50px;
-      height: 50px;
-      border: 1px solid #000;
-      margin-bottom: 5px;
-    }
-    .input-row {
-      margin: 10px 0;
-    }
-    input {
-      width: 80px;
-      padding: 5px;
-      font-size: 14px;
-      margin: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #218838;
-    }
-    .feedback {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .formula {
-      font-size: 16px;
-      font-style: italic;
-      margin-bottom: 15px;
-    }
-    #scoreDisplay {
-      font-size: 18px;
-      margin-top: 20px;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        .game-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: transparent;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .level {
+            margin-bottom: 30px;
+        }
+
+        table {
+            margin: 20px 0;
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input {
+            padding: 5px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .bbox {
+            display: inline-block;
+            padding: 5px;
+            margin: 5px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+        }
+
+        .formula {
+            font-style: italic;
+            color: #333;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
         body,html {
             margin: 0;
@@ -141,12 +160,6 @@
     box-sizing: border-box;
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
 }
-
-        .victory {
-            transform: scale(1.2) translateY(-30px);
-            box-shadow: 0 0 30px #FFD700;
-            z-index: 100;
-        }
 
         #stats {
             display: flex;
@@ -248,7 +261,6 @@
             word-wrap: break-word;
         }
 
-
         .character {
             width: 100px;
             margin-right: 20px;
@@ -280,7 +292,6 @@
         #game-area {
             display: none;
         }
-
 
         .modal-overlay-result {
             position: fixed;
@@ -330,27 +341,7 @@
                 transform: translateY(0);
             }
         }
-
-
-  
-        .btn-submit {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 25px;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            margin-top: 20px;
-        }
-
-        .btn-submit:hover {
-            background-color: #45a049;
-            box-shadow: 0 0 10px rgba(0, 255, 127, 0.7);
-        }
-
-        /* Overlay for the settings modal (background shade) */
+    /* Overlay for the settings modal (background shade) */
     .settings-modal-overlay {
             position: fixed; /* Fix position to cover the entire screen */
             top: 0;
@@ -482,15 +473,8 @@
             align-items: center;
         }
 
-        .container {
-        display: flex;
-        justify-content: center; 
-        align-items: center;      
-        height: 100vh;           
-      }
-
-           /* Settings Button Styling */
-           .settings-button {
+            /* Settings Button Styling */
+            .settings-button {
             font-size: 24px; /* Larger font size for the icon */
             width: 60px; /* Increased width */
             height: 60px; /* Increased height */
@@ -518,11 +502,11 @@
             outline: none;
             box-shadow: 0 0 0 3px #007bff; /* Add focus ring */
         }
-  </style>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
 <body>
-  <!-- Settings Button -->
+<!-- Settings Button -->
 <button id="settingsIcon" class="btn btn-light settings-button" onclick="openSettingsModal()" aria-label="Settings">
     <i class="bi bi-gear"></i>
 </button>
@@ -536,52 +520,81 @@
         <span class="close" onclick="closeSettingsModal()">✖️</span>
     </div>
 </div>
-     <!-- Intro Modal -->
-  <div id="introModal">
+<div id="introModal">
     <div class="modal-content">
-      <h2>Welcome to RGB Color Analysis Game!</h2>
-      <p>Welcome, players! Today, we're diving into the fascinating world of colors and how computers understand them. Colors in digital images are represented using the <strong>RGB color model</strong>—a system that combines three primary colors: <strong>Red</strong>, <strong>Green</strong>, and <strong>Blue</strong>. These three colors are the building blocks of all the images you see on your screen.</p>
-      <p>Now, why RGB? Well, the human eye is sensitive to red, green, and blue light. By combining different amounts of these colors, we can create any color we want. Think of it like mixing paint: by adjusting the amount of red, green, and blue, you can paint virtually any color!</p>
-      <p>Each of the three colors—Red (R), Green (G), and Blue (B)—can have a value between <strong>0</strong> and <strong>255</strong>. A value of <strong>0</strong> means that color is not present at all, while <strong>255</strong> means it's fully present. For example, if we have a color with values of (255, 0, 0), we get <strong>pure red</strong>. If the values are (0, 255, 0), we get <strong>pure green</strong>, and (0, 0, 255) gives us <strong>pure blue</strong>. When all three colors are at their maximum, (255, 255, 255), we get <strong>white</strong>, and when all three are at zero, (0, 0, 0), we get <strong>black</strong>.</p>
-      <p>In this game, you’ll analyze pixel colors and calculate the average RGB values of multiple pixels. Each pixel will have its own mix of red, green, and blue, and your task is to figure out the overall average color.</p>
-      <p>So, let's start exploring the colors around you and see how well you can identify their exact makeup!</p>
+      <h2>Welcome to Post-Prediction Analysis in Image Recognition!</h2>
+      <p>Welcome, players! Today, we’ll explore the concept of <strong>post-prediction analysis</strong> in image recognition, a critical step in evaluating and refining the performance of recognition models.</p>
+      <p>In image recognition, once a prediction is made, it’s important to assess how well the model performed. <strong>Post-prediction analysis</strong> involves evaluating the outcomes of the model’s predictions, understanding any errors, and refining the model's performance to improve accuracy.</p>
+      <p>This analysis can include reviewing false positives, false negatives, and the confidence levels of predictions, as well as adjusting the model based on this feedback. The goal is to identify patterns in prediction errors and optimize the model to be more accurate in future predictions.</p>
+      <p>In this game, you’ll perform post-prediction analysis on a set of image recognition results. Your task will be to assess the predictions, identify any mistakes, and understand how to refine the model's performance for better accuracy in recognizing objects, textures, and patterns.</p>
+      <p>By the end of this game, you’ll have a deeper understanding of how post-prediction analysis contributes to improving the effectiveness of image recognition systems, ensuring that they are more reliable and efficient in real-world applications.</p>
       <button onclick="startGame()">Start Game</button>
     </div>
-  </div>
+</div>
 
-  <div class="container">
-    <div id="gameContainer">
+    <div class="game-container">
       <div id="stats">
         <div>Player HP: <span id="playerHp">100</span></div>
         <div>Monster HP: <span id="monsterHp">100</span></div>
-        <div id="scoreDisplay">Score: 0</div>
         <div>Time :<span id="timeElapsed"> 0</span> seconds</div>
+        <div id="scoreDisplay">Score: 0</div>
       </div>
       <canvas id="gameScene" width="800" height="300"></canvas>
-      <h1>RGB Color Analysis</h1>
-      <p>Analyze the pixel colors and solve the task below:</p>
-      <div class="pixel-data" id="pixelData"></div>
-      <p id="taskText"></p>
-      <p class="formula" id="formula"></p>
-      <div class="input-row">
-        <label for="rInput">R:</label>
-        <input type="number" id="rInput" min="0" max="255" placeholder="0">
-        <label for="gInput">G:</label>
-        <input type="number" id="gInput" min="0" max="255" placeholder="0">
-        <label for="bInput">B:</label>
-        <input type="number" id="bInput" min="0" max="255" placeholder="0">
-      </div>
-      <button onclick="checkAnswer()">Submit Answer</button>
-      <div class="feedback" id="feedback"></div>
+        <h1>Post-Prediction Analysis</h1>
+
+        <!-- Level 1: Confusion Matrix Quiz -->
+        <div id="confusion-matrix-level" class="level">
+            <h2>Level 1: Calculate Precision, Recall, F1-Score</h2>
+            <p>Confusion Matrix:</p>
+            <table id="confusion-matrix">
+                <tr>
+                    <td>True Positives (TP): <span id="tp"></span></td>
+                    <td>False Positives (FP): <span id="fp"></span></td>
+                </tr>
+                <tr>
+                    <td>False Negatives (FN): <span id="fn"></span></td>
+                    <td>True Negatives (TN): <span id="tn"></span></td>
+                </tr>
+            </table>
+            <div>
+                <p><strong>Formulas:</strong></p>
+                <p class="formula">Precision = TP / (TP + FP)</p>
+                <p class="formula">Recall = TP / (TP + FN)</p>
+                <p class="formula">F1-Score = 2 * (Precision * Recall) / (Precision + Recall)</p>
+            </div>
+            <label for="precision">Precision:</label>
+            <input type="number" id="precision" placeholder="Enter Precision" />
+            <label for="recall">Recall:</label>
+            <input type="number" id="recall" placeholder="Enter Recall" />
+            <label for="f1score">F1-Score:</label>
+            <input type="number" id="f1score" placeholder="Enter F1-Score" />
+            <button onclick="checkConfusionMatrixAnswers()">Submit Answers</button>
+        </div>
+
+        <!-- Level 2: IoU Quiz -->
+        <div id="iou-level" class="level" style="display:none;">
+            <h2>Level 2: Calculate IoU (Intersection over Union)</h2>
+            <p>Bounding Box 1 (Ground Truth):</p>
+            <div id="bbox1" class="bbox"></div>
+            <p>Bounding Box 2 (Predicted):</p>
+            <div id="bbox2" class="bbox"></div>
+            <p>Calculate IoU (Intersection over Union):</p>
+            <input type="number" id="iou" placeholder="Enter IoU" />
+            <button onclick="checkIoUAnswer()">Submit IoU</button>
+        </div>
+
+        <div id="result" class="result"></div>
     </div>
-    
-  </div>
-  <script>
-    let gameState = {
+ </div>
+    <script>
+        let gameState = {
             playerHp: 100,
             monsterHp: 100,
             isAttacking: false,
             attackFrame: 0,
+            shuffling: false,
+            canClick: false,
+    
             playerX: 100,
             playerY: 150,
             monsterX: 550,
@@ -590,156 +603,102 @@
             monsterHurt: false
 
         };
-        const gameScene = document.getElementById('gameScene');
-        const ctx = gameScene.getContext('2d');
-    // DOM Elements
-    const pixelDataElement = document.getElementById('pixelData');
-    const taskText = document.getElementById('taskText');
-    const formulaText = document.getElementById('formula');
-    const feedback = document.getElementById('feedback');
-    const rInput = document.getElementById('rInput');
-    const gInput = document.getElementById('gInput');
-    const bInput = document.getElementById('bInput');
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    const timeElapsedDisplay = document.getElementById('timeElapsed');
+        let timeElapsed = 0;
+        const timeSpan = document.getElementById("timeElapsed");
 
-    let pixelData;
-    let correctAnswer;
-    let startTime;
-    let score = 0;
-    let timerInterval;
-
-      // Function to start the game
-      function startGame() {
+        function startGame() {
       document.getElementById('introModal').style.display = 'none'; // Hide intro modal
       loadTask(); // Start the first task
     }
 
-    // Generate random pixel data
-    function generatePixelData(numPixels) {
-      const pixels = [];
-      for (let i = 0; i < numPixels; i++) {
-        pixels.push({
-          r: Math.floor(Math.random() * 256),
-          g: Math.floor(Math.random() * 256),
-          b: Math.floor(Math.random() * 256),
-        });
-      }
-      return pixels;
-    }
+        // Function to update the timer
+        function startTimer() {
+            setInterval(function() {
+                timeElapsed++;
+                timeSpan.textContent = timeElapsed;
+            }, 1000); // Update every second (1000 milliseconds)
+        }
 
-    // Display pixel data as colors and values
-    function displayPixelData() {
-      pixelDataElement.innerHTML = '';
-      pixelData.forEach((pixel, index) => {
-        const pixelDiv = document.createElement('div');
-        pixelDiv.className = 'pixel';
+        const gameScene = document.getElementById('gameScene');
+        const ctx = gameScene.getContext('2d');
+        // Randomize confusion matrix values
+        function generateRandomValues() {
+            const tp = Math.floor(Math.random() * 100);
+            const fp = Math.floor(Math.random() * 50);
+            const fn = Math.floor(Math.random() * 30);
+            const tn = Math.floor(Math.random() * 80);
 
-        const colorBox = document.createElement('div');
-        colorBox.className = 'color-box';
-        colorBox.style.backgroundColor = `rgb(${pixel.r}, ${pixel.g}, ${pixel.b})`;
+            document.getElementById("tp").textContent = tp;
+            document.getElementById("fp").textContent = fp;
+            document.getElementById("fn").textContent = fn;
+            document.getElementById("tn").textContent = tn;
 
-        const pixelInfo = document.createElement('p');
-        pixelInfo.textContent = `(${pixel.r}, ${pixel.g}, ${pixel.b})`;
+            return { tp, fp, fn, tn };
+        }
 
-        pixelDiv.appendChild(colorBox);
-        pixelDiv.appendChild(pixelInfo);
-        pixelDataElement.appendChild(pixelDiv);
-      });
-    }
+        // Function to check confusion matrix answers (Precision, Recall, F1-Score)
+        function checkConfusionMatrixAnswers() {
+            const { tp, fp, fn } = generateRandomValues(); // Generate random values again
+            const tn = Math.floor(Math.random() * 80); // Random TN
 
-    // Calculate average RGB values
-    function calculateAverageRGB() {
-      let totalR = 0, totalG = 0, totalB = 0;
+            const precisionInput = parseFloat(document.getElementById("precision").value);
+            const recallInput = parseFloat(document.getElementById("recall").value);
+            const f1scoreInput = parseFloat(document.getElementById("f1score").value);
 
-      pixelData.forEach(pixel => {
-        totalR += pixel.r;
-        totalG += pixel.g;
-        totalB += pixel.b;
-      });
+            // Calculate the correct values
+            const correctPrecision = tp / (tp + fp);
+            const correctRecall = tp / (tp + fn);
+            const correctF1 = 2 * (correctPrecision * correctRecall) / (correctPrecision + correctRecall);
 
-      return {
-        r: Math.round(totalR / pixelData.length),
-        g: Math.round(totalG / pixelData.length),
-        b: Math.round(totalB / pixelData.length),
-      };
-    }
+            // Check answers
+            const precisionCorrect = Math.abs(precisionInput - correctPrecision) < 0.01;
+            const recallCorrect = Math.abs(recallInput - correctRecall) < 0.01;
+            const f1scoreCorrect = Math.abs(f1scoreInput - correctF1) < 0.01;
 
-    // Update formula display
-    function updateFormula() {
-      const formula = `
-        Average R = ΣR / N, Average G = ΣG / N, Average B = ΣB / N
-        where N = ${pixelData.length}
-      `;
-      formulaText.textContent = formula;
-    }
+            let resultMessage = "Results: ";
+            if (precisionCorrect && recallCorrect && f1scoreCorrect) {
+                resultMessage = "Correct! You've mastered the confusion matrix analysis.";
+                document.getElementById("iou-level").style.display = "block";
+                document.getElementById("confusion-matrix-level").style.display = "none";
+            } else {
+                resultMessage = "Incorrect, please try again. Precision, Recall, and F1-Score need to be calculated properly.";
+            }
 
-    // Load a new task
-    function loadTask() {
-      feedback.textContent = '';
-      rInput.value = '';
-      gInput.value = '';
-      bInput.value = '';
+            document.getElementById("result").innerHTML = resultMessage;
+        }
 
-      // Generate new pixel data
-      pixelData = generatePixelData(5);
+        // Function to calculate and check IoU
+        function checkIoUAnswer() {
+            const bbox1 = [0, 0, 100, 100]; // Ground truth box
+            const bbox2 = [50, 50, 150, 150]; // Predicted box
 
-      // Display pixel data
-      displayPixelData();
+            // Calculate the intersection area
+            const x1 = Math.max(bbox1[0], bbox2[0]);
+            const y1 = Math.max(bbox1[1], bbox2[1]);
+            const x2 = Math.min(bbox1[2], bbox2[2]);
+            const y2 = Math.min(bbox1[3], bbox2[3]);
 
-      // Set the task and calculate the answer
-      taskText.textContent = 'Task: Calculate the average RGB color.';
-      correctAnswer = calculateAverageRGB();
+            const intersectionArea = Math.max(0, x2 - x1) * Math.max(0, y2 - y1);
+            const bbox1Area = (bbox1[2] - bbox1[0]) * (bbox1[3] - bbox1[1]);
+            const bbox2Area = (bbox2[2] - bbox2[0]) * (bbox2[3] - bbox2[1]);
 
-      // Update formula display
-      updateFormula();
+            // Calculate IoU
+            const unionArea = bbox1Area + bbox2Area - intersectionArea;
+            const iou = intersectionArea / unionArea;
 
-      // Start timer
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000); // Update every second
-    }
+            const iouInput = parseFloat(document.getElementById("iou").value);
 
-    // Update the running timer display
-    function updateTimer() {
-      const timeElapsed = ((Date.now() - startTime) / 1000).toFixed(1); // in seconds
-      timeElapsedDisplay.textContent = timeElapsed;
-    }
+            // Check if IoU is correct
+            if (Math.abs(iouInput - iou) < 0.01) {
+                document.getElementById("result").innerHTML = "Correct! You've mastered the IoU calculation.";
+            } else {
+                document.getElementById("result").innerHTML = "Incorrect, please try again. IoU should be calculated as Intersection / Union.";
+            }
+        }
 
-    // Check user's answer
-    function checkAnswer() {
-      const userAnswer = {
-        r: parseInt(rInput.value),
-        g: parseInt(gInput.value),
-        b: parseInt(bInput.value),
-      };
-
-      const tolerance = 5; // Allow small deviation
-      const isCorrect =
-        Math.abs(userAnswer.r - correctAnswer.r) <= tolerance &&
-        Math.abs(userAnswer.g - correctAnswer.g) <= tolerance &&
-        Math.abs(userAnswer.b - correctAnswer.b) <= tolerance;
-
-      // Stop the timer
-      clearInterval(timerInterval);
-
-      // Calculate time taken
-      const timeTaken = ((Date.now() - startTime) / 1000).toFixed(1); // in seconds
-
-      if (isCorrect) {
-        feedback.textContent = `Correct! Well done. Time taken: ${timeTaken} seconds.`;
-        feedback.style.color = 'green';
-        score += 10; // Increase score for correct answer
-        scoreDisplay.textContent = `Score: ${score}`;
-        setTimeout(loadTask, 2000); // Load next task
-      } else {
-        feedback.textContent = `Incorrect. Correct Answer: R=${correctAnswer.r}, G=${correctAnswer.g}, B=${correctAnswer.b}. Time taken: ${timeTaken} seconds.`;
-        feedback.style.color = 'red';
-        setTimeout(loadTask, 2000); // Load next task
-      }
-    }
-
-    
-    function updateStats() {
+        // Initialize the game by generating random values
+        generateRandomValues();
+        function updateStats() {
             document.getElementById('level').textContent = gameState.level;
             document.getElementById('playerHp').textContent = gameState.playerHp;
             document.getElementById('monsterHp').textContent = gameState.monsterHp;
@@ -749,64 +708,66 @@
         playerImage.src = 'images/characters/player.png'; // Replace with the correct path
 
         const monsterImages = [
-            'images/characters/easy/monster1.png', // Replace with correct paths
-            'images/characters/easy/monster2.png',
-            'images/characters/easy/monster3.png'
+            'images/characters/medium/monster1.png', // Replace with correct paths
+            'images/characters/medium/monster2.png',
+            'images/characters/medium/monster3.png',
+            'images/characters/medium/monster4.png', // Replace with correct paths
+            'images/characters/medium/monster5.png',
         ];
 
         const backgroundImage = new Image();
-        backgroundImage.src = 'images/background.jpg';
+        backgroundImage.src = 'images/background2.png';
 
         let currentMonsterImage = new Image();
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
 
-        // Particle class to handle individual sand particles
-// Particle class to handle individual sand particles
-class Particle {
+        class RainParticle {
     constructor(x, y) {
         this.x = x; // Initial x position
         this.y = y; // Initial y position
-        this.size = Math.random() * 3 + 1; // Random small size for the particle (1 to 4)
-        this.speed = Math.random() * 4 + 2; // Increased speed of the particle (now 2 to 6)
+        this.size = Math.random() * 1 + 1; // Smaller size for rain drops (1 to 2)
+        this.length = Math.random() * 10 + 10; // Length of rain drop (10 to 20)
+        this.speed = Math.random() * 5 + 4; // Speed of rain (4 to 9)
     }
 
     update() {
-        this.x -= this.speed; // Move particle to the left
-        // Reset particle position to the right when it moves off screen
-        if (this.x < 0) {
-            this.x = gameScene.width; // Reappear from the right
-            this.y = Math.random() * gameScene.height; // Random vertical position
+        this.y += this.speed; // Move particle downwards
+        // Reset particle position to the top when it moves off screen
+        if (this.y > gameScene.height) {
+            this.y = 0; // Reappear from the top
+            this.x = Math.random() * gameScene.width; // Random horizontal position
         }
     }
 
     draw(ctx) {
-        ctx.fillStyle = 'rgba(222, 184, 135, 0.8)'; // Light sand color with some transparency
+        ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; // Light blue color with some transparency
+        ctx.lineWidth = 1; // Thin rain drop line
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y - this.length); // Draw a line to represent the rain drop
+        ctx.stroke();
     }
 }
 
-// Array to hold particles
-let particles = [];
+// Array to hold rain particles
+let rainParticles = [];
 
-// Function to initialize particles
-function initParticles() {
-    for (let i = 0; i < 100; i++) { // Create 100 particles initially
+// Function to initialize rain particles
+function initRain() {
+    for (let i = 0; i < 100; i++) { // Create 100 rain particles initially
         let x = Math.random() * gameScene.width; // Random initial x position
         let y = Math.random() * gameScene.height; // Random initial y position
-        particles.push(new Particle(x, y));
+        rainParticles.push(new RainParticle(x, y));
     }
 }
 
-// Update and draw sand particles
-function drawParticles(ctx) {
-    particles.forEach(particle => {
+// Update and draw rain particles
+function drawRain(ctx) {
+    rainParticles.forEach(particle => {
         particle.update(); // Update position
         particle.draw(ctx); // Draw particle
     });
 }
-
 function draw() {
     // Clear the game scene
     ctx.clearRect(0, 0, gameScene.width, gameScene.height);
@@ -816,7 +777,7 @@ function draw() {
     ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
     // Draw sand particles in the background
-    drawParticles(ctx);
+    drawRain(ctx);
 
     // Calculate breathing effect for the player and monster
     const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
@@ -841,16 +802,16 @@ function draw() {
     // Shadow for monster
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
     ctx.beginPath();
-    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.ellipse(gameState.monsterX + 80, gameState.monsterY + 160, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
     ctx.fill();
 
     // Draw monster with breathing effect
-    const monsterWidth = 70 * breathingScale;
-    const monsterHeight = 70 * breathingScale;
+    const monsterWidth = 150 * breathingScale;
+    const monsterHeight = 150 * breathingScale;
     ctx.drawImage(
         currentMonsterImage,
-        gameState.monsterX - (monsterWidth - 70) / 2,
-        gameState.monsterY - (monsterHeight - 70) / 2,
+        gameState.monsterX - (monsterWidth - 150) / 2,
+        gameState.monsterY - (monsterHeight - 150) / 2,
         monsterWidth,
         monsterHeight
     );
@@ -864,7 +825,7 @@ function draw() {
     // If the monster is hurt, overlay a red tint
     if (gameState.monsterHurt) {
         ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-        ctx.fillRect(gameState.monsterX, gameState.monsterY, 70, 70);
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 150, 150);
     }
 
     // Check for player or monster attack
@@ -915,7 +876,7 @@ function draw() {
             ctx.globalAlpha = gameState.damageText.opacity;
             ctx.fillStyle = '#FF0000';
             ctx.font = 'bold 24px Arial';
-            ctx.fillText(damage, gameState.damageText.x, gameState.damageText.y);
+            ctx.fillText(25, gameState.damageText.x, gameState.damageText.y);
             ctx.globalAlpha = 1;
         }
     }
@@ -924,9 +885,7 @@ function draw() {
 }
 
 // Initialize particles on game start
-initParticles();
-
-
+initRain();
 
         function animateAttack(attacker, damage) {
     const attackDuration = 30; // Number of frames for the attack animation
@@ -1030,36 +989,6 @@ initParticles();
 animate();
 }
 
-
-        // Call this function to trigger the attack
-        function triggerAttack() {
-            gameState.isAttacking = true;
-        }
-
-        function attackMonster(damage) {
-            gameState.isAttacking = true;
-            gameState.attackFrame = 0;
-            gameState.monsterHp = Math.max(0, gameState.monsterHp - damage);
-
-            if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
-                gameState.isPlayerAttacking = true;
-                gameState.attackFrame = 0;
-                animateAttack('player');
-            }
-            updateStats();
-        }
-
-        function takeDamage() {
-            gameState.playerHp = Math.max(0, gameState.playerHp - 10);
-            updateStats();
-            if (gameState.playerHp <= 0) {
-                setTimeout(() => {
-                    showGameOverModal();
-                    resetGame();
-                }, 500);
-            }
-        }
-
         function monsterAttack() {
             if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
                 gameState.isMonsterAttacking = true;
@@ -1067,8 +996,7 @@ animate();
                 animateAttack('monster');
             }
         }
-
-        // Settings Functionality
+// Settings Functionality
 function openSettingsModal() {
     const settingsModal = document.getElementById('settingsModal');
     settingsModal.style.display = 'flex'; // Show the settings modal
@@ -1095,9 +1023,8 @@ function quitGame() {
     window.location.href = "{{ url('play') }}"; // Redirect to the main menu
 }
 
-draw();
-    // Initialize game
-    loadTask();
-  </script>
+        // Start the game
+        draw();
+    </script>
 </body>
 </html>
