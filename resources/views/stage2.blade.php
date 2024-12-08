@@ -727,7 +727,7 @@
 
     <div id="celebration"></div>
 
-    
+
     </div>
 
     <div class="modal-overlay" id="level4CompleteModal">
@@ -781,7 +781,7 @@ function showGameOverModal() {
                 if(quizOn === false){
                     pauseTimer();
                 }
-                
+
             });
 
             // Close settings modal
@@ -876,12 +876,12 @@ function showGameOverModal() {
         }
 
         function pauseTimer() {
-            intenseFightMusic.pause(); 
+            intenseFightMusic.pause();
             isPaused = false; // Set the paused flag to true
         }
 
         function resumeTimer() {
-            intenseFightMusic.play(); 
+            intenseFightMusic.play();
             isPaused = true; // Set the paused flag to false
         }
 
@@ -911,7 +911,7 @@ function showGameOverModal() {
 
 
         function initializeGame() {
-            intenseFightMusic.play(); 
+            intenseFightMusic.play();
             // Hide all content first
             gameState.level = 4;
             level1Content.style.display = 'none';
@@ -932,7 +932,7 @@ function showGameOverModal() {
                 initializeLevel3();
             } else if (gameState.level === 4) {
                 level4Content.style.display = 'block';
-                initializeLevel4(); 
+                initializeLevel4();
             }
 
             currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
@@ -1147,7 +1147,7 @@ function showGameOverModal() {
         "Let’s see if I’ve mastered this. Come on, brain, don’t fail me now!",
         "Here we go... focus, analyze, and strike. Time to own this challenge!"
     ],
-    
+
 };
 
 let currentMonologueIndex = 0;
@@ -1236,41 +1236,41 @@ function showMonologuesInSequence(level, delay = 10000) {
                 const startButton = document.getElementById("start-level-btn");
                 const skipButton = document.getElementById("skip-monologue-btn");
 
-                
+
                 currentMonologueIndex = 0;
                 monologueElement.innerText = monologues[currentMonologueIndex];
                 document.getElementById("learning-modal").style.display = "block";
                 startButton.style.display = "none";
                 skipButton.style.display = "inline-block";
 
-                
+
                 setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
 
-                
+
                 monologueInterval = setInterval(() => {
                     currentMonologueIndex++;
                     if (currentMonologueIndex < monologues.length) {
                         monologueElement.innerText = monologues[currentMonologueIndex];
-                        speakText(monologues[currentMonologueIndex]); 
+                        speakText(monologues[currentMonologueIndex]);
                     } else {
-                        clearInterval(monologueInterval); 
-                        startButton.style.display = "block"; 
-                        skipButton.style.display = "none"; 
+                        clearInterval(monologueInterval);
+                        startButton.style.display = "block";
+                        skipButton.style.display = "none";
                     }
                 }, delay);
 
                 // Add a click event listener to the skip button
                 skipButton.onclick = function () {
 
-        window.speechSynthesis.cancel(); 
-        clearInterval(monologueInterval); 
+        window.speechSynthesis.cancel();
+        clearInterval(monologueInterval);
         document.getElementById("learning-modal").style.display = "none";
-        skipButton.style.display = "none"; 
-        resumeTimer(); 
+        skipButton.style.display = "none";
+        resumeTimer();
         startLevel(currentLevel);
-        gameState.monsterHp = 100; 
+        gameState.monsterHp = 100;
         startTimer();
-        updateStats(); 
+        updateStats();
         };
         }
 
