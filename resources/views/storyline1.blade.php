@@ -245,6 +245,9 @@
 
         #cnn-game {
             overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: transparent;
         }
 
         #cnn-game .input-field {
