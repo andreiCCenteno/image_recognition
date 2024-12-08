@@ -62,111 +62,173 @@
         }
       
         .pixel-data {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .pixel {
-      text-align: center;
-    }
-    .color-box {
-      width: 50px;
-      height: 50px;
-      border: 1px solid #000;
-      margin-bottom: 5px;
-    }
-    .input-row {
-      margin: 10px 0;
-    }
-    input {
-      width: 80px;
-      padding: 5px;
-      font-size: 14px;
-      margin: 5px;
-    }
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .pixel {
+          text-align: center;
+        }
+        .color-box {
+          width: 50px;
+          height: 50px;
+          border: 1px solid #000;
+          margin-bottom: 5px;
+        }
+        .input-row {
+          margin: 10px 0;
+        }
+        input {
+          width: 80px;
+          padding: 5px;
+          font-size: 14px;
+          margin: 5px;
+        }
 
-    .feedback {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .formula {
-      font-size: 16px;
-      font-style: italic;
-      margin-bottom: 15px;
-    }
+        .feedback {
+          margin-top: 20px;
+          font-size: 18px;
+        }
+        .formula {
+          font-size: 16px;
+          font-style: italic;
+          margin-bottom: 15px;
+        }
 
-    .color-container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: transparent;
-    }
+        .color-container {
+          max-width: 800px;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: transparent;
+        }
 
 
-    /* General overlay styling */
-.overlay {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-    z-index: 1000;
-    padding-top: 100px;
-}
+        /* General overlay styling */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            z-index: 1000;
+        }
 
-.overlay h2 {
-    font-size: 24px;
-    color: #fff;
-    text-align: center;
-}
+        .overlay h2 {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+        }
 
-.overlay .instruction {
-    font-size: 18px;
-    color: #fff;
-    margin: 15px;
-}
+        .overlay .instruction {
+            font-size: 18px;
+            color: #fff;
+            margin: 15px;
+        }
 
-.overlay .matrix {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+        .overlay .matrix {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-.pixel-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+        .pixel-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-.pixel-container .pixel {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ddd;
-}
+        .pixel-container .pixel {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+        }
 
-.pixel-container .pixel span {
-    display: block;
-    color: #fff;
-    text-align: center;
-    line-height: 40px;
-}
+        .pixel-container .pixel span {
+            display: block;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+        }
 
-.overlay ul {
-    font-size: 16px;
-    color: #fff;
-    margin-left: 20px;
-}
+        .overlay ul {
+            font-size: 16px;
+            color: #fff;
+            margin-left: 20px;
+        }
 
-/* Styling for the formula section */
-#formulaOverlay {
-    margin-top: 20px;
-}
+        /* Styling for the formula section */
+        #formulaOverlay {
+            margin-top: 20px;
+        }
 
+        .pixel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container-interactions {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #color-identification-phase,
+        #color-identification {
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #color-identification-phase .dialogue {
+            margin-top: 0;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .input-row .container-hex-color-input > input[type="number"] {
+            height: 30px;
+            border: 2px solid #ccc;
+            padding: 0 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-row .container-hex-color-input > input[type="number"]:hover, 
+        .input-row .container-hex-color-input > input[type="number"]:focus {
+            border-color: #00cc77;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        .input-row .container-hex-color-input > input[type="number"]:focus {
+            outline: none;
+        }
+
+        .btn {
+            background: #00ff99;
+            border: none;
+            padding: 10px 20px;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #00cc77;
+        }
     </style>
 </head>
 <body>
@@ -192,7 +254,7 @@
                 With this breakthrough, you've uncovered the secrets hidden within the artifact. Now, you must proceed to the next task: identifying the key color hidden within the artifact's design.
             </div>
 
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext">Proceed</button>
             </div>
         </div>
@@ -216,7 +278,7 @@
         <p>Study the image closely to understand its colors. Your task is to identify the key color hidden within the artifact’s design.</p>
     </div>
     
-    <div class="buttons">
+    <div class="buttons container-interactions">
         <button class="btn" id="proceedToColorIdentification">Proceed with Color Identification</button>
     </div>
 </div>
@@ -239,17 +301,25 @@
     <p id="taskText"></p>
     <p class="formula" id="formula"></p>
     <div class="input-row">
-        <label for="rInput">R:</label>
-        <input type="number" id="rInput" min="0" max="255" placeholder="0">
-        <label for="gInput">G:</label>
-        <input type="number" id="gInput" min="0" max="255" placeholder="0">
-        <label for="bInput">B:</label>
-        <input type="number" id="bInput" min="0" max="255" placeholder="0">
+        <div class="container-hex-color-input">
+          <label for="rInput">R:</label>
+          <input type="number" id="rInput" min="0" max="255" placeholder="0">
+        </div>
+        <div class="container-hex-color-input">
+          <label for="gInput">G:</label>
+          <input type="number" id="gInput" min="0" max="255" placeholder="0">
+        </div>
+        <div class="container-hex-color-input">
+          <label for="bInput">B:</label>
+          <input type="number" id="bInput" min="0" max="255" placeholder="0">
+        </div>
     </div>
-    <button onclick="checkAnswer()">Submit Answer</button>
+    <div class="container-interactions">
+      <button class="btn" onclick="checkAnswer()">Submit Answer</button>
+    </div>
     <div class="feedback" id="feedback"></div>
 
-    <div class="buttons">
+    <div class="buttons container-interactions">
         <button class="btn" id="nextRoundButton" style="display: none;">Next Round</button>
     </div>
 
@@ -418,18 +488,25 @@
 
         document.getElementById('startGame').addEventListener('click', function() {
             document.getElementById('story').style.display = 'none';
-            document.getElementById('color-identification-phase').style.display = 'block';
+            document.getElementById('color-identification-phase').style.display = 'flex';
+            document.getElementById('color-identification-phase').style.justifyContent = 'center';
+            document.getElementById('color-identification-phase').style.alignItems = 'center';
         });
 
         document.getElementById('proceedToNext').addEventListener('click', function() {
             document.getElementById('color-identification-phase').style.display = 'none';
-            document.getElementById('color-identification').style.display = 'block';
+            document.getElementById('color-identification').style.display = 'flex';
+            document.getElementById('color-identification').style.justifyContent = 'center';
+            document.getElementById('color-identification').style.alignItems = 'center';
         });
 
 // Function to show an overlay and hide it after a certain time (in milliseconds)
 function showOverlay(overlayId, delay) {
     const overlay = document.getElementById(overlayId);
-    overlay.style.display = 'block';  // Show overlay
+    overlay.style.display = 'flex';  // Show overlay
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.flexDirection = 'column';
 
     // Hide overlay after the specified delay
     setTimeout(() => {

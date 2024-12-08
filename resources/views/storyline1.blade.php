@@ -76,24 +76,18 @@
 
         .gender-selection {
             display: flex;
-            gap: 10px;
+            justify-content: space-evenly;
         }
 
-        /* Styling for the CNN feature extraction game section */
-        #cnn-game {
-            display: none;
-            padding: 20px;
-            background-color: transparent;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-            max-height: 100vh;
-            /* Set max height to 80% of the viewport height */
-            overflow-y: auto;
-            width: 100%;
-            text-align: center;
-            /* Enable vertical scrolling when content exceeds max height */
-        }
+          /* Styling for the CNN feature extraction game section */
+    #cnn-game {
+        display: none;
+        padding: 20px;
+        background-color: transparent;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+    }
 
         #cnn-game h1 {
             font-size: 30px;
@@ -181,23 +175,22 @@
             font-size: 18px;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            display: none;
-            /* Hidden by default */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-            z-index: 1000;
-        }
+    .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 1000;
+}
 
         .overlay h2 {
             font-size: 24px;
@@ -240,89 +233,6 @@
             background-color: rgba(0, 0, 0, 0.7);
         }
 
-        /* General styles for the name input section */
-        #name-input-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-        }
-
-        /* Styling for the dialogue text */
-        .dialogue {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #333;
-        }
-
-        /* Styling for the name input */
-        .name-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        #story {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-        }
-
-        #gender-selection-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-        }
-
-        .artifact {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 20px;
-        }
-
-        /* General Styles for Artifact Analysis Phase */
-        .phase {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-        }
     </style>
 </head>
 
@@ -343,14 +253,16 @@
         <!-- Name Input Section -->
         <div id="name-input-section" style="display: none;">
             <div class="dialogue">What is your name, archaeologist?</div>
-            <input type="text" id="playerName" class="name-input" placeholder="Enter your name">
-            <button class="btn" id="nextStep">Next</button>
+            <div class="container-interactions">
+                <input type="text" id="playerName" class="name-input" placeholder="Enter your name">
+                <button class="btn" id="nextStep">Next</button>
+            </div>
         </div>
 
         <!-- Gender Selection Section -->
         <div id="gender-selection-section" style="display: none;">
             <div class="dialogue">Choose your character:</div>
-            <div class="gender-selection">
+            <div class="gender-selection container-interactions">
                 <button class="btn" id="chooseMale">Male</button>
                 <button class="btn" id="chooseFemale">Female</button>
             </div>
@@ -368,7 +280,7 @@
                 You begin analyzing the artifact, knowing that what you uncover will be crucial to understanding its
                 power.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext">Proceed</button>
             </div>
         </div>
@@ -386,37 +298,33 @@
                 </ul>
                 These techniques will help you decipher the artifact’s true nature and unravel its secrets.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNextPhase">Proceed</button>
             </div>
         </div>
 
         <!-- Feature Extraction using CNN -->
-        <div class="phase" id="cnn-feature-extraction" style="display: none;">
-            <div class="dialogue">
-                Now, we move on to the most advanced step: Feature Extraction using Convolutional Neural Networks
-                (CNNs).
-                <br><br>
-                In this phase, you'll analyze the artifact’s image using CNNs, which help identify intricate features
-                that are not visible to the naked eye.
-                <br><br>
-                CNNs are great for detecting patterns like edges, textures, and more. As you apply the model, you will
-                extract features from the artifact that will help you understand its deeper secrets.
-            </div>
+<div id="cnn-feature-extraction" style="display: none;">
+    <div class="dialogue">
+        Now, we move on to the most advanced step: Feature Extraction using Convolutional Neural Networks (CNNs).
+        <br><br>
+        In this phase, you'll analyze the artifact’s image using CNNs, which help identify intricate features that are not visible to the naked eye.
+        <br><br>
+        CNNs are great for detecting patterns like edges, textures, and more. As you apply the model, you will extract features from the artifact that will help you understand its deeper secrets.
+    </div>
 
-            <!-- Display Target Image for Feature Extraction -->
-            <div class="target-image-container">
-                <h3>Target Image for Feature Extraction</h3>
-                <img src="images/target_image.jpg" alt="Target Image" id="targetImage" class="target-image">
-                <br><br>
-                <p>Study the image closely to understand its features. Your task is to extract and identify the key
-                    features of this image using a CNN.</p>
-            </div>
+    <!-- Display Target Image for Feature Extraction -->
+    <div class="target-image-container">
+        <h3>Target Image for Feature Extraction</h3>
+        <img src="images/target_image.jpg" alt="Target Image" id="targetImage" class="target-image">
+        <br><br>
+        <p>Study the image closely to understand its features. Your task is to extract and identify the key features of this image using a CNN.</p>
+    </div>
 
-            <div class="buttons">
-                <button class="btn" id="proceedToFeatureExtraction">Proceed with Feature Extraction</button>
-            </div>
-        </div>
+    <div class="buttons">
+        <button class="btn" id="proceedToFeatureExtraction">Proceed with Feature Extraction</button>
+    </div>
+</div>
 
         <!-- Feature Extraction using CNN -->
         <div id="cnn-feature-extraction-done" style="display: none;">
@@ -443,23 +351,23 @@
                 <div class="matrix" id="kernel"></div>
             </div>
 
-            <div class="computation-steps" id="computationSteps"></div>
-            <div class="input-field" style="display: inline-flex; align-items: center;">
-                <label for="manualResult" style="margin-right: 10px;">Enter Computed Value to Classify Feature:</label>
-                <input type="number" id="manualResult" placeholder="Result" style="margin-right: 10px;">
-                <button class="btn" onclick="classifyFeature()">Classify Feature</button>
-            </div>
+    <div class="computation-steps" id="computationSteps"></div>
+
+    <div class="input-field">
+        <label for="manualResult">Enter Computed Value to Classify Feature:</label>
+        <input type="number" id="manualResult" placeholder="Result">
+        <button onclick="classifyFeature()">Classify Feature</button>
+    </div>
 
             <div class="result" id="result"></div>
 
             <h2>Output Matrix</h2>
             <div class="matrix" id="outputMatrix"></div>
 
-            <div class="buttons">
-                <button class="btn" id="nextRoundButton" style="display: none;" onclick="nextRound()">Next
-                    Round</button>
-            </div>
-        </div>
+    <div class="buttons">
+        <button class="btn" id="nextRoundButton" style="display: none;" onclick="nextRound()">Next Round</button>
+    </div>
+</div>
 
 
         <div class="overlay" id="convolutionKernelOverlay">
@@ -677,6 +585,8 @@
         document.getElementById('enterName').addEventListener('click', () => {
             document.getElementById('story').style.display = 'none';
             document.getElementById('name-input-section').style.display = 'flex';
+            document.getElementById('name-input-section').style.justifyContent = 'center';
+            document.getElementById('name-input-section').style.alignItems = 'center';
         });
 
         // Handle Next Step Button
@@ -690,6 +600,8 @@
             alert(`Welcome, ${playerName}!`);
             document.getElementById('name-input-section').style.display = 'none';
             document.getElementById('gender-selection-section').style.display = 'flex';
+            document.getElementById('gender-selection-section').style.justifyContent = 'center';
+            document.getElementById('gender-selection-section').style.alignItems = 'center';
         });
 
         // Handle Gender Selection
@@ -707,6 +619,8 @@
         function proceedToArtifactAnalysisPhase() {
             document.getElementById('gender-selection-section').style.display = 'none';
             document.getElementById('artifact-analysis-phase').style.display = 'flex';
+            document.getElementById('artifact-analysis-phase').style.justifyContent = 'center';
+            document.getElementById('artifact-analysis-phase').style.alignItems = 'center';
             currentStage = 1;
         }
 
@@ -720,6 +634,8 @@
         function proceedToImageRecognitionIntro() {
             document.getElementById('artifact-analysis-phase').style.display = 'none';
             document.getElementById('image-recognition-intro').style.display = 'flex';
+            document.getElementById('image-recognition-intro').style.justifyContent = 'center';
+            document.getElementById('image-recognition-intro').style.alignItems = 'center';
             currentStage = 2;
         }
 
@@ -733,6 +649,8 @@
         function proceedToCNNFeatureExtraction() {
             document.getElementById('image-recognition-intro').style.display = 'none';
             document.getElementById('cnn-feature-extraction').style.display = 'flex';
+            document.getElementById('cnn-feature-extraction').style.justifyContent = 'center';
+            document.getElementById('cnn-feature-extraction').style.alignItems = 'center';
             currentStage = 3;
         }
 
@@ -744,13 +662,13 @@
             // Further progression logic to move to next game stages can be added here.
         });
 
-        // Function to show a specific overlay, highlight the container, and remove the overlay after a delay
-        function showOverlay(overlayId, removeAfter) {
-            const overlays = document.querySelectorAll('.overlay');
-            overlays.forEach(overlay => overlay.style.display = 'none'); // Hide all overlays
-            const overlay = document.getElementById(overlayId);
-            if (overlay) {
-                overlay.style.display = 'flex'; // Show the selected overlay
+// Function to show a specific overlay, highlight the container, and remove the overlay after a delay
+function showOverlay(overlayId, removeAfter) {
+    const overlays = document.querySelectorAll('.overlay');
+    overlays.forEach(overlay => overlay.style.display = 'none'); // Hide all overlays
+    const overlay = document.getElementById(overlayId);
+    if (overlay) {
+        overlay.style.display = 'flex'; // Show the selected overlay
 
                 // If it's the Output Matrix Overlay, highlight the container
                 if (overlayId === 'outputMatrixOverlay') {

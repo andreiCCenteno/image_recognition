@@ -69,12 +69,25 @@
         }
 
         #filtering-gameContainer {
-    display: flex; /* Default for visibility */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #Post-Process,
+        #post-analysis {
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .container-interactions {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +112,7 @@
                 Now, you must proceed to the next task: find the object.
             </div>
 
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext" onclick="proceedToNext()">Proceed</button>
             </div>
         </div>
@@ -112,7 +125,7 @@
                 <br><br>
             </div>
             
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToPost-Analysis" onclick="proceedToPostAnalysis()">Proceed to Object Detection</button>
             </div>
         </div>
@@ -124,18 +137,18 @@
         // Functions for progressing through the steps
         function startGame() {
             document.getElementById('story').style.display = 'none';
-            document.getElementById('Post-Process').style.display = 'block';
+            document.getElementById('Post-Process').style.display = 'flex';
         }
 
         function proceedToNext() {
             document.getElementById('Post-Process').style.display = 'none';
-            document.getElementById('post-analysis').style.display = 'block';
+            document.getElementById('post-analysis').style.display = 'flex';
         }
 
         function proceedToPostAnalysis() {
             window.location.href = "{{ route('stage4') }}"; // Restart the game
             document.getElementById('post-analysis').style.display = 'none';
-            document.getElementById('thresholding').style.display = 'block';
+            document.getElementById('thresholding').style.display = 'flex';
         }
 
         function proceedToThresholding() {
