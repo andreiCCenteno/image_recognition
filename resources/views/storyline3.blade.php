@@ -71,8 +71,8 @@
         #filtering-gameContainer {
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             padding: 20px;
+            margin-top: 30px;
             overflow-y: auto;
             border: 1px solid #ccc;
             border-radius: 8px;
