@@ -65,163 +65,225 @@
         }
         .gender-selection {
             display: flex;
-            gap: 10px;
+            justify-content: space-evenly;
         }
 
           /* Styling for the CNN feature extraction game section */
-    #cnn-game {
-        display: none;
-        padding: 20px;
-        background-color: transparent;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
-    }
+        #cnn-game {
+            display: none;
+            padding: 20px;
+            background-color: transparent;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
 
-    #cnn-game h1 {
-        font-size: 30px;
-        margin-bottom: 20px;
-    }
+        #cnn-game h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
 
-    /* Matrix display for artifact and kernel */
-    .matrix {
-        display: grid;
-        grid-template-columns: repeat(3, 50px);
-        grid-gap: 5px;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
+        /* Matrix display for artifact and kernel */
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-gap: 5px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
 
-    .matrix div {
-        width: 50px;
-        height: 50px;
-        background-color: #e3e3e3;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid #ccc;
-        font-size: 18px;
-    }
+        .matrix div {
+            width: 50px;
+            height: 50px;
+            background-color: #e3e3e3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
 
-    .matrix div.clear {
-        background-color: #fff;
-    }
+        .matrix div.clear {
+            background-color: #fff;
+        }
 
-    .matrix div.light {
-        background-color: #f3f3f3;
-    }
+        .matrix div.light {
+            background-color: #f3f3f3;
+        }
 
-    .matrix div.dark {
-        background-color: #d2d2d2;
-    }
+        .matrix div.dark {
+            background-color: #d2d2d2;
+        }
 
-    .matrix div.darker {
-        background-color: #a2a2a2;
-    }
+        .matrix div.darker {
+            background-color: #a2a2a2;
+        }
 
-    /* Computation steps section */
-    .computation-steps {
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 20px;
-    }
+        /* Computation steps section */
+        .computation-steps {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
 
-    /* Input field for classification */
-    .input-field {
-        margin-bottom: 20px;
-    }
+        /* Input field for classification */
+        .input-field {
+            margin-bottom: 20px;
+        }
 
-    #manualResult {
-        padding: 10px;
-        width: 100px;
-        font-size: 16px;
-        margin-right: 10px;
-    }
+        #manualResult {
+            padding: 10px;
+            width: 100px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
 
-    .result {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-    }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-    /* Output matrix */
-    .output-matrix {
-        display: grid;
-        grid-template-columns: repeat(3, 50px);
-        grid-gap: 5px;
-        justify-content: center;
-    }
+        /* Output matrix */
+        .output-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-gap: 5px;
+            justify-content: center;
+        }
 
-    .output-matrix div {
-        width: 50px;
-        height: 50px;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid #ccc;
-        font-size: 18px;
-    }
+        .output-matrix div {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
 
-    .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    z-index: 1000;
-}
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
 
-.overlay h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
+        .overlay h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
 
-.matrix {
-    display: grid;
-    grid-template-columns: repeat(3, 50px);
-    gap: 5px;
-    margin: 20px 0;
-}
+        .matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            gap: 5px;
+            margin: 20px 0;
+        }
 
-.matrix div {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #555;
-    border: 1px solid #fff;
-}
+        .matrix div {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #555;
+            border: 1px solid #fff;
+        }
 
-.instruction {
-    font-size: 16px;
-    max-width: 80%;
-    margin-top: 20px;
-    font-style: italic;
-}
+        .instruction {
+            font-size: 16px;
+            max-width: 80%;
+            margin-top: 20px;
+            font-style: italic;
+        }
 
-#convolutionKernelOverlay {
-    background-color: rgba(0, 0, 0, 0.7);
-}
+        #convolutionKernelOverlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
 
-#artifactMatrixOverlay {
-    background-color: rgba(0, 0, 0, 0.7);
-}
+        #artifactMatrixOverlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
 
-#outputMatrixOverlay {
-    background-color: rgba(0, 0, 0, 0.7);
-}
+        #outputMatrixOverlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
 
+        .container-interactions {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #name-input-section, 
+        #gender-selection-section {
+            flex-wrap: wrap;
+            line-height: 50px;
+        }
+
+        #artifact-analysis-phase,
+        #image-recognition-intro,
+        #cnn-feature-extraction {
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #cnn-game {
+            overflow-y: auto;
+        }
+
+        #cnn-game .input-field {
+            display: inline-flex;
+        }
+
+        #name-input-section .dialogue, 
+        #gender-selection-section .dialogue,
+        #artifact-analysis-phase .dialogue,
+        #image-recognition-intro .dialogue,
+        #cnn-feature-extraction .dialogue,
+        #cnn-game label {
+            margin-top: 0;
+            margin-right: 10px;
+        }
+
+        #name-input-section .name-input, 
+        .input-field #manualResult {
+            margin-bottom: 0;
+            height: 30px;
+            border: 2px solid #ccc;
+            padding: 0 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #name-input-section .name-input:hover, 
+        #name-input-section .name-input:focus,
+        .input-field #manualResult:hover,
+        .input-field #manualResult:focus {
+            border-color: #00cc77;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        #name-input-section .name-input:focus,
+        .input-field #manualResult:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -240,14 +302,16 @@
         <!-- Name Input Section -->
         <div id="name-input-section" style="display: none;">
             <div class="dialogue">What is your name, archaeologist?</div>
-            <input type="text" id="playerName" class="name-input" placeholder="Enter your name">
-            <button class="btn" id="nextStep">Next</button>
+            <div class="container-interactions">
+                <input type="text" id="playerName" class="name-input" placeholder="Enter your name">
+                <button class="btn" id="nextStep">Next</button>
+            </div>
         </div>
 
         <!-- Gender Selection Section -->
         <div id="gender-selection-section" style="display: none;">
             <div class="dialogue">Choose your character:</div>
-            <div class="gender-selection">
+            <div class="gender-selection container-interactions">
                 <button class="btn" id="chooseMale">Male</button>
                 <button class="btn" id="chooseFemale">Female</button>
             </div>
@@ -262,7 +326,7 @@
                 <br><br>
                 You begin analyzing the artifact, knowing that what you uncover will be crucial to understanding its power.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext">Proceed</button>
             </div>
         </div>
@@ -277,7 +341,7 @@
                 </ul>
                 These techniques will help you decipher the artifact’s true nature and unravel its secrets.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNextPhase">Proceed</button>
             </div>
         </div>
@@ -300,7 +364,7 @@
         <p>Study the image closely to understand its features. Your task is to extract and identify the key features of this image using a CNN.</p>
     </div>
     
-    <div class="buttons">
+    <div class="buttons container-interactions">
         <button class="btn" id="proceedToFeatureExtraction">Proceed with Feature Extraction</button>
     </div>
 </div>
@@ -334,8 +398,10 @@
 
     <div class="input-field">
         <label for="manualResult">Enter Computed Value to Classify Feature:</label>
-        <input type="number" id="manualResult" placeholder="Result">
-        <button onclick="classifyFeature()">Classify Feature</button>
+        <div class="container-interactions">
+            <input type="number" id="manualResult" placeholder="Result">
+            <button class="btn" onclick="classifyFeature()">Classify Feature</button>
+        </div>
     </div>
 
     <div class="result" id="result"></div>
@@ -343,7 +409,7 @@
     <h2>Output Matrix</h2>
     <div class="matrix" id="outputMatrix"></div>
 
-    <div class="buttons">
+    <div class="buttons container-interactions">
         <button class="btn" id="nextRoundButton" style="display: none;" onclick="nextRound()">Next Round</button>
     </div>
 </div>
@@ -544,6 +610,8 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
         document.getElementById('enterName').addEventListener('click', () => {
             document.getElementById('story').style.display = 'none';
             document.getElementById('name-input-section').style.display = 'flex';
+            document.getElementById('name-input-section').style.justifyContent = 'center';
+            document.getElementById('name-input-section').style.alignItems = 'center';
         });
 
         // Handle Next Step Button
@@ -557,6 +625,8 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
             alert(`Welcome, ${playerName}!`);
             document.getElementById('name-input-section').style.display = 'none';
             document.getElementById('gender-selection-section').style.display = 'flex';
+            document.getElementById('gender-selection-section').style.justifyContent = 'center';
+            document.getElementById('gender-selection-section').style.alignItems = 'center';
         });
 
         // Handle Gender Selection
@@ -574,6 +644,8 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
         function proceedToArtifactAnalysisPhase() {
             document.getElementById('gender-selection-section').style.display = 'none';
             document.getElementById('artifact-analysis-phase').style.display = 'flex';
+            document.getElementById('artifact-analysis-phase').style.justifyContent = 'center';
+            document.getElementById('artifact-analysis-phase').style.alignItems = 'center';
             currentStage = 1;
         }
 
@@ -587,6 +659,8 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
         function proceedToImageRecognitionIntro() {
             document.getElementById('artifact-analysis-phase').style.display = 'none';
             document.getElementById('image-recognition-intro').style.display = 'flex';
+            document.getElementById('image-recognition-intro').style.justifyContent = 'center';
+            document.getElementById('image-recognition-intro').style.alignItems = 'center';
             currentStage = 2;
         }
 
@@ -600,6 +674,8 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
         function proceedToCNNFeatureExtraction() {
             document.getElementById('image-recognition-intro').style.display = 'none';
             document.getElementById('cnn-feature-extraction').style.display = 'flex';
+            document.getElementById('cnn-feature-extraction').style.justifyContent = 'center';
+            document.getElementById('cnn-feature-extraction').style.alignItems = 'center';
             currentStage = 3;
         }
 
@@ -616,6 +692,8 @@ function showOverlay(overlayId, removeAfter) {
     const overlay = document.getElementById(overlayId);
     if (overlay) {
         overlay.style.display = 'flex'; // Show the selected overlay
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
 
         // If it's the Output Matrix Overlay, highlight the container
         if (overlayId === 'outputMatrixOverlay') {
