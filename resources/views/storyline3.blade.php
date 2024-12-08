@@ -69,12 +69,79 @@
         }
 
         #filtering-gameContainer {
-    display: flex; /* Default for visibility */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+            display: flex; /* Default for visibility */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container-interactions {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #Post-Process,
+        #post-analysis,
+        #thresholding {
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #filtering-gameContainer {
+            overflow-y: auto;
+        }
+
+        #inputs-container {
+            display: flex;
+            flex-direction: column;
+            line-height: 50px;
+            width: 100%;
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"] {
+            height: 30px;
+            border: 2px solid #ccc;
+            padding: 0 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"]:hover, 
+        #inputs-container .confidence-input-container > input[type="number"]:focus {
+            border-color: #00cc77;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"]:focus {
+            outline: none;
+        }
+
+        .btn {
+            background: #00ff99;
+            border: none;
+            padding: 10px 20px;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #00cc77;
+        }
+
+        .confidence-input-container {
+            display: inline-flex;
+            width: auto;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +166,7 @@
                 With this breakthrough, you've uncovered the secrets hidden within the artifact. Now, you must proceed to the next task: identifying the image that is blurred.
             </div>
 
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext" onclick="proceedToNext()">Proceed</button>
             </div>
         </div>
@@ -113,7 +180,7 @@
                 Analyzing the artifact will help uncover hidden patterns that can reveal deeper insights into its meaning.
             </div>
             
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToPost-Analysis" onclick="proceedToPostAnalysis()">Proceed with Post-Analysis</button>
             </div>
         </div>
@@ -126,7 +193,7 @@
                 <br><br>
                 Analyzing the artifact through this process will help uncover hidden patterns and enhance its clarity, providing deeper insights into its structure and meaning.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToThresholding" onclick="proceedToThresholding()">Proceed</button>
             </div>
         </div>
@@ -166,11 +233,14 @@
 
             <div id="inputs-container"></div>
 
-            <button onclick="checkAnswers()">Submit</button>
+            <div class="container-interactions" style="margin-top: 20px;">
+                <button class="btn" onclick="checkAnswers()">Submit</button>
+            </div>
             <div class="feedback" id="feedback"></div>
         </div>
-
-        <button class="btn" id="nextButton" onclick="proceedToNextStep()" style="display: none;">Next</button>
+        <div class="container-interactions" style="margin-top: 20px;">
+            <button class="btn" id="nextButton" onclick="proceedToNextStep()" style="display: none;">Next</button>
+        </div>
     </div>
 
     
@@ -218,16 +288,20 @@
         // Create input fields dynamically for each category
         const inputsContainer = document.getElementById("inputs-container");
         selectedCategories.forEach(category => {
+            const divContainer = document.createElement('div');
+            divContainer.className = 'confidence-input-container';
+
             const inputLabel = document.createElement("label");
             inputLabel.setAttribute("for", `${category}-score`);
             inputLabel.innerHTML = `Confidence Score for ${category}:`;
-            inputsContainer.appendChild(inputLabel);
+
             const input = document.createElement("input");
             input.type = "number";
             input.id = `${category}-score`;
             input.placeholder = `Enter score for ${category}`;
-            inputsContainer.appendChild(input);
-            inputsContainer.appendChild(document.createElement("br"));
+
+            divContainer.append(inputLabel, input);
+            inputsContainer.appendChild(divContainer);
         });
 
         // Softmax formula implementation
