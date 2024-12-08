@@ -69,12 +69,63 @@
         }
 
         #filtering-gameContainer {
-    display: flex; /* Default for visibility */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 30px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: transparent;
+        }
+
+        .container-interactions {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #Post-Process,
+        #post-analysis,
+        #thresholding {
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #inputs-container {
+            display: flex;
+            flex-direction: column;
+            line-height: 50px;
+            width: 100%;
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"] {
+            height: 30px;
+            border: 2px solid #ccc;
+            padding: 0 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"]:hover, 
+        #inputs-container .confidence-input-container > input[type="number"]:focus {
+            border-color: #00cc77;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        #inputs-container .confidence-input-container > input[type="number"]:focus {
+            outline: none;
+        }
+
+        .confidence-input-container {
+            display: inline-flex;
+            width: auto;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +150,7 @@
                 With this breakthrough, you've uncovered the secrets hidden within the artifact. Now, you must proceed to the next task: identifying the image that is blurred.
             </div>
 
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToNext" onclick="proceedToNext()">Proceed</button>
             </div>
         </div>
@@ -113,7 +164,7 @@
                 Analyzing the artifact will help uncover hidden patterns that can reveal deeper insights into its meaning.
             </div>
             
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToPost-Analysis" onclick="proceedToPostAnalysis()">Proceed with Post-Analysis</button>
             </div>
         </div>
@@ -126,7 +177,7 @@
                 <br><br>
                 Analyzing the artifact through this process will help uncover hidden patterns and enhance its clarity, providing deeper insights into its structure and meaning.
             </div>
-            <div class="buttons">
+            <div class="buttons container-interactions">
                 <button class="btn" id="proceedToThresholding" onclick="proceedToThresholding()">Proceed</button>
             </div>
         </div>
@@ -139,7 +190,7 @@
     </div>
 </div>
 
-        <div id="filtering-gameContainer" style="display: none;">
+    <div id="filtering-gameContainer" style="display: none;">
         <h1>Filtering and Thresholding</h1>
         <p>Use the softmax formula to calculate the confidence score for each target image.</p>
         
@@ -166,11 +217,14 @@
 
             <div id="inputs-container"></div>
 
-            <button onclick="checkAnswers()">Submit</button>
+            <div class="container-interactions" style="margin-top: 20px;">
+                <button class="btn" onclick="checkAnswers()">Submit</button>
+            </div>
             <div class="feedback" id="feedback"></div>
         </div>
-
-        <button class="btn" id="nextButton" onclick="proceedToNextStep()" style="display: none;">Next</button>
+        <div class="container-interactions" style="margin-top: 20px;">
+            <button class="btn" id="nextButton" onclick="proceedToNextStep()" style="display: none;">Next</button>
+        </div>
     </div>
 
     
@@ -218,16 +272,20 @@
         // Create input fields dynamically for each category
         const inputsContainer = document.getElementById("inputs-container");
         selectedCategories.forEach(category => {
+            const divContainer = document.createElement('div');
+            divContainer.className = 'confidence-input-container';
+
             const inputLabel = document.createElement("label");
             inputLabel.setAttribute("for", `${category}-score`);
             inputLabel.innerHTML = `Confidence Score for ${category}:`;
-            inputsContainer.appendChild(inputLabel);
+
             const input = document.createElement("input");
             input.type = "number";
             input.id = `${category}-score`;
             input.placeholder = `Enter score for ${category}`;
-            inputsContainer.appendChild(input);
-            inputsContainer.appendChild(document.createElement("br"));
+
+            divContainer.append(inputLabel, input);
+            inputsContainer.appendChild(divContainer);
         });
 
         // Softmax formula implementation
@@ -268,17 +326,17 @@
         // Functions for progressing through the steps
         function startGame() {
             document.getElementById('story').style.display = 'none';
-            document.getElementById('Post-Process').style.display = 'block';
+            document.getElementById('Post-Process').style.display = 'flex';
         }
 
         function proceedToNext() {
             document.getElementById('Post-Process').style.display = 'none';
-            document.getElementById('post-analysis').style.display = 'block';
+            document.getElementById('post-analysis').style.display = 'flex';
         }
 
         function proceedToPostAnalysis() {
             document.getElementById('post-analysis').style.display = 'none';
-            document.getElementById('thresholding').style.display = 'block';
+            document.getElementById('thresholding').style.display = 'flex';
         }
 
         function proceedToThresholding() {
