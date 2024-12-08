@@ -8,8 +8,8 @@
     background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 1200px;
     margin: 20px auto;
 }
 /* Styling for the dialogue text */
@@ -45,12 +45,17 @@
 /* Styling for the CNN feature extraction game section */
 #cnn-game {
     display: none;
-    padding: 20px;
-    background-color: transparent;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px;
+    margin-top: 30px;
     overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+.done {
+    color: #fff;
     text-align: center;
 }

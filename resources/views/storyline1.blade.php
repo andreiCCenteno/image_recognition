@@ -311,7 +311,7 @@
 
         <!-- Feature Extraction using CNN -->
         <div id="cnn-feature-extraction-done" style="display: none;">
-            <div class="dialogue" style="color: #fff; text-align:center;">
+            <div class="dialogue done">
                 Well done on extracting the features!
                 <br><br>
                 Now, lets try it to a game!

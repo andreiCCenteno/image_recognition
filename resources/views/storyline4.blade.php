@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Artifact Analyst</title>
+    <link rel="stylesheet" href="css/stage.css">
     <style>
         body {
             margin: 0;
@@ -20,14 +21,7 @@
             align-items: center;
             justify-content: center;
         }
-        .artifact {
-            width: 300px;
-            height: 300px;
-            background: #444;
-            border-radius: 50%;
-            position: relative;
-            animation: glow 2s infinite alternate;
-        }
+
         @keyframes glow {
             0% {
                 box-shadow: 0 0 10px #00ff99;
@@ -93,7 +87,7 @@
 <body>
     <div class="container">
         <!-- Dynamic Story Introduction -->
-        <div id="story">
+        <div class="phase" id="story">
             <div class="artifact"></div>
             <div class="dialogue" id="dialogue">
                 Good Work, final mission! Now its time to implement all of your learning in real-life.
@@ -103,7 +97,7 @@
             </div>
         </div>
 
-        <div id="Post-Process" style="display: none;">
+        <div class="phase" id="Post-Process" style="display: none;">
             <div class="dialogue">
                 As you prepare to find all the object?
                 <br><br>
@@ -117,19 +111,19 @@
             </div>
         </div>
 
-        <div id="post-analysis" style="display: none;">
+        <div class="phase" id="post-analysis" style="display: none;">
             <div class="dialogue">
                 Now, we move on to the last mission, Object Detection!
                 <br><br>
-                In this phase, all the learning you have learned you'll focus on identifying the object hidden within the world. 
+                In this phase, all the learning you have learned you'll focus on identifying the object hidden within the world.
                 <br><br>
             </div>
-            
+
             <div class="buttons container-interactions">
                 <button class="btn" id="proceedToPost-Analysis" onclick="proceedToPostAnalysis()">Proceed to Object Detection</button>
             </div>
         </div>
-        
+
     </div>
 
     <script>
@@ -173,11 +167,11 @@
     }
 
     function proceedToNextStep() {
-    
+
     document.getElementById('filtering-gameContainer').style.display = 'none'; // Hide the current section
     document.getElementById('well-done').style.display = 'block';
     }
-    
+
     </script>
 </body>
 </html>

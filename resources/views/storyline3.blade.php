@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Artifact Analyst</title>
+    <link rel="stylesheet" href="css/stage.css">
     <style>
         body {
             margin: 0;
@@ -20,14 +21,7 @@
             align-items: center;
             justify-content: center;
         }
-        .artifact {
-            width: 300px;
-            height: 300px;
-            background: #444;
-            border-radius: 50%;
-            position: relative;
-            animation: glow 2s infinite alternate;
-        }
+
         @keyframes glow {
             0% {
                 box-shadow: 0 0 10px #00ff99;
@@ -110,7 +104,7 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        #inputs-container .confidence-input-container > input[type="number"]:hover, 
+        #inputs-container .confidence-input-container > input[type="number"]:hover,
         #inputs-container .confidence-input-container > input[type="number"]:focus {
             border-color: #00cc77;
             box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
@@ -131,7 +125,7 @@
 <body>
     <div class="container">
         <!-- Dynamic Story Introduction -->
-        <div id="story">
+        <div class="phase" id="story">
             <div class="artifact"></div>
             <div class="dialogue" id="dialogue">
                 Good Work, on your second mission! Now lets move on to your final mission.
@@ -141,7 +135,7 @@
             </div>
         </div>
 
-        <div id="Post-Process" style="display: none;">
+        <div class="phase" id="Post-Process" style="display: none;">
             <div class="dialogue">
                 As you prepare to unlock the secrets of the artifact, you take a deep breath. Its surface holds ancient mysteries that could change history forever.
                 <br><br>
@@ -155,25 +149,25 @@
             </div>
         </div>
 
-        <div id="post-analysis" style="display: none;">
+        <div class="phase" id="post-analysis" style="display: none;">
             <div class="dialogue">
-                Now, we move on to the last important task: Post Analysis. 
+                Now, we move on to the last important task: Post Analysis.
                 <br><br>
-                In this phase, you'll focus on identifying the image hidden within the artifact’s imperfection/blurred. 
+                In this phase, you'll focus on identifying the image hidden within the artifact’s imperfection/blurred.
                 <br><br>
                 Analyzing the artifact will help uncover hidden patterns that can reveal deeper insights into its meaning.
             </div>
-            
+
             <div class="buttons container-interactions">
                 <button class="btn" id="proceedToPost-Analysis" onclick="proceedToPostAnalysis()">Proceed with Post-Analysis</button>
             </div>
         </div>
 
-        <div id="thresholding" style="display: none;">
+        <div class="phase" id="thresholding" style="display: none;">
             <div class="dialogue">
-                The first step is Thresholding and Filtering. 
+                The first step is Thresholding and Filtering.
                 <br><br>
-                In this phase, you'll focus on refining the artifact by separating significant features from the background using thresholding techniques. 
+                In this phase, you'll focus on refining the artifact by separating significant features from the background using thresholding techniques.
                 <br><br>
                 Analyzing the artifact through this process will help uncover hidden patterns and enhance its clarity, providing deeper insights into its structure and meaning.
             </div>
@@ -183,17 +177,17 @@
         </div>
 
         <div id="well-done" style="display: none;">
-    <div class="dialogue">
-        Excellent work! You've successfully completed all the tasks and unlocked the mysteries of the artifact. Your sharp analysis and problem-solving skills have led to an invaluable discovery. 
+    <div class="dialogue done">
+        Excellent work! You've successfully completed all the tasks and unlocked the mysteries of the artifact. Your sharp analysis and problem-solving skills have led to an invaluable discovery.
         <br><br>
         This achievement is a testament to your dedication and expertise. You are now ready to face even greater challenges ahead.
     </div>
 </div>
 
-    <div id="filtering-gameContainer" style="display: none;">
+    <div class="phase" id="filtering-gameContainer" style="display: none;">
         <h1>Filtering and Thresholding</h1>
         <p>Use the softmax formula to calculate the confidence score for each target image.</p>
-        
+
         <div class="formula">
             <p><strong>Softmax Formula:</strong></p>
             <p>
@@ -211,7 +205,7 @@
         <div class="image-container">
             <h3>Target Image:</h3>
             <img src="images/cat.jpg" alt="Target Image" id="target-image">
-            
+
             <h3>Logits for this Image:</h3>
             <div id="logits-container"></div>
 
@@ -227,7 +221,7 @@
         </div>
     </div>
 
-    
+
     </div>
 
     <script>
@@ -278,9 +272,11 @@
             const inputLabel = document.createElement("label");
             inputLabel.setAttribute("for", `${category}-score`);
             inputLabel.innerHTML = `Confidence Score for ${category}:`;
+            inputLabel.style = "margin-right: 10px;";
 
             const input = document.createElement("input");
             input.type = "number";
+            input.class = `input`;
             input.id = `${category}-score`;
             input.placeholder = `Enter score for ${category}`;
 
@@ -317,7 +313,7 @@
             const feedbackElement = document.getElementById("feedback");
             if (correct) {
                 feedbackElement.innerHTML = "Correct! You've calculated the probabilities correctly.";
-                nextButton.style.display = 'block'; 
+                nextButton.style.display = 'block';
             } else {
                 feedbackElement.innerHTML = "Incorrect. Please try again!";
             }
@@ -367,7 +363,7 @@
     document.getElementById('filtering-gameContainer').style.display = 'none'; // Hide the current section
     document.getElementById('well-done').style.display = 'block';
 }
-    
+
     </script>
 </body>
 </html>

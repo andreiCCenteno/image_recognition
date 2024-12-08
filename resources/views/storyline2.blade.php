@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Artifact Analyst</title>
+    <link rel="stylesheet" href="css/stage.css">
     <style>
         body {
             margin: 0;
@@ -23,14 +24,7 @@
             align-items: center;
             justify-content: center;
         }
-        .artifact {
-            width: 300px;
-            height: 300px;
-            background: #444;
-            border-radius: 50%;
-            position: relative;
-            animation: glow 2s infinite alternate;
-        }
+
         @keyframes glow {
             0% {
                 box-shadow: 0 0 10px #00ff99;
@@ -60,7 +54,7 @@
         .btn:hover {
             background: #00cc77;
         }
-      
+
         .pixel-data {
           display: flex;
           justify-content: center;
@@ -205,7 +199,7 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .input-row .container-hex-color-input > input[type="number"]:hover, 
+        .input-row .container-hex-color-input > input[type="number"]:hover,
         .input-row .container-hex-color-input > input[type="number"]:focus {
             border-color: #00cc77;
             box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
@@ -234,7 +228,7 @@
 <body>
     <div class="container">
         <!-- Dynamic Story Introduction -->
-        <div id="story">
+        <div class="phase" id="story">
             <div class="artifact"></div>
             <div class="dialogue" id="dialogue">
                 Good Work, on your first mission. Lest move one to the next one.
@@ -245,7 +239,7 @@
         </div>
 
         <!-- Color Identification Phase -->
-        <div id="color-identification-phase" style="display: none;">
+        <div class="phase" id="color-identification-phase" style="display: none;">
             <div class="dialogue">
                 As you prepare to unlock the secrets of the artifact, you take a deep breath. Its surface holds ancient mysteries that could change history forever.
                 <br><br>
@@ -261,11 +255,11 @@
 
 
        <!-- Color Identification Phase -->
-<div id="color-identification" style="display: none;">
+<div class="phase" id="color-identification" style="display: none;">
     <div class="dialogue">
-        Now, we move on to the next important task: Color Identification. 
+        Now, we move on to the next important task: Color Identification.
         <br><br>
-        In this phase, you'll focus on identifying the key color hidden within the artifact’s design. 
+        In this phase, you'll focus on identifying the key color hidden within the artifact’s design.
         <br><br>
         Analyzing the colors of the artifact will help uncover hidden patterns that can reveal deeper insights into its meaning.
     </div>
@@ -277,7 +271,7 @@
         <br><br>
         <p>Study the image closely to understand its colors. Your task is to identify the key color hidden within the artifact’s design.</p>
     </div>
-    
+
     <div class="buttons container-interactions">
         <button class="btn" id="proceedToColorIdentification">Proceed with Color Identification</button>
     </div>
@@ -285,8 +279,8 @@
 
  <!-- Hidden "Well Done" Message -->
  <div id="color-identification-done" style="display: none;">
-    <div class="dialogue">
-        Well done on finding the dominant color! 
+    <div class="dialogue done">
+        Well done on finding the dominant color!
         <br><br>
         Now, let's try it in a game!
         <br><br>
@@ -518,7 +512,7 @@ function showOverlay(overlayId, delay) {
 function startColorIdentificationProcess() {
     // Show Pixel Data Overlay and remove it after 4 seconds
     showOverlay('pixelDataOverlay', 4000);
-    
+
     // Show RGB Formula Overlay and remove it after 4 seconds
     setTimeout(() => {
         showOverlay('formulaOverlay', 4000);
