@@ -1867,174 +1867,87 @@ enableSkipLevelHotkey();
             createConfetti();
         }
 
-        function flipAllCards(faceDown = true) {
-            cards.forEach(card => {
-                if (faceDown) {
-                    card.element.classList.add('flipped');
-                } else {
-                    card.element.classList.remove('flipped');
-                }
-            });
-        }
+        function initializeLevel1() {
+    intenseFightMusic.play(); // Play the intense background music
+    level1Content.style.display = 'block';
+    message.textContent = "Trace the outline of the image!";
 
-        function shuffle() {
-            if (gameState.shuffling) return;
+    // Fetch and display a random image
+    fetchRandomImageForTracing();
 
-            gameState.shuffling = true;
-            gameState.canClick = false;
-            document.getElementById('message').textContent = "Watch the cards shuffle...";
+    const traceCanvas = document.getElementById('tracingCanvas');
+    const ctx = traceCanvas.getContext('2d');
+    const targetImage = document.getElementById('targetImage');
 
-            let shuffles = 0;
-            const maxShuffles = shuffleCount;
+    // Set up canvas size
+    traceCanvas.width = 400;
+    traceCanvas.height = 300;
 
-            const shuffleInterval = setInterval(() => {
-                const pos1 = Math.floor(Math.random() * cardNumber);
-                const pos2 = Math.floor(Math.random() * cardNumber);
+    // Enable tracing on the canvas
+    let tracing = false;
 
-                if (pos1 !== pos2) {
-                    // Update visual positions
-                    const left1 = cards[pos1].element.style.left;
-                    const left2 = cards[pos2].element.style.left;
+    traceCanvas.addEventListener('mousedown', startTracing);
+    traceCanvas.addEventListener('mousemove', trace);
+    traceCanvas.addEventListener('mouseup', stopTracing);
 
-                    cards[pos1].element.style.left = left2;
-                    cards[pos2].element.style.left = left1;
-
-                    // Swap cards in array
-                    [cards[pos1], cards[pos2]] = [cards[pos2], cards[pos1]];
-                }
-
-                shuffles++;
-                if (shuffles >= maxShuffles) {
-                    clearInterval(shuffleInterval);
-                    gameState.shuffling = false;
-                    gameState.canClick = true;
-                    document.getElementById('message').textContent = "Select the card with the correct Outline!";
-                }
-            }, shuffleTime);
-        }
-
-        function initializeLevel1(cardNumber) {
-            intenseFightMusic.play(); // Start playing the calm background music
-    cardsContainer.innerHTML = '';
-    cards = [];
-
-    // Ensure you have enough unique images to display
-    if (gameState.images.length < cardNumber) {
-        console.error('Not enough unique images available!');
-        return;
+    function startTracing(event) {
+        tracing = true;
+        ctx.beginPath();
+        ctx.moveTo(event.offsetX, event.offsetY);
     }
 
-    // Shuffle images and select unique ones
-    const shuffledImages = gameState.images.sort(() => 0.5 - Math.random()).slice(0, cardNumber);
+    function trace(event) {
+        if (!tracing) return;
+        ctx.lineTo(event.offsetX, event.offsetY);
+        ctx.strokeStyle = '#FF0000'; // Red for tracing
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
 
-    // Set the target image and outlines
-    const correctImageIndex = Math.floor(Math.random() * cardNumber);
-    const selectedImage = shuffledImages[correctImageIndex];
+    function stopTracing() {
+        tracing = false;
+    }
 
-    // Set the target image to the randomly selected one
-    targetImage.src = selectedImage.original;
+    // Add submission logic
+    document.getElementById('submitTrace').addEventListener('click', evaluateTrace);
 
-    level1Content.style.display = 'block';
+    function evaluateTrace() {
+        // Placeholder: Evaluate trace accuracy
+        const success = Math.random() > 0.5; // Simulate success/failure for now
 
-    // Create an array of outlines for this image
-    const outlines = [...selectedImage.outlines]; // Copy the outlines array
-
-    // Randomize the correct position for the correct outline
-    const correctPosition = Math.floor(Math.random() * cardNumber);
-
-    // Create the cards
-    for (let i = 0; i < cardNumber; i++) {
-        let outlineSrc;
-
-        if (i === correctPosition) {
-            // Assign the correct outline for the correct card
-            outlineSrc = outlines[0]; // First outline is always the correct one
+        if (success) {
+            message.textContent = "Great job! You traced the outline well!";
+            updateScore(10); // Award points
+            setTimeout(nextRound, 2000);
+            attackMonster(25);
         } else {
-            // Shuffle the outlines to select an incorrect one
-            // We should pick a random incorrect outline that isn't the correct one
-            let incorrectOutlineIndex;
-            do {
-                incorrectOutlineIndex = Math.floor(Math.random() * outlines.length);
-            } while (incorrectOutlineIndex === 0); // Ensure it isn't the correct outline
-
-            outlineSrc = outlines[incorrectOutlineIndex]; // Pick incorrect outline
+            message.textContent = "Try again! Your trace needs improvement.";
+            monsterAttack();
         }
+    }
 
-        const cardData = createCard(i, i === correctPosition, outlineSrc);
-        cards.push(cardData);
-
-        cardData.element.addEventListener('click', function () {
-            handleCardClick(cardData);
-        });
-        cardsContainer.appendChild(cardData.element);
+    function fetchRandomImageForTracing() {
+        fetch(`https://picsum.photos/400/300?random=${Date.now()}`)
+            .then(response => response.url)
+            .then(url => {
+                targetImage.src = url;
+                targetImage.onload = () => {
+                    // Draw the image on the canvas
+                    ctx.drawImage(targetImage, 0, 0, traceCanvas.width, traceCanvas.height);
+                };
+            })
+            .catch(error => {
+                message.textContent = "Failed to load image. Try again!";
+                console.error(error);
+            });
     }
 }
 
-
-        function handleCardClick(cardData) {
-            if (!gameState.canClick || gameState.shuffling) return;
-
-            gameState.canClick = false;
-            flipAllCards(false);
-
-            if (cardData.isCorrect) {
-                correctAnswer.play();
-                document.getElementById('message').textContent = "Correct! You found the Outline";
-                cardData.element.classList.add('victory');
-
-                // Update score for correct answer
-
-                updateScore(10); // Award 10 points for correct guess
-
-                setTimeout(() => {
-                    if (cardNumber === 3) {
-                        startX = (1150 - totalWidth) / 2;
-                        attackMonster(damage);
-                        cardNumber += 3;
-                        shuffleCount += 5;
-                        shuffleTime -= 300;
-                    }
-                    else if (cardNumber === 6) {
-                        startX = (590 - totalWidth) / 2;
-                        attackMonster(damage);
-                        cardNumber += 3;
-                        shuffleCount += 5;
-                        shuffleTime -= 150;
-                    } else if (cardNumber === 9) {
-                        attackMonster(damage + 25);
-                    }
-                }, 500);
-
-                setTimeout(() => {
-                    cardData.element.classList.remove('victory');
-                    if (gameState.monsterHp > 0 && gameState.playerHp > 0) {
-                        nextRound();
-                    }
-                }, 2500);
-            } else {
-                wrongAnswer.play();
-                document.getElementById('message').textContent = "Wrong card! Try again!";
-                cardData.element.classList.add('wrong');
-
-                const correctCard = cards.find(card => card.isCorrect);
-                setTimeout(() => {
-                    correctCard.element.classList.add('correct-reveal');
-                }, 500);
-
-                setTimeout(() => {
-                    monsterAttack();
-                    takeDamage();
-                }, 1000);
-
-                setTimeout(() => {
-                    cardData.element.classList.remove('wrong');
-                    correctCard.element.classList.remove('correct-reveal');
-                    flipAllCards(true);
-                    shuffle();
-                    gameState.canClick = true;
-                }, 3000);
-            }
+        function nextRound() {
+            initializeGame();
         }
+
+
         let attackCount = 0;
         function switchToLevel2() {
     // Ensure that the timer and level 1 state are cleared
@@ -2288,15 +2201,6 @@ function handleGuess(selectedOption, correctAnswerText) {
             featureElement.addEventListener('dragend', handleDragEnd);
 
             return featureElement;
-        }
-
-
-        function nextRound() {
-            initializeGame();
-            setTimeout(() => {
-                flipAllCards(true);
-                setTimeout(shuffle, 1000);
-            }, 1000);
         }
 
         function updateLevel3Progress() {
@@ -3323,8 +3227,7 @@ document.getElementById("start-level-btn").onclick = function () {
     } else if (currentLevel === 2) {
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
         draw();
-        isStartLevel = true;
-        switchToLevel2();
+        initializeLevel3();
     }
 };
 
