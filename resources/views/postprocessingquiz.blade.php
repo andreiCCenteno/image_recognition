@@ -467,8 +467,8 @@
 }
 
 .feature-item img {
-    width: 50px; 
-    height: 50px; 
+    width: 50px;
+    height: 50px;
 }
 
 .feature-item.dragging {
@@ -1059,6 +1059,12 @@
             justify-content: center;
             align-items: center;
         }
+
+
+        #gameCanvas {
+            width: 100%;
+            height: auto;
+        }
   </style>
 </head>
 <body>
@@ -1399,10 +1405,10 @@ ctx.fillStyle = "#333";
 for (let i = 0; i < 6; i++) {
     ctx.beginPath();
     ctx.arc(
-        10 * scaleFactor * Math.cos(i * Math.PI / 3), 
-        10 * scaleFactor * Math.sin(i * Math.PI / 3), 
-        3 * scaleFactor, 
-        0, 
+        10 * scaleFactor * Math.cos(i * Math.PI / 3),
+        10 * scaleFactor * Math.sin(i * Math.PI / 3),
+        3 * scaleFactor,
+        0,
         Math.PI * 2
     );
     ctx.fill();
@@ -1436,7 +1442,7 @@ if (!isReloading) {
     isReloading = true;
 
     // Gunfire effect
-    
+
 
     // Start reloading animation with recoil effect
     setTimeout(() => {
@@ -1766,10 +1772,10 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
             crosshairY = event.clientY - rect.top;
             drawGame();
         });
-        
+
         // Click event to handle answer selection
         canvas.addEventListener('click', function () {
-           
+
         shootSound.play();
             const targetSize = 80; // Size of the target shape
 
@@ -1789,7 +1795,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
                 hit = true;
                     if (i === questions[currentQuestion].correct) {
             score++; // Increase score for correct answer
-            
+
         }
         hitAnimationActive = true;
         hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
@@ -1803,7 +1809,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         drawGame();
     } else {
         quizSound.pause();
-        
+
         // Calculate the score percentage
         const percentageScore = (score / totalQuestions) * 100;
 
@@ -1813,7 +1819,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
         console.log('User ID:', userId);
 
         // Fetch previous performance from backend to ensure accuracy
-        
+
 
                 // Check if the user passed or failed
                 if (percentageScore >= 80) {
@@ -1825,7 +1831,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
                         gameActive = true; // Reactivate the game
                         window.location.href = "{{ route('storylinestage1') }}"; // Restart the game
                     }, 3000);
-                    
+
                     // Update the game state with the new total score
                     gameState.totalScore = updatedTotalScore;
                     showModal(updatedTotalScore);
@@ -1849,7 +1855,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
             drawGame();
             setInterval(drawGame, 100);
             document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
-        
+
   </script>
 </body>
 </html>

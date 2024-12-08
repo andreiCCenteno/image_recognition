@@ -21,7 +21,7 @@ body, html {
     font-family: 'Roboto Mono', monospace;
     color: #00ffcc;
     text-align: center;
-    background: url('https://www.transparenttextures.com/patterns/circuits.png'), 
+    background: url('https://www.transparenttextures.com/patterns/circuits.png'),
                 linear-gradient(135deg, #0d1b2a 25%, #1b263b 100%);
     background-size: cover;
     display: flex;
