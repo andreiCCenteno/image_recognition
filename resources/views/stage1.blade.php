@@ -336,7 +336,7 @@
             #level3Content {
         display: none;
         max-width: 100%; /* Matches most of the width of #gameScene */
-        width: 800px; 
+        width: 800px;
         height: auto; /* Increased height to occupy more vertical space */
         margin: 0 auto;
         padding: 20px; /* Adequate padding for readability */
@@ -1284,7 +1284,7 @@
             <button onclick="playAgain()">Play Again</button>
         </div>
         </div>
-        
+
 
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -1659,7 +1659,7 @@
                 const modal = document.getElementById('level5CompleteModal');
                 modal.style.display = 'none';
                 // gameState.level = 5;
-                // showLearningMaterial(5); 
+                // showLearningMaterial(5);
                 updateStats();
                 initializeGame();
             }
@@ -1745,8 +1745,8 @@
         });
     }
     function skipLevel() {
-        window.speechSynthesis.cancel(); 
-    clearInterval(monologueInterval); 
+        window.speechSynthesis.cancel();
+    clearInterval(monologueInterval);
         if (gameState.level === 1) { // Assuming level 5 is the maximum level
             clearInterval(monologueInterval); // Stop any remaining intervals
         document.getElementById("learning-modal").style.display = "none"; // Hide modal
@@ -1758,7 +1758,7 @@
         updateStats(); // Update game stats
 
         // Play background music
-        
+
 
         // If the level starts, play the background music
         if (currentLevel === 1) {
@@ -1768,7 +1768,7 @@
                 setTimeout(shuffle, 1000); // Shuffle after a delay
             }, 1000);
             showLevel1CompleteModal();
-            updateScore(10); 
+            updateScore(10);
         }
             console.log(`Skipped to level ${gameState.level}`);
         }else if(gameState.level === 2){
@@ -1787,10 +1787,10 @@
             initializeLevel3();
             gameState.level++;
             showLevel2CompleteModal();
-            updateScore(10); 
+            updateScore(10);
             const modal = document.getElementById('levelCompleteModal');
                 modal.style.display = 'none';
-            
+
         }
         }else if(gameState.level === 3){
             const modal = document.getElementById('level2CompleteModal');
@@ -1992,7 +1992,7 @@
         level1Content.style.display = 'none'; // Hide Level 1 content
         level2Content.style.display = 'block'; // Show Level 2 content
         guessContainer.style.display = 'flex'; // Display guess container for level 2
-        
+
         // Randomly select an image from the level2Images array
         const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
         const selectedImage = gameState.level2Images[randomImageIndex];
@@ -2051,7 +2051,7 @@
 
         // Combine the correct answer with the incorrect answers
         const options = [correctAnswer, ...randomIncorrectAnswers];
-        
+
         // Shuffle options array to randomize button placement
         const shuffledOptions = options.sort(() => Math.random() - 0.5);
 
@@ -2060,7 +2060,7 @@
             const optionButton = document.createElement('button');
             optionButton.className = 'choice-button';
             optionButton.textContent = optionText;
-            
+
             // Event listener for handling guesses
             optionButton.addEventListener('click', () => handleGuess(optionText, correctAnswer));
 
@@ -2327,7 +2327,7 @@
             document.getElementById('message').textContent = "Correct match!";
             correctAnswer.play();
             updateLevel3Progress();
-            
+
             // Update score for a correct match
             updateScore(15); // Example: 15 points for a correct match
 
@@ -2587,7 +2587,7 @@
                         showLevel5CompleteModal(); // Trigger the completion modal for Level 5
                         gameState.level++; // Move to the next level
                     } else {
-                        
+
                         monsterAttack();
                         takeDamage();
                     }
@@ -2710,16 +2710,16 @@
         ctx.beginPath();
         ctx.arc(0, 0, 15 * scaleFactor, 0, Math.PI * 2);
         ctx.fill();
-        
+
         // Add cylinder chambers (holes for bullets)
         ctx.fillStyle = "#333";
         for (let i = 0; i < 6; i++) {
             ctx.beginPath();
             ctx.arc(
-                10 * scaleFactor * Math.cos(i * Math.PI / 3), 
-                10 * scaleFactor * Math.sin(i * Math.PI / 3), 
-                3 * scaleFactor, 
-                0, 
+                10 * scaleFactor * Math.cos(i * Math.PI / 3),
+                10 * scaleFactor * Math.sin(i * Math.PI / 3),
+                3 * scaleFactor,
+                0,
                 Math.PI * 2
             );
             ctx.fill();
@@ -2753,7 +2753,7 @@
             isReloading = true;
 
             // Gunfire effect
-            
+
 
             // Start reloading animation with recoil effect
             setTimeout(() => {
@@ -3104,10 +3104,10 @@
                     drawGame();
                     requestAnimationFrame(animate);
                 });
-                
+
                 // Click event to handle answer selection
                 canvas.addEventListener('click', function () {
-                
+
                 shootSound.play();
                     const targetSize = 80; // Size of the target shape
 
@@ -3127,7 +3127,7 @@
                         hit = true;
                             if (i === questions[currentQuestion].correct) {
                     score++; // Increase score for correct answer
-                    
+
                 }
                 hitAnimationActive = true;
                 hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
@@ -3142,7 +3142,7 @@
             drawGame();
         } else {
             quizSound.pause();
-            
+
             // Calculate the score percentage
             const percentageScore = (score / totalQuestions) * 100;
             document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
@@ -3154,7 +3154,7 @@
             console.log('User ID:', userId);
 
             // Fetch previous performance from backend to ensure accuracy
-            
+
 
                     // Check if the user passed or failed
                     if (percentageScore >= 80) {
@@ -3368,7 +3368,7 @@
             "Segmentation: Color identification is often used in image segmentation, where an image is divided into meaningful regions based on color similarity. This can help isolate objects of interest from the background or other elements in the image.",
             "Object Detection: In many applications, such as robotics or autonomous vehicles, color identification is used to detect and track objects based on their color. For example, a system might identify red traffic lights or green road signs.",
             "On this level we apply the technique of Color Space Conversion: Images are often converted from the RGB color space to other color spaces (e.g., HSV, LAB) that may be more suitable for color identification.",
-            "You need to find the right color on the target image!" 
+            "You need to find the right color on the target image!"
         ],
         5: [
             "Now with all of the steps that you have take, we can move on the final level which is the object detection",
@@ -3463,7 +3463,7 @@
         updateStats(); // Update game stats
 
         // Play background music
-        
+
 
         // If the level starts, play the background music
         if (currentLevel === 1) {
@@ -3486,41 +3486,41 @@
                     const startButton = document.getElementById("start-level-btn");
                     const skipButton = document.getElementById("skip-monologue-btn");
 
-                    
+
                     currentMonologueIndex = 0;
                     monologueElement.innerText = monologues[currentMonologueIndex];
                     document.getElementById("learning-modal").style.display = "block";
                     startButton.style.display = "none";
                     skipButton.style.display = "inline-block";
 
-                    
+
                     setTimeout(() => speakText(monologues[currentMonologueIndex]), 500);
 
-                    
+
                     monologueInterval = setInterval(() => {
                         currentMonologueIndex++;
                         if (currentMonologueIndex < monologues.length) {
                             monologueElement.innerText = monologues[currentMonologueIndex];
-                            speakText(monologues[currentMonologueIndex]); 
+                            speakText(monologues[currentMonologueIndex]);
                         } else {
-                            clearInterval(monologueInterval); 
-                            startButton.style.display = "block"; 
-                            skipButton.style.display = "none"; 
+                            clearInterval(monologueInterval);
+                            startButton.style.display = "block";
+                            skipButton.style.display = "none";
                         }
                     }, delay);
 
                     // Add a click event listener to the skip button
                     skipButton.onclick = function () {
 
-    window.speechSynthesis.cancel(); 
-    clearInterval(monologueInterval); 
+    window.speechSynthesis.cancel();
+    clearInterval(monologueInterval);
     document.getElementById("learning-modal").style.display = "none";
-    skipButton.style.display = "none"; 
-    resumeTimer(); 
+    skipButton.style.display = "none";
+    resumeTimer();
     startLevel(currentLevel);
-    gameState.monsterHp = 100; 
+    gameState.monsterHp = 100;
     startTimer();
-    updateStats(); 
+    updateStats();
 
     if (currentLevel === 1) {
         draw();
