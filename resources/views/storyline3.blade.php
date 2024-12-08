@@ -69,11 +69,14 @@
         }
 
         #filtering-gameContainer {
-            display: flex; /* Default for visibility */
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: transparent;
         }
 
         .container-interactions {
@@ -89,10 +92,6 @@
             flex-wrap: wrap;
             flex-direction: column;
             width: 100%;
-        }
-
-        #filtering-gameContainer {
-            overflow-y: auto;
         }
 
         #inputs-container {
@@ -119,21 +118,6 @@
 
         #inputs-container .confidence-input-container > input[type="number"]:focus {
             outline: none;
-        }
-
-        .btn {
-            background: #00ff99;
-            border: none;
-            padding: 10px 20px;
-            color: #000;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 0 10px;
-            border-radius: 5px;
-        }
-
-        .btn:hover {
-            background: #00cc77;
         }
 
         .confidence-input-container {
@@ -206,7 +190,7 @@
     </div>
 </div>
 
-        <div id="filtering-gameContainer" style="display: none;">
+    <div id="filtering-gameContainer" style="display: none;">
         <h1>Filtering and Thresholding</h1>
         <p>Use the softmax formula to calculate the confidence score for each target image.</p>
         
@@ -342,17 +326,17 @@
         // Functions for progressing through the steps
         function startGame() {
             document.getElementById('story').style.display = 'none';
-            document.getElementById('Post-Process').style.display = 'block';
+            document.getElementById('Post-Process').style.display = 'flex';
         }
 
         function proceedToNext() {
             document.getElementById('Post-Process').style.display = 'none';
-            document.getElementById('post-analysis').style.display = 'block';
+            document.getElementById('post-analysis').style.display = 'flex';
         }
 
         function proceedToPostAnalysis() {
             document.getElementById('post-analysis').style.display = 'none';
-            document.getElementById('thresholding').style.display = 'block';
+            document.getElementById('thresholding').style.display = 'flex';
         }
 
         function proceedToThresholding() {
