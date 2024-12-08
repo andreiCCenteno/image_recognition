@@ -290,6 +290,37 @@
         .input-field #manualResult:focus {
             outline: none;
         }
+
+        #playerGenderContainer {
+            margin-top: 30px;
+            width: 350px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, lightgreen, darkgreen);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #oblong {
+            position: relative;
+            top: 30%;
+            width: 200px;
+            height: 70px;
+            background-color: lightgreen;
+            border-radius: 50%;
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #player-selection-img {
+            position: absolute;
+            top: 5%;
+            z-index: 2;
+            filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+        }
     </style>
 </head>
 <body>
@@ -320,6 +351,10 @@
             <div class="gender-selection container-interactions">
                 <button class="btn" id="chooseMale">Male</button>
                 <button class="btn" id="chooseFemale">Female</button>
+            </div>
+            <div id="playerGenderContainer">
+                <img id="player-selection-img">
+                <div id="oblong"></div>
             </div>
         </div>
 
@@ -449,6 +484,9 @@ const shapeValues = {
         'dark': 1,
         'darker': 3
     };
+
+    const playerGenderContainer = document.getElementById('playerGenderContainer');
+    const playerSelectionImg = document.getElementById('player-selection-img');
 
     // Randomly generate shapes (features of the artifact)
     function generateRandomArtifact() {
@@ -633,6 +671,18 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
             document.getElementById('gender-selection-section').style.display = 'flex';
             document.getElementById('gender-selection-section').style.justifyContent = 'center';
             document.getElementById('gender-selection-section').style.alignItems = 'center';
+        });
+
+        document.getElementById('chooseMale').addEventListener('mouseover', () => {
+            playerSelectionImg.src = "{{ asset('images/characters/playerMale.png') }}";
+            playerSelectionImg.alt = "Player Male Image";
+            playerSelectionImg.title = "Player Male Image";
+        });
+
+        document.getElementById('chooseFemale').addEventListener('mouseover', () => {
+            playerSelectionImg.src = "{{ asset('images/characters/playerFemale.png') }}";
+            playerSelectionImg.alt = "Player Female Image";
+            playerSelectionImg.title = "Player Female Image";
         });
 
         // Handle Gender Selection
