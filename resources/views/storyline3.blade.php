@@ -69,8 +69,7 @@
         }
 
         #filtering-gameContainer {
-            flex-direction: column;
-            justify-content: center;
+            display: none;
             padding: 20px;
             margin-top: 30px;
             overflow-y: auto;
@@ -353,7 +352,7 @@
         // Show the filtering game container
         const filteringGameContainer = document.getElementById('filtering-gameContainer');
         if (filteringGameContainer) {
-            filteringGameContainer.style.display = 'flex';
+            filteringGameContainer.style.display = 'block';
             console.log("Filtering Game Container is now visible.");
         } else {
             console.error("Element with ID 'filtering-gameContainer' not found!");
