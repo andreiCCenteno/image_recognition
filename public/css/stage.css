@@ -1,0 +1,56 @@
+.phase {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+/* Styling for the dialogue text */
+.dialogue {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.artifact {
+    width: 150px;
+    height: 150px;
+    background: #444;
+    border-radius: 50%;
+    position: relative;
+    animation: glow 2s infinite alternate;
+}
+
+/* Styling for the name input */
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Styling for the CNN feature extraction game section */
+#cnn-game {
+    display: none;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    text-align: center;
+}

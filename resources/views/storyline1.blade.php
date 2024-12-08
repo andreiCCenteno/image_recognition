@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Artifact Analyst</title>
+    <link rel="stylesheet" href="css/stage.css">
     <style>
         * {
             margin: 0;
@@ -30,15 +31,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-
-        .artifact {
-            width: 300px;
-            height: 300px;
-            background: #444;
-            border-radius: 50%;
-            position: relative;
-            animation: glow 2s infinite alternate;
         }
 
         @keyframes glow {
@@ -79,15 +71,6 @@
             justify-content: space-evenly;
         }
 
-          /* Styling for the CNN feature extraction game section */
-    #cnn-game {
-        display: none;
-        padding: 20px;
-        background-color: transparent;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
-    }
 
         #cnn-game h1 {
             font-size: 30px;
@@ -175,22 +158,22 @@
             font-size: 18px;
         }
 
-    .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    z-index: 1000;
-}
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
 
         .overlay h2 {
             font-size: 24px;
@@ -239,7 +222,7 @@
 <body>
     <div class="container">
         <!-- Dynamic Story Introduction -->
-        <div id="story">
+        <div class="phase" id="story">
             <div class="artifact"></div>
             <div class="dialogue" id="dialogue">
                 You are an archaeologist on the verge of uncovering the secrets of an ancient artifact hidden deep
@@ -251,16 +234,16 @@
         </div>
 
         <!-- Name Input Section -->
-        <div id="name-input-section" style="display: none;">
+        <div class="phase"  id="name-input-section" style="display: none;">
             <div class="dialogue">What is your name, archaeologist?</div>
             <div class="container-interactions">
-                <input type="text" id="playerName" class="name-input" placeholder="Enter your name">
+                <input type="text" id="playerName" class="name-input input" placeholder="Enter your name">
                 <button class="btn" id="nextStep">Next</button>
             </div>
         </div>
 
         <!-- Gender Selection Section -->
-        <div id="gender-selection-section" style="display: none;">
+        <div class="phase"  id="gender-selection-section" style="display: none;">
             <div class="dialogue">Choose your character:</div>
             <div class="gender-selection container-interactions">
                 <button class="btn" id="chooseMale">Male</button>
@@ -304,7 +287,7 @@
         </div>
 
         <!-- Feature Extraction using CNN -->
-<div id="cnn-feature-extraction" style="display: none;">
+<div class="phase"  id="cnn-feature-extraction" style="display: none;">
     <div class="dialogue">
         Now, we move on to the most advanced step: Feature Extraction using Convolutional Neural Networks (CNNs).
         <br><br>
@@ -328,7 +311,7 @@
 
         <!-- Feature Extraction using CNN -->
         <div id="cnn-feature-extraction-done" style="display: none;">
-            <div class="dialogue">
+            <div class="dialogue" style="color: #fff; text-align:center;">
                 Well done on extracting the features!
                 <br><br>
                 Now, lets try it to a game!
@@ -355,8 +338,8 @@
 
     <div class="input-field">
         <label for="manualResult">Enter Computed Value to Classify Feature:</label>
-        <input type="number" id="manualResult" placeholder="Result">
-        <button onclick="classifyFeature()">Classify Feature</button>
+        <input class="input" type="number" id="manualResult" placeholder="Result">
+        <button class="btn" onclick="classifyFeature()">Classify Feature</button>
     </div>
 
             <div class="result" id="result"></div>
