@@ -253,12 +253,15 @@
 
         #name-input-section .dialogue, 
         #gender-selection-section .dialogue,
-        #artifact-analysis-phase .dialogue,
-        #image-recognition-intro .dialogue,
-        #cnn-feature-extraction .dialogue,
         #cnn-game label {
             margin-top: 0;
             margin-right: 10px;
+        }
+
+        #artifact-analysis-phase .dialogue,
+        #image-recognition-intro .dialogue,
+        #cnn-feature-extraction .dialogue {
+            margin-top: 0;
         }
 
         #name-input-section .name-input, 

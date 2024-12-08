@@ -62,111 +62,110 @@
         }
       
         .pixel-data {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .pixel {
-      text-align: center;
-    }
-    .color-box {
-      width: 50px;
-      height: 50px;
-      border: 1px solid #000;
-      margin-bottom: 5px;
-    }
-    .input-row {
-      margin: 10px 0;
-    }
-    input {
-      width: 80px;
-      padding: 5px;
-      font-size: 14px;
-      margin: 5px;
-    }
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+        .pixel {
+          text-align: center;
+        }
+        .color-box {
+          width: 50px;
+          height: 50px;
+          border: 1px solid #000;
+          margin-bottom: 5px;
+        }
+        .input-row {
+          margin: 10px 0;
+        }
+        input {
+          width: 80px;
+          padding: 5px;
+          font-size: 14px;
+          margin: 5px;
+        }
 
-    .feedback {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-    .formula {
-      font-size: 16px;
-      font-style: italic;
-      margin-bottom: 15px;
-    }
+        .feedback {
+          margin-top: 20px;
+          font-size: 18px;
+        }
+        .formula {
+          font-size: 16px;
+          font-style: italic;
+          margin-bottom: 15px;
+        }
 
-    .color-container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: transparent;
-    }
+        .color-container {
+          max-width: 800px;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: transparent;
+        }
 
 
-    /* General overlay styling */
-.overlay {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
-    z-index: 1000;
-    padding-top: 100px;
-}
+        /* General overlay styling */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            z-index: 1000;
+            padding-top: 100px;
+        }
 
-.overlay h2 {
-    font-size: 24px;
-    color: #fff;
-    text-align: center;
-}
+        .overlay h2 {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+        }
 
-.overlay .instruction {
-    font-size: 18px;
-    color: #fff;
-    margin: 15px;
-}
+        .overlay .instruction {
+            font-size: 18px;
+            color: #fff;
+            margin: 15px;
+        }
 
-.overlay .matrix {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+        .overlay .matrix {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-.pixel-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+        .pixel-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-.pixel-container .pixel {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ddd;
-}
+        .pixel-container .pixel {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+        }
 
-.pixel-container .pixel span {
-    display: block;
-    color: #fff;
-    text-align: center;
-    line-height: 40px;
-}
+        .pixel-container .pixel span {
+            display: block;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+        }
 
-.overlay ul {
-    font-size: 16px;
-    color: #fff;
-    margin-left: 20px;
-}
+        .overlay ul {
+            font-size: 16px;
+            color: #fff;
+            margin-left: 20px;
+        }
 
-/* Styling for the formula section */
-#formulaOverlay {
-    margin-top: 20px;
-}
-
+        /* Styling for the formula section */
+        #formulaOverlay {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
