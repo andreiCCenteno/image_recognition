@@ -41,4 +41,17 @@ class StorylineController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Gender updated successfully!']);
     }
+
+    public function savePlayerName(Request $request)
+{
+    $request->validate([
+        'player_name' => 'required|string|max:255',
+    ]);
+
+    $user = Auth::user();
+    $user->player_name = $request->input('player_name');
+    $user->save();
+
+    return response()->json(['message' => 'Player name saved successfully!']);
+}
 }

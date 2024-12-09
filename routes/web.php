@@ -121,6 +121,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::post('/update-gender', [StorylineController::class, 'updateGender']);
+Route::post('/save-player-name', [StorylineController::class, 'savePlayerName']);
 
 Route::get('/get-game-state', [PreprocessingController::class, 'getGameState']);
 

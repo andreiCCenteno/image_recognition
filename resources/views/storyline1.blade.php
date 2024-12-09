@@ -322,6 +322,8 @@
             filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body>
     <div class="container">
@@ -660,18 +662,40 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
 
         // Handle Next Step Button
         document.getElementById('nextStep').addEventListener('click', () => {
-            const playerName = document.getElementById('playerName').value;
-            if (playerName.trim() === '') {
-                alert('Please enter your name.');
-                return;
-            }
+    const playerName = document.getElementById('playerName').value;
+    if (playerName.trim() === '') {
+        alert('Please enter your name.');
+        return;
+    }
 
-            alert(`Welcome, ${playerName}!`);
+    // Send the player name to the server
+    fetch('/save-player-name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ player_name: playerName }),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save player name');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
             document.getElementById('name-input-section').style.display = 'none';
             document.getElementById('gender-selection-section').style.display = 'flex';
             document.getElementById('gender-selection-section').style.justifyContent = 'center';
             document.getElementById('gender-selection-section').style.alignItems = 'center';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save player name. Please try again.');
         });
+});
+
 
         document.getElementById('chooseMale').addEventListener('mouseover', () => {
     playerSelectionImg.src = "{{ asset('images/characters/playerMale.png') }}";
