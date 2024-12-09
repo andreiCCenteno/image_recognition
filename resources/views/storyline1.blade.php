@@ -768,7 +768,9 @@
                     return response.json()
                 })
                 .then(data => {
-                    if (!data.isPlayerNameExist) {
+                    if (data.isPlayerNameExist) {
+                        // proceed need update
+                    } else {
                         document.getElementById('name-input-section').style.display = 'flex';
                         document.getElementById('name-input-section').style.justifyContent = 'center';
                         document.getElementById('name-input-section').style.alignItems = 'center';
@@ -794,7 +796,9 @@
                     return response.json()
                 })
                 .then(data => {
-                    if (!data.isPlayerGenderExist) {
+                    if (data.isPlayerGenderExist) {
+                        // proceed need update
+                    } else {
                         document.getElementById('gender-selection-section').style.display = 'flex';
                         document.getElementById('gender-selection-section').style.justifyContent = 'center';
                         document.getElementById('gender-selection-section').style.alignItems = 'center';
