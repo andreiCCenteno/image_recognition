@@ -26,7 +26,10 @@
         .artifact {
             width: 300px;
             height: 300px;
-            background: #444;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url({{asset('images/wizard.png')}});
             border-radius: 50%;
             position: relative;
             animation: glow 2s infinite alternate;
@@ -321,6 +324,11 @@
             z-index: 2;
             filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
         }
+
+        .img-center {
+            text-align: center;
+        }
+            
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -401,8 +409,10 @@
     
     <!-- Display Target Image for Feature Extraction -->
     <div class="target-image-container">
-        <h3>Target Image for Feature Extraction</h3>
-        <img src="{{ asset('images/sample1.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
+        <h3 style="text-align: center;">Target Image for Feature Extraction</h3>
+        <div class="img-center">
+            <img width="300px" src="{{ asset('images/sample1.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
+        </div>
         <br><br>
         <p>Study the image closely to understand its features. Your task is to extract and identify the key features of this image using a CNN.</p>
     </div>
