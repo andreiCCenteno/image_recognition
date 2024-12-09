@@ -290,6 +290,37 @@
         .input-field #manualResult:focus {
             outline: none;
         }
+
+        #playerGenderContainer {
+            margin-top: 30px;
+            width: 350px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, lightgreen, darkgreen);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #oblong {
+            position: relative;
+            top: 30%;
+            width: 200px;
+            height: 70px;
+            background-color: lightgreen;
+            border-radius: 50%;
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #player-selection-img {
+            position: absolute;
+            top: 5%;
+            z-index: 2;
+            filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
+        }
     </style>
 </head>
 <body>
@@ -320,6 +351,10 @@
             <div class="gender-selection container-interactions">
                 <button class="btn" id="chooseMale">Male</button>
                 <button class="btn" id="chooseFemale">Female</button>
+            </div>
+            <div id="playerGenderContainer">
+                <img id="player-selection-img">
+                <div id="oblong"></div>
             </div>
         </div>
 
@@ -365,7 +400,7 @@
     <!-- Display Target Image for Feature Extraction -->
     <div class="target-image-container">
         <h3>Target Image for Feature Extraction</h3>
-        <img src="images/target_image.jpg" alt="Target Image" id="targetImage" class="target-image">
+        <img src="{{ asset('images/sample1.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
         <br><br>
         <p>Study the image closely to understand its features. Your task is to extract and identify the key features of this image using a CNN.</p>
     </div>
@@ -449,6 +484,9 @@ const shapeValues = {
         'dark': 1,
         'darker': 3
     };
+
+    const playerGenderContainer = document.getElementById('playerGenderContainer');
+    const playerSelectionImg = document.getElementById('player-selection-img');
 
     // Randomly generate shapes (features of the artifact)
     function generateRandomArtifact() {
@@ -634,6 +672,45 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
             document.getElementById('gender-selection-section').style.justifyContent = 'center';
             document.getElementById('gender-selection-section').style.alignItems = 'center';
         });
+
+        document.getElementById('chooseMale').addEventListener('mouseover', () => {
+    playerSelectionImg.src = "{{ asset('images/characters/playerMale.png') }}";
+    playerSelectionImg.alt = "Player Male Image";
+    playerSelectionImg.title = "Player Male Image";
+
+    // Update gender in the database
+    updateGenderInDatabase('male');
+});
+
+document.getElementById('chooseFemale').addEventListener('mouseover', () => {
+    playerSelectionImg.src = "{{ asset('images/characters/playerFemale.png') }}";
+    playerSelectionImg.alt = "Player Female Image";
+    playerSelectionImg.title = "Player Female Image";
+
+    // Update gender in the database
+    updateGenderInDatabase('female');
+});
+
+// Function to send an AJAX request to update gender
+function updateGenderInDatabase(gender) {
+    fetch('/update-gender', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token for Laravel
+        },
+        body: JSON.stringify({ gender })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Gender updated successfully!');
+        } else {
+            console.error('Failed to update gender:', data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
         // Handle Gender Selection
         document.getElementById('chooseMale').addEventListener('click', () => {

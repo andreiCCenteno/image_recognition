@@ -1201,15 +1201,15 @@ input[type="range"]::-moz-range-thumb {
     <audio id="monsterAttackSound" src="{{ asset('audio/monster-attack.mp3') }}" preload="auto"></audio>
 <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 <div id="learning-modal">
-    <div class="modal-background">
-        <img src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
-    </div>
-    <div class="modal-content">
-        <p id="learning-text"></p>
-        <button id="skip-monologue-btn">Skip Monologue</buttoni>
-        <button id="start-level-btn">Start Level</button>
-    </div>
-</div>
+            <div class="modal-background">
+                <img id="modal-character-image" src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
+            </div>
+            <div class="modal-content">
+                <p id="learning-text"></p>
+                <button id="skip-monologue-btn">Skip Monologue</button>
+                <button id="start-level-btn">Start Level</button>
+            </div>
+        </div>
     <button id="settingsIcon" class="btn btn-light">
         <i class="bi bi-gear"></i>
     </button>
@@ -1293,6 +1293,17 @@ input[type="range"]::-moz-range-thumb {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+let playerGender = '{{ auth()->user()->gender }}'; 
+const modalCharacterImage = document.getElementById('modal-character-image');
+
+if (playerGender === 'male') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerMale.png') }}";  // Male image
+    modalCharacterImage.alt = "Player Male";
+} else if (playerGender === 'female') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerFemale.png') }}";  // Female image
+    modalCharacterImage.alt = "Player Female";
+}
+
 let quizOn = false;
 function showGameOverModal() {
     gameOver.play();
@@ -1904,8 +1915,26 @@ function updateStats() {
     document.getElementById('monsterHp').textContent = gameState.monsterHp;
 }
 
-const playerImage = new Image();
-        playerImage.src = 'images/characters/player.png'; // Replace with the correct path
+let playerImage = new Image();
+
+// Initialize the player image based on the gender
+fetch('/get-game-state') // Example API to fetch user state, assuming it returns the gender
+    .then(response => response.json())
+    .then(data => {
+        if (data.playerGender === 'male') {
+            playerImage.src = 'images/characters/playerMale.png';
+        } else if (data.playerGender === 'female') {
+            playerImage.src = 'images/characters/playerFemale.png';
+        } else {
+            playerImage.src = 'images/characters/defaultPlayer.png'; // Fallback image
+        }
+    })
+    .catch(error => console.error('Error fetching game state:', error));
+
+// Event listener to ensure player image is loaded before drawing
+playerImage.onload = function() {
+    console.log("Player image loaded successfully.");
+}; // Replace with the correct path
 
         const monsterImages = [
             'images/characters/monster1.png', // Replace with correct paths
@@ -2032,15 +2061,20 @@ function draw() {
     ctx.fill();
 
     // Draw player with breathing effect
-    const playerWidth = 120 * breathingScale;
-    const playerHeight = 120 * breathingScale;
-    ctx.drawImage(
-        playerImage,
-        gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
-        gameState.playerY - (playerHeight - 120) / 2,
-        playerWidth,
-        playerHeight
-    );
+    if (playerImage.complete) {
+        // Draw player with breathing effect
+        const playerWidth = 120 * breathingScale;
+        const playerHeight = 120 * breathingScale;
+        ctx.drawImage(
+            playerImage,
+            gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
+            gameState.playerY - (playerHeight - 120) / 2,
+            playerWidth,
+            playerHeight
+        );
+    } else {
+        console.error("Player image is not loaded yet.");
+    }
 
     // Shadow for monster
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency

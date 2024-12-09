@@ -69,8 +69,7 @@
         }
 
         #filtering-gameContainer {
-            flex-direction: column;
-            justify-content: center;
+            display: none;
             padding: 20px;
             margin-top: 30px;
             overflow-y: auto;
@@ -210,7 +209,7 @@
 
         <div class="image-container">
             <h3>Target Image:</h3>
-            <img src="images/cat.jpg" alt="Target Image" id="target-image">
+            <img src="{{ asset('images/sample3.jpg') }}" alt="Target Image" id="target-image">
             
             <h3>Logits for this Image:</h3>
             <div id="logits-container"></div>
@@ -353,7 +352,7 @@
         // Show the filtering game container
         const filteringGameContainer = document.getElementById('filtering-gameContainer');
         if (filteringGameContainer) {
-            filteringGameContainer.style.display = 'flex';
+            filteringGameContainer.style.display = 'block';
             console.log("Filtering Game Container is now visible.");
         } else {
             console.error("Element with ID 'filtering-gameContainer' not found!");

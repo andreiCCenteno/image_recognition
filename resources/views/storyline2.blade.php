@@ -114,7 +114,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black */
             z-index: 1000;
         }
 
@@ -128,6 +128,7 @@
             font-size: 18px;
             color: #fff;
             margin: 15px;
+            font-style: italic;
         }
 
         .overlay .matrix {
@@ -237,7 +238,8 @@
         <div id="story">
             <div class="artifact"></div>
             <div class="dialogue" id="dialogue">
-                Good Work, on your first mission. Lest move one to the next one.
+               Where did you go? you came back! 
+               Huh? you been teleported to somewhere and theres a monster that want to kill you? Interesting
             </div>
             <div class="buttons">
                 <button class="btn" id="startGame">Next</button>
@@ -247,11 +249,10 @@
         <!-- Color Identification Phase -->
         <div id="color-identification-phase" style="display: none;">
             <div class="dialogue">
-                As you prepare to unlock the secrets of the artifact, you take a deep breath. Its surface holds ancient mysteries that could change history forever.
                 <br><br>
                 The first task is complete. You successfully enhanced the artifact’s image, revealing hidden patterns that were long obscured. The ancient secrets are slowly starting to come to light.
                 <br><br>
-                With this breakthrough, you've uncovered the secrets hidden within the artifact. Now, you must proceed to the next task: identifying the key color hidden within the artifact's design.
+                With this breakthrough, you've uncovered the secrets hidden within the artifact. Now, you must proceed to the next task identifying the key color hidden within the artifacts mystery.
             </div>
 
             <div class="buttons container-interactions">
@@ -263,9 +264,9 @@
        <!-- Color Identification Phase -->
 <div id="color-identification" style="display: none;">
     <div class="dialogue">
-        Now, we move on to the next important task: Color Identification. 
+        Now, we move on to the next mystery: Color Identification. 
         <br><br>
-        In this phase, you'll focus on identifying the key color hidden within the artifact’s design. 
+        In this phase, you'll need to focus on identifying the dominant color hidden within the artifact’s design. 
         <br><br>
         Analyzing the colors of the artifact will help uncover hidden patterns that can reveal deeper insights into its meaning.
     </div>
@@ -273,7 +274,7 @@
     <!-- Display Target Image for Color Identification -->
     <div class="target-image-container">
         <h3>Target Image for Color Identification</h3>
-        <img src="images/target_image.jpg" alt="Target Image" id="targetImage" class="target-image">
+        <img src="{{ asset('images/sample2.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
         <br><br>
         <p>Study the image closely to understand its colors. Your task is to identify the key color hidden within the artifact’s design.</p>
     </div>
@@ -288,7 +289,7 @@
     <div class="dialogue">
         Well done on finding the dominant color! 
         <br><br>
-        Now, let's try it in a game!
+        Be careful on your fihgt!, I'll be waiting for you!
         <br><br>
     </div>
 </div>

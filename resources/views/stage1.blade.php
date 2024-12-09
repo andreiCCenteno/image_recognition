@@ -1099,7 +1099,7 @@
 
         <div id="learning-modal">
             <div class="modal-background">
-                <img src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
+                <img id="modal-character-image" src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
             </div>
             <div class="modal-content">
                 <p id="learning-text"></p>
@@ -1131,17 +1131,6 @@
         <div id="message">Trace the outline of the image!</div>
         <button id="submitTrace">Submit Trace</button>
     </div>
-            <!-- Level 2 Content -->
-            <div id="level2Content" style="display: none; text-align: center;">
-                <div id="blurredImageContainer">
-                    <img id="blurredImage" src="" alt="Blurred image">
-                </div>
-                <div id="guessContainer">
-                    <input type="text" id="guessInput" placeholder="What's in the image?">
-                    <button id="submitGuess">Submit Guess</button>
-                </div>
-            </div>
-        </div>
 
         <div class="modal-overlay" id="levelCompleteModal">
             <div class="modal">
@@ -1154,15 +1143,6 @@
 
         <div id="celebration"></div>
 
-        <div class="modal-overlay" id="level2CompleteModal">
-            <div class="modal">
-                <h2>Level 2 Complete!</h2>
-                <p>Excellent work! You've mastered the image recognition challenge.</p>
-                <p>Get ready for Level 3: Feature Extraction Challenge!</p>
-                <button onclick="takeposttest()">Take Post Test!</button>
-            </div>
-        </div>
-
         <div id="level3Content">
             <div class="level3-instructions">
                 <h2>Level 3: Feature Extraction Challenge</h2>
@@ -1173,7 +1153,7 @@
             </div>
             <div class="feature-matching-container">
                 <div class="main-image-container">
-                    <img class="main-image" id="mainImage" src="/api/placeholder/400/400" alt="Main image">
+                    <img class="main-image" id="mainImage" alt="Main image">
                     <!-- Dropzones will be added dynamically -->
                 </div>
                 <div class="features-panel">
@@ -1190,107 +1170,31 @@
         <div class="modal-overlay" id="level3CompleteModal">
             <div class="modal">
                 <h2>Level 3 Complete!</h2>
-                <p>Excellent work! You've mastered the image recognition challenge.</p>
-                <p>Get ready for Level 3: Feature Extraction Challenge!</p>
-                <button onclick="startLevel4()">Start Level 4</button>
+                <p>Excellent work! You've manage to defeat the Enemy</p>
+                <p>You can now proceed to next Chapter!</p>
+                <button onclick="takeposttest()">PROCEED</button>
             </div>
         </div>
-
-        <div id="level4Content" style="display: none;">
-            <h2>Level 4: Color Identification</h2>
-            <p>Use the sliders to select the dominant color in the image below:</p>
-
-            <div id="colorContainer">
-                <div id="colorImage"></div>
-                <div id="selectedColorImage"></div>
-            </div>
-
-            <div class="color-sliders">
-                <div class="slider-group">
-                    <label for="redSlider">Red</label>
-                    <input type="range" id="redSlider" min="0" max="255" value="0">
-                    <span id="redValue">0</span>
-                </div>
-                <div class="slider-group">
-                    <label for="greenSlider">Green</label>
-                    <input type="range" id="greenSlider" min="0" max="255" value="0">
-                    <span id="greenValue">0</span>
-                </div>
-                <div class="slider-group">
-                    <label for="blueSlider">Blue</label>
-                    <input type="range" id="blueSlider" min="0" max="255" value="0">
-                    <span id="blueValue">0</span>
-                </div>
-                <button id="submitColor" class="btn-submit">Submit Color</button>
-            </div>
-        </div>
-        </div>
-
-        <div class="modal-overlay" id="level4CompleteModal">
-            <div class="modal">
-                <h2>Level 4 Complete!</h2>
-                <p>Excellent work! You've mastered the image recognition challenge.</p>
-                <p>Get ready for Level 5: Feature Extraction Challenge!</p>
-                <button onclick="startLevel5()">Start Level 5</button>
-            </div>
-        </div>
-
-        <div id="level5Content" style="display: block;">
-            <h2>Level 5: Object Detection</h2>
-            <div id="targetZoneMessage" style="margin-bottom: 10px;"></div>
-            <div class="object-detection-container" style="position: relative;">
-                <img id="objectImage" src="{{ asset('images/easy/scenery.avif') }}"
-                    style="max-width: 100%; cursor: pointer;">
-
-                <!-- Large Detection Zones -->
-                <div id="easyTree" class="detection-zone" style="left: 32px; top: 90px; width: 35px; height: 200px;">
-                </div>
-                <div id="smallTree" class="detection-zone" style="left: 110px; top: 150px; width: 300px; height: 100px;">
-                </div>
-                <div id="largestTree" class="detection-zone" style="left: 520px; top: 20px; width: 100px; height: 350px;">
-                </div>
-
-                <!-- Small Detection Zones -->
-                <div id="bench" class="detection-zone" style="left: 20px; top: 250px; width: 95px; height: 30px;"></div>
-                <div id="sun" class="detection-zone" style="left: 415px; top: 12px; width: 50px; height: 50px;"></div>
-
-            </div>
-        </div>
-
-        <div id="detectedObjectsList"></div>
-
-        </div>
-
-        <div id="postTestWrapper">
-            <div id="postTestContainer" style="display: none;">
-                <h2>Quiz Game</h2>
-                <p id="questionText"></p>
-                <canvas id="gameCanvas" width="1000" height="625"></canvas>
-                <div id="scoreModal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <h2>Your Score</h2>
-                        <p id="finalScoreText"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-overlay-result" id="resultsModal" style="display: none;">
-        <div class="modal-result">
-            <h1>Congratulations! You have completed the Game!</h1>
-            <p id="score">Your total score: </p>
-            <button onclick="closeModal()">Close</button>
-            <button onclick="playAgain()">Play Again</button>
-        </div>
-        </div>
-        
-
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
+
+let playerGender = '{{ auth()->user()->gender }}';  // Assuming gender is stored in the database
+ // This can be dynamically set based on the user's choice
+
+// Update the modal character image based on the player's gender
+const modalCharacterImage = document.getElementById('modal-character-image');
+
+if (playerGender === 'male') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerMale.png') }}";  // Male image
+    modalCharacterImage.alt = "Player Male";
+} else if (playerGender === 'female') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerFemale.png') }}";  // Female image
+    modalCharacterImage.alt = "Player Female";
+}
+
             let quizOn = false;
             function showGameOverModal() {
                 const modal = document.getElementById('gameOverModal');
@@ -1351,199 +1255,6 @@
                 monsterHp: 100,
                 isAttacking: false,
                 attackFrame: 0,
-                shuffling: false,
-                canClick: false,
-                images: [
-
-                    {
-                        original: 'images/easy/ball.png',
-                        outlines: [
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/apple_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/triangle.webp',
-                        outlines: [
-                            'images/easy/triangle_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/box.jpg',
-                        outlines: [
-                            'images/easy/box_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/laptop_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/vase.jpg',
-                        outlines: [
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/apple_outline.jpg',
-                            'images/easy/triangle_outline.jpg',
-                            'images/easy/laptop_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-                    {
-                        original: 'images/easy/balloon.jpg',
-                        outlines: [
-                            'images/easy/balloon_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/apple_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    }, {
-                        original: 'images/easy/box.jpg',
-                        outlines: [
-                            'images/easy/box_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/pizza.png',
-                        outlines: [
-                            'images/easy/pizza_outline.jpg',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/triangle_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-                    {
-                        original: 'images/easy/bicycle.webp',
-                        outlines: [
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/pizza_outline.jpg',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/triangle_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/coffeemug.webp',
-                        outlines: [
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/bicycle_outline.webp',
-                            'images/easy/box_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/house.webp',
-                        outlines: [
-                            'images/easy/house_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/laptop_outline.jpg',
-                            'images/easy/box_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    },
-
-                    {
-                        original: 'images/easy/laptop.jpg',
-                        outlines: [
-                            'images/easy/laptop_outline.jpg',
-                            'images/easy/coffeemug_outline.webp',
-                            'images/easy/house_outline.jpg',
-                            'images/easy/triangle_outline.jpg',
-                            'images/easy/ball_outline.jpg',
-                            'images/easy/vase_outline.jpg',
-                            'images/easy/smartphone_outline.jpg',
-                            'images/easy/sandwich_outline.jpg',
-                            'images/easy/burger_outline.jpg'
-                        ]
-                    }
-
-                ],
-
-                level2Images: [
-                    {
-                        image: 'images/easy/balloon.jpg',
-                        answer: 'balloon'
-                    },
-
-                    {
-                        image: 'images/easy/vase.jpg',
-                        answer: 'vase'
-                    },
-
-                    {
-                        image: 'images/easy/ball.png',
-                        answer: 'ball'
-                    },
-
-                    {
-                        image: 'images/easy/apple.jpg',
-                        answer: 'apple'
-                    },
-
-                    {
-                        image: 'images/easy/box.jpg',
-                        answer: 'box'
-                    }
-                ],
                 playerX: 100,
                 playerY: 150,
                 monsterX: 550,
@@ -1558,7 +1269,6 @@
             const cardsContainer = document.getElementById('cardsContainer');
             const targetImage = document.getElementById('targetImage');
             let level1Content = document.getElementById('level1Content');
-            let level2Content = document.getElementById('level2Content');
             let intenseFightMusic = document.getElementById("intenseFightMusic");
             intenseFightMusic.volume = 0.2;
 
@@ -1567,20 +1277,7 @@
             const levelComplete = new Audio("{{ asset('audio/level-complete.mp3') }}");
             const gameOver = new Audio("{{ asset('audio/game-over.mp3') }}");
 
-            const level4Content = document.getElementById('level4Content');
-            const blurredImage = document.getElementById('blurredImage');
-            const guessContainer = document.getElementById('guessContainer');
-            const guessInput = document.getElementById('guessInput');
-            const submitGuess = document.getElementById('submitGuess');
             const timeInterval = 1000;
-            const cardWidth = 150;
-            const cardGap = 50;
-            const totalWidth = (cardWidth * 3) + (cardGap * 2);
-            let startX = (1800 - totalWidth) / 2;
-
-            let cards = [];
-            let cardNumber = 3;
-            let currentBlurLevel = 20;
 
             // Set duration for the timer (in seconds)
             let timerId;
@@ -1590,8 +1287,6 @@
             let currentLevel = 1;
             let isStartLevel = false;
             let damage = 25;
-            let shuffleCount = 5;
-            let shuffleTime = 800;
 
             function updateScore(points) {
                 gameState.totalScore = (gameState.totalScore || 0) + points;
@@ -1647,39 +1342,10 @@
 
 
             function takeposttest() {
-                quizOn = true;
-                const modal = document.getElementById('level2CompleteModal');
-                modal.style.display = 'none';
                 document.getElementById('gameContainer').style.display = 'none';
                 document.getElementById('postTestContainer').style.display = 'block';
-                initializePostTest();
+                window.location.href = "{{ route('storylinestage2') }}";
             }
-
-            function startLevel6() {
-                const modal = document.getElementById('level5CompleteModal');
-                modal.style.display = 'none';
-                // gameState.level = 5;
-                // showLearningMaterial(5); 
-                updateStats();
-                initializeGame();
-            }
-
-            function startLevel5() {
-                const modal = document.getElementById('level4CompleteModal');
-                modal.style.display = 'none';
-                // gameState.level = 5;
-                showLearningMaterial(5);
-                updateStats();
-                initializeGame();
-            }
-
-            function startLevel4() {
-                const modal = document.getElementById('level3CompleteModal');
-                modal.style.display = 'none';
-                // gameState.level = 4;
-                window.location.href = "{{ route('storylinestage2') }}"; // Restart the game
-            }
-
 
             function startLevel3() {
                 const modal = document.getElementById('level2CompleteModal');
@@ -1691,41 +1357,18 @@
             }
 
 
-            function createCard(index, isCorrect, outlineSrc) {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.style.left = `${startX + (index * (cardWidth + cardGap))}px`;
-
-                const front = document.createElement('div');
-                front.className = 'card-face card-front';
-
-                const outlineImg = document.createElement('img');
-                outlineImg.src = outlineSrc; // Set the outline image passed from initializeLevel1()
-                front.appendChild(outlineImg);
-
-                const back = document.createElement('div');
-                back.className = 'card-face card-back';
-
-                card.appendChild(front);
-                card.appendChild(back);
-
-                return { element: card, isCorrect: isCorrect };
-            }
 
 
 
             function initializeGame() {
                 // Hide all content first
                 level1Content.style.display = 'none';
-                level2Content.style.display = 'none';
                 level3Content.style.display = 'none';
-                level4Content.style.display = 'none';
-                level5Content.style.display = 'none';
 
                 // Show appropriate level content
                 if (gameState.level === 1) {
                     // level1Content.style.display = 'block';
-                    initializeLevel1(cardNumber);
+                    initializeLevel1();
                 } else if (gameState.level === 2) {
                     // level2Content.style.display = 'block';
                     initializeLevel3();
@@ -1763,10 +1406,6 @@
         // If the level starts, play the background music
         if (currentLevel === 1) {
             draw();
-            setTimeout(() => {
-                flipAllCards(true); // Flip all cards face up
-                setTimeout(shuffle, 1000); // Shuffle after a delay
-            }, 1000);
             showLevel1CompleteModal();
             updateScore(10); 
         }
@@ -1868,40 +1507,12 @@
                 currentLevel++;
             }
 
-            function showLevel2CompleteModal() {
-                levelComplete.play();
-                pauseTimer();
-                const modal = document.getElementById('level2CompleteModal');
-                modal.style.display = 'flex';
-                // gameState.level++;
-                console.log(gameState.level);
-                createConfetti();
-                currentLevel++;
-            }
-
             function showLevel3CompleteModal() {
                 pauseTimer();
                 const modal = document.getElementById('level3CompleteModal');
                 modal.style.display = 'flex';
                 gameState.level++;
                 console.log(gameState.level);
-                createConfetti();
-            }
-
-            function showLevel4CompleteModal() {
-                pauseTimer();
-                const modal = document.getElementById('level4CompleteModal');
-                modal.style.display = 'flex';
-                gameState.level++;
-
-                createConfetti();
-            }
-
-            function showLevel5CompleteModal() {
-                pauseTimer();
-                const modal = document.getElementById('level5CompleteModal');
-                modal.style.display = 'flex';
-                gameState.level++;
                 createConfetti();
             }
 
@@ -1986,133 +1597,13 @@
             }
 
 
-            let attackCount = 0;
-            function switchToLevel2() {
-        // Ensure that the timer and level 1 state are cleared
-        level1Content.style.display = 'none'; // Hide Level 1 content
-        level2Content.style.display = 'block'; // Show Level 2 content
-        guessContainer.style.display = 'flex'; // Display guess container for level 2
-        
-        // Randomly select an image from the level2Images array
-        const randomImageIndex = Math.floor(Math.random() * gameState.level2Images.length);
-        const selectedImage = gameState.level2Images[randomImageIndex];
-        gameState.currentLevel2Image = selectedImage; // Store selected image in game state
-
-        // Set up level 2 with the randomly selected image
-        blurredImage.src = selectedImage.image;
-
-        // Reset the blur to 100px at the start to ensure consistent animation
-        blurredImage.style.transition = 'none';
-        blurredImage.style.filter = 'blur(100px)';
-
-        // Delay the blur reduction to create the animation effect
-        setTimeout(() => {
-            if (isStartLevel) {
-                        if (attackCount === 0) {
-                            blurredImage.style.transition = 'filter 13s ease'; // Ensure smooth transition
-
-                            attackCount++;
-                        } else {
-                            blurredImage.style.transition = 'filter 7s ease';
-                        }
-                        blurredImage.style.filter = 'blur(0px)';
-
-                    }// Reduce the blur to 0px
-        }, 10);
-
-        // Start the timer for Level 2
-        startNewLevel(2);
-
-        // Create multiple-choice options
-        createMultipleChoiceOptions(selectedImage.answer);
-
-        // Event listener for when the blur animation ends
-        blurredImage.addEventListener('transitionend', () => {
-            endLevel();
-            pauseTimer();
-            showGameOverModal();
-        }, { once: true });
-    }
-
-    // Function to generate multiple-choice options with relevant answers
-    function createMultipleChoiceOptions(correctAnswer) {
-        // Clear existing guess container contents
-        guessContainer.innerHTML = '';
-
-        // Filter to find incorrect answers from level2Images that are not the correct answer
-        const incorrectAnswers = gameState.level2Images
-            .map(item => item.answer)
-            .filter(answer => answer !== correctAnswer);
-
-        // Randomly select three incorrect answers
-        const randomIncorrectAnswers = incorrectAnswers
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3); // Pick only three incorrect options
-
-        // Combine the correct answer with the incorrect answers
-        const options = [correctAnswer, ...randomIncorrectAnswers];
-        
-        // Shuffle options array to randomize button placement
-        const shuffledOptions = options.sort(() => Math.random() - 0.5);
-
-        // Create a button for each option
-        shuffledOptions.forEach((optionText) => {
-            const optionButton = document.createElement('button');
-            optionButton.className = 'choice-button';
-            optionButton.textContent = optionText;
-            
-            // Event listener for handling guesses
-            optionButton.addEventListener('click', () => handleGuess(optionText, correctAnswer));
-
-            // Append each button to the guessContainer
-            guessContainer.appendChild(optionButton);
-        });
-
-        // Display the guess container with the multiple-choice options
-        guessContainer.style.display = 'flex';
-    }
-
-    // Handle guess selection
-    function handleGuess(selectedOption, correctAnswerText) {
-        const currentImage = gameState.currentLevel2Image;
-
-        // Find the button based on the selectedOption text
-        const selectedButton = [...document.querySelectorAll('.choice-button')].find(button => button.textContent === selectedOption);
-
-        if (selectedOption === correctAnswerText) {
-            // Add correct animation class
-            selectedButton.classList.add('correct-choice');
-            correctAnswer.play(); // Play correct answer sound
-            document.getElementById('message').textContent = "Correct! You identified the image!";
-            level2Content.style.display = 'none';
-            attackMonster(50);
-
-            // Force monster defeat to trigger level completion
-            if (gameState.monsterHp === 0) {
-                isStartLevel = false;
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
             }
-
-            // Update score for correct answer
-            updateScore(10);
-        } else {
-            // Add wrong animation class
-            selectedButton.classList.add('wrong-choice');
-            wrongAnswer.play(); // Play wrong answer sound
-            document.getElementById('message').textContent = "Wrong guess! Try again!";
-            monsterAttack();
-            takeDamage(); // Handle player damage on wrong guess
-        }
-
-        // Remove the class after animation ends (reset for next guess)
-        selectedButton.addEventListener('animationend', () => {
-            selectedButton.classList.remove('correct-choice', 'wrong-choice');
-        });
-
-        // Continue or restart Level 2 based on game state
-        if (gameState.monsterHp > 0) {
-            switchToLevel2();
-        }
-    }
 
     const featureSets = [
         {
@@ -2215,14 +1706,19 @@
 
     /// Function to generate a new set of features from predefined sets
     function generateNewFeatures() {
-        // Load the current feature set into the game state
-        const currentFeatureSet = featureSets[currentFeatureSetIndex];
-        gameState.level3.features = currentFeatureSet.features; // Set the features
-        gameState.level3.mainImage = currentFeatureSet.mainImage; // Set the main image
+    // Load the current feature set into the game state
+    const currentFeatureSet = featureSets[currentFeatureSetIndex];
 
-        // Update the index to cycle through the sets
-        currentFeatureSetIndex = (currentFeatureSetIndex + 1) % featureSets.length;
-    }
+    // Shuffle features for random order
+    const shuffledFeatures = shuffleArray([...currentFeatureSet.features]); // Use a copy to avoid mutating the original array
+
+    gameState.level3.features = shuffledFeatures; // Set the shuffled features
+    gameState.level3.mainImage = currentFeatureSet.mainImage; // Set the main image
+
+    // Update the index to cycle through the sets
+    currentFeatureSetIndex = (currentFeatureSetIndex + 1) % featureSets.length;
+}
+
 
     // Initialization of gameState for Level 3
     gameState.level3 = {
@@ -2260,45 +1756,46 @@
     }
 
     function resetLevel3() {
-        const mainImageContainer = document.querySelector('.main-image-container');
-        const featuresList = document.getElementById('featuresList');
+    const mainImageContainer = document.querySelector('.main-image-container');
+    const featuresList = document.getElementById('featuresList');
 
-        // Clear previous dropzones and draggable features
-        mainImageContainer.innerHTML = '';
-        featuresList.innerHTML = '';
+    // Clear previous dropzones and draggable features
+    mainImageContainer.innerHTML = '';
+    featuresList.innerHTML = '';
 
-        // Reset matched features
-        gameState.level3.matchedFeatures.clear();
+    // Reset matched features
+    gameState.level3.matchedFeatures.clear();
 
-        // Generate a new set of features
-        generateNewFeatures();
+    // Generate a new set of features (this includes randomizing the order)
+    generateNewFeatures();
 
-        // Create dropzones for the new features
-        gameState.level3.features.forEach(feature => {
-            const dropzone = createDropzone(feature);
-            mainImageContainer.appendChild(dropzone);
-        });
+    // Create dropzones for the new features
+    gameState.level3.features.forEach(feature => {
+        const dropzone = createDropzone(feature);
+        mainImageContainer.appendChild(dropzone);
+    });
 
-        // Create draggable features for the new features
-        gameState.level3.features.forEach(feature => {
-            const featureElement = createFeatureElement(feature);
-            featuresList.appendChild(featureElement);
-        });
+    // Create draggable features for the new features
+    gameState.level3.features.forEach(feature => {
+        const featureElement = createFeatureElement(feature);
+        featuresList.appendChild(featureElement);
+    });
 
-        // Reset progress
-        updateLevel3Progress();
+    // Reset progress
+    updateLevel3Progress();
 
-        // Ensure mainImage element exists, or create it if it doesn't
-        let mainImage = document.getElementById('mainImage');
-        if (!mainImage) {
-            mainImage = document.createElement('img');
-            mainImage.id = 'mainImage';
-            mainImageContainer.appendChild(mainImage);
-        }
-
-        // Update the main image
-        mainImage.src = gameState.level3.mainImage;
+    // Ensure mainImage element exists, or create it if it doesn't
+    let mainImage = document.getElementById('mainImage');
+    if (!mainImage) {
+        mainImage = document.createElement('img');
+        mainImage.id = 'mainImage';
+        mainImageContainer.appendChild(mainImage);
     }
+
+    // Update the main image
+    mainImage.src = gameState.level3.mainImage;
+}
+
 
             function updateLevel3Progress() {
                 // Set progress to 0% on reset
@@ -2427,9 +1924,6 @@
         return dropzone;
     }
 
-
-
-
     function createFeatureElement(feature) {
         const featureElement = document.createElement('div');
         featureElement.className = 'feature-item';
@@ -2456,824 +1950,6 @@
         return featureElement;
     }
 
-            function initializeLevel4() {
-                const level4Content = document.getElementById('level4Content');
-                level1Content.style.display = 'none';
-                level2Content.style.display = 'none';
-                level3Content.style.display = 'none';
-                level4Content.style.display = 'block';
-
-                // Start the timer for Level 4
-                startNewLevel(4);
-
-                // Generate a random RGB color for the image
-                const randomRed = Math.floor(Math.random() * 256);
-                const randomGreen = Math.floor(Math.random() * 256);
-                const randomBlue = Math.floor(Math.random() * 256);
-                const randomColor = `rgb(${randomRed}, ${randomGreen}, ${randomBlue})`;
-
-                // Set the random color to the color image
-                const colorImage = document.getElementById('colorImage');
-                colorImage.style.backgroundColor = randomColor;
-
-                const submitColorButton = document.getElementById('submitColor');
-
-                // Update the displayed values of the sliders in real-time and update the selected color image
-                document.getElementById('redSlider').addEventListener('input', updateSelectedColor);
-                document.getElementById('greenSlider').addEventListener('input', updateSelectedColor);
-                document.getElementById('blueSlider').addEventListener('input', updateSelectedColor);
-
-                function updateSelectedColor() {
-                    const red = parseInt(document.getElementById('redSlider').value);
-                    const green = parseInt(document.getElementById('greenSlider').value);
-                    const blue = parseInt(document.getElementById('blueSlider').value);
-
-                    const selectedColor = `rgb(${red}, ${green}, ${blue})`;
-
-                    // Update the background color of the selected color image
-                    const selectedColorImage = document.getElementById('selectedColorImage');
-                    selectedColorImage.style.backgroundColor = selectedColor;
-
-                    // Update the displayed RGB values
-                    document.getElementById('redValue').textContent = red;
-                    document.getElementById('greenValue').textContent = green;
-                    document.getElementById('blueValue').textContent = blue;
-                }
-
-                // Add the event listener for color submission
-                submitColorButton.addEventListener('click', () => {
-                    const red = parseInt(document.getElementById('redSlider').value);
-                    const green = parseInt(document.getElementById('greenSlider').value);
-                    const blue = parseInt(document.getElementById('blueSlider').value);
-
-                    const selectedRGB = { r: red, g: green, b: blue };
-
-                    // Check if the selected color is (0, 0, 0) for an automatic pass
-                    const isAutoCorrect = selectedRGB.r === 0 && selectedRGB.g === 0 && selectedRGB.b === 0;
-
-                    // Set a tolerance level for other colors
-                    const tolerance = 50;
-
-                    // Check if the selected color is within the tolerance range
-                    const isCorrect =
-                        Math.abs(selectedRGB.r - randomRed) <= tolerance &&
-                        Math.abs(selectedRGB.g - randomGreen) <= tolerance &&
-                        Math.abs(selectedRGB.b - randomBlue) <= tolerance;
-
-                    // If the guess is either the automatic pass or within tolerance
-                    if (isAutoCorrect || isCorrect) {
-                        document.getElementById('message').textContent = "Correct! You've matched the color!";
-
-                        // Update score if needed
-                        updateScore(10); // Example: 20 points for correct color match
-
-                        showLevel4CompleteModal(); // Show completion modal
-                        // gameState.level++; // Progress to the next level
-                        attackMonster(); // Move to the next stage or action
-                    } else {
-                        document.getElementById('message').textContent = `Incorrect color! Try again!`;
-                        monsterAttack();
-                        takeDamage(); // Handle incorrect color guess
-                    }
-                });
-            }
-
-            function initializeLevel5() {
-                level1Content.style.display = 'none';
-                level2Content.style.display = 'none';
-                level3Content.style.display = 'none';
-                level4Content.style.display = 'none';
-                level5Content.style.display = 'block';
-
-                // Start the timer for Level 5
-                startNewLevel(5); // Reset and start the countdown timer for Level 5
-
-                const objectImage = document.getElementById('objectImage');
-                const targetZoneMessage = document.getElementById('targetZoneMessage'); // Message element
-
-                // Define all detection zones and their respective IDs
-                const detectionZones = [
-                    { id: 'easyTree', name: 'easy Tree' },
-                    { id: 'smallTree', name: 'Small Tree' },
-                    { id: 'largestTree', name: 'Largest Tree' },
-                    { id: 'bench', name: 'Bench' },
-                    { id: 'sun', name: 'Sun' }
-                ];
-
-                // Randomly select a target from the detection zones
-                const randomIndex = Math.floor(Math.random() * detectionZones.length);
-                const selectedTarget = detectionZones[randomIndex];
-
-                targetZoneMessage.innerText = `Click on the: ${selectedTarget.name}`;
-
-                // Event listener for image click
-                objectImage.addEventListener('click', function (event) {
-                    const rect = objectImage.getBoundingClientRect();
-                    const x = event.clientX - rect.left;
-                    const y = event.clientY - rect.top;
-
-                    // Get the target zone using getBoundingClientRect()
-                    const targetZone = document.getElementById(selectedTarget.id);
-                    const targetRect = targetZone.getBoundingClientRect();
-
-                    // Check if the clicked area is within the target zone
-                    const detected = (x >= targetRect.left - rect.left && x <= targetRect.right - rect.left) &&
-                        (y >= targetRect.top - rect.top && y <= targetRect.bottom - rect.top);
-
-                    if (detected) {
-                        // Update score for successful detection
-                        updateScore(10); // Example: Award 20 points for detecting the object
-
-                        showLevel5CompleteModal(); // Trigger the completion modal for Level 5
-                        gameState.level++; // Move to the next level
-                    } else {
-                        
-                        monsterAttack();
-                        takeDamage();
-                    }
-                });
-            }
-
-            function initializePostTest() {
-                const quizSound = new Audio("{{ asset('music/quizBackgroundMusic.mp3') }}");
-                quizSound.loop = true; // Enable looping
-                quizSound.play();
-                pauseTimer(); // Pause any timers if applicable
-                const totalScore = gameState.totalScore || 0;
-
-                // Hide level content
-                document.getElementById('level1Content').style.display = 'none';
-                document.getElementById('level2Content').style.display = 'none';
-                document.getElementById('level3Content').style.display = 'none';
-                document.getElementById('level4Content').style.display = 'none';
-                document.getElementById('level5Content').style.display = 'none';
-
-                const canvas = document.getElementById('gameCanvas');
-                const ctx = canvas.getContext('2d');
-
-                const shootSound = new Audio("{{ asset('audio/shootSound.mp3') }}");
-
-                const questions = [
-        {
-            question: "1. Why are outlines essential in image recognition?\n\n\nA. Define shape\nB. Add color\nC. Highlight details\nD. Remove textures",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 0
-        },
-        {
-            question: "2. What is pixelation in image recognition?\n\n\nA. Enhancing details\nB. Transforming to blocks\nC. Increasing size\nD. Improving color",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 1
-        },
-        {
-            question: "3. What role do outlines play in feature extraction?\n\n\nA. They obscure details\nB. They help identify shapes\nC. They add complexity\nD. They reduce processing time",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 1
-        },
-        {
-            question: "4. Which of the following best describes pixelation?\n\n\nA. A smoothing technique\nB. A method to reduce noise\nC. A way to create block-like images\nD. A technique for enhancing edges",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 2
-        },
-        {
-            question: "5. Why is it important to recognize outlines in image processing?\n\n\nA. To remove background noise\nB. To improve image resolution\nC. To extract essential features\nD. To enhance color saturation",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 2
-        },
-        {
-            question: "6. How does pixelation affect image quality?\n\n\nA. It improves sharpness\nB. It makes images clearer\nC. It reduces detail\nD. It has no effect",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 2
-        },
-        {
-            question: "7. Which method is commonly used for detecting outlines?\n\n\nA. Histogram equalization\nB. Edge detection algorithms\nC. Noise reduction\nD. Image segmentation",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 1
-        },
-        {
-            question: "8. What happens to pixelated images when you zoom in?\n\n\nA. They become clearer\nB. They show blocks of color\nC. They lose detail\nD. They remain unchanged",
-            answers: ["A.", "B.", "C.", "D."],
-            correct: 1
-        }
-    ];
-
-                let currentQuestion = 0;
-        let score = 0;
-        const totalQuestions = questions.length;
-        let gameActive = true;
-        let crosshairX = 400;
-        let crosshairY = 300;
-        let hitAnimationActive = false;
-        let hitAnimationX = 0;
-        let hitAnimationY = 0;
-        let hitAnimationFrame = 0;
-        let isReloading = false; // State to track if the gun is reloading
-
-        function drawRevolver() {
-        const gunX = canvas.width / 2; // Center position of the gun on the canvas
-        const gunY = canvas.height - 0; // Slightly above the bottom for a first-person effect
-
-        ctx.save();
-        ctx.translate(gunX, gunY);
-
-        // Scale factor to make the revolver bigger
-        const scaleFactor = 1.5;
-
-        // Draw the revolver grip with a wood texture effect
-        ctx.fillStyle = "#663300";
-        ctx.beginPath();
-        ctx.moveTo(-20 * scaleFactor, 0);
-        ctx.lineTo(20 * scaleFactor, 0);
-        ctx.lineTo(15 * scaleFactor, -40 * scaleFactor);
-        ctx.lineTo(-15 * scaleFactor, -40 * scaleFactor);
-        ctx.closePath();
-        ctx.fill();
-
-        // Add some lines to simulate wood grain texture
-        ctx.strokeStyle = "#331900";
-        ctx.lineWidth = 1 * scaleFactor;
-        ctx.beginPath();
-        ctx.moveTo(-18 * scaleFactor, -10 * scaleFactor);
-        ctx.lineTo(-10 * scaleFactor, -35 * scaleFactor);
-        ctx.moveTo(10 * scaleFactor, -5 * scaleFactor);
-        ctx.lineTo(15 * scaleFactor, -35 * scaleFactor);
-        ctx.stroke();
-
-        // Draw the revolver body with more details
-        ctx.fillStyle = "#555";
-        ctx.fillRect(-15 * scaleFactor, -40 * scaleFactor, 30 * scaleFactor, -60 * scaleFactor);
-
-        // Draw the cylinder (revolver style) with rotation effect
-        ctx.save();
-        ctx.fillStyle = isReloading ? "#666" : "#777";
-        ctx.translate(0, -70 * scaleFactor);
-        ctx.rotate(isReloading ? Math.PI / 8 : 0); // Slight rotation during reload
-        ctx.beginPath();
-        ctx.arc(0, 0, 15 * scaleFactor, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Add cylinder chambers (holes for bullets)
-        ctx.fillStyle = "#333";
-        for (let i = 0; i < 6; i++) {
-            ctx.beginPath();
-            ctx.arc(
-                10 * scaleFactor * Math.cos(i * Math.PI / 3), 
-                10 * scaleFactor * Math.sin(i * Math.PI / 3), 
-                3 * scaleFactor, 
-                0, 
-                Math.PI * 2
-            );
-            ctx.fill();
-        }
-        ctx.restore();
-
-        // Draw the barrel with additional details
-        ctx.fillStyle = "#444";
-        ctx.fillRect(-5 * scaleFactor, -100 * scaleFactor, 10 * scaleFactor, -40 * scaleFactor); // Main barrel shape
-
-        // Draw barrel details (e.g., grooves or lines)
-        ctx.strokeStyle = "#333";
-        ctx.lineWidth = 1 * scaleFactor;
-        ctx.beginPath();
-        ctx.moveTo(-3 * scaleFactor, -140 * scaleFactor);
-        ctx.lineTo(-3 * scaleFactor, -100 * scaleFactor);
-        ctx.moveTo(3 * scaleFactor, -140 * scaleFactor);
-        ctx.lineTo(3 * scaleFactor, -100 * scaleFactor);
-        ctx.stroke();
-
-        // Optional: Add a sight at the end of the barrel
-        ctx.fillStyle = "#222";
-        ctx.fillRect(-2 * scaleFactor, -140 * scaleFactor, 4 * scaleFactor, 5 * scaleFactor);
-
-        ctx.restore();
-    }
-
-    // Function to simulate firing and reloading
-    function fireGun() {
-        if (!isReloading) {
-            isReloading = true;
-
-            // Gunfire effect
-            
-
-            // Start reloading animation with recoil effect
-            setTimeout(() => {
-                isReloading = false;
-                drawGame();
-            }, 300); // 300 ms reloading delay for animation effect
-        }
-    }
-
-    // Function to create a muzzle flash effect with details
-    function drawMuzzleFlash() {
-        const flashX = canvas.width / 2;
-        const flashY = canvas.height - 200; // Flash should appear near the end of the barrel
-
-        ctx.save();
-        ctx.translate(flashX, flashY);
-
-        // Create outer flash (larger and less opaque)
-        ctx.fillStyle = "rgba(255, 165, 0, 0.5)";
-        ctx.beginPath();
-        ctx.arc(0, 0, 60, 0, Math.PI * 2); // Increased size for larger gun
-        ctx.fill();
-
-        // Create inner flash (smaller and brighter)
-        ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
-        ctx.beginPath();
-        ctx.arc(0, 0, 40, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Create core flash (smallest and most intense)
-        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-        ctx.beginPath();
-        ctx.arc(0, 0, 20, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-
-        // Remove the flash after a short time
-        setTimeout(drawGame, 100);
-    }
-
-
-    // Update the drawGame function to include drawing the gun
-    function drawGame() {
-        if (!gameActive) return;
-
-        // Clear the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the background first
-        drawBackground();
-
-        // Check if there are more questions to display
-        if (currentQuestion < totalQuestions) {
-            // Display the current question text
-            document.getElementById('questionText').innerText = questions[currentQuestion].question;
-
-            // Draw targets for each answer
-            questions[currentQuestion].answers.forEach((answer, i) => {
-                const xPos = 100 + (i * 200);
-                drawTarget(xPos, 300, answer);
-            });
-
-            // Draw the crosshair
-            drawCrosshair(crosshairX, crosshairY);
-
-            // Draw the gun that follows the crosshair
-            drawRevolver();
-
-            // Draw hit animation if active
-            if (hitAnimationActive) {
-                drawHitAnimation(hitAnimationX, hitAnimationY);
-                fireGun();
-            drawMuzzleFlash();
-                hitAnimationFrame++;
-
-                // Reset hit animation after a few frames
-                if (hitAnimationFrame > 5) {
-                    hitAnimationActive = false;
-                    hitAnimationFrame = 0;
-                }
-            }
-        }
-    }
-    setInterval(drawGame, 50000);
-
-    function drawBackground() {
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        // Sky Gradient
-        const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
-        skyGradient.addColorStop(0, "#87CEEB"); // Light blue
-        skyGradient.addColorStop(1, "#4682B4"); // Steel blue
-        ctx.fillStyle = skyGradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
-
-        // Draw Clouds
-        const clouds = [];
-
-    // Create more clouds
-    for (let i = 0; i < 10; i++) {
-        const cloud = {
-            x: Math.random() * canvas.width,  // Random initial X position
-            y: Math.random() * (canvas.height / 5),  // Random initial Y position within the upper part of the canvas
-            speed: 0.02 + Math.random() * 0.03  // Slower cloud speed (further reduced for a smoother effect)
-        };
-        clouds.push(cloud);
-    }
-
-    // In your draw function:
-    for (let i = 0; i < clouds.length; i++) {
-            const cloud = clouds[i];
-            cloud.x += cloud.speed;  // Move the cloud horizontally based on its speed
-
-            // Reset cloud position when it moves off-screen
-            if (cloud.x > canvas.width) {
-                cloud.x = -100;  // Move it off-screen to the left
-                cloud.y = Math.random() * (canvas.height / 3);  // Reset its Y position randomly within the top third of the canvas
-            }
-
-            // Draw the cloud at its new position
-            drawCloud(ctx, cloud.x, cloud.y);
-        }
-        // Ground Gradient
-        const groundGradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
-        groundGradient.addColorStop(0, "#8B4513"); // Brown at horizon
-        groundGradient.addColorStop(1, "#5C4033"); // Darker brown near bottom
-        ctx.fillStyle = groundGradient;
-        ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
-
-        // Horizon Line
-        ctx.strokeStyle = "#654321"; // Darker brown for horizon
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(0, canvas.height / 2);
-        ctx.lineTo(canvas.width, canvas.height / 2);
-        ctx.stroke();
-
-        // Distant Trees on Horizon
-        for (let i = 0; i < 10; i++) {
-            const treeX = Math.random() * canvas.width;
-            const treeY = canvas.height / 2 - Math.random() * 10;
-            drawTree(ctx, treeX, treeY, 0.4); // Smaller trees for distance effect
-        }
-
-        // Grass Patches in Foreground
-        for (let i = 0; i < 15; i++) {
-            const grassX = Math.random() * canvas.width;
-            const grassY = canvas.height / 2 + Math.random() * (canvas.height / 2);
-            drawGrass(ctx, grassX, grassY);
-        }
-
-        // Stones and Ground Details
-        for (let i = 0; i < 10; i++) {
-            const stoneX = Math.random() * canvas.width;
-            const stoneY = canvas.height / 2 + Math.random() * (canvas.height / 2);
-            drawStone(ctx, stoneX, stoneY);
-        }
-
-        // Targets on the Ground
-        for (let i = 0; i < 3; i++) {
-            const targetX = (canvas.width / 4) * (i + 1);
-            const targetY = canvas.height / 2 + 100;
-            drawTarget(ctx, targetX, targetY);
-        }
-    }
-
-    // Function to draw clouds
-    function drawCloud(ctx, x, y) {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";  // White cloud color with transparency
-        ctx.beginPath();
-        ctx.arc(x, y, 25, Math.PI * 0.5, Math.PI * 1.5);  // Left side of the cloud
-        ctx.arc(x + 30, y - 10, 30, Math.PI * 1, Math.PI * 1.85);  // Middle part of the cloud
-        ctx.arc(x + 60, y, 25, Math.PI * 1.5, Math.PI * 0.5);  // Right side of the cloud
-        ctx.closePath();
-        ctx.fill();
-    }
-
-    // Function to draw trees on the horizon
-    function drawTree(ctx, x, y, scale = 1) {
-        ctx.fillStyle = "#2E8B57"; // Green for tree leaves
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x - 10 * scale, y + 20 * scale);
-        ctx.lineTo(x + 10 * scale, y + 20 * scale);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = "#8B4513"; // Brown for trunk
-        ctx.fillRect(x - 2 * scale, y + 20 * scale, 4 * scale, 10 * scale);
-    }
-
-    // Function to draw grass patches
-    function drawGrass(ctx, x, y) {
-        ctx.fillStyle = "#228B22"; // Green color for grass
-        for (let i = 0; i < 5; i++) {
-            const bladeX = x + Math.random() * 10 - 5;
-            const bladeY = y - Math.random() * 15;
-            ctx.beginPath();
-            ctx.moveTo(bladeX, y);
-            ctx.lineTo(bladeX - 2, bladeY);
-            ctx.lineTo(bladeX + 2, bladeY);
-            ctx.fill();
-            ctx.closePath();
-        }
-    }
-
-    // Function to draw small stones
-    function drawStone(ctx, x, y) {
-        ctx.fillStyle = "#A9A9A9"; // Gray color for stone
-        ctx.beginPath();
-        ctx.ellipse(x, y, Math.random() * 5 + 2, Math.random() * 3 + 1, Math.PI / 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    // Function to draw targets with answers inside
-    function drawTarget(x, y, answer) {
-        const ringSizes = [80, 70, 60, 50, 40, 30, 20]; // Radii for each ring from outer to inner
-        const ringColors = ["white", "black", "blue", "black", "red", "red", "yellow"]; // Colors for each ring
-
-        // Adjust x position to move targets further right
-        const adjustedX = x + 100; // Move the target right by 100 pixels
-
-        // Draw each ring
-        for (let i = 0; i < ringSizes.length; i++) {
-            ctx.fillStyle = ringColors[i]; // Set the fill color for the current ring
-            ctx.beginPath();
-            ctx.arc(adjustedX, y, ringSizes[i], 0, Math.PI * 2); // Draw the ring as a circle
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        // Text settings
-        // Text settings
-    const textColor = "black"; // Text color
-    const textBackgroundColor = "rgba(255, 255, 255, 0.8)"; // Background color for the text
-    const fontSize = "20px"; // Font size for better readability
-    const textPadding = 5; // Padding for the text background
-
-    // Calculate text background dimensions
-    const textWidth = ctx.measureText(answer).width;
-    const textBackgroundWidth = textWidth + textPadding * 2; // Width of text background
-    const textBackgroundHeight = parseInt(fontSize, 10) + textPadding; // Height of text background
-
-    // Draw the answer label inside the target
-    ctx.fillStyle = textColor; // Text color
-    ctx.font = `bold ${fontSize} Arial`; // Font style with increased size
-    ctx.textAlign = "center"; // Center text alignment
-    ctx.textBaseline = "middle"; // Align text vertically in the middle
-    ctx.fillText(answer, adjustedX, y);
-    }
-
-                // Function to draw crosshair
-                function drawCrosshair(x, y) {
-                    ctx.strokeStyle = "red"; // Crosshair color
-                    ctx.lineWidth = 2; // Crosshair line width
-                    ctx.beginPath();
-                    ctx.moveTo(x - 10, y);
-                    ctx.lineTo(x + 10, y);
-                    ctx.moveTo(x, y - 10);
-                    ctx.lineTo(x, y + 10);
-                    ctx.stroke();
-                }
-
-                function drawHitAnimation(x, y) {
-        const maxBurstRadius = 70; // Increase the max burst radius for a bigger effect
-        const burstRadius = 20 + hitAnimationFrame * 4; // Increase initial burst radius and speed of expansion
-        const burstOpacity = 1 - hitAnimationFrame / 8; // Make burst opacity fade out slower
-
-        // Radial gradient for the burst effect
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, burstRadius);
-        gradient.addColorStop(0, `rgba(255, 165, 0, ${burstOpacity})`); // Brighter Orange
-        gradient.addColorStop(0.5, `rgba(255, 100, 0, ${burstOpacity * 0.9})`); // More intense Orange-red
-        gradient.addColorStop(1, `rgba(255, 50, 0, 0)`); // Edge - Transparent
-
-        // Draw expanding burst with gradient
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(x, y, Math.min(burstRadius, maxBurstRadius), 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-
-        // Draw "hole" in the target
-        const holeRadius = hitAnimationFrame * 3; // Increase hole radius expansion
-        ctx.fillStyle = "rgba(0, 0, 0, 0.8)"; // Darker "hole" color for contrast
-        ctx.beginPath();
-        ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.closePath();
-
-        // Shockwave ring effect
-        const shockwaveRadius = hitAnimationFrame * 5; // Larger shockwave
-        ctx.strokeStyle = `rgba(255, 255, 255, ${burstOpacity * 0.8})`; // White with stronger opacity
-        ctx.lineWidth = 3; // Thicker line for the shockwave
-        ctx.beginPath();
-        ctx.arc(x, y, shockwaveRadius, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.closePath();
-
-        // Enhanced particle debris effect
-        for (let i = 0; i < 18; i++) { // Increase particle count
-            const angle = Math.random() * Math.PI * 2;
-            const distance = burstRadius + Math.random() * 20;
-            const particleX = x + Math.cos(angle) * distance;
-            const particleY = y + Math.sin(angle) * distance;
-            const particleSize = 3 + Math.random() * 3; // Larger particles
-            const particleOpacity = burstOpacity * (0.7 + Math.random() * 0.5); // Higher opacity range
-
-            ctx.fillStyle = `rgba(169, 169, 169, ${particleOpacity})`; // Gray debris
-            ctx.beginPath();
-            ctx.arc(particleX, particleY, particleSize, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        // More noticeable smoke particles
-        for (let i = 0; i < 10; i++) { // Increase smoke particle count
-            const smokeAngle = Math.random() * Math.PI * 2;
-            const smokeDistance = 25 + Math.random() * 15;
-            const smokeX = x + Math.cos(smokeAngle) * smokeDistance;
-            const smokeY = y - Math.sin(smokeAngle) * (smokeDistance + hitAnimationFrame); // Moves upwards
-            const smokeSize = 5 + Math.random() * 4; // Larger smoke particles
-            const smokeOpacity = burstOpacity * 0.4; // Increase smoke opacity slightly
-
-            ctx.fillStyle = `rgba(105, 105, 105, ${smokeOpacity})`; // Dark gray smoke
-            ctx.beginPath();
-            ctx.arc(smokeX, smokeY, smokeSize, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        // Update animation frame count
-        hitAnimationFrame++;
-
-        // Reset animation once completed
-        if (hitAnimationFrame > 20) { // Longer duration for extended visibility
-            hitAnimationActive = false;
-            hitAnimationFrame = 0;
-        }
-    }
-
-                canvas.addEventListener('mousemove', function (event) {
-                    const rect = canvas.getBoundingClientRect();
-                    crosshairX = event.clientX - rect.left;
-                    crosshairY = event.clientY - rect.top;
-                    drawGame();
-                    requestAnimationFrame(animate);
-                });
-                
-                // Click event to handle answer selection
-                canvas.addEventListener('click', function () {
-                
-                shootSound.play();
-                    const targetSize = 80; // Size of the target shape
-
-                    let hit = false;
-
-                    // Check if a target was clicked
-                    questions[currentQuestion].answers.forEach((answer, i) => {
-                        const adjustedXPos = 100 + (i * 200) + 100; // Match x position from drawTarget
-                        const adjustedYPos = 300; // Match y position from drawTarget// Calculate X position for the target
-
-                        if (
-                            crosshairX > adjustedXPos - targetSize &&
-                            crosshairX < adjustedXPos + targetSize &&
-                            crosshairY > adjustedYPos - targetSize &&
-                            crosshairY < adjustedYPos + targetSize
-                        ) {
-                        hit = true;
-                            if (i === questions[currentQuestion].correct) {
-                    score++; // Increase score for correct answer
-                    
-                }
-                hitAnimationActive = true;
-                hitAnimationX = adjustedXPos; // Use adjusted X position to align with target
-                hitAnimationY = adjustedYPos
-
-                    if (hit) {
-                        canvas.addEventListener('click', fireGun);
-        currentQuestion++;
-
-        // Check if there are more questions left
-        if (currentQuestion < totalQuestions) {
-            drawGame();
-        } else {
-            quizSound.pause();
-            
-            // Calculate the score percentage
-            const percentageScore = (score / totalQuestions) * 100;
-            document.getElementById('finalScoreText').innerText = `Your score: ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`;
-            document.getElementById('scoreModal').style.display = 'flex'; // Show modal
-
-            // Define base URL and retrieve user ID from local storage
-            const baseUrl = window.location.origin;
-            const userId = localStorage.getItem('user_id');
-            console.log('User ID:', userId);
-
-            // Fetch previous performance from backend to ensure accuracy
-            
-
-                    // Check if the user passed or failed
-                    if (percentageScore >= 80) {
-        // Log the percentageScore and ensure it's being calculated correctly
-        console.log('Passing score detected:', percentageScore);
-
-        fetch(`${baseUrl}/get-current-performance/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                let previousPostTestPerformance = data.post_test_performance || 0;
-                console.log('Previous Performance:', previousPostTestPerformance);
-
-                // Updated logging for the performance score
-                console.log('Current easy_post_test_performance:', percentageScore);
-
-                document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!`;
-                const updatedTotalScore = gameState.totalScore + score;
-
-                // Update the game state with the new total score
-                gameState.totalScore = updatedTotalScore;
-                showModal(updatedTotalScore);
-
-                // Display the total score including the post-test score
-                console.log('Updated Total Score:', updatedTotalScore);
-                document.getElementById('score').innerText = `Your total score: ${updatedTotalScore}`;
-
-                // Update easy_finish status and save stats to the database
-                fetch(`${baseUrl}/update-easy-finish/${userId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ easy_finish: 1 })
-                })
-                .then(response => response.json())
-                .then(() => {
-                    // Save the score and additional stats
-                    return fetch(`${baseUrl}/easy-update-score/${userId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            score: updatedTotalScore,
-                            increment_total_games_played: true,
-                            total_wins: 1,  // Always sending 1 when passed
-                            success_rate: 1, // Assuming you also want to count this as a success
-                            easy_post_test_performance: percentageScore // Ensure you are sending the correct value
-                        })
-                    });
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Score and additional stats updated successfully:', data);
-                })
-                .catch(error => {
-                    console.error('Error updating score or easy_finish:', error);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching current performance:', error);
-            });
-
-        document.getElementById('postTestContainer').style.display = 'none';
-    } else {
-        // Handle failure case as before
-        document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again!`;
-        // Restart the game after 1 second if the user failed
-        fetch(`${baseUrl}/easy-update-score/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                increment_total_games_played: true, // Only increment total games played
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Game stats updated successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error updating total games played:', error);
-        });
-
-        setTimeout(() => {
-            currentQuestion = 0; // Reset to the first question
-            score = 0; // Reset score
-            gameActive = true; // Reactivate the game
-            window.location.href = "{{ route('stage1') }}"; // Restart the game
-        }, 1000);
-    }
-                    // Stop the game
-                    gameActive = false;
-        }
-    }
-            }
-        });
-    });
-                // Start the drawing loop
-                drawGame();
-                setInterval(drawGame, 100);
-                document.getElementById('postTestContainer').style.display = 'block'; // Show post-test container
-            }
-
-
-            function showModal(score) {
-                document.getElementById('score').textContent = "Your total score: " + score; // Set the score
-                document.getElementById('resultsModal').style.display = 'flex'; // Show modal
-            }
-
             function closeModal() {
                 document.getElementById('resultsModal').style.display = 'none';
                 window.location.href = "{{ route('play') }}"; // Hide modal
@@ -3292,9 +1968,7 @@
                     if (gameState.level === 1) {
                         showLevel1CompleteModal();
                     } else if (gameState.level === 2) {
-                        showLevel2CompleteModal();
-                        // alert("Congratulations! You've completed all levels!");
-                        // resetGame();
+                        showLevel3CompleteModal();
                     }
                 }
 
@@ -3325,62 +1999,20 @@
                 }
             }
 
-            // function attackMonster() {
-            //     if (!gameState.isPlayerAttacking && !gameState.isMonsterAttacking) {
-            //         gameState.isPlayerAttacking = true;
-            //         gameState.attackFrame = 0;
-            //         animateAttack('player');
-            //     }
-            // }
             const learningMaterials = {
-        1: [
-            "Classification is an artificial neural networks to identify objects in the image and assign them one of the predefined groups or classifications.",
-            "They analyze the features of an image and assign it to one of the predefined categories based on the patterns they have learned during analyze.",
-            "Outline is the one of the featured of classification, this process called edge detection or shape recognition.",
-            "The outlines can help the model recognize specific shapes associated with different classes. For example, the outline of a cat may differ significantly from that of a dog, allowing the model to classify them accurately.",
-            "In this level you need to find the correct outline of the target image on the card below, one of the card is the right answer so choose wisely, otherwise you will get ATTACKED!"
-        ],
-        2: [
-            "For the first step of image recognition is Image Acquisition",
-            "This is the first step in the image recognition process, and it involves capturing or obtaining images for analysis.",
-            "This step is crucial because the quality and characteristics of the acquired images can significantly influence the performance of subsequent processing and recognition tasks.",
-            "Proper image acquisition sets the stage for effective preprocessing, feature extraction, and ultimately, accurate recognition.",
-            "With the line of Image Acquistion is the Proprocessing",
-            "This is also crucial step in the image recognition pipeline that involves preparing the acquired images for analysis. The goal of preprocessing is to enhance the quality of the images and make them suitable for feature extraction and classification. ",
-            "On this level, you need to know the image before it becomes clearer it called Normalization",
-            "Normalization is an essential preprocessing step in image recognition and machine learning that involves scaling pixel values to a specific range. This process helps improve the performance and convergence of machine learning models."
-        ],
-        3: [
-            "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
-            "This process is also a crucial step in the image recognition process that involves identifying and isolating important characteristics or patterns from an image.",
-            "These features are then used to represent the image in a way that makes it easier for machine learning models to classify or recognize objects within the image.",
-            "There are different types of method in extracting feature:",
-            "Edge Detection: Techniques like the Sobel operator, Canny edge detector, or Laplacian filter identify edges in an image, which are important for recognizing shapes and boundaries.",
-            "Texture Features: Methods such as Local Binary Patterns (LBP) or Gabor filters extract texture information from images, which can be useful for distinguishing between different materials or surfaces.",
-            "Color Extraction: The process used in image processing and computer vision to identify and isolate specific colors or color distributions within an image",
-            "On this level you need to find the right edge, texture, and color of a specific image."
-        ],
-        4: [
-            "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
-            "It involves detecting and recognizing specific colors within an image, which can be crucial for various applications in computer vision and image analysis.",
-            "Color identification fits into the broader context of image processing",
-            "Feature Extraction: Color is an important feature that can be used to distinguish between different objects or regions in an image. By identifying colors, systems can extract relevant information that aids in further analysis or classification.",
-            "Segmentation: Color identification is often used in image segmentation, where an image is divided into meaningful regions based on color similarity. This can help isolate objects of interest from the background or other elements in the image.",
-            "Object Detection: In many applications, such as robotics or autonomous vehicles, color identification is used to detect and track objects based on their color. For example, a system might identify red traffic lights or green road signs.",
-            "On this level we apply the technique of Color Space Conversion: Images are often converted from the RGB color space to other color spaces (e.g., HSV, LAB) that may be more suitable for color identification.",
-            "You need to find the right color on the target image!" 
-        ],
-        5: [
-            "Now with all of the steps that you have take, we can move on the final level which is the object detection",
-            "It is a computer vision task that involves identifying and locating objects within an image or video. It not only classifies objects but also provides their positions in the form of bounding boxes. ",
-            "Object detection is widely used in various applications, including autonomous vehicles, surveillance, robotics, and image retrieval.",
-            "With the help of the previous steps it will apply to this object detection.",
-            "Image Acquisition: Process of capturing or obtaining images that will be analyzed for object detection.",
-            "Preprocessing: Involves preparing the acquired images for analysis by enhancing their quality and making them suitable for feature extraction and object detection.",
-            "Classification: Determining the category or class of the detected objects.",
-            "Feature extraction: Identifying and isolating important characteristics or patterns from the preprocessed images that will be used for object detection.",
-            "Now you on this level you need to find a specific tagert!"
-        ]
+    1: [
+                "Player: Where am I?, What is this place?",
+                "Monster: I am the guardian of these lands. Turn back, mortal!",
+                "Player: AAHHHH!",
+                "Monster: Then your journey ends here!",
+                "Player: Im not ready to leave my journey I want to learn more!",
+    ],
+    2: [
+                "Player: Thats is so easy!",
+                "Monster: RRRRAHHHHH!",
+                "Player: AAHHHH!"
+    ],
+
     };
 
     let currentMonologueIndex = 0;
@@ -3463,15 +2095,9 @@
         updateStats(); // Update game stats
 
         // Play background music
-        
-
         // If the level starts, play the background music
         if (currentLevel === 1) {
             draw();
-            setTimeout(() => {
-                flipAllCards(true); // Flip all cards face up
-                setTimeout(shuffle, 1000); // Shuffle after a delay
-            }, 1000);
         } else if (currentLevel === 2) {
             currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
             draw();
@@ -3524,10 +2150,6 @@
 
     if (currentLevel === 1) {
         draw();
-        setTimeout(() => {
-            flipAllCards(true); // Flip all cards face up
-            setTimeout(shuffle, 1000); // Shuffle after a delay
-        }, 1000);
     } else if (currentLevel === 2) {
         currentMonsterImage.src = monsterImages[Math.floor(Math.random() * monsterImages.length)];
         draw();
@@ -3567,8 +2189,27 @@
                 document.getElementById('monsterHp').textContent = gameState.monsterHp;
             }
 
-            const playerImage = new Image();
-            playerImage.src = 'images/characters/player.png'; // Replace with the correct path
+
+        let playerImage = new Image();
+
+// Initialize the player image based on the gender
+fetch('/get-game-state') // Example API to fetch user state, assuming it returns the gender
+    .then(response => response.json())
+    .then(data => {
+        if (data.playerGender === 'male') {
+            playerImage.src = 'images/characters/playerMale.png';
+        } else if (data.playerGender === 'female') {
+            playerImage.src = 'images/characters/playerFemale.png';
+        } else {
+            playerImage.src = 'images/characters/defaultPlayer.png'; // Fallback image
+        }
+    })
+    .catch(error => console.error('Error fetching game state:', error));
+
+// Event listener to ensure player image is loaded before drawing
+playerImage.onload = function() {
+    console.log("Player image loaded successfully.");
+};
 
             const monsterImages = [
                 'images/characters/easy/monster1.png', // Replace with correct paths
@@ -3630,25 +2271,27 @@
     }
 
     function draw() {
-        // Clear the game scene
-        ctx.clearRect(0, 0, gameScene.width, gameScene.height);
+    // Clear the game scene
+    ctx.clearRect(0, 0, gameScene.width, gameScene.height);
 
-        // Swaying effect for the background
-        const swayOffset = 5 * Math.sin(Date.now() / 1000); // Adjust sway speed and distance
-        ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
+    // Swaying effect for the background
+    const swayOffset = 5 * Math.sin(Date.now() / 1000); // Adjust sway speed and distance
+    ctx.drawImage(backgroundImage, swayOffset, 0, gameScene.width, gameScene.height);
 
-        // Draw sand particles in the background
-        drawParticles(ctx);
+    // Draw sand particles in the background
+    drawParticles(ctx);
 
-        // Calculate breathing effect for the player and monster
-        const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
+    // Calculate breathing effect for the player and monster
+    const breathingScale = 1 + 0.02 * Math.sin(Date.now() / 300); // Adjust scale and speed as needed
 
-        // Shadow for player
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
-        ctx.beginPath();
-        ctx.ellipse(gameState.playerX + 60, gameState.playerY + 113, 30, 3, 0, 0, 2 * Math.PI); // Simple ellipse shadow
-        ctx.fill();
+    // Shadow for player
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.playerX + 60, gameState.playerY + 113, 30, 3, 0, 0, 2 * Math.PI); // Simple ellipse shadow
+    ctx.fill();
 
+    // Ensure the player image is fully loaded before drawing it
+    if (playerImage.complete) {
         // Draw player with breathing effect
         const playerWidth = 120 * breathingScale;
         const playerHeight = 120 * breathingScale;
@@ -3659,35 +2302,38 @@
             playerWidth,
             playerHeight
         );
+    } else {
+        console.error("Player image is not loaded yet.");
+    }
 
-        // Shadow for monster
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
-        ctx.beginPath();
-        ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
-        ctx.fill();
+    // Shadow for monster
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
+    ctx.beginPath();
+    ctx.ellipse(gameState.monsterX + 35, gameState.monsterY + 70, 20, 7, 0, 0, 2 * Math.PI); // Smaller ellipse shadow
+    ctx.fill();
 
-        // Draw monster with breathing effect
-        const monsterWidth = 70 * breathingScale;
-        const monsterHeight = 70 * breathingScale;
-        ctx.drawImage(
-            currentMonsterImage,
-            gameState.monsterX - (monsterWidth - 70) / 2,
-            gameState.monsterY - (monsterHeight - 70) / 2,
-            monsterWidth,
-            monsterHeight
-        );
+    // Draw monster with breathing effect
+    const monsterWidth = 70 * breathingScale;
+    const monsterHeight = 70 * breathingScale;
+    ctx.drawImage(
+        currentMonsterImage,
+        gameState.monsterX - (monsterWidth - 70) / 2,
+        gameState.monsterY - (monsterHeight - 70) / 2,
+        monsterWidth,
+        monsterHeight
+    );
 
-        // If the player is hurt, overlay a red tint
-        if (gameState.playerHurt) {
-            ctx.fillStyle = 'rgba(255, 153, 153, 0.5)';
-            ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120);
-        }
+    // If the player is hurt, overlay a red tint
+    if (gameState.playerHurt) {
+        ctx.fillStyle = 'rgba(255, 153, 153, 0.5)';
+        ctx.fillRect(gameState.playerX, gameState.playerY, 120, 120);
+    }
 
-        // If the monster is hurt, overlay a red tint
-        if (gameState.monsterHurt) {
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-            ctx.fillRect(gameState.monsterX, gameState.monsterY, 70, 70);
-        }
+    // If the monster is hurt, overlay a red tint
+    if (gameState.monsterHurt) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fillRect(gameState.monsterX, gameState.monsterY, 70, 70);
+    }
 
         // Check for player or monster attack
         if (gameState.isPlayerAttacking || gameState.isMonsterAttacking) {
@@ -3851,19 +2497,6 @@
     // Call the animation to start it
     animate();
     }
-
-
-            function handleLevelComplete() {
-                if (gameState.level === 1) {
-                    showLevel1CompleteModal();
-                } else if (gameState.level === 2) {
-                    showLevel2CompleteModal();
-                } else if (gameState.level === 3) {
-                    alert("Congratulations! You've completed all levels!");
-                    resetGame();
-                }
-            }
-
             // Call this function to trigger the attack
             function triggerAttack() {
                 gameState.isAttacking = true;

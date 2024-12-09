@@ -1058,15 +1058,15 @@
     <audio id="clickSound" src="{{ asset('audio/click-sound.mp3') }}" preload="auto"></audio>
 
     <div id="learning-modal">
-        <div class="modal-background">
-            <img src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
+            <div class="modal-background">
+                <img id="modal-character-image" src="{{ asset('images/characters/player.png') }}" alt="Player" class="modal-image" />
+            </div>
+            <div class="modal-content">
+                <p id="learning-text"></p>
+                <button id="skip-monologue-btn">Skip Monologue</button>
+                <button id="start-level-btn">Start Level</button>
+            </div>
         </div>
-        <div class="modal-content">
-            <p id="learning-text"></p>
-            <button id="skip-monologue-btn">Skip Monologue</button>
-            <button id="start-level-btn">Start Level</button>
-        </div>
-    </div>
     <button id="settingsIcon" class="btn btn-light">
         <i class="bi bi-gear"></i>
     </button>
@@ -1250,6 +1250,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+let playerGender = '{{ auth()->user()->gender }}'; 
+const modalCharacterImage = document.getElementById('modal-character-image');
+
+if (playerGender === 'male') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerMale.png') }}";  // Male image
+    modalCharacterImage.alt = "Player Male";
+} else if (playerGender === 'female') {
+    modalCharacterImage.src = "{{ asset('images/characters/playerFemale.png') }}";  // Female image
+    modalCharacterImage.alt = "Player Female";
+}
+
         let quizOn = false;
         function showGameOverModal() {
             const modal = document.getElementById('gameOverModal');
@@ -3179,54 +3190,13 @@ ctx.fillText(answer, adjustedX, y);
         //     }
         // }
         const learningMaterials = {
-    1: [
-        "Classification is an artificial neural networks to identify objects in the image and assign them one of the predefined groups or classifications.",
-        "They analyze the features of an image and assign it to one of the predefined categories based on the patterns they have learned during analyze.",
-        "Outline is the one of the featured of classification, this process called edge detection or shape recognition.",
-        "The outlines can help the model recognize specific shapes associated with different classes. For example, the outline of a cat may differ significantly from that of a dog, allowing the model to classify them accurately.",
-        "In this level you need to find the correct outline of the target image on the card below, one of the card is the right answer so choose wisely, otherwise you will get ATTACKED!"
-    ],
-    2: [
-        "For the first step of image recognition is Image Acquisition",
-        "This is the first step in the image recognition process, and it involves capturing or obtaining images for analysis.",
-        "This step is crucial because the quality and characteristics of the acquired images can significantly influence the performance of subsequent processing and recognition tasks.",
-        "Proper image acquisition sets the stage for effective preprocessing, feature extraction, and ultimately, accurate recognition.",
-        "With the line of Image Acquistion is the Proprocessing",
-        "This is also crucial step in the image recognition pipeline that involves preparing the acquired images for analysis. The goal of preprocessing is to enhance the quality of the images and make them suitable for feature extraction and classification. ",
-        "On this level, you need to know the image before it becomes clearer it called Normalization",
-        "Normalization is an essential preprocessing step in image recognition and machine learning that involves scaling pixel values to a specific range. This process helps improve the performance and convergence of machine learning models."
-    ],
-    3: [
-        "Feature extraction identifies important characteristics like edges and textures to help classify objects.",
-        "This process is also a crucial step in the image recognition process that involves identifying and isolating important characteristics or patterns from an image.",
-        "These features are then used to represent the image in a way that makes it easier for machine learning models to classify or recognize objects within the image.",
-        "There are different types of method in extracting feature:",
-        "Edge Detection: Techniques like the Sobel operator, Canny edge detector, or Laplacian filter identify edges in an image, which are important for recognizing shapes and boundaries.",
-        "Texture Features: Methods such as Local Binary Patterns (LBP) or Gabor filters extract texture information from images, which can be useful for distinguishing between different materials or surfaces.",
-        "Color Extraction: The process used in image processing and computer vision to identify and isolate specific colors or color distributions within an image",
-        "On this level you need to find the right edge, texture, and color of a specific image."
-    ],
-    4: [
-        "Color identification helps distinguish objects by their color properties, which is essential in image recognition.",
-        "It involves detecting and recognizing specific colors within an image, which can be crucial for various applications in computer vision and image analysis.",
-        "Color identification fits into the broader context of image processing",
-        "Feature Extraction: Color is an important feature that can be used to distinguish between different objects or regions in an image. By identifying colors, systems can extract relevant information that aids in further analysis or classification.",
-        "Segmentation: Color identification is often used in image segmentation, where an image is divided into meaningful regions based on color similarity. This can help isolate objects of interest from the background or other elements in the image.",
-        "Object Detection: In many applications, such as robotics or autonomous vehicles, color identification is used to detect and track objects based on their color. For example, a system might identify red traffic lights or green road signs.",
-        "On this level we apply the technique of Color Space Conversion: Images are often converted from the RGB color space to other color spaces (e.g., HSV, LAB) that may be more suitable for color identification.",
-        "You need to find the right color on the target image!" 
-    ],
-    5: [
-        "Now with all of the steps that you have take, we can move on the final level which is the object detection",
-        "It is a computer vision task that involves identifying and locating objects within an image or video. It not only classifies objects but also provides their positions in the form of bounding boxes. ",
-        "Object detection is widely used in various applications, including autonomous vehicles, surveillance, robotics, and image retrieval.",
-        "With the help of the previous steps it will apply to this object detection.",
-        "Image Acquisition: Process of capturing or obtaining images that will be analyzed for object detection.",
-        "Preprocessing: Involves preparing the acquired images for analysis by enhancing their quality and making them suitable for feature extraction and object detection.",
-        "Classification: Determining the category or class of the detected objects.",
-        "Feature extraction: Identifying and isolating important characteristics or patterns from the preprocessed images that will be used for object detection.",
-        "Now you on this level you need to find a specific tagert!"
-    ]
+            1: [
+    "Player: The path ahead is treacherous, but I have no choice but to move forward.",
+    "Monster: Foolish traveler, you tread where none should dare.",
+    "Player: I won't let fear stop me. I've faced worse than you.",
+    "Monster: Brave words, but they will be your last. Prepare to be defeated!"
+],
+
 };
 
 let currentMonologueIndex = 2;
@@ -3415,8 +3385,26 @@ console.log("Starting level:", level);
             document.getElementById('monsterHp').textContent = gameState.monsterHp;
         }
 
-        const playerImage = new Image();
-        playerImage.src = 'images/characters/player.png'; // Replace with the correct path
+        let playerImage = new Image();
+
+// Initialize the player image based on the gender
+fetch('/get-game-state') // Example API to fetch user state, assuming it returns the gender
+    .then(response => response.json())
+    .then(data => {
+        if (data.playerGender === 'male') {
+            playerImage.src = 'images/characters/playerMale.png';
+        } else if (data.playerGender === 'female') {
+            playerImage.src = 'images/characters/playerFemale.png';
+        } else {
+            playerImage.src = 'images/characters/defaultPlayer.png'; // Fallback image
+        }
+    })
+    .catch(error => console.error('Error fetching game state:', error));
+
+// Event listener to ensure player image is loaded before drawing
+playerImage.onload = function() {
+    console.log("Player image loaded successfully.");
+}; // Replace with the correct path
 
         const monsterImages = [
             'images/characters/easy/monster1.png', // Replace with correct paths
@@ -3498,15 +3486,20 @@ function draw() {
     ctx.fill();
 
     // Draw player with breathing effect
-    const playerWidth = 120 * breathingScale;
-    const playerHeight = 120 * breathingScale;
-    ctx.drawImage(
-        playerImage,
-        gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
-        gameState.playerY - (playerHeight - 120) / 2,
-        playerWidth,
-        playerHeight
-    );
+    if (playerImage.complete) {
+        // Draw player with breathing effect
+        const playerWidth = 120 * breathingScale;
+        const playerHeight = 120 * breathingScale;
+        ctx.drawImage(
+            playerImage,
+            gameState.playerX - (playerWidth - 120) / 2, // Center breathing effect
+            gameState.playerY - (playerHeight - 120) / 2,
+            playerWidth,
+            playerHeight
+        );
+    } else {
+        console.error("Player image is not loaded yet.");
+    }
 
     // Shadow for monster
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // Dark gray with transparency
