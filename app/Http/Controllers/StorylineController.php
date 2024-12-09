@@ -71,7 +71,7 @@ class StorylineController extends Controller
 
         return response()->json([
             'status' => 200,
-            'isPlayerNameExist' => empty($user->gender)
+            'isPlayerGenderExist' => empty($user->gender)
         ]);
     }
 }

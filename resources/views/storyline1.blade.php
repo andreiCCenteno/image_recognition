@@ -756,20 +756,18 @@
         async function isPlayerNameExist() {
             await fetch('/isPlayerNameExist', {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'Content-Type': 'application/json' }
                 })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Cannot get the data.');
                     }
 
-                    return response.json()
+                    return response.json();
                 })
                 .then(data => {
                     if (data.isPlayerNameExist) {
-                        // proceed need update
+                        isPlayerGenderExist();
                     } else {
                         document.getElementById('name-input-section').style.display = 'flex';
                         document.getElementById('name-input-section').style.justifyContent = 'center';
@@ -784,20 +782,20 @@
         async function isPlayerGenderExist() {
             await fetch('/isPlayerGenderExist', {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'Content-Type': 'application/json' }
                 })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Cannot get the data.');
                     }
 
-                    return response.json()
+                    return response.json();
                 })
                 .then(data => {
                     if (data.isPlayerGenderExist) {
-                        // proceed need update
+                        document.getElementById('artifact-analysis-phase').style.display = 'flex';
+                        document.getElementById('artifact-analysis-phase').style.justifyContent = 'center';
+                        document.getElementById('artifact-analysis-phase').style.alignItems = 'center';
                     } else {
                         document.getElementById('gender-selection-section').style.display = 'flex';
                         document.getElementById('gender-selection-section').style.justifyContent = 'center';
