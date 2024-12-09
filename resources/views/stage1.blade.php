@@ -1293,48 +1293,42 @@ if (playerGender === 'male') {
                 document.getElementById('scoreDisplay').textContent = `Score: ${gameState.totalScore}`;
             }
 
-            function startTimer() {
-                intenseFightMusic.play();
-                const timerDuration = 60;
-                timeLeft = timerDuration; // Reset time left to initial duration
-                document.getElementById('countdownTimer').textContent = timeLeft;
+            let elapsedSeconds = 0;
+        const timerElement = document.getElementById('countdownTimer');
+        function startTimer(){
+            setInterval(() => {
+            elapsedSeconds++;
+            timerElement.textContent = elapsedSeconds;
+        }, 1000);
+        }
+    
+        function updateScore(points) {
+            gameState.totalScore = (gameState.totalScore || 0) + points;
+            document.getElementById('scoreDisplay').textContent = `Score: ${gameState.totalScore}`;
+        }
 
-                timerId = setInterval(() => {
-                    if (isPaused) { // Check if the timer is not paused
-                        timeLeft--;
-                        document.getElementById('countdownTimer').textContent = timeLeft;
+        function pauseTimer() {
+            intenseFightMusic.pause();
+            isPaused = false; // Set the paused flag to true
+        }
 
-                        if (timeLeft <= 0) {
-                            showGameOverModal();
-                            pauseTimer();// Notify player when time runs out
-                            endLevel(); // Call a function to end the level
-                        }
-                    }
-                }, 1000); // Update every second
-            }
+        function resumeTimer() {
+            isPaused = true; // Set the paused flag to false
+        }
 
-            function pauseTimer() {
-                intenseFightMusic.pause();
-                isPaused = false; // Set the paused flag to true
-            }
+        function endLevel() {
+            clearInterval(timerId);
+            // timeLeft = timerDuration;
+            // document.getElementById('countdownTimer').textContent = timeLeft;
+            // Stop the timer
+            // Add your logic to transition to the next level or handle level completion here
+        }
 
-            function resumeTimer() {
-                isPaused = true; // Set the paused flag to false
-            }
+        // Call startTimer when the player starts a new level
+        function startNewLevel() {
+            startTimer(); // Start the timer for the new level
+        }
 
-            function endLevel() {
-                clearInterval(timerId);
-                // timeLeft = timerDuration;
-                // document.getElementById('countdownTimer').textContent = timeLeft;
-                // Stop the timer
-                // Add your logic to transition to the next level or handle level completion here
-            }
-
-            // Call startTimer when the player starts a new level
-            function startNewLevel(level) {
-                document.getElementById('level').textContent = level;
-                // startTimer(); // Start the timer for the new level
-            }
 
             // Example of starting a new level (update accordingly in your game logic)
             // startNewLevel(1); // Call this when a new level starts
