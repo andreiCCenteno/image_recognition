@@ -23,7 +23,10 @@
         .artifact {
             width: 300px;
             height: 300px;
-            background: #444;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url({{asset('images/wizard.png')}});
             border-radius: 50%;
             position: relative;
             animation: glow 2s infinite alternate;

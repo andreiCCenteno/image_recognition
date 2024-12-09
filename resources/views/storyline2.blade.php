@@ -26,7 +26,10 @@
         .artifact {
             width: 300px;
             height: 300px;
-            background: #444;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url({{asset('images/wizard.png')}});
             border-radius: 50%;
             position: relative;
             animation: glow 2s infinite alternate;
@@ -272,9 +275,11 @@
     </div>
 
     <!-- Display Target Image for Color Identification -->
-    <div class="target-image-container">
-        <h3>Target Image for Color Identification</h3>
-        <img src="{{ asset('images/sample2.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
+    <div  class="target-image-container">
+        <h3 style="text-align: center;">Target Image for Color Identification</h3>
+        <div style="text-align:center;">
+            <img width="300px" src="{{ asset('images/sample2.jpg') }}" alt="Target Image" id="targetImage" class="target-image">
+        </div>
         <br><br>
         <p>Study the image closely to understand its colors. Your task is to identify the key color hidden within the artifact’s design.</p>
     </div>
@@ -318,7 +323,7 @@
     <div class="container-interactions">
       <button class="btn" onclick="checkAnswer()">Submit Answer</button>
     </div>
-    <div class="feedback" id="feedback"></div>
+    <div style="text-align: center;" class="feedback" id="feedback"></div>
 
     <div class="buttons container-interactions">
         <button class="btn" id="nextRoundButton" style="display: none;">Next Round</button>

@@ -1062,7 +1062,7 @@
   </style>
 </head>
 <body>
-  <h1>Pre-processing and Image Analysis Quiz</h1>
+  <h1>Post-processing and Image Analysis Quiz</h1>
   <div id="postTestWrapper">
         <div id="postTestContainer" style="display: none;">
             <h2>Quiz Game</h2>

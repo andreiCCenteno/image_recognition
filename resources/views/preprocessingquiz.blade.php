@@ -1059,6 +1059,7 @@
             justify-content: center;
             align-items: center;
         }
+
   </style>
 </head>
 <body>
@@ -1818,7 +1819,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
                 // Check if the user passed or failed
                 if (percentageScore >= 80) {
                 let previousPostTestPerformance = data.post_test_performance || 0;
-                    document.getElementById('finalScoreText').innerText += `\nCongratulations, you passed!\nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
+                    document.getElementById('finalScoreText').innerText += `\nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
                     document.getElementById('scoreModal').style.display = 'flex'; // Show modal
                     const updatedTotalScore = score;
                     setTimeout(() => {
@@ -1832,7 +1833,7 @@ if (hitAnimationFrame > 20) { // Longer duration for extended visibility
 
                 } else {
                     const updatedTotalScore = score;
-                    document.getElementById('finalScoreText').innerText += `\nYou need to score at least 80% to pass. Try again! \nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
+                    document.getElementById('finalScoreText').innerText += `\nYour total score: ${updatedTotalScore}/${totalQuestions}, (${percentageScore.toFixed(2)}%)`;
                     document.getElementById('scoreModal').style.display = 'flex'; // Show modal
                     setTimeout(() => {
                         window.location.href = "{{ route('storylinestage1') }}"; // Restart the game

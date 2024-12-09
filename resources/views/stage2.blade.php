@@ -732,10 +732,10 @@
 
     <div class="modal-overlay" id="level4CompleteModal">
         <div class="modal">
-            <h2>Level 4 Complete!</h2>
-            <p>Excellent work! You've mastered the image recognition challenge.</p>
-            <p>Get ready for Quiz: Feature Extraction Challenge!</p>
-            <button onclick="nextstage()">Continue</button>
+            <h2>Stage Completed!</h2>
+            <p>Excellent work! You've Defeated the Enemy!.</p>
+            <p>You can now proceed!</p>
+            <button onclick="nextstage()">PROCEED</button>
         </div>
     </div>
 
@@ -869,19 +869,16 @@ function showGameOverModal() {
             document.getElementById('scoreDisplay').textContent = `Score: ${gameState.totalScore}`;
         }
 
-        function startTimer() {
-    let elapsedTime = 0; // Track elapsed time in seconds
-    document.getElementById('countdownTimer').textContent = elapsedTime;
-
-    timerId = setInterval(() => {
-        if (!isPaused) { // Check if the timer is not paused
-            elapsedTime++;
-            document.getElementById('countdownTimer').textContent = elapsedTime;
-
-            // Optional: Add any specific actions after a certain elapsed time
+        let elapsedSeconds = 0;
+        const timerElement = document.getElementById('countdownTimer');
+        function startTimer(){
+            setInterval(() => {
+            elapsedSeconds++;
+            timerElement.textContent = elapsedSeconds;
+        }, 1000);
         }
-    }, 1000); // Update every second
-}
+    
+
         function nextstage() {
             window.location.href = "{{ route('storylinestage3') }}";// Set the paused flag to true
         }

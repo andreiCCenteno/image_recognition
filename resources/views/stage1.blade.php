@@ -1427,9 +1427,7 @@ if (playerGender === 'male') {
 
 
             function takeposttest() {
-                document.getElementById('gameContainer').style.display = 'none';
-                document.getElementById('postTestContainer').style.display = 'block';
-                initializePostTest();
+                window.location.href = "{{ route('storylinestage2') }}";
             }
 
             function startLevel6() {
@@ -1933,7 +1931,13 @@ if (playerGender === 'male') {
     // Initialize the current feature set index
     let currentFeatureSetIndex = 1; // Tracks the current feature set
     let featureTracker = 0;
-
+    function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
     /// Function to generate a new set of features from predefined sets
     function generateNewFeatures() {
     // Load the current feature set into the game state

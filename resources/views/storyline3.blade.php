@@ -23,7 +23,10 @@
         .artifact {
             width: 300px;
             height: 300px;
-            background: #444;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url({{asset('images/wizard.png')}});
             border-radius: 50%;
             position: relative;
             animation: glow 2s infinite alternate;
@@ -71,11 +74,14 @@
         #filtering-gameContainer {
             display: none;
             padding: 20px;
+            width: 100%; 
             margin-top: 30px;
             overflow-y: auto;
             border: 1px solid #ccc;
             border-radius: 8px;
             background-color: transparent;
+            width: 60%;
+            text-align: center;
         }
 
         .container-interactions {
@@ -98,6 +104,12 @@
             flex-direction: column;
             line-height: 50px;
             width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ul {
+            list-style: none;
         }
 
         #inputs-container .confidence-input-container > input[type="number"] {
@@ -124,6 +136,7 @@
             width: auto;
             justify-content: space-between;
             align-items: center;
+            column-gap: 20px;
         }
     </style>
 </head>
