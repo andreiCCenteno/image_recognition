@@ -701,18 +701,12 @@ document.getElementById("nextRoundButton").addEventListener("click", function() 
     playerSelectionImg.src = "{{ asset('images/characters/playerMale.png') }}";
     playerSelectionImg.alt = "Player Male Image";
     playerSelectionImg.title = "Player Male Image";
-
-    // Update gender in the database
-    updateGenderInDatabase('male');
 });
 
 document.getElementById('chooseFemale').addEventListener('mouseover', () => {
     playerSelectionImg.src = "{{ asset('images/characters/playerFemale.png') }}";
     playerSelectionImg.alt = "Player Female Image";
     playerSelectionImg.title = "Player Female Image";
-
-    // Update gender in the database
-    updateGenderInDatabase('female');
 });
 
 // Function to send an AJAX request to update gender
@@ -739,11 +733,19 @@ function updateGenderInDatabase(gender) {
         // Handle Gender Selection
         document.getElementById('chooseMale').addEventListener('click', () => {
             alert('You have chosen the Male character.');
+
+            // Update gender in the database
+            updateGenderInDatabase('male');
+
             proceedToArtifactAnalysisPhase();
         });
 
         document.getElementById('chooseFemale').addEventListener('click', () => {
             alert('You have chosen the Female character.');
+
+            // Update gender in the database
+            updateGenderInDatabase('female');
+
             proceedToArtifactAnalysisPhase();
         });
 
