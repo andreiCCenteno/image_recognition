@@ -122,6 +122,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::post('/update-gender', [StorylineController::class, 'updateGender']);
 Route::post('/save-player-name', [StorylineController::class, 'savePlayerName']);
+Route::get('/isPlayerNameExist', [StorylineController::class, 'isPlayerNameExist']);
+Route::get('/isPlayerGenderExist', [StorylineController::class, 'isPlayerGenderExist']);
 
 Route::get('/get-game-state', [PreprocessingController::class, 'getGameState']);
 

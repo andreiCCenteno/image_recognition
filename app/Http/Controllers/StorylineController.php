@@ -43,15 +43,35 @@ class StorylineController extends Controller
     }
 
     public function savePlayerName(Request $request)
-{
-    $request->validate([
-        'player_name' => 'required|string|max:255',
-    ]);
+    {
+        $request->validate([
+            'player_name' => 'required|string|max:255',
+        ]);
 
-    $user = Auth::user();
-    $user->player_name = $request->input('player_name');
-    $user->save();
+        $user = Auth::user();
+        $user->player_name = $request->input('player_name');
+        $user->save();
 
-    return response()->json(['message' => 'Player name saved successfully!']);
-}
+        return response()->json(['message' => 'Player name saved successfully!']);
+    }
+
+    public function isPlayerNameExist()
+    {
+        $user = Auth::user();
+
+        return response()->json([
+            'status' => 200,
+            'isPlayerNameExist' => empty($user->player_name)
+        ]);
+    }
+
+    public function isPlayerGenderExist()
+    {
+        $user = Auth::user();
+
+        return response()->json([
+            'status' => 200,
+            'isPlayerNameExist' => empty($user->gender)
+        ]);
+    }
 }

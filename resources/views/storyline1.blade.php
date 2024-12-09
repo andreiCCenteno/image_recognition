@@ -700,13 +700,11 @@
         // Handle Enter Name Button
         document.getElementById('enterName').addEventListener('click', () => {
             document.getElementById('story').style.display = 'none';
-            document.getElementById('name-input-section').style.display = 'flex';
-            document.getElementById('name-input-section').style.justifyContent = 'center';
-            document.getElementById('name-input-section').style.alignItems = 'center';
+            isPlayerNameExist();
         });
 
         // Handle Next Step Button
-        document.getElementById('nextStep').addEventListener('click', () => {
+        document.getElementById('nextStep').addEventListener('click', async () => {
             const playerName = document.getElementById('playerName').value;
             if (playerName.trim() === '') {
                 alert('Please enter your name.');
@@ -714,11 +712,11 @@
             }
 
             // Send the player name to the server
-            fetch('/save-player-name', {
+            await fetch('/save-player-name', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
                         player_name: playerName
@@ -728,14 +726,13 @@
                     if (!response.ok) {
                         throw new Error('Failed to save player name');
                     }
+
                     return response.json();
                 })
                 .then(data => {
                     alert(data.message);
                     document.getElementById('name-input-section').style.display = 'none';
-                    document.getElementById('gender-selection-section').style.display = 'flex';
-                    document.getElementById('gender-selection-section').style.justifyContent = 'center';
-                    document.getElementById('gender-selection-section').style.alignItems = 'center';
+                    isPlayerGenderExist();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -756,9 +753,61 @@
             playerSelectionImg.title = "Player Female Image";
         });
 
+        async function isPlayerNameExist() {
+            await fetch('/isPlayerNameExist', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Cannot get the data.');
+                    }
+
+                    return response.json()
+                })
+                .then(data => {
+                    if (!data.isPlayerNameExist) {
+                        document.getElementById('name-input-section').style.display = 'flex';
+                        document.getElementById('name-input-section').style.justifyContent = 'center';
+                        document.getElementById('name-input-section').style.alignItems = 'center';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                })
+        }
+
+        async function isPlayerGenderExist() {
+            await fetch('/isPlayerGenderExist', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Cannot get the data.');
+                    }
+
+                    return response.json()
+                })
+                .then(data => {
+                    if (!data.isPlayerGenderExist) {
+                        document.getElementById('gender-selection-section').style.display = 'flex';
+                        document.getElementById('gender-selection-section').style.justifyContent = 'center';
+                        document.getElementById('gender-selection-section').style.alignItems = 'center';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                })
+        }
+
         // Function to send an AJAX request to update gender
-        function updateGenderInDatabase(gender) {
-            fetch('/update-gender', {
+        async function updateGenderInDatabase(gender) {
+            await fetch('/update-gender', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -840,7 +889,8 @@
         // Handle Proceed Button for Feature Extraction Phase
         document.getElementById('proceedToFeatureExtraction').addEventListener('click', () => {
             alert(
-                'You are now extracting features from the artifact using CNNs! This will reveal the most hidden aspects of the artifact.');
+                'You are now extracting features from the artifact using CNNs! This will reveal the most hidden aspects of the artifact.'
+                );
             // Further progression logic to move to next game stages can be added here.
         });
 
